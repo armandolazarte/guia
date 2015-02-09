@@ -1,4 +1,4 @@
-<?php namespace App\Commands;
+<?php namespace Guia\Commands;
 
 abstract class Command {
 
