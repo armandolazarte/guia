@@ -53,7 +53,7 @@ class CrearTablasPresupuesto extends Migration {
 			$table->timestamps();
 		});
 
-		Schema::create('fondo_proyectos', function(Blueprint $table)
+		Schema::create('fondo_proyecto', function(Blueprint $table)
 		{
 			$table->increments('id');
 			$table->integer('fondo_id')->unsigned();
