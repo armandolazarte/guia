@@ -26,7 +26,7 @@ return [
 	|
 	*/
 
-	'default' => 'mysql',
+	'default' => 'guia',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -52,12 +52,24 @@ return [
 			'prefix'   => '',
 		],
 
-		'mysql' => [
+		'guia' => [
 			'driver'    => 'mysql',
 			'host'      => env('DB_HOST', 'localhost'),
 			'database'  => env('DB_DATABASE', 'forge'),
 			'username'  => env('DB_USERNAME', 'forge'),
 			'password'  => env('DB_PASSWORD', ''),
+			'charset'   => 'utf8',
+			'collation' => 'utf8_unicode_ci',
+			'prefix'    => '',
+			'strict'    => false,
+		],
+
+		'legacy' => [
+			'driver'    => 'mysql',
+			'host'      => env('DB_HOST', 'localhost'),
+			'database'  => env('DB_DATABASE_LEGACY', 'forge'),
+			'username'  => env('DB_USERNAME_LEGACY', 'forge'),
+			'password'  => env('DB_PASSWORD_LEGACY', ''),
 			'charset'   => 'utf8',
 			'collation' => 'utf8_unicode_ci',
 			'prefix'    => '',
