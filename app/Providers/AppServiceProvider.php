@@ -1,5 +1,6 @@
 <?php namespace Guia\Providers;
 
+use View;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider {
@@ -11,7 +12,7 @@ class AppServiceProvider extends ServiceProvider {
 	 */
 	public function boot()
 	{
-		//
+		View::composer('partials.menu', 'Guia\Http\Composers\MenuComposer');
 	}
 
 	/**

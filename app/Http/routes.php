@@ -28,3 +28,11 @@ Route::group(array('prefix' => 'admin/su'), function()
 	Route::get('/modulos/{modulo}/editar', 'ModuloController@edit');
 	Route::post('/modulos/{modulo}', 'ModuloController@update');
 });
+
+Route::group(array('prefix' => 'pruebas'), function()
+{
+	Route::get('/menu', function()
+	{
+		return view('pruebas.menu');
+	});
+});
