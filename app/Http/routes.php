@@ -19,3 +19,12 @@ Route::controllers([
 	'auth' => 'Auth\AuthController',
 	'password' => 'Auth\PasswordController',
 ]);
+
+Route::group(array('prefix' => 'admin/su'), function()
+{
+	Route::get('/modulos', 'ModuloController@index');
+	Route::get('/modulos/crear', 'ModuloController@create');
+	Route::post('/modulos', 'ModuloController@store');
+	Route::get('/modulos/{modulo}/editar', 'ModuloController@edit');
+	Route::post('/modulos/{modulo}', 'ModuloController@update');
+});
