@@ -146,6 +146,13 @@ return [
 		'Guia\Providers\EventServiceProvider',
 		'Guia\Providers\RouteServiceProvider',
 
+		/*
+		 * Guia specific Service Providers
+		 */
+		'Guia\Providers\UtilityServiceProvider',
+		'Guia\Providers\FiltroAccesoServiceProvider',
+		'Guia\Providers\ConsecutivoServiceProvider',
+
 	],
 
 	/*
@@ -195,6 +202,10 @@ return [
 		'View'      => 'Illuminate\Support\Facades\View',
 		'Form'		=> 'Illuminate\Html\FormFacade',
 		'Html'		=> 'Illuminate\Html\HtmlFacade',
+
+		'Utility'		=> 'Gia\Facades\UtilityFacade',
+		'FiltroAcceso'	=> 'Gia\Facades\FiltroAccesoFacade',
+		'Consecutivo'	=> 'Gia\Facades\ConsecutivoFacade',
 
 	],
 
