@@ -9,7 +9,7 @@ class Role extends Model {
     //Role __belongs_to_many__ User
     public function users()
     {
-        return $this->belongsToMany('Guia\Models\User');
+        return $this->belongsToMany('Guia\User');
     }
 
     //Role __belongs_to_many__ Modulo
