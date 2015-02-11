@@ -31,6 +31,11 @@ Route::group(array('prefix' => 'admin/su'), function()
 	Route::post('/modulos/{modulo}', 'ModuloController@update');
 });
 
+Route::group(array('prefix' => 'admin'), function()
+{
+	Route::resource('usuario', 'UsuarioController');
+});
+
 Route::group(array('prefix' => 'pruebas'), function()
 {
 	Route::get('/menu', function()
