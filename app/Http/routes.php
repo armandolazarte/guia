@@ -19,6 +19,8 @@ Route::controllers([
 	'auth' => 'Auth\AuthController',
 	'password' => 'Auth\PasswordController',
 ]);
+Route::get('/login', 'Auth\GuiaAuthController@getLogin');
+Route::post('/login', 'Auth\GuiaAuthController@authenticate');
 
 Route::group(array('prefix' => 'admin/su'), function()
 {
