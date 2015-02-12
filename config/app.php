@@ -203,9 +203,9 @@ return [
 		'Form'		=> 'Illuminate\Html\FormFacade',
 		'Html'		=> 'Illuminate\Html\HtmlFacade',
 
-		'Utility'		=> 'Gia\Facades\UtilityFacade',
-		'FiltroAcceso'	=> 'Gia\Facades\FiltroAccesoFacade',
-		'Consecutivo'	=> 'Gia\Facades\ConsecutivoFacade',
+		'Utility'		=> 'Guia\Facades\UtilityFacade',
+		'FiltroAcceso'	=> 'Guia\Facades\FiltroAccesoFacade',
+		'Consecutivo'	=> 'Guia\Facades\ConsecutivoFacade',
 
 	],
 

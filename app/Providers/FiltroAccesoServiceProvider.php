@@ -21,7 +21,7 @@ class FiltroAccesoServiceProvider extends ServiceProvider {
 	 */
 	public function register()
 	{
-		$this->app->bind('filtro_acceso', 'Gia\Classes\FiltroAcceso');
+		$this->app->bind('filtro_acceso', 'Guia\Classes\FiltroAcceso');
 	}
 
 }
