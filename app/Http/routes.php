@@ -57,3 +57,18 @@ Route::group(array('prefix' => 'pruebas'), function()
 		return view('pruebas.menu');
 	});
 });
+
+//** Requisiciones **//
+Route::group(array('prefix' => 'req', 'middleware' => 'auth'), function()
+{
+	Route::get('/', 'RequisicionController@index');
+	Route::get('/nueva', 'RequisicionController@create');
+	Route::post('/store', 'RequisicionController@store');
+	Route::get('/info/{req_id}', 'RequisicionController@show');
+
+	Route::get('/articulos/agregar/{req_id}', 'ArticulosController@create');
+	Route::post('/articulos/store', 'ArticulosController@store');
+	Route::get('/articulos/{articulo}/editar', 'ArticulosController@edit');
+	Route::patch('/articulos/{articulo}', 'ArticulosController@update');
+	Route::delete('/articulos/{articulo}', 'ArticulosController@destroy');
+});
