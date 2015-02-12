@@ -76,6 +76,30 @@ return [
 			'strict'    => false,
 		],
 
+		'legacy_old' => [
+			'driver'    => 'mysql',
+			'host'      => env('DB_HOST', 'localhost'),
+			'database'  => env('DB_DATABASE_LEGACY_OLD', 'forge'),
+			'username'  => env('DB_USERNAME_LEGACY_OLD', 'forge'),
+			'password'  => env('DB_PASSWORD_LEGACY_OLD', ''),
+			'charset'   => 'utf8',
+			'collation' => 'utf8_unicode_ci',
+			'prefix'    => '',
+			'strict'    => false,
+		],
+
+		'legacy_benef' => [
+			'driver'    => 'mysql',
+			'host'      => env('DB_HOST', 'localhost'),
+			'database'  => env('DB_DATABASE_LEGACY_BENEF', 'forge'),
+			'username'  => env('DB_USERNAME_LEGACY_BENEF', 'forge'),
+			'password'  => env('DB_PASSWORD_LEGACY_BENEF', ''),
+			'charset'   => 'utf8',
+			'collation' => 'utf8_unicode_ci',
+			'prefix'    => '',
+			'strict'    => false,
+		],
+
 		'pgsql' => [
 			'driver'   => 'pgsql',
 			'host'     => env('DB_HOST', 'localhost'),
