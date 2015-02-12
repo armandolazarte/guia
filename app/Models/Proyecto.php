@@ -65,4 +65,39 @@ class Proyecto extends Model {
         return $this->morphMany('Guia\Models\Acceso', 'acceso');
     }
 
+    public function scopeAcceso($query, $user_id)
+    {
+        if(!empty($user_id)) {
+            $arr_tipos_proyecto = array();
+            $arr_urgs = array();
+            $arr_proyectos = array();
+
+            $accesos = Acceso::whereUserId($user_id)->get();
+
+            foreach ($accesos as $acceso) {
+                if ($acceso->acceso_type == 'TipoProyecto') {
+                    $arr_tipos_proyecto[] = $acceso->acceso_id;
+                }
+                if ($acceso->acceso_type == 'Urg') {
+                    $arr_urgs[] = $acceso->acceso_id;
+                }
+                if ($acceso->acceso_type == 'Proyecto') {
+                    $arr_proyectos[] = $acceso->acceso_id;
+                }
+            }
+
+            if (count($arr_tipos_proyecto) > 0) {
+                $query->whereIn('tipo_proyecto_id', $arr_tipos_proyecto);
+            }
+            if (count($arr_urgs) > 0) {
+                $query->whereIn('urg_id', $arr_urgs);
+            }
+            if (count($arr_proyectos) > 0) {
+                $query->whereIn('id', $arr_proyectos);
+            }
+        } else {
+            $query->whereId(0);
+        }
+        return $query;
+    }
 }
