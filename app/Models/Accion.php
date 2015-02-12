@@ -7,6 +7,8 @@ class Accion extends Model {
     public $table = 'acciones';
     public $timestamps = false;
 
+    protected $fillable = ['ruta', 'nombre', 'icono', 'orden', 'activo'];
+
     //Accion __belongs_to_many__ Modulo
     public function modulos()
     {

@@ -34,6 +34,10 @@ Route::group(array('prefix' => 'admin/su'), function()
 Route::group(array('prefix' => 'admin'), function()
 {
 	Route::resource('usuario', 'UsuarioController');
+
+	Route::get('/acciones', 'AccionesController@index');
+	Route::get('/acciones/editar/{accion}', 'AccionesController@editar');
+	Route::post('/acciones/actualizar/{accion}', 'AccionesController@actualizar');
 });
 
 Route::group(array('prefix' => 'pruebas'), function()
