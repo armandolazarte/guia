@@ -29,6 +29,10 @@ Route::group(array('prefix' => 'admin/su'), function()
 	Route::post('/modulos', 'ModuloController@store');
 	Route::get('/modulos/{modulo}/editar', 'ModuloController@edit');
 	Route::post('/modulos/{modulo}', 'ModuloController@update');
+
+	//Importación de catálogos
+	Route::get('/importar-catalogos', 'ImportaCatalogosController@index');
+	Route::post('/importar', 'ImportaCatalogosController@importar');
 });
 
 Route::group(array('prefix' => 'admin'), function()
