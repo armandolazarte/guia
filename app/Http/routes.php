@@ -50,6 +50,15 @@ Route::group(array('prefix' => 'admin'), function()
 	Route::post('/tiposProyectos/actualizar/{tipoProyecto}', 'TiposProyectosController@update');
 });
 
+Route::group(array('prefix' => 'proyectos'), function() {
+	Route::get('/', 'ProyectosController@index');
+	Route::get('/importar', 'ImportarProyectoController@index');
+	Route::post('/upload', 'ImportarProyectoController@postUpload');
+	Route::post('/convertir', 'ImportarProyectoController@convertir');
+	Route::get('/vista-previa', 'ImportarProyectoController@show');
+	Route::post('/importar/', 'ImportarProyectoController@store');
+});
+
 Route::group(array('prefix' => 'pruebas'), function()
 {
 	Route::get('/menu', function()

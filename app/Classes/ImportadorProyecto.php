@@ -33,15 +33,14 @@ class ImportadorProyecto {
     }
 
     public function convertir(){
-        $output = `/usr/bin/pdftotext -enc Latin1 -layout {$this->file} ./uploads/proyectos/temp.txt`;
+        $output_route = storage_path().'/app/proyectos';
+        $output = `/usr/bin/pdftotext -enc Latin1 -layout {$this->file} {$output_route}/temp.txt`;
         return $output;
     }
 
     public function extraer()
     {
-        $path = public_path();
-        $this->text = \File::get($path.$this->file);
-
+        $this->text = \Storage::get('/proyectos/temp.txt');
         $this->extraerProyecto();
         $this->extraerNombreProyecto();
         $this->extraerUrg();
