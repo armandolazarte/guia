@@ -81,3 +81,12 @@ Route::group(array('prefix' => 'req', 'middleware' => 'auth'), function()
 	Route::patch('/articulos/{articulo}', 'ArticulosController@update');
 	Route::delete('/articulos/{articulo}', 'ArticulosController@destroy');
 });
+
+//** Requisiciones **//
+Route::group(array('prefix' => 'solicitud', 'middleware' => 'auth'), function()
+{
+    Route::get('/', 'SolicitudController@index');
+    Route::get('/nueva', 'SolicitudController@create');
+    Route::post('/store', 'SolicitudController@store');
+    Route::get('/info/{solicitud}', 'SolicitudController@show');
+});

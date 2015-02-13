@@ -6,6 +6,8 @@ class Solicitud extends Model {
 
     public $table = 'solicitudes';
 
+    protected $fillable = ['fecha', 'benef_id', 'tipo_solicitud', 'urg_id', 'proyecto_id', 'concepto', 'obs', 'no_documento', 'no_afin', 'monto', 'solicita', 'autoriza', 'vobo', 'viaticos'];
+
     //Solicitud __belongs_to__ Benef
     public function benef()
     {
