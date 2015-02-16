@@ -5,7 +5,7 @@
             <tr>
                 <td>
                     @if($solicitud->estatus == "")
-                        <a href="{{ action('SolicitudRecursosController@edit', array($solicitud->id, $obj->objetivo)) }}">{{ $obj->objetivo }}</a>
+                        <a href="{{ action('SolicitudRecursosController@edit', array($solicitud->id, $obj->id)) }}">{{ $obj->objetivo }} {{ $obj->d_objetivo }}</a>
                     @else
                         {{ $obj->objetivo }}
                     @endif
@@ -19,7 +19,7 @@
             <tr>
                 <td>
                     @if($solicitud->estatus == "")
-                        <a href="{{ action('SolicitudRecursosController@edit', array($solicitud->id, $rm->rm)) }}">{{ $rm->rm }} Cuenta: {{ $rm->cog->cog }} {{ $rm->cog->d_cog }}</a>
+                        <a href="{{ action('SolicitudRecursosController@edit', array($solicitud->id, $rm->id)) }}">{{ $rm->rm }} Cuenta: {{ $rm->cog->cog }} {{ $rm->cog->d_cog }}</a>
                     @else
                         {{ $rm->rm }} Cuenta: {{ $rm->cog->cog }} {{ $rm->cog->d_cog }}
                     @endif

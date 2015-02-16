@@ -82,11 +82,17 @@ Route::group(array('prefix' => 'req', 'middleware' => 'auth'), function()
 	Route::delete('/articulos/{articulo}', 'ArticulosController@destroy');
 });
 
-//** Requisiciones **//
+//** Solicitudes **//
 Route::group(array('prefix' => 'solicitud', 'middleware' => 'auth'), function()
 {
     Route::get('/', 'SolicitudController@index');
     Route::get('/nueva', 'SolicitudController@create');
     Route::post('/store', 'SolicitudController@store');
-    Route::get('/info/{solicitud}', 'SolicitudController@show');
+    Route::get('/{solicitud}/info', 'SolicitudController@show');
+
+    Route::get('/{solicitud}/recurso/agregar', 'SolicitudRecursosController@create');
+    Route::post('/recurso/store', 'SolicitudRecursosController@store');
+    Route::get('/{solicitud}/recurso/{recurso}/editar', 'SolicitudRecursosController@edit');
+    Route::patch('/{solicitud}/recurso/{recurso}', 'SolicitudRecursosController@update');
+    Route::delete('/{solicitud}/recurso/{recurso}', 'SolicitudRecursosController@destroy');
 });

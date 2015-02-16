@@ -32,6 +32,10 @@
         <td>{{ $solicitud->obs }}</td>
     </tr>
     <tr>
+        <td>Monto Total</td>
+        <td>{{ $solicitud->monto }}</td>
+    </tr>
+    <tr>
         <td>Viáticos</td>
         <td>{{ !empty($solicitud->viaticos) ? 'Pago de Viáticos' : '' }}</td>
     </tr>
