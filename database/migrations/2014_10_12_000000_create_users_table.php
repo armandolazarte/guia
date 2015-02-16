@@ -24,6 +24,7 @@ class CreateUsersTable extends Migration {
 			$table->string('cargo');
 			$table->string('prefijo', 5);
 			$table->string('iniciales', 5);
+            $table->integer('adscripcion')->unsigned();
 
 			$table->boolean('active');
 			$table->boolean('validated');
