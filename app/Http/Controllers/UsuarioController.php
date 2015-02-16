@@ -38,7 +38,9 @@ class UsuarioController extends Controller {
 	 */
 	public function store(UsuarioFormRequest $request)
 	{
-		$user = User::create($request->all());
+        $all_request = $request->all();
+        $all_request['password'] = bcrypt($all_request['password']);
+		$user = User::create($all_request);
 		$user->roles()->attach($request->input('role_user'));
 
 		return redirect()->action('UsuarioController@show', array($user->id));
@@ -81,7 +83,9 @@ class UsuarioController extends Controller {
 	public function update(UsuarioFormRequest $request, $id)
 	{
 		$user = User::findOrFail($id);
-		$user->update($request->all());
+        $all_request = $request->all();
+        $all_request['password'] = bcrypt($all_request['password']);
+		$user->update($all_request);
 		$user->roles()->sync($request->input('role_user'));
 
 		return redirect()->action('UsuarioController@show', array($user->id));
