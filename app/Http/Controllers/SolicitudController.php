@@ -58,8 +58,8 @@ class SolicitudController extends Controller {
 	 */
 	public function show($id)
 	{
-		$sol = Solicitud::find($id);
-        return view('solicitudes.infoSolicitud', compact('sol'));
+        $solicitud = Solicitud::find($id);
+        return view('solicitudes.infoSolicitud', compact('solicitud'));
 	}
 
 	/**
