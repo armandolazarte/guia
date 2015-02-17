@@ -19,6 +19,7 @@ class CrearTablasCargos extends Migration {
 			$table->foreign('user_id')->references('id')->on('users');
             $table->integer('urg_id')->unsigned();
             $table->foreign('urg_id')->references('id')->on('urgs');
+            $table->string('cargo');
 			$table->date('inicio');
 			$table->date('fin');
 		});
