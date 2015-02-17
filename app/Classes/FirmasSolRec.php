@@ -19,4 +19,13 @@ class FirmasSolRec
         }
         return $user_id;
     }
+
+    public static function getUsersVoBo()
+    {
+        $cargos = Cargo::with('user')->get();
+        foreach($cargos as $cargo){
+            $arr_users[] = $cargo->user;
+        }
+        return $arr_users;
+    }
 }

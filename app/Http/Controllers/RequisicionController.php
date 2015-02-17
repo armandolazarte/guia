@@ -33,9 +33,11 @@ class RequisicionController extends Controller {
 	{
 		$urgs = Urg::all(array('id','urg','d_urg'));
 		$arr_proyectos = \FiltroAcceso::getArrProyectos();
+        $arr_vobo = FirmasSolRec::getUsersVoBo();
 		return view('reqs.formRequisicion')
 			->with('urgs', $urgs)
-			->with('proyectos', $arr_proyectos);
+			->with('proyectos', $arr_proyectos)
+            ->with('arr_vobo', $arr_vobo);
 	}
 
 	/**
@@ -58,7 +60,7 @@ class RequisicionController extends Controller {
 		$req->obs = $request->input('obs');
 		$req->solicita = \Auth::user()->id;
 		$req->autoriza = FirmasSolRec::getUserAutoriza($request->input('proyecto_id'));
-		//$req->vobo = ;
+		$req->vobo = $request->input('vobo');
 		$req->estatus = "";
 		$req->tipo_orden = "Compra";
 		$req->save();

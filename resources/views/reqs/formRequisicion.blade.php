@@ -39,6 +39,17 @@
     {!! Form::label('obs', 'Observaciones') !!}
     {!! Form::text('obs') !!}
 
+    @foreach($errors->get('vobo') as $message)
+        {!! $message !!}
+    @endforeach
+    {!! Form::label('vobo', 'Visto Bueno (Opcional)') !!}
+    <select name="vobo">
+        <option value="0">Sin Vo. Bo.</option>
+        @foreach($arr_vobo as $vobo)
+            <option value="{!! $vobo->id !!}">{!! $vobo->nombre !!} - {!! $vobo->cargo !!}</option>
+        @endforeach
+    </select>
+
     {!! Form::submit('Aceptar') !!}
 
     {!! Form::close() !!}
