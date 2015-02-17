@@ -3,8 +3,7 @@
 use Guia\Models\Req;
 use Guia\Models\Urg;
 use Guia\Models\Articulo;
-//use FiltroAcceso;
-//use Consecutivo;
+use Guia\Classes\FirmasSolRec;
 use Guia\Http\Requests\ReqFormRequest;
 use Guia\Http\Requests;
 use Guia\Http\Controllers\Controller;
@@ -58,8 +57,7 @@ class RequisicionController extends Controller {
 		$req->lugar_entrega = $request->input('lugar_entrega');
 		$req->obs = $request->input('obs');
 		$req->solicita = \Auth::user()->id;
-		//@todo Implementar determinación de quien autoriza
-		//$req->autoriza = ;
+		$req->autoriza = FirmasSolRec::getUserAutoriza($request->input('proyecto_id'));
 		//$req->vobo = ;
 		$req->estatus = "";
 		$req->tipo_orden = "Compra";
