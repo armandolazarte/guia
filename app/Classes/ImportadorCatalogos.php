@@ -1,5 +1,6 @@
 <?php namespace Guia\Classes;
 
+use Guia\Models\Cargo;
 use Guia\Models\Urg;
 use Guia\Models\Fondo;
 use Guia\Models\Proyecto;
@@ -7,6 +8,7 @@ use Guia\Models\Cuenta;
 use Guia\Models\Benef;
 use Guia\Models\Proveedor;
 use Guia\Models\Cog;
+use Guia\User;
 
 class ImportadorCatalogos {
 
@@ -209,4 +211,49 @@ class ImportadorCatalogos {
         }
         return $cogs_externos;
     }
+
+    public function importarUsuarios(){
+        $usuarios_externos = $this->consultarUsuariosExternos();
+        if ( count($usuarios_externos) > 0 ) {
+            foreach($usuarios_externos as $usuario_nuevo)
+            {
+                $user = new User();
+                $user->username = $usuario_nuevo->usr;
+                $user->email = $usuario_nuevo->usr;
+                $user->password = $usuario_nuevo->usr;
+                $user->nombre = $usuario_nuevo->nombre;
+                $user->cargo = $usuario_nuevo->cargo;
+
+                if ($usuario_nuevo->prefijo == null){
+                    $usuario_nuevo->prefijo = '';
+                }
+                $user->prefijo = $usuario_nuevo->prefijo;
+
+                if ($usuario_nuevo->iniciales == null){
+                    $usuario_nuevo->iniciales = '';
+                }
+                $user->iniciales = $usuario_nuevo->iniciales;
+
+                $urg = Urg::whereUrg($usuario_nuevo->lim_inf)->get(array('id'));
+                if (count($urg) > 0) {
+                    $user->adscripcion = $urg[0]->id;
+                }
+                $user->save();
+            }
+        }
+    }
+
+    private function consultarUsuariosExternos(){
+        $usuarios_importados = User::lists('username');
+        if ( count($usuarios_importados) > 0 ) {
+            $usuarios_externos = \DB::connection($this->db_origen)->table('tbl_usuarios')
+                ->whereNotIn ('usr', $usuarios_importados)
+                ->get();
+        } else {
+            $usuarios_externos = \DB::connection($this->db_origen)->table('tbl_usuarios')
+                ->get();
+        }
+        return $usuarios_externos;
+    }
+
 }

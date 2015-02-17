@@ -10,7 +10,8 @@
                                         'Proyectos' => 'Proyectos',
                                         'Cuentas' => 'Cuentas',
                                         'Beneficiarios' => 'Beneficiarios',
-                                        'COG' => 'COG')
+                                        'COG' => 'COG',
+                                        'Usuarios' => 'Usuarios')
                     ) !!}
     {!! Form::submit('Importar') !!}
     {!! Form::close() !!}

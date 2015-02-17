@@ -42,6 +42,10 @@ class ImportaCatalogosController extends Controller {
 			$importador->importarCog();
 		}
 
+        if ($catalogo == "Usuarios"){
+            $importador->importarUsuarios();
+        }
+
 		return redirect()->action('ImportaCatalogosController@index');
 	}
 
