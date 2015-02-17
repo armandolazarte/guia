@@ -748,7 +748,7 @@
             "description": "Unofficial PSR-0 compliant version of the FPDF library",
             "homepage": "http://www.fpdf.org/",
             "support": {
-                "source": "https://github.com/samuelmg/fpdf/tree/master"
+                "source": "https://github.com/samuelmg/fpdf/tree/LongCell"
             },
             "time": "2015-02-16 20:08:33"
         },
