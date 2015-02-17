@@ -34,10 +34,10 @@ class Urg extends Model {
         return $this->hasMany('Guia\Models\Req');
     }
 
-    //Urg __has_many__ Cargo
+    //Urg __belongs_to_many__ Cargo
     public function cargos()
     {
-        return $this->hasMany('Guia\Models\Cargo');
+        return $this->belongsToMany('Guia\Models\Cargo');
     }
 
     //Urg __morph_many__ Acceso
