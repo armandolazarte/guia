@@ -12,10 +12,10 @@ class Cargo extends Model {
         return $this->belongsTo('Guia\Models\User');
     }
 
-    //Cargo __belongs_to_many__ Urg
+    //Cargo __belongs_to__ Urg
     public function urgs()
     {
-        return $this->belongsToMany('Guia\Models\Urg');
+        return $this->belongsTo('Guia\Models\Urg');
     }
 
 }
