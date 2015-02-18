@@ -5,15 +5,17 @@ namespace Guia\Classes;
 
 use Guia\Models\Cargo;
 use Guia\Models\Proyecto;
+use Guia\Models\Urg;
 
 class FirmasSolRec
 {
     public static function getUserAutoriza($proyecto_id)
     {
-        $urg = Proyecto::find($proyecto_id)->urg_id;
-        $cargo = Cargo::whereUrgId($urg)->where('fin', '=', '0000-00-00')->get(array('user_id'));
-        if (count($cargo) > 0){
-            $user_id = $cargo[0]->user_id;
+        $urg_id = Proyecto::find($proyecto_id)->urg_id;
+        $urg = Urg::find($urg_id);
+        $cargos = $urg->cargos()->where('fin', '=', '0000-00-00')->get(array('user_id'));
+        if (count($cargos) > 0){
+            $user_id = $cargos[0]->user_id;
         } else {
             $user_id = 0;
         }
