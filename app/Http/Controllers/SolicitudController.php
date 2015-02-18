@@ -1,5 +1,6 @@
 <?php namespace Guia\Http\Controllers;
 
+use Guia\Classes\FirmasSolRec;
 use Guia\Http\Requests;
 use Guia\Http\Controllers\Controller;
 use Guia\Http\Requests\SolicitudFormRequest;
@@ -32,11 +33,12 @@ class SolicitudController extends Controller {
         $urgs = Urg::all(array('id','urg','d_urg'));
         $benefs = Benef::all(array('id','benef'));
         $arr_proyectos = \FiltroAcceso::getArrProyectos();
-
+        $arr_vobo = FirmasSolRec::getUsersVoBo();
         return view('solicitudes.formSolicitud')
             ->with('urgs', $urgs)
             ->with('proyectos', $arr_proyectos)
-            ->with('benefs', $benefs);
+            ->with('benefs', $benefs)
+            ->with('arr_vobo', $arr_vobo);
 	}
 
 	/**
@@ -46,6 +48,11 @@ class SolicitudController extends Controller {
 	 */
 	public function store(SolicitudFormRequest $request)
 	{
+        $request->merge(array('solicita' => \Auth::user()->id));
+
+        $autoriza = FirmasSolRec::getUserAutoriza($request->input('proyecto_id'));
+        $request->merge(array('autoriza' => $autoriza));
+
         $solicitud = Solicitud::create($request->all());
         return redirect()->action('SolicitudController@show', array($solicitud->id));
 	}
