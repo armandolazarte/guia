@@ -1,11 +1,13 @@
 <?php namespace Guia\Http\Controllers;
 
+use Carbon\Carbon;
 use Guia\Models\Req;
 use Guia\Models\Urg;
 use Guia\Models\Articulo;
 use Guia\Classes\FirmasSolRec;
 use Guia\Http\Requests\ReqFormRequest;
 use Guia\Http\Requests;
+use Guia\Classes\Pdfs\Requisicion;
 use Guia\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
@@ -77,6 +79,7 @@ class RequisicionController extends Controller {
 	public function show($id)
 	{
 		$req = Req::find($id);
+        $req->fecha_req = Carbon::parse($req->fecha_req)->format('d/m/Y');
 		$articulos = Articulo::whereReqId($id)->get();
 		$data['req'] = $req;
 		if (isset($articulos)) {
@@ -119,5 +122,13 @@ class RequisicionController extends Controller {
 	{
 		//
 	}
+
+    public function formatoPdf($id)
+    {
+        $req = Req::find($id);
+        $articulos = Articulo::whereReqId($id)->get();
+        $req_pdf = new Requisicion($req, $articulos);
+        return view($req_pdf->crearPdf());
+    }
 
 }

@@ -74,6 +74,7 @@ Route::group(array('prefix' => 'req', 'middleware' => 'auth'), function()
 	Route::get('/nueva', 'RequisicionController@create');
 	Route::post('/store', 'RequisicionController@store');
 	Route::get('/info/{req_id}', 'RequisicionController@show');
+    Route::get('/pdf/{req_id}', 'RequisicionController@formatoPdf');
 
 	Route::get('/articulos/agregar/{req_id}', 'ArticulosController@create');
 	Route::post('/articulos/store', 'ArticulosController@store');
