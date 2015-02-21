@@ -28,8 +28,12 @@ class Requisicion extends FPDF
     private function getUsuarios()
     {
         $this->solicita = User::find($this->req->solicita);
-        $this->autoriza = User::find($this->req->autoriza);
-        $this->vobo = User::find($this->req->vobo);
+        if ($this->req->solicita != $this->req->autoriza){
+            $this->autoriza = User::find($this->req->autoriza);
+        }
+        if ($this->req->solicita != $this->req->vobo) {
+            $this->vobo = User::find($this->req->vobo);
+        }
     }
 
     public function Header()
@@ -56,21 +60,20 @@ class Requisicion extends FPDF
         $this->SetFont('Arial','',8);
         $this->SetY(-20);
         //Jefe Unidad Adquisiciones
-//        $info_suministros = Info_Directivos::info('ADQ', TRUE);
-//        $this->MultiCell(55,4,utf8_decode ($info_suministros['nombre']),'T','C');
-//        $this->MultiCell(55,4,'Jefe de la Unidad de Adquisiciones y Suministros',0,'C');
+        $usuario_adq = \InfoDirectivos::getResponsable('ADQ');
+        $this->MultiCell(55,4,utf8_decode ($usuario_adq->nombre),'T','C');
+        $this->MultiCell(55,4,utf8_decode($usuario_adq->cargo),0,'C');
 
         //Sec. Administrativo
-//        $info_sad = Info_Directivos::info('SAD', TRUE);
-        //Excepción para Sec. Administrativo
-//        if ( $this->solicita != $info_sad['usr'] )
-//        {
-//            $this->SetXY(67, -20);
-//            $this->MultiCell(45,4,utf8_decode ($info_sad['nombre']),'T','C');
-//            $this->SetX(67);
-//            $this->MultiCell(45,4,'Secretario Administrativo',0,'C');
-//            //AUTORIZA
-//        }
+        $usuario_sad = \InfoDirectivos::getResponsable('SAD');
+        if ( $this->solicita->username != $usuario_sad->username ) //Excepción para Sec. Administrativo
+        {
+            $this->SetXY(67, -20);
+            $this->MultiCell(45,4,utf8_decode ($usuario_sad->nombre),'T','C');
+            $this->SetX(67);
+            $this->MultiCell(45,4,utf8_decode($usuario_sad->cargo),0,'C');
+            //AUTORIZA
+        }
 
         //Solicita
         $this->SetXY(-55, -20);
@@ -79,14 +82,15 @@ class Requisicion extends FPDF
         $this->MultiCell(50,4,utf8_decode($this->solicita->cargo),0,'C');
 
         //Dueño del proyecto
-        if (!empty($this->autoriza)){
+        if (!empty($this->autoriza) && ($this->autoriza->username != $usuario_sad->username)){
             $this->SetXY(114, -20);
             $this->MultiCell(45,4,utf8_decode($this->autoriza->nombre),'T','C');
             $this->SetX(114);
             $this->MultiCell(45,4,utf8_decode($this->autoriza->cargo),0,'C');
         }
-        //Jefe del Departamento de adscripción del Laboratorio
-        if (!empty($this->vobo)){
+
+        //Vo. Bo.
+        if (!empty($this->vobo) && ($this->autoriza->username != $usuario_sad->username)){
             $this->SetXY(-57, -40);
             $this->MultiCell(50,4,utf8_decode($this->vobo->nombre),'T','C');
             $this->SetX(-57);
@@ -171,7 +175,7 @@ class Requisicion extends FPDF
         $this->SetFont('Arial','',8);
         $this->Cell(30,4,'Proyecto: '.$this->req->proyecto->proyecto, 0, 1, 'L');
 
-        //$this->Cell(30,4,'Fondo: '.$this->req->proyecto->fondos, 0, 1, 'L');
+        $this->Cell(30,4,'Fondo: '.$this->req->proyecto->fondos->first()->fondo, 0, 1, 'L');
 
         //Observaciones
         $this->SetXY(40,234);
