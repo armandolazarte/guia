@@ -1,5 +1,5 @@
 
-<table border="1">
+<table class="table-bordered">
     <tr>
         <td>Requisición No. {{ $req->req }}</td>
         <td>Fecha: {{ $req->fecha_req }}</td>

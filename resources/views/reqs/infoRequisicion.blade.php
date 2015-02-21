@@ -1,11 +1,11 @@
-@extends('layouts.base')
+@extends('app')
 
-@section('contenido')
+@section('content')
 
     @include('reqs.partialInfoReq', array('req' => $req))
 
     @if(count($articulos) > 0)
-        <table border="1">
+        <table class="table-bordered">
             <thead>
                 <tr>
                     <th>Artículo</th>
@@ -47,6 +47,6 @@
 
 
     @if($req->estatus == "")
-        <a href="{{ action('ArticulosController@create', array($req->id)) }}">Agregar Artículo</a>
+        <a class="btn btn-primary btn-sm" href="{{ action('ArticulosController@create', array($req->id)) }}">Agregar Artículo</a>
     @endif
 @stop
