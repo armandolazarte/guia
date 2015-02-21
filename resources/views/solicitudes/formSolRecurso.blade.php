@@ -12,13 +12,7 @@
         {!! Form::open(array('action' => 'SolicitudRecursosController@store', 'class' => 'form-inline')) !!}
     @endif
 
-    @if ($errors->any())
-        <ul class="alert alert-danger">
-            @foreach($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    @endif
+    @include('partials.formErrors')
 
     @if($solicitud->tipo_solicitud == "Vale")
         <div class="form-group">
