@@ -87,6 +87,12 @@ class ImportadorCatalogos {
                 $proyecto->urg_id = $urg[0]->id;
                 $proyecto->tipo_proyecto_id = 1;
                 $proyecto->save();
+
+                $proyecto_fondo = \DB::connection($this->db_origen)->table('tbl_proyecto_fondo')
+                    ->where('proy', '=', $proyecto_nuevo->proy)
+                    ->get();
+                $fondo = Fondo::whereFondo($proyecto_fondo[0]->fondo)->get(array('id'));
+                $proyecto->fondos()->attach($fondo[0]->id);
             }
         }
     }
