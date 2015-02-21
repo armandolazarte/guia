@@ -152,6 +152,7 @@ return [
 		'Guia\Providers\UtilityServiceProvider',
 		'Guia\Providers\FiltroAccesoServiceProvider',
 		'Guia\Providers\ConsecutivoServiceProvider',
+        'Guia\Providers\InfoDirectivosServiceProvider',
 
 	],
 
@@ -206,6 +207,7 @@ return [
 		'Utility'		=> 'Guia\Facades\UtilityFacade',
 		'FiltroAcceso'	=> 'Guia\Facades\FiltroAccesoFacade',
 		'Consecutivo'	=> 'Guia\Facades\ConsecutivoFacade',
+        'InfoDirectivos'=> 'Guia\Facades\InfoDirectivosFacade',
 
 	],
 
