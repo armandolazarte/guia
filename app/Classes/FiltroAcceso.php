@@ -16,7 +16,11 @@ class FiltroAcceso {
 
     public function consultarProyectos()
     {
-        $this->proyectos = Proyecto::acceso($this->user_id)->get(array('id','proyecto','d_proyecto'));
+        //@todo Determinar a partir de formulario
+        if(empty($presupuesto)){
+            $presupuesto = \Carbon\Carbon::now()->year;
+        }
+        $this->proyectos = Proyecto::acceso($this->user_id, $presupuesto)->get(array('id','proyecto','d_proyecto'));
     }
 
     public function getArrProyectos()

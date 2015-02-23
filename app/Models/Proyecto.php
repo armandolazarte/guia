@@ -72,9 +72,6 @@ class Proyecto extends Model {
             $arr_urgs = array();
             $arr_proyectos = array();
 
-            if(empty($presupuesto)){
-                $presupuesto = \Carbon\Carbon::now()->year;
-            }
             $accesos = Acceso::whereUserId($user_id)->get();
 
             foreach ($accesos as $acceso) {
@@ -100,12 +97,20 @@ class Proyecto extends Model {
             }
 
             //Filtro por fecha
-//            $query->whereNested(function($query, $presupuesto)
-//            {
-//                $query->whereBetween('fin', array('01-01-'.$presupuesto, '31-12-'.$presupuesto));
-//                $query->orWhere('fin', '=', '');
-//            });
-            $query->whereBetween('inicio', array('01-01-'.$presupuesto, '31-12-'.$presupuesto));
+            $query->whereNested(function($query) use ($presupuesto)
+            {
+                $query->whereBetween('inicio', array($presupuesto.'-01-01', $presupuesto.'-12-31'));
+                $query->orWhere(function($query) use ($presupuesto)
+                {
+                    $query->where('inicio', '<', $presupuesto.'-01-01');
+                    $query->where('fin', '=', '0000-00-00');
+                });
+                $query->orWhere(function($query) use ($presupuesto)
+                {
+                    $query->where('inicio', '<', $presupuesto.'-01-01');
+                    $query->where('fin', '>=', $presupuesto.'-01-01');
+                });
+            });
 
         } else {
             $query->whereId(0);
