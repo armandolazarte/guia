@@ -65,13 +65,16 @@ class Proyecto extends Model {
         return $this->morphMany('Guia\Models\Acceso', 'acceso');
     }
 
-    public function scopeAcceso($query, $user_id)
+    public function scopeAcceso($query, $user_id, $presupuesto)
     {
         if(!empty($user_id)) {
             $arr_tipos_proyecto = array();
             $arr_urgs = array();
             $arr_proyectos = array();
 
+            if(empty($presupuesto)){
+                $presupuesto = \Carbon\Carbon::now()->year;
+            }
             $accesos = Acceso::whereUserId($user_id)->get();
 
             foreach ($accesos as $acceso) {
@@ -95,9 +98,23 @@ class Proyecto extends Model {
             if (count($arr_proyectos) > 0) {
                 $query->whereIn('id', $arr_proyectos);
             }
+
+            //Filtro por fecha
+//            $query->whereNested(function($query, $presupuesto)
+//            {
+//                $query->whereBetween('fin', array('01-01-'.$presupuesto, '31-12-'.$presupuesto));
+//                $query->orWhere('fin', '=', '');
+//            });
+            $query->whereBetween('inicio', array('01-01-'.$presupuesto, '31-12-'.$presupuesto));
+
         } else {
             $query->whereId(0);
         }
         return $query;
+    }
+
+    private function getFechasPresupuesto($presupuesto)
+    {
+
     }
 }
