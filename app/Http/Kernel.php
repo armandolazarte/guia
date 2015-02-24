@@ -28,6 +28,7 @@ class Kernel extends HttpKernel {
 		'auth.basic' => 'Illuminate\Auth\Middleware\AuthenticateWithBasicAuth',
 		'guest' => 'Guia\Http\Middleware\RedirectIfAuthenticated',
 		'role' => 'Guia\Http\Middleware\UserRoleInModule',
+        'selPresu' => 'Guia\Http\Middleware\SelPresupuestoEnSession',
 	];
 
 }
