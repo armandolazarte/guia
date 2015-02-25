@@ -68,10 +68,10 @@ Route::group(array('prefix' => 'pruebas'), function()
 });
 
 //** Requisiciones **//
-Route::group(array('prefix' => 'req', 'middleware' => 'auth'), function()
+Route::group(array('prefix' => 'req', 'middleware' => ['auth','selPresu']), function()
 {
-	Route::get('/', 'RequisicionController@index');
-	Route::get('/nueva', 'RequisicionController@create');
+	Route::match(['get', 'post'], '/', 'RequisicionController@index');
+	Route::match(['get', 'post'], '/nueva', 'RequisicionController@create');
 	Route::post('/store', 'RequisicionController@store');
 	Route::get('/info/{req_id}', 'RequisicionController@show');
     Route::get('/pdf/{req_id}', 'RequisicionController@formatoPdf');
@@ -84,7 +84,7 @@ Route::group(array('prefix' => 'req', 'middleware' => 'auth'), function()
 });
 
 //** Solicitudes **//
-Route::group(array('prefix' => 'solicitud', 'middleware' => 'auth'), function()
+Route::group(array('prefix' => 'solicitud', 'middleware' => ['auth','selPresu']), function()
 {
     Route::get('/', 'SolicitudController@index');
     Route::get('/nueva', 'SolicitudController@create');
