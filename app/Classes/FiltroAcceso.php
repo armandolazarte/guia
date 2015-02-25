@@ -10,16 +10,12 @@ class FiltroAcceso {
     public function __construct()
     {
         $user = \Auth::user();
-        //dd($user->id);
         isset($user) ? $this->user_id = $user->id : $this->user_id = 0;
     }
 
     public function consultarProyectos()
     {
-        //@todo Determinar a partir de formulario
-        if(empty($presupuesto)){
-            $presupuesto = \Carbon\Carbon::now()->year;
-        }
+        $presupuesto = \Session::get('sel_presupuesto');
         $this->proyectos = Proyecto::acceso($this->user_id, $presupuesto)->get(array('id','proyecto','d_proyecto'));
     }
 
