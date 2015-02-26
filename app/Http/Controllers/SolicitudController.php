@@ -1,6 +1,7 @@
 <?php namespace Guia\Http\Controllers;
 
 use Guia\Classes\FirmasSolRec;
+use Guia\Classes\Pdfs\SolicitudPdf;
 use Guia\Http\Requests;
 use Guia\Http\Controllers\Controller;
 use Guia\Http\Requests\SolicitudFormRequest;
@@ -102,4 +103,10 @@ class SolicitudController extends Controller {
 		//
 	}
 
+    public function formatoPdf($id)
+    {
+        $solicitud = Solicitud::find($id);
+        $solicitud_pdf = new SolicitudPdf($solicitud);
+        return view($solicitud_pdf->crearPdf());
+    }
 }

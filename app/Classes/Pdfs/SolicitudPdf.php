@@ -20,14 +20,26 @@ class SolicitudPdf extends FPDF
 
         parent::__construct('P','mm','Letter');
         $this->SetFillColor(200,200,200);
-        //$this->AddFont('CenturyGothic','','century.php');
-        //$this->SetFont('CenturyGothic','','10');
+        $this->AddFont('CenturyGothic','','century.php');
+        $this->SetFont('CenturyGothic','','10');
+        $this->getUsuarios();
+    }
+
+    private function getUsuarios()
+    {
+        $this->solicita = User::find($this->solicitud->solicita);
+        if ($this->solicitud->solicita != $this->solicitud->autoriza){
+            $this->autoriza = User::find($this->solicitud->autoriza);
+        }
+        if ($this->solicitud->solicita != $this->solicitud->vobo) {
+            $this->vobo = User::find($this->solicitud->vobo);
+        }
     }
 
     public function Header()
     {
         $this->SetFont('Arial','B',11);
-        //$this->Image('../img/Header_UDG_2014_CUCEI.jpg',10,10,0,25);
+        $this->Image(asset('img/Header_UDG_2014_CUCEI.jpg'),10,10,0,25);
 
         $this->SetY(40);
         $this->Cell(190,5,'Solicitud de Recursos',0,2,'C');
@@ -56,11 +68,8 @@ class SolicitudPdf extends FPDF
             $contador_rm ++;
         }*/
 
-        /*$res_proy = Info_Directivos::info($arr_solicitud['ures']);
-        $finanzas = Info_Directivos::info('FIN', TRUE);
-        $presu = Info_Directivos::info('PRESU', TRUE);*/
-
-        $this->AddPage();
+        $usuario_finanzas = \InfoDirectivos::getResponsable('FIN');
+        $usuario_presu = \InfoDirectivos::getResponsable('PRESU');
 
         $this->SetFont('Arial','B',11);
         $this->SetX(25);
@@ -68,12 +77,12 @@ class SolicitudPdf extends FPDF
         $this->Ln(5);
 
         $this->SetX(25);
-//        $pdf->Cell(180, 5, utf8_decode($finanzas['prefijo']." ".$finanzas['nombre']), 0, 2, "L");
-//        $pdf->Cell(180, 5, utf8_decode($finanzas['cargo']), 0, 2, "L");
+        $this->Cell(180, 5, utf8_decode($usuario_finanzas->prefijo." ".$usuario_finanzas->nombre), 0, 2, "L");
+        $this->Cell(180, 5, utf8_decode($usuario_finanzas->cargo), 0, 2, "L");
         $this->Cell(180, 5, "CUCEI", 0, 2, "L");
         $this->Cell(180, 5, "P R E S E N T E", 0, 2, "L");
-//        $pdf->Cell(180, 5, utf8_decode("At'n. ".$presu['prefijo']." ".$presu['nombre']), 0, 2, "R");
-//        $pdf->Cell(180, 5, utf8_decode($presu['cargo']), 0, 2, "R");
+        $this->Cell(180, 5, utf8_decode("At'n. ".$usuario_presu->prefijo." ".$usuario_presu->nombre), 0, 2, "R");
+        $this->Cell(180, 5, utf8_decode($usuario_presu->cargo), 0, 2, "R");
         $this->Ln();
 
         $this->SetFont('Arial','',10);
@@ -113,7 +122,7 @@ class SolicitudPdf extends FPDF
 
         $this->SetX(25);
         $this->SetFont('Arial','',10);
-        //$pdf->Cell(180, 4, "URES:     ".$arr_solicitud['ures']." ".utf8_decode ($arr_solicitud['d_ures']), 0, 2, "L");
+        $this->Cell(180, 4, "URES:     ".$this->solicitud->urgs->urg." ".utf8_decode ($this->solicitud->urgs->d_urg), 0, 2, "L");
         $this->Cell(180, 4, "Proyecto: ".$this->solicitud->proyecto->proyecto. " ".utf8_decode ($this->solicitud->proyecto->d_proyecto), 0, 2, "L");
         $this->Cell(180, 4, "Fondo:     ".$this->solicitud->proyecto->fondos->first()->fondo, 0, 2, "L");
         $this->Ln();
@@ -174,8 +183,8 @@ class SolicitudPdf extends FPDF
         $this->Cell(30,4,'Vo.Bo.',0,1,'C');
 
         $this->SetX(-60);
-//        $pdf->Cell(30,4,$presu['iniciales'],0,0,'C');
-//        $pdf->Cell(30,4,$finanzas['iniciales'],0,1,'C');
+        $this->Cell(30,4,$usuario_presu->iniciales,0,0,'C');
+        $this->Cell(30,4,$usuario_finanzas->iniciales,0,1,'C');
         //Fin de Tabla
 
         //Footer no repetitivo por fecha y # de solicitud
