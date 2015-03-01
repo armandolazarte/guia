@@ -1,5 +1,6 @@
 <?php namespace Guia\Http\Controllers;
 
+use Guia\Models\Urg;
 use Guia\User;
 use Guia\Models\Role;
 use Guia\Http\Requests\UsuarioFormRequest;
@@ -68,10 +69,14 @@ class UsuarioController extends Controller {
 	{
 		$user = User::find($id);
 		$roles = Role::all();
+        $cargos = $user->cargos;
+        $urgs = Urg::all();
 
 		return view('admin.usuarios.formUsuario')
 			->with('user', $user)
-			->with('roles', $roles);
+			->with('roles', $roles)
+            ->with('cargos', $cargos)
+            ->with('urgs', $urgs);
 	}
 
 	/**

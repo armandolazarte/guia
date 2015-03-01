@@ -38,6 +38,7 @@ Route::group(array('prefix' => 'admin/su'), function()
 Route::group(array('prefix' => 'admin'), function()
 {
 	Route::resource('usuario', 'UsuarioController');
+    Route::post('usuario/cargos/store/{$user_id}', 'CargosController@store');
 
 	Route::get('/acciones', 'AccionesController@index');
 	Route::get('/acciones/editar/{accion}', 'AccionesController@editar');

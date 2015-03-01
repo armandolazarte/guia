@@ -3,6 +3,9 @@
 @section('content')
     <div class="row">
         <div class="col-md-12">
+
+            @include('admin.usuarios.formCargos')
+
             @if(isset($user))
                 {!! Form::model($user, array('route' => array('admin.usuario.update', $user->id), 'method' => 'patch', 'class' => 'form-horizontal')) !!}
             @else
@@ -45,9 +48,10 @@
                 </div>
 
                 <div class="form-group">
-                    {!! Form::label('cargo', 'Cargo', ['class' => 'col-sm-2 control-label']) !!}
+                    {!! Form::label('cargo', 'Cargo Actual', ['class' => 'col-sm-2 control-label']) !!}
                     <div class="col-sm-10">
                         {!! Form::text('cargo', $user->cargo, ['class' => 'form-control']) !!}
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#formCargosModal">Registrar Cargo - URG</button>
                     </div>
                 </div>
 
