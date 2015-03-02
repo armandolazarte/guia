@@ -1,6 +1,9 @@
 <?php namespace Guia\Classes;
 
+use Guia\Models\Actividad;
 use Guia\Models\Cargo;
+use Guia\Models\Objetivo;
+use Guia\Models\Rm;
 use Guia\Models\Urg;
 use Guia\Models\Fondo;
 use Guia\Models\Proyecto;
@@ -262,4 +265,72 @@ class ImportadorCatalogos {
         return $usuarios_externos;
     }
 
+    //RMs
+    public function importarRms(){
+        set_time_limit(60);
+        $rms_externos = $this->consultarRmsExternos();
+        if ( count($rms_externos) > 0 ) {
+            foreach($rms_externos as $rm_nuevo)
+            {
+                $proyecto = Proyecto::whereProyecto($rm_nuevo->proy)->get(array('id'));
+                $cog = Cog::whereCog($rm_nuevo->cta)->get(['id']);
+                $fondo = Fondo::whereFondo($rm_nuevo->fondo)->get(array('id'));
+
+                if( count($cog) == 0 || count($fondo) == 0){
+                    dd('RM c/error: '.$rm_nuevo->rm);
+                }
+
+                $rms = new Rm();
+                $rms->rm = $rm_nuevo->rm;
+                $rms->proyecto_id = $proyecto[0]->id;
+
+                if(empty($rm_nuevo->objetivo)){
+                    $rms->objetivo_id = 1;
+                } else {
+                    $obj = Objetivo::whereObjetivo($rm_nuevo->objetivo)->get(['id']);
+                    if(count($obj) == 0){
+                        $objetivo = new Objetivo();
+                        $objetivo->objetivo = $rm_nuevo->objetivo;
+                        $objetivo->save();
+                        $rms->objetivo_id = $objetivo->id;
+                    } else {
+                        $rms->objetivo_id = $obj[0]->id;
+                    }
+                }
+
+                if(empty($rm_nuevo->actividad)){
+                    $rms->actividad_id = 1;
+                } else {
+                    $act = Actividad::whereActividad($rm_nuevo->actividad)->get(['id']);
+                    if(count($act) == 0){
+                        $actividad = new Actividad();
+                        $actividad->actividad = $rm_nuevo->actividad;
+                        $actividad->save();
+                        $rms->actividad_id = $actividad->id;
+                    } else {
+                        $rms->actividad_id = $act[0]->id;
+                    }
+                }
+
+                $rms->cog_id = $cog[0]->id;
+                $rms->fondo_id = $fondo[0]->id;
+                $rms->monto = $rm_nuevo->monto;
+                $rms->d_rm = '';
+                $rms->save();
+            }
+        }
+    }
+
+    private function consultarRmsExternos(){
+        $rms_importados = Rm::lists('rm');
+        if ( count($rms_importados) > 0 ) {
+            $rms_externos = \DB::connection($this->db_origen)->table('tbl_rm')
+                ->whereNotIn ('rm', $rms_importados)
+                ->get();
+        } else {
+            $rms_externos = \DB::connection($this->db_origen)->table('tbl_rm')
+                ->get();
+        }
+        return $rms_externos;
+    }
 }

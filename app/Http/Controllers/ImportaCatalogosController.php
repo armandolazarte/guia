@@ -46,6 +46,10 @@ class ImportaCatalogosController extends Controller {
             $importador->importarUsuarios();
         }
 
+        if ($catalogo == "Rms"){
+            $importador->importarRms();
+        }
+
 		return redirect()->action('ImportaCatalogosController@index');
 	}
 

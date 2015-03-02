@@ -11,7 +11,8 @@
                                         'Cuentas' => 'Cuentas',
                                         'Beneficiarios' => 'Beneficiarios',
                                         'COG' => 'COG',
-                                        'Usuarios' => 'Usuarios')
+                                        'Usuarios' => 'Usuarios',
+                                        'Rms' => 'Rms')
                     ) !!}
     {!! Form::submit('Importar') !!}
     {!! Form::close() !!}
