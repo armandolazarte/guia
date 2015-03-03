@@ -122,27 +122,38 @@ class SolicitudPdf extends FPDF
 
         $this->SetX(25);
         $this->SetFont('Arial','',10);
-        $this->Cell(180, 4, "URES:     ".$this->solicitud->urgs->urg." ".utf8_decode ($this->solicitud->urgs->d_urg), 0, 2, "L");
+        $this->Cell(180, 4, "URES:     ".$this->solicitud->urg->urg." ".utf8_decode ($this->solicitud->urg->d_urg), 0, 2, "L");
         $this->Cell(180, 4, "Proyecto: ".$this->solicitud->proyecto->proyecto. " ".utf8_decode ($this->solicitud->proyecto->d_proyecto), 0, 2, "L");
         $this->Cell(180, 4, "Fondo:     ".$this->solicitud->proyecto->fondos->first()->fondo, 0, 2, "L");
         $this->Ln();
 
         $this->SetFont('Arial','',10);
         $this->SetX(25);
-        $this->MultiCell(60,5,"Desglose por Cuenta de Gasto/RM:",1,'C');
-        $this->SetFont('CenturyGothic','','10');
-//        for ($i = 0; $i < $contador_rm; $i++)
-//        {
-//            $pdf->SetX(25);
-//            $pdf->Cell(20, 5, $cta[$i], "LB", 0, "C");
-//            $pdf->Cell(20, 5, $rm[$i], "LBR", 0, "C");
-//            $pdf->Cell(20, 5, number_format($monto_rm[$i],2), "BR", 1, "R");
-//        }
+
+        if($this->solicitud->tipo_solicitud == 'Vale'){
+            $this->MultiCell(60,5,"Desglose por Objetivo:",1,'C');
+            $this->SetFont('CenturyGothic','','10');
+            foreach($this->solicitud->objetivos as $obj){
+                $this->SetX(25);
+                $this->Cell(40, 5, $obj->objetivo, 1, 0, 'C');
+                $this->Cell(20, 5, number_format($obj->pivot->monto,2), 1, 1, 'R');
+            }
+        } else {
+            $this->MultiCell(60,5,"Desglose por RM/Cuenta:",1,'C');
+            $this->SetFont('CenturyGothic','','10');
+            foreach($this->solicitud->rms as $rm){
+                $this->SetX(25);
+                $this->Cell(20, 5, $rm->rm, 1, 0, "C");
+                $this->Cell(20, 5, $rm->cog->cog, 1, 0, "C");
+                $this->Cell(20, 5, number_format($rm->pivot->monto,2), 1, 1, "R");
+            }
+        }
+
         $this->SetFont('Arial','B',10);
         $this->SetX(25);
-        $this->Cell(20, 5, "TOTAL", "LB", 0, "C");
+        $this->Cell(40, 5, "TOTAL", 1, 0, "C");
         $this->SetFont('CenturyGothic','','10');
-        //$pdf->Cell(40, 5, number_format($arr_solicitud['monto'],2), "BR", 1, "R");
+        $this->Cell(20, 5, number_format($this->solicitud->monto,2), "BR", 1, "R");
         $this->SetFont('Arial','',11);
         $this->Ln(3);
 

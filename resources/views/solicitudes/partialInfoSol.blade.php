@@ -33,7 +33,7 @@
     </tr>
     <tr>
         <td>Monto Total</td>
-        <td>{{ $solicitud->monto }}</td>
+        <td>{{ number_format($solicitud->monto,2) }}</td>
     </tr>
     <tr>
         <td>Viáticos</td>

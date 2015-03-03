@@ -10,7 +10,7 @@
                         {{ $obj->objetivo }}
                     @endif
                 </td>
-                <td>{{ $obj->pivot->monto }}</td>
+                <td class="text-right">{{ number_format($obj->pivot->monto,2) }}</td>
             </tr>
         @endforeach
     @else
@@ -24,12 +24,12 @@
                         {{ $rm->rm }} Cuenta: {{ $rm->cog->cog }} {{ $rm->cog->d_cog }}
                     @endif
                 </td>
-                <td>{{ $rm->pivot->monto }}</td>
+                <td class="text-right">{{ number_format($rm->pivot->monto,2) }}</td>
             </tr>
         @endforeach
         <tr>
             <td>TOTAL</td>
-            <td></td>
+            <td class="text-right"><b>{{ number_format($solicitud->monto,2) }}</b></td>
         </tr>
     @endif
 </table>
