@@ -92,6 +92,7 @@ Route::group(array('prefix' => 'solicitud', 'middleware' => ['auth','selPresu'])
     Route::post('/store', 'SolicitudController@store');
     Route::get('/{solicitud}/info', 'SolicitudController@show');
     Route::get('/{solicitud}/pdf', 'SolicitudController@formatoPdf');
+    Route::patch('/{solicitud}', 'SolicitudController@update');
 
     Route::get('/{solicitud}/recurso/agregar', 'SolicitudRecursosController@create');
     Route::post('/recurso/store', 'SolicitudRecursosController@store');

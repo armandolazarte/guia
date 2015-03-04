@@ -1,5 +1,6 @@
 <?php namespace Guia\Http\Controllers;
 
+use Carbon\Carbon;
 use Guia\Classes\FirmasSolRec;
 use Guia\Classes\Pdfs\SolicitudPdf;
 use Guia\Http\Requests;
@@ -8,7 +9,9 @@ use Guia\Http\Requests\SolicitudFormRequest;
 use Guia\Models\Solicitud;
 use Guia\Models\Urg;
 use Guia\Models\Benef;
+use Guia\Models\Registro;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class SolicitudController extends Controller {
 
@@ -87,9 +90,30 @@ class SolicitudController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update($id)
+	public function update($id, Request $request)
 	{
-		//
+		$solicitud = Solicitud::findOrFail($id);
+
+        //Actualización de estatus
+        $accion = $request->input('accion');
+        if(isset($accion)){
+
+            if($accion == 'Enviar') {
+                $estatus = 'Enviada';
+            } elseif($accion == 'Recuperar'){
+                $estatus = '';
+            }
+
+            $solicitud->estatus = $estatus;
+            $solicitud->save();
+
+            //Creación de registro
+            $fecha_hora = Carbon::now();
+            $registro = new Registro(['user_id' => Auth::user()->id, 'estatus' => $estatus, 'fecha_hora' => $fecha_hora]);
+            $solicitud->registros()->save($registro);
+
+            return redirect()->action('SolicitudController@show', array($solicitud->id));
+        }
 	}
 
 	/**
