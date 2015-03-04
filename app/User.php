@@ -42,4 +42,10 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	{
 		return $this->hasMany('Guia\Models\Acceso');
 	}
+
+    //User __has_many__ Registro
+    public function registros()
+    {
+        return $this->hasMany('Guia\Models\Registro');
+    }
 }

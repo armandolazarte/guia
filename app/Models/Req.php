@@ -40,7 +40,13 @@ class Req extends Model {
     //Req __has_many__ Cuadro
     public function cuadros()
     {
-        return $this->hasMany('Guia\Models\cuadros');
+        return $this->hasMany('Guia\Models\Cuadro');
+    }
+
+    //Req __morph_many__ Registro
+    public function registros()
+    {
+        return $this->morphMany('Guia\Models\Registro', 'docable');
     }
 
 }

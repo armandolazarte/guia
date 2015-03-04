@@ -56,4 +56,10 @@ class Solicitud extends Model {
         return $this->belongsToMany('Guia\Models\Objetivo')->withPivot('monto');
     }
 
+    //Solicitud __morph_many__ Registro
+    public function registros()
+    {
+        return $this->morphMany('Guia\Models\Registro', 'docable');
+    }
+
 }
