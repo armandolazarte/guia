@@ -36,6 +36,10 @@
         <td>{{ number_format($solicitud->monto,2) }}</td>
     </tr>
     <tr>
+        <td>Estatus</td>
+        <td>{{ $solicitud->estatus }}</td>
+    </tr>
+    <tr>
         <td>Viáticos</td>
         <td>{{ !empty($solicitud->viaticos) ? 'Pago de Viáticos' : '' }}</td>
     </tr>
