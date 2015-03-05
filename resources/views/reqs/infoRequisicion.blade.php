@@ -49,4 +49,19 @@
     @if($req->estatus == "")
         <a class="btn btn-primary btn-sm" href="{{ action('ArticulosController@create', array($req->id)) }}">Agregar Artículo</a>
     @endif
+
+    @if($req->estatus == '')
+        {!! Form::open(array('action' => ['RequisicionController@update', $req->id], 'method' => 'patch', 'class' => 'form')) !!}
+        <input type="hidden" name="accion" value="Enviar">
+        <button type="submit" class="btn btn-success">Enviar a Adquisiciones</button>
+        {!! Form::close() !!}
+    @endif
+
+    @if($req->estatus == 'Enviada')
+        {!! Form::open(array('action' => ['RequisicionController@update', $req->id], 'method' => 'patch', 'class' => 'form')) !!}
+        <input type="hidden" name="accion" value="Recuperar">
+        <button type="submit" class="btn btn-warning">Recuperar</button>
+        {!! Form::close() !!}
+    @endif
+
 @stop

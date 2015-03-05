@@ -76,6 +76,7 @@ Route::group(array('prefix' => 'req', 'middleware' => ['auth','selPresu']), func
 	Route::post('/store', 'RequisicionController@store');
 	Route::get('/info/{req_id}', 'RequisicionController@show');
     Route::get('/pdf/{req_id}', 'RequisicionController@formatoPdf');
+    Route::patch('/{solicitud}', 'RequisicionController@update');
 
 	Route::get('/articulos/agregar/{req_id}', 'ArticulosController@create');
 	Route::post('/articulos/store', 'ArticulosController@store');

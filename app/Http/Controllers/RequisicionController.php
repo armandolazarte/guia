@@ -4,6 +4,7 @@ use Carbon\Carbon;
 use Guia\Models\Req;
 use Guia\Models\Urg;
 use Guia\Models\Articulo;
+use Guia\Models\Registro;
 use Guia\Classes\FirmasSolRec;
 use Guia\Http\Requests\ReqFormRequest;
 use Guia\Http\Requests;
@@ -11,6 +12,7 @@ use Guia\Classes\Pdfs\Requisicion;
 use Guia\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class RequisicionController extends Controller {
 
@@ -107,9 +109,30 @@ class RequisicionController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update($id)
+	public function update($id, Request $request)
 	{
-		//
+		$req = Req::findOrFail($id);
+
+        //Actualización de estatus
+        $accion = $request->input('accion');
+        if(isset($accion)){
+
+            if($accion == 'Enviar') {
+                $estatus = 'Enviada';
+            } elseif($accion == 'Recuperar'){
+                $estatus = '';
+            }
+
+            $req->estatus = $estatus;
+            $req->save();
+
+            //Creación de registro
+            $fecha_hora = Carbon::now();
+            $registro = new Registro(['user_id' => Auth::user()->id, 'estatus' => $estatus, 'fecha_hora' => $fecha_hora]);
+            $req->registros()->save($registro);
+
+            return redirect()->action('RequisicionController@show', array($req->id));
+        }
 	}
 
 	/**
