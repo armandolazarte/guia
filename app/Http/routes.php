@@ -78,9 +78,9 @@ Route::group(array('prefix' => 'req', 'middleware' => ['auth','selPresu']), func
     Route::get('/{req_id}/pdf', 'RequisicionController@formatoPdf');
     Route::patch('/{solicitud}', 'RequisicionController@update');
 
-	Route::get('/{req_id}/articulos/agregar', 'ArticulosController@create');
+	Route::get('/{req_id}/articulos/agregar', ['middleware' => 'autorizaEditarReq', 'uses' => 'ArticulosController@create']);
 	Route::post('/articulos/store', 'ArticulosController@store');
-	Route::get('/{req_id}/articulos/{articulo}/editar', 'ArticulosController@edit');
+	Route::get('/{req_id}/articulos/{articulo}/editar', ['middleware' => 'autorizaEditarReq', 'uses' => 'ArticulosController@edit']);
 	Route::patch('/articulos/{articulo}', 'ArticulosController@update');
 	Route::delete('/articulos/{articulo}', 'ArticulosController@destroy');
 });
@@ -95,9 +95,9 @@ Route::group(array('prefix' => 'solicitud', 'middleware' => ['auth','selPresu'])
     Route::get('/{solicitud}/pdf', 'SolicitudController@formatoPdf');
     Route::patch('/{solicitud}', 'SolicitudController@update');
 
-    Route::get('/{solicitud}/recurso/agregar', 'SolicitudRecursosController@create');
+    Route::get('/{solicitud}/recurso/agregar', ['middleware' => 'autorizaEditarSol', 'uses' => 'SolicitudRecursosController@create']);
     Route::post('/recurso/store', 'SolicitudRecursosController@store');
-    Route::get('/{solicitud}/recurso/{recurso}/editar', 'SolicitudRecursosController@edit');
+    Route::get('/{solicitud}/recurso/{recurso}/editar', ['middleware' => 'autorizaEditarSol', 'uses' => 'SolicitudRecursosController@edit']);
     Route::patch('/{solicitud}/recurso/{recurso}', 'SolicitudRecursosController@update');
     Route::delete('/{solicitud}/recurso/{recurso}', 'SolicitudRecursosController@destroy');
 });
