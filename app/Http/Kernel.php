@@ -29,6 +29,8 @@ class Kernel extends HttpKernel {
 		'guest' => 'Guia\Http\Middleware\RedirectIfAuthenticated',
 		'role' => 'Guia\Http\Middleware\UserRoleInModule',
         'selPresu' => 'Guia\Http\Middleware\SelPresupuestoEnSession',
+        'autorizaEditarReq' => 'Guia\Http\Middleware\AutorizaEditarReq',
+        'autorizaEditarSol' => 'Guia\Http\Middleware\AutorizaEditarSol',
 	];
 
 }
