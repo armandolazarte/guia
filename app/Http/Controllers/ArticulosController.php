@@ -60,15 +60,16 @@ class ArticulosController extends Controller {
 	/**
 	 * Show the form for editing the specified resource.
 	 *
-	 * @param  int  $id
+     * @param  int  $req_id
+	 * @param  int  $articulo_id
 	 * @return Response
 	 */
-	public function edit($id)
+	public function edit($req_id, $articulo_id)
 	{
-		$articulo = Articulo::find($id);
+		$articulo = Articulo::find($articulo_id);
 
-		//Verifica que la requisición no esté terminada
-		if ($articulo->req->estatus == '')
+		//Verifica que el artículo corresponda a la requisición
+		if ($articulo->req_id == $req_id)
 		{
 			$unidades = Unidad::all();
 			foreach($unidades as $unidad){
@@ -81,7 +82,7 @@ class ArticulosController extends Controller {
 
 			return view('reqs.formArticulo')->with($data);
 		} else {
-			return redirect()->action('RequisicionController@show', array($articulo->req->id));
+			return redirect()->action('RequisicionController@show', array($req_id))->with(['alert-class' => 'alert-warning', 'message' => 'El artículo no corresponde a la requisición']);;
 		}
 	}
 

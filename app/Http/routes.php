@@ -74,13 +74,13 @@ Route::group(array('prefix' => 'req', 'middleware' => ['auth','selPresu']), func
 	Route::match(['get', 'post'], '/', 'RequisicionController@index');
 	Route::match(['get', 'post'], '/nueva', 'RequisicionController@create');
 	Route::post('/store', 'RequisicionController@store');
-	Route::get('/info/{req_id}', 'RequisicionController@show');
-    Route::get('/pdf/{req_id}', 'RequisicionController@formatoPdf');
+	Route::get('/{req_id}/info', 'RequisicionController@show');
+    Route::get('/{req_id}/pdf', 'RequisicionController@formatoPdf');
     Route::patch('/{solicitud}', 'RequisicionController@update');
 
-	Route::get('/articulos/agregar/{req_id}', 'ArticulosController@create');
+	Route::get('/{req_id}/articulos/agregar', 'ArticulosController@create');
 	Route::post('/articulos/store', 'ArticulosController@store');
-	Route::get('/articulos/{articulo}/editar', 'ArticulosController@edit');
+	Route::get('/{req_id}/articulos/{articulo}/editar', 'ArticulosController@edit');
 	Route::patch('/articulos/{articulo}', 'ArticulosController@update');
 	Route::delete('/articulos/{articulo}', 'ArticulosController@destroy');
 });

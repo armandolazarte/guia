@@ -18,7 +18,7 @@
 
     <div class="form-group col-xs-6">
             <label class="sr-only" for="articulo">Artículo</label>
-        {!! Form::textarea('articulo', '', array('cols' => '70', 'rows' => '5', 'class' => 'form-contro', 'placeholder' => 'Descripción del artículo')) !!}
+        {!! Form::textarea('articulo', isset($articulo->articulo) ? $articulo->articulo : '', array('cols' => '70', 'rows' => '5', 'class' => 'form-contro', 'placeholder' => 'Descripción del artículo')) !!}
     </div>
 
     <div class="form-group col-xs-3">

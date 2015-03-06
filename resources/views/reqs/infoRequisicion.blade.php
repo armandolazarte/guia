@@ -22,7 +22,7 @@
             <tr>
                 <td>
                     @if($req->estatus == "")
-                        <a href="{{ action('ArticulosController@edit', array($articulo->id)) }}">{{ $articulo->articulo }}</a>
+                        <a href="{{ action('ArticulosController@edit', array($req->id, $articulo->id)) }}">{{ $articulo->articulo }}</a>
                     @else
                         {!! $articulo->articulo !!}
                     @endif
