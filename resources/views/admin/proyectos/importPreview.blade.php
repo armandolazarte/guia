@@ -1,4 +1,4 @@
-@extends('layouts.base')
+@extends('layouts.theme')
 
 @section('contenido')
     <h3>Verificar Proyecto a Importar</h3>

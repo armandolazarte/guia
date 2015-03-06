@@ -1,4 +1,4 @@
-@extends('layouts.base')
+@extends('layouts.theme')
 
 @section('contenido')
     {!! Form::open(array('action' => 'ImportaCatalogosController@importar')) !!}
