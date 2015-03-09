@@ -1,6 +1,6 @@
 @extends('layouts.theme')
 
-@section('contenido')
+@section('content')
     {!! Form::open(array('action' => 'ImportaCatalogosController@importar')) !!}
     {!! Form::label('db_origen', 'Base de Datos Origen:') !!}
     {!! Form::text('db_origen') !!}
