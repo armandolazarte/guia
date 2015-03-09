@@ -12,7 +12,7 @@ class AppServiceProvider extends ServiceProvider {
 	 */
 	public function boot()
 	{
-		View::composer('partials.menu', 'Guia\Http\Composers\MenuComposer');
+		View::composer('partials.menu.dynamic', 'Guia\Http\Composers\MenuComposer');
         View::composer('partials.filtroPresupuesto', 'Guia\Http\Composers\FiltroPresupuestoComposer');
 	}
 
