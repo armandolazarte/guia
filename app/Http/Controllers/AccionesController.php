@@ -14,7 +14,7 @@ class AccionesController extends Controller {
         $this->importar_rutas();
         $acciones = Accion::with('modulos')->get();
 
-        return view('admin.acciones.index')->with('acciones', $acciones);
+        return view('admin.su.acciones.index')->with('acciones', $acciones);
     }
 
     private function importar_rutas()
@@ -43,7 +43,7 @@ class AccionesController extends Controller {
         $accion = Accion::find($id);
         $modulos = Modulo::all();
 
-        return view('admin.acciones.editar')
+        return view('admin.su.acciones.editar')
             ->with('accion', $accion)
             ->with('modulos', $modulos);
     }
