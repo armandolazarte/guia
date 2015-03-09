@@ -11,48 +11,57 @@ class AccionesController extends Controller {
 
     public function index()
     {
-        $this->importar_rutas();
         $acciones = Accion::with('modulos')->get();
-
-        return view('admin.su.acciones.index')->with('acciones', $acciones);
+        return view('admin.su.acciones.indexAcciones')->with('acciones', $acciones);
     }
 
-    private function importar_rutas()
+    public function create()
+    {
+        $routeCollection = \Route::getRoutes();
+        return view('admin.su.acciones.formImportarRuta', compact('routeCollection'));
+    }
+
+    public function store(Request $request)
     {
         //Consulta rutas registradas en tabla acciones
-        $arr_rutas = Accion::lists('ruta');
-        //Obiene rutas registradas
-        $routeCollection = \Route::getRoutes();
-        foreach ($routeCollection as $route) {
-            $ruta = $route->getPath();
-            if ( array_search($ruta, $arr_rutas) === false) {
-                //Si no se encuentra el valor de la ruta: Inserta ruta en acciones
+        $acciones = Accion::lists('ruta');
+        $arr_rutas = $request->input('arr_rutas');
+        foreach($arr_rutas as $ruta){
+            if ( array_search($ruta, $acciones) === false) {
                 $accion = new Accion;
                 $accion->ruta = $ruta;
                 $accion->activo = false;
                 $accion->save();
 
                 //Agrega ruta nueva a arreglo para no duplicar rutas
-                $arr_rutas[] = $ruta;
+                $acciones[] = $ruta;
             }
         }
+
+        return redirect()->action('AccionesController@index')->with(['message' => 'Ruta agregada con éxito']);
     }
 
-    public function editar($id)
+    public function edit($id)
     {
         $accion = Accion::find($id);
         $modulos = Modulo::all();
 
-        return view('admin.su.acciones.editar')
+        return view('admin.su.acciones.formEditarAccion')
             ->with('accion', $accion)
             ->with('modulos', $modulos);
     }
 
-    public function actualizar(Request $request, $id)
+    public function update(Request $request, $id)
     {
         $accion = Accion::findOrFail($id);
         $accion->update($request->all());
-        $accion->modulos()->sync($request->input('accion_modulo'));
+
+        $arr_accion_modulo = $request->input('accion_modulo');
+        if(count($arr_accion_modulo) == 0) {
+            $arr_accion_modulo = [];
+        }
+
+        $accion->modulos()->sync($arr_accion_modulo);
 
         return redirect()->action('AccionesController@index');
     }

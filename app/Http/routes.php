@@ -36,8 +36,10 @@ Route::group(array('prefix' => 'admin/su'), function()
 	Route::post('/modulos/{modulo}', 'ModuloController@update');
 
     Route::get('/acciones', 'AccionesController@index');
-    Route::get('/acciones/{accion}/editar', 'AccionesController@editar');
-    Route::post('/acciones/{accion}/actualizar', 'AccionesController@actualizar');
+    Route::get('/acciones/rutas', 'AccionesController@create');
+    Route::post('/acciones/rutas', 'AccionesController@store');
+    Route::get('/acciones/{accion}/editar', 'AccionesController@edit');
+    Route::patch('/acciones/{accion}/actualizar', 'AccionesController@update');
 
 	//Importación de catálogos
 	Route::get('/importar-catalogos', 'ImportaCatalogosController@index');
@@ -81,7 +83,7 @@ Route::group(array('prefix' => 'req', 'middleware' => ['auth','selPresu']), func
 	Route::post('/store', 'RequisicionController@store');
 	Route::get('/{req_id}/info', 'RequisicionController@show');
     Route::get('/{req_id}/pdf', 'RequisicionController@formatoPdf');
-    Route::patch('/{solicitud}', 'RequisicionController@update');
+    Route::patch('/{req_id}', 'RequisicionController@update');
 
 	Route::get('/{req_id}/articulos/agregar', ['middleware' => 'autorizaEditarReq', 'uses' => 'ArticulosController@create']);
 	Route::post('/articulos/store', 'ArticulosController@store');

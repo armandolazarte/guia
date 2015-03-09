@@ -1,6 +1,9 @@
+@extends('layouts.theme')
 
+@section('content')
+    <a href="{{ action('AccionesController@create') }}" class="btn btn-success">Importar Ruta</a>
     @if( count($acciones) > 0 )
-        <table border="1">
+        <table class="table table-condensed table-bordered">
             <thead><tr>
                 <th>ID</th>
                 <th>Ruta</th>
@@ -12,7 +15,7 @@
             </tr></thead>
             @foreach($acciones as $accion)
                 <tr>
-                    <td><a href="{{ action('AccionesController@editar', $accion->id) }}">{{ $accion->id }}</a></td>
+                    <td><a href="{{ action('AccionesController@edit', $accion->id) }}">{{ $accion->id }}</a></td>
                     <td>{{ $accion->ruta }}</td>
                     <td>{{ $accion->nombre }}</td>
                     <td>{{ $accion->icono }}</td>
@@ -29,3 +32,4 @@
     @else
         <h3>No hay acciones registradas</h3>
     @endif
+@stop
