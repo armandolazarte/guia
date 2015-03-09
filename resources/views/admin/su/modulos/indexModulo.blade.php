@@ -1,6 +1,6 @@
 @extends('layouts.theme')
 
-@section('contenido')
+@section('content')
 
     <a href="{{ action('ModuloController@create') }}">Capturar Modulo</a>
 
@@ -13,6 +13,7 @@
                 <th>Icono</th>
                 <th>Orden</th>
                 <th>Activo</th>
+                <th>Acciones</th>
                 <th>Roles</th>
             </tr></thead>
             @foreach($modulos as $modulo)
@@ -23,6 +24,11 @@
                     <td>{{ $modulo->icono }}</td>
                     <td>{{ $modulo->orden }}</td>
                     <td>{{ $modulo->activo }}</td>
+                    <td>
+                        @foreach($modulo->acciones as $accion)
+                            <a href="{{ action('AccionesController@editar', $accion->id) }}">{{ $accion->ruta }}::{{ $accion->nombre }}::{{ $accion->activo }}</a><br />
+                        @endforeach
+                    </td>
                     <td>
                         @foreach($modulo->roles as $role)
                             {{ $role->role_name }}<br />

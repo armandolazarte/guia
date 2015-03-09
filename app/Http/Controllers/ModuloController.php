@@ -3,6 +3,7 @@
 use Guia\Http\Requests;
 use Guia\Http\Controllers\Controller;
 use Guia\Models\Modulo;
+use Guia\Models\Accion;
 use Guia\Models\Role;
 
 use Illuminate\Http\Request;
@@ -76,10 +77,12 @@ class ModuloController extends Controller {
 	public function edit($id)
 	{
 		$modulo = Modulo::find($id);
+        $acciones = Accion::all();
 		$roles = Role::all();
 
 		return view('admin.su.modulos.formModulo')
 			->with('modulo', $modulo)
+            ->with('acciones', $acciones)
 			->with('roles', $roles);
 	}
 
@@ -104,6 +107,12 @@ class ModuloController extends Controller {
 			$modulo_role = \Input::get('modulo_role');
 			$modulo->roles()->sync($modulo_role);
 		}
+
+        //Asociar con Acciones
+        if( count(\Input::get('accion_modulo')) > 0 ){
+            $accion_modulo = \Input::get('accion_modulo');
+            $modulo->acciones()->sync($accion_modulo);
+        }
 
 		return redirect()->action('ModuloController@index');
 	}

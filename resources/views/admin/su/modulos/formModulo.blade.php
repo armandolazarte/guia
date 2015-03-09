@@ -1,6 +1,6 @@
 @extends('layouts.theme')
 
-@section('contenido')
+@section('content')
     @if(isset($modulo))
         {!! Form::model($modulo, array('action' => array('ModuloController@update', $modulo->id))) !!}
     @else
@@ -22,14 +22,44 @@
     {!! Form::label('activo', 'Activo:') !!}
     {!! Form::checkbox('activo') !!}
 
-    @foreach($roles as $role)
-        {!! Form::label('modulo_role[]', $role->role_name) !!}
-        @if(isset($modulo))
-            {!! Form::checkbox('modulo_role[]', $role->id, $modulo->roles->contains($role->id)) !!}
-        @else
-            {!! Form::checkbox('modulo_role[]', $role->id, false) !!}
-        @endif
-    @endforeach
+    <div class="panel panel-default">
+        <div class="panel-heading">Selección de Roles</div>
+        <div class="panel-body">
+            @foreach($roles as $role)
+                {!! Form::label('modulo_role[]', $role->role_name, array('class' => 'checkbox-inline')) !!}
+                @if(isset($modulo))
+                    {!! Form::checkbox('modulo_role[]', $role->id, $modulo->roles->contains($role->id)) !!}
+                @else
+                    {!! Form::checkbox('modulo_role[]', $role->id, false) !!}
+                @endif
+            @endforeach
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">Selección de Acciones</div>
+        <div class="panel-body">
+            <table class="table table-condensed">
+                <thead><tr>
+                    <th>Ruta</th>
+                    <th>Nombre</th>
+                </tr></thead>
+                @foreach($acciones as $accion)
+                    <tr>
+                        <td>
+                            @if(isset($modulo))
+                                {!! Form::checkbox('accion_modulo[]', $accion->id, $modulo->acciones->contains($accion->id)) !!}
+                            @else
+                                {!! Form::checkbox('accion_modulo[]', $accion->id, false) !!}
+                            @endif
+                                {!! Form::label('accion_modulo[]', $accion->ruta) !!}
+                        </td>
+                        <td>{{ $accion->nombre }}</td>
+                    </tr>
+                @endforeach
+            </table>
+        </div>
+    </div>
 
     {!! Form::submit('Aceptar') !!}
 
