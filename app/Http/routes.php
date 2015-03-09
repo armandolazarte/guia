@@ -35,6 +35,10 @@ Route::group(array('prefix' => 'admin/su'), function()
 	Route::get('/modulos/{modulo}/editar', 'ModuloController@edit');
 	Route::post('/modulos/{modulo}', 'ModuloController@update');
 
+    Route::get('/acciones', 'AccionesController@index');
+    Route::get('/acciones/{accion}/editar', 'AccionesController@editar');
+    Route::post('/acciones/{accion}/actualizar', 'AccionesController@actualizar');
+
 	//Importación de catálogos
 	Route::get('/importar-catalogos', 'ImportaCatalogosController@index');
 	Route::post('/importar', 'ImportaCatalogosController@importar');
@@ -44,10 +48,6 @@ Route::group(array('prefix' => 'admin'), function()
 {
 	Route::resource('usuario', 'UsuarioController');
     Route::post('usuario/cargos/store/{$user_id}', 'CargosController@store');
-
-	Route::get('/acciones', 'AccionesController@index');
-	Route::get('/acciones/editar/{accion}', 'AccionesController@editar');
-	Route::post('/acciones/actualizar/{accion}', 'AccionesController@actualizar');
 
 	Route::get('/tiposProyectos/', 'TiposProyectosController@index');
 	Route::get('/tiposProyectos/nuevo', 'TiposProyectosController@create');
