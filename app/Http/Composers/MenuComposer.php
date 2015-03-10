@@ -10,11 +10,17 @@ class MenuComposer {
 
     public function __construct(Modulo $modulos)
     {
-        $user = User::find(\Auth::user()->id);
-        foreach($user->roles as $role){
-            $modulos = $role->modulos()->orderBy('orden')->get();
+        if(\Auth::check()) {
+            $user = User::find(\Auth::user()->id);
+            if (count($user->roles) > 0){
+                foreach ($user->roles as $role) {
+                    $modulos = $role->modulos()->orderBy('orden')->get();
+                }
+                $this->modulos = $modulos;
+            } else {
+                $this->modulos = null;
+            }
         }
-        $this->modulos = $modulos;
     }
 
     public function compose(View $view)
