@@ -30,7 +30,8 @@ class ModuloController extends Controller {
 	public function create()
 	{
 		$roles = Role::all();
-		return view('admin.su.modulos.formModulo', compact('roles'));
+        $acciones = Accion::all();
+		return view('admin.su.modulos.formModulo', compact('roles', 'acciones'));
 	}
 
 	/**
@@ -53,6 +54,12 @@ class ModuloController extends Controller {
 			$modulo_role = \Input::get('modulo_role');
 			$modulo->roles()->sync($modulo_role);
 		}
+
+        //Asociar con Acciones
+        if( count(\Input::get('accion_modulo')) > 0 ){
+            $accion_modulo = \Input::get('accion_modulo');
+            $modulo->acciones()->sync($accion_modulo);
+        }
 
 		return redirect()->action('ModuloController@index');
 	}
