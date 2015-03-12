@@ -46,16 +46,17 @@
     @endif
 
     <div class="row">
-        <div class="col-sm-3">
+        <div class="col-sm-6">
             <div class="btn-group btn-group-sm" role="group">
                 @if($req->estatus == "")
                     <a class="btn btn-primary" href="{{ action('ArticulosController@create', array($req->id)) }}">Agregar Artículo</a>
+                    <a class="btn btn-primary" href="{{ action('RequisicionController@edit', array($req->id)) }}">Editar Información</a>
                 @endif
                 <a class="btn btn-primary" href="{{ action('RequisicionController@formatoPdf', array($req->id)) }}" target="_blank">Formato (PDF)</a>
             </div>
         </div>
 
-        <div class="col-sm-6 col-sm-offset-1">
+        <div class="col-sm-6">
             <div class="row">
                 @if($req->estatus == '' && count($articulos) > 0)
                 <div class="col-md-4">

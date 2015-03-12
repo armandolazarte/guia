@@ -82,6 +82,7 @@ Route::group(array('prefix' => 'req', 'middleware' => ['auth','selPresu']), func
 	Route::match(['get', 'post'], '/nueva', 'RequisicionController@create');
 	Route::post('/store', 'RequisicionController@store');
 	Route::get('/{req_id}/info', 'RequisicionController@show');
+    Route::get('/{req_id}/editar', ['middleware' => 'autorizaEditarReq', 'uses' => 'RequisicionController@edit']);
     Route::get('/{req_id}/pdf', 'RequisicionController@formatoPdf');
     Route::patch('/{req_id}', 'RequisicionController@update');
 

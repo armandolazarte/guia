@@ -21,12 +21,18 @@ class ReqFormRequest extends Request {
 	 */
 	public function rules()
 	{
-		return [
-			'urg_id' => 'required|numeric',
-			'proyecto_id' => 'required|numeric',
-			'etiqueta' => 'required',
-			'lugar_entrega' => 'required'
-		];
+        $accion = $this->input('accion');
+
+        if(empty($accion)){
+            return [
+                'urg_id' => 'required|numeric',
+                'proyecto_id' => 'required|numeric',
+                'etiqueta' => 'required',
+                'lugar_entrega' => 'required'
+            ];
+        } else {
+            return ['accion' => 'required'];
+        }
 	}
 
 }

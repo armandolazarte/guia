@@ -100,7 +100,17 @@ class RequisicionController extends Controller {
 	 */
 	public function edit($id)
 	{
-		//
+        $req = Req::findOrFail($id);
+
+        $urgs = Urg::all(array('id','urg','d_urg'));
+        $arr_proyectos = \FiltroAcceso::getArrProyectos();
+        $arr_vobo = FirmasSolRec::getUsersVoBo();
+
+        return view('reqs.formRequisicion')
+            ->with('req', $req)
+            ->with('urgs', $urgs)
+            ->with('proyectos', $arr_proyectos)
+            ->with('arr_vobo', $arr_vobo);
 	}
 
 	/**
@@ -109,7 +119,7 @@ class RequisicionController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update($id, Request $request)
+	public function update($id, ReqFormRequest $request)
 	{
 		$req = Req::findOrFail($id);
 
@@ -131,8 +141,19 @@ class RequisicionController extends Controller {
             $registro = new Registro(['user_id' => Auth::user()->id, 'estatus' => $estatus, 'fecha_hora' => $fecha_hora]);
             $req->registros()->save($registro);
 
-            return redirect()->action('RequisicionController@show', array($req->id));
+        //Edición de información
+        } else {
+            $req->urg_id = $request->input('urg_id');
+            $req->proyecto_id = $request->input('proyecto_id');
+            $req->etiqueta = $request->input('etiqueta');
+            $req->lugar_entrega = $request->input('lugar_entrega');
+            $req->obs = $request->input('obs');
+            $req->autoriza = FirmasSolRec::getUserAutoriza($request->input('proyecto_id'));
+            $req->vobo = $request->input('vobo');
+            $req->save();
         }
+
+        return redirect()->action('RequisicionController@show', array($req->id));
 	}
 
 	/**
