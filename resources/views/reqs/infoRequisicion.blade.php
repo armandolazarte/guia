@@ -45,23 +45,36 @@
         </table>
     @endif
 
+    <div class="row">
+        <div class="col-sm-3">
+            <div class="btn-group btn-group-sm" role="group">
+                @if($req->estatus == "")
+                    <a class="btn btn-primary" href="{{ action('ArticulosController@create', array($req->id)) }}">Agregar Artículo</a>
+                @endif
+                <a class="btn btn-primary" href="{{ action('RequisicionController@formatoPdf', array($req->id)) }}" target="_blank">Formato (PDF)</a>
+            </div>
+        </div>
 
-    @if($req->estatus == "")
-        <a class="btn btn-primary btn-sm" href="{{ action('ArticulosController@create', array($req->id)) }}">Agregar Artículo</a>
-    @endif
+        <div class="col-sm-6 col-sm-offset-1">
+            <div class="row">
+                @if($req->estatus == '' && count($articulos) > 0)
+                <div class="col-md-4">
+                    {!! Form::open(array('action' => ['RequisicionController@update', $req->id], 'method' => 'patch', 'class' => 'form')) !!}
+                    <input type="hidden" name="accion" value="Enviar">
+                    <button class="btn btn-success" type="submit">Enviar a Adquisiciones</button>
+                    {!! Form::close() !!}
+                </div>
+                @endif
 
-    @if($req->estatus == '')
-        {!! Form::open(array('action' => ['RequisicionController@update', $req->id], 'method' => 'patch', 'class' => 'form')) !!}
-        <input type="hidden" name="accion" value="Enviar">
-        <button type="submit" class="btn btn-success">Enviar a Adquisiciones</button>
-        {!! Form::close() !!}
-    @endif
-
-    @if($req->estatus == 'Enviada')
-        {!! Form::open(array('action' => ['RequisicionController@update', $req->id], 'method' => 'patch', 'class' => 'form')) !!}
-        <input type="hidden" name="accion" value="Recuperar">
-        <button type="submit" class="btn btn-warning">Recuperar</button>
-        {!! Form::close() !!}
-    @endif
-
+                @if($req->estatus == 'Enviada')
+                    <div class="col-md-4">
+                        {!! Form::open(array('action' => ['RequisicionController@update', $req->id], 'method' => 'patch', 'class' => 'form')) !!}
+                        <input type="hidden" name="accion" value="Recuperar">
+                        <button type="submit" class="btn btn-warning">Recuperar</button>
+                        {!! Form::close() !!}
+                    </div>
+                @endif
+            </div>
+        </div>
+    </div>
 @stop

@@ -8,23 +8,38 @@
 
             @include('solicitudes.partialInfoSolRecursos', array('sol' => $solicitud))
 
-            @if($solicitud->estatus == "")
-                <a href="{{ action('SolicitudRecursosController@create', array($solicitud->id)) }}" class="btn btn-primary">Agregar Recursos</a>
-            @endif
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-3">
+            <div class="btn-group btn-group-sm" role="group">
+                @if($solicitud->estatus == "")
+                    <a class="btn btn-primary" href="{{ action('SolicitudRecursosController@create', array($solicitud->id)) }}">Agregar Recursos</a>
+                @endif
+                <a class="btn btn-primary" href="{{ action('SolicitudController@formatoPdf', array($solicitud->id)) }}" target="_blank">Formato (PDF)</a>
+            </div>
+        </div>
 
-            @if($solicitud->estatus == '')
-                {!! Form::open(array('action' => ['SolicitudController@update', $solicitud->id], 'method' => 'patch', 'class' => 'form')) !!}
-                    <input type="hidden" name="accion" value="Enviar">
-                    <button type="submit" class="btn btn-success">Enviar a Finanzas</button>
-                {!! Form::close() !!}
-            @endif
+        <div class="col-sm-6 col-sm-offset-1">
+            <div class="row">
+                @if($solicitud->estatus == '' && $solicitud->monto > 0)
+                    <div class="col-md-4">
+                        {!! Form::open(array('action' => ['SolicitudController@update', $solicitud->id], 'method' => 'patch', 'class' => 'form')) !!}
+                        <input type="hidden" name="accion" value="Enviar">
+                        <button type="submit" class="btn btn-success">Enviar a Finanzas</button>
+                        {!! Form::close() !!}
+                    </div>
+                @endif
 
-            @if($solicitud->estatus == 'Enviada')
-                    {!! Form::open(array('action' => ['SolicitudController@update', $solicitud->id], 'method' => 'patch', 'class' => 'form')) !!}
-                    <input type="hidden" name="accion" value="Recuperar">
-                    <button type="submit" class="btn btn-warning">Recuperar</button>
-                {!! Form::close() !!}
-            @endif
+                @if($solicitud->estatus == 'Enviada')
+                    <div class="col-md-4">
+                        {!! Form::open(array('action' => ['SolicitudController@update', $solicitud->id], 'method' => 'patch', 'class' => 'form')) !!}
+                        <input type="hidden" name="accion" value="Recuperar">
+                        <button type="submit" class="btn btn-warning">Recuperar</button>
+                        {!! Form::close() !!}
+                    </div>
+                @endif
+            </div>
         </div>
     </div>
 @stop
