@@ -18,7 +18,7 @@ class AutorizaEditarReq {
 
         //Valida que el usuario sea el dueño de la req y que la req no esté enviada
         if(\Auth::user()->id != $req[0]->solicita || $req[0]->estatus != ''){
-            return redirect()->action('RequisicionController@show', array($req_id))->with(['alert-class' => 'alert-warning', 'message' => 'No puede agregar artículos a esta requisición']);
+            return redirect()->action('RequisicionController@show', array($req_id))->with(['alert-class' => 'alert-warning', 'message' => 'No puede editar esta requisición']);
         }
 
 		return $next($request);
