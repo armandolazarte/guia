@@ -21,14 +21,20 @@ class SolicitudFormRequest extends Request {
 	 */
 	public function rules()
 	{
-		return [
-			'tipo_solicitud' => 'required',
-			'proyecto_id' => 'required|numeric',
-			'urg_id' => 'required|numeric',
-			'benef_id' => 'required|numeric',
-			'no_documento' => 'required',
-			'concepto' => 'required'
-		];
+        $accion = $this->input('accion');
+
+        if(empty($accion)) {
+            return [
+                'tipo_solicitud' => 'required',
+                'proyecto_id' => 'required|numeric',
+                'urg_id' => 'required|numeric',
+                'benef_id' => 'required|numeric',
+                'no_documento' => 'required',
+                'concepto' => 'required'
+            ];
+        } else {
+            return ['accion' => 'required'];
+        }
 	}
 
 }

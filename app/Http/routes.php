@@ -100,6 +100,7 @@ Route::group(array('prefix' => 'solicitud', 'middleware' => ['auth','selPresu'])
     Route::get('/nueva', 'SolicitudController@create');
     Route::post('/store', 'SolicitudController@store');
     Route::get('/{solicitud}/info', 'SolicitudController@show');
+    Route::get('/{solicitud}/editar', ['middleware' => 'autorizaEditarSol', 'uses' => 'SolicitudController@edit']);
     Route::get('/{solicitud}/pdf', 'SolicitudController@formatoPdf');
     Route::patch('/{solicitud}', 'SolicitudController@update');
 

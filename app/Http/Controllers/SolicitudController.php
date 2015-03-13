@@ -35,13 +35,29 @@ class SolicitudController extends Controller {
 	public function create()
 	{
         $urgs = Urg::all(array('id','urg','d_urg'));
+
+        $arr_tipos_solicitud['Reposicion'] = 'Reposicion (Reembolso)';
+        $arr_tipos_solicitud['Recibo'] = 'Recibo (Pago a Proveedor)';
+        $arr_tipos_solicitud['Vale'] = 'Vale (Gasto por Comprobar)';
+
+        foreach($urgs as $urg){
+            $arr_urgs[$urg->id] = $urg->urg.' - '.$urg->d_urg;
+        }
         $benefs = Benef::all(array('id','benef'));
+        foreach($benefs as $benef){
+            $arr_benefs[$benef->id] = $benef->benef;
+        }
         $arr_proyectos = \FiltroAcceso::getArrProyectos();
-        $arr_vobo = FirmasSolRec::getUsersVoBo();
+        $vobos = FirmasSolRec::getUsersVoBo();
+        $arr_vobo[0] = 'Sin Vo. Bo.';
+        foreach($vobos as $vobo){
+            $arr_vobo[$vobo->id] = $vobo->nombre.' - '.$vobo->cargo;
+        }
         return view('solicitudes.formSolicitud')
-            ->with('urgs', $urgs)
+            ->with('urgs', $arr_urgs)
+            ->with('tipos_solicitud', $arr_tipos_solicitud)
             ->with('proyectos', $arr_proyectos)
-            ->with('benefs', $benefs)
+            ->with('benefs', $arr_benefs)
             ->with('arr_vobo', $arr_vobo);
 	}
 
@@ -81,7 +97,43 @@ class SolicitudController extends Controller {
 	 */
 	public function edit($id)
 	{
-		//
+        $sol = Solicitud::findOrFail($id);
+
+        if($sol->monto == 0){
+            $arr_tipos_solicitud['Reposicion'] = 'Reposicion (Reembolso)';
+            $arr_tipos_solicitud['Recibo'] = 'Recibo (Pago a Proveedor)';
+            $arr_tipos_solicitud['Vale'] = 'Vale (Gasto por Comprobar)';
+        } else {
+            if($sol->tipo_solicitud == 'Vale'){
+                $arr_tipos_solicitud['Vale'] = 'Vale (Gasto por Comprobar)';
+            } else {
+                $arr_tipos_solicitud['Reposicion'] = 'Reposicion (Reembolso)';
+                $arr_tipos_solicitud['Recibo'] = 'Recibo (Pago a Proveedor)';
+            }
+        }
+
+        $urgs = Urg::all(array('id','urg','d_urg'));
+        foreach($urgs as $urg){
+            $arr_urgs[$urg->id] = $urg->urg.' - '.$urg->d_urg;
+        }
+        $benefs = Benef::all(array('id','benef'));
+        foreach($benefs as $benef){
+            $arr_benefs[$benef->id] = $benef->benef;
+        }
+        $arr_proyectos = \FiltroAcceso::getArrProyectos();
+        $vobos = FirmasSolRec::getUsersVoBo();
+        $arr_vobo[0] = 'Sin Vo. Bo.';
+        foreach($vobos as $vobo){
+            $arr_vobo[$vobo->id] = $vobo->nombre.' - '.$vobo->cargo;
+        }
+
+        return view('solicitudes.formSolicitud')
+            ->with('sol', $sol)
+            ->with('tipos_solicitud', $arr_tipos_solicitud)
+            ->with('urgs', $arr_urgs)
+            ->with('proyectos', $arr_proyectos)
+            ->with('benefs', $arr_benefs)
+            ->with('arr_vobo', $arr_vobo);
 	}
 
 	/**
@@ -90,7 +142,7 @@ class SolicitudController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update($id, Request $request)
+	public function update($id, SolicitudFormRequest $request)
 	{
 		$solicitud = Solicitud::findOrFail($id);
 
@@ -112,8 +164,22 @@ class SolicitudController extends Controller {
             $registro = new Registro(['user_id' => Auth::user()->id, 'estatus' => $estatus, 'fecha_hora' => $fecha_hora]);
             $solicitud->registros()->save($registro);
 
-            return redirect()->action('SolicitudController@show', array($solicitud->id));
+        } else {
+            $solicitud->tipo_solicitud = $request->input('tipo_solicitud');
+            $solicitud->proyecto_id = $request->input('proyecto_id');
+
+            $solicitud->urg_id = $request->input('urg_id');
+            $solicitud->benef_id = $request->input('benef_id');
+            $solicitud->no_documento = $request->input('no_documento');
+            $solicitud->concepto = $request->input('concepto');
+            $solicitud->obs = $request->input('obs');
+            $solicitud->autoriza = FirmasSolRec::getUserAutoriza($request->input('proyecto_id'));
+            $solicitud->viaticos = $request->input('viaticos');
+            $solicitud->vobo = $request->input('vobo');
+            $solicitud->save();
         }
+
+        return redirect()->action('SolicitudController@show', array($solicitud->id));
 	}
 
 	/**

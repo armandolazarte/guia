@@ -11,16 +11,17 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-sm-3">
+        <div class="col-sm-6">
             <div class="btn-group btn-group-sm" role="group">
                 @if($solicitud->estatus == "")
                     <a class="btn btn-primary" href="{{ action('SolicitudRecursosController@create', array($solicitud->id)) }}">Agregar Recursos</a>
+                    <a class="btn btn-primary" href="{{ action('SolicitudController@edit', array($solicitud->id)) }}">Editar Información</a>
                 @endif
                 <a class="btn btn-primary" href="{{ action('SolicitudController@formatoPdf', array($solicitud->id)) }}" target="_blank">Formato (PDF)</a>
             </div>
         </div>
 
-        <div class="col-sm-6 col-sm-offset-1">
+        <div class="col-sm-6">
             <div class="row">
                 @if($solicitud->estatus == '' && $solicitud->monto > 0)
                     <div class="col-md-4">
