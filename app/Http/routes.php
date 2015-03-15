@@ -39,11 +39,11 @@ Route::group(array('prefix' => 'admin/su'), function()
     Route::get('/acciones/rutas', 'AccionesController@create');
     Route::post('/acciones/rutas', 'AccionesController@store');
     Route::get('/acciones/{accion}/editar', 'AccionesController@edit');
-    Route::patch('/acciones/{accion}/actualizar', 'AccionesController@update');
+    Route::patch('/acciones/{accion}', 'AccionesController@update');
 
 	//Importación de catálogos
 	Route::get('/importar-catalogos', 'ImportaCatalogosController@index');
-	Route::post('/importar', 'ImportaCatalogosController@importar');
+	Route::post('/importar-catalogos', 'ImportaCatalogosController@importar');
 });
 
 Route::group(array('prefix' => 'admin'), function()
