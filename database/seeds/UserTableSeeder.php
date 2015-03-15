@@ -10,9 +10,21 @@ class UserTableSeeder extends Seeder {
     {
         Model::unguard();
 
+        $psw = Hash::make('toor');
+        User::create(array(
+            'username' => 'root',
+            'email' => 'root@sysadmin.com',
+            'password' => $psw,
+            'nombre' => 'Root',
+            'cargo' => 'Administrador del Sistema',
+            'prefijo' => '',
+            'iniciales' => '',
+            'remember_token' => ''
+        ));
+
         $psw = Hash::make('1234');
         User::create(array(
-            'username' => '111',
+            'username' => '1234',
             'email' => 'usuario@prueba.com',
             'password' => $psw,
             'nombre' => 'Usuario de Prueba',
