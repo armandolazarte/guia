@@ -11,7 +11,7 @@ class UserTableSeeder extends Seeder {
         Model::unguard();
 
         $psw = Hash::make('toor');
-        User::create(array(
+        $root = User::create(array(
             'username' => 'root',
             'email' => 'root@sysadmin.com',
             'password' => $psw,
@@ -21,9 +21,10 @@ class UserTableSeeder extends Seeder {
             'iniciales' => '',
             'remember_token' => ''
         ));
+        $root->roles()->attach([1,2]);
 
         $psw = Hash::make('1234');
-        User::create(array(
+        $user = User::create(array(
             'username' => '1234',
             'email' => 'usuario@prueba.com',
             'password' => $psw,
@@ -33,5 +34,6 @@ class UserTableSeeder extends Seeder {
             'iniciales' => '',
             'remember_token' => ''
         ));
+        $user->roles()->attach([3]);
     }
 }

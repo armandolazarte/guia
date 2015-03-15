@@ -11,61 +11,95 @@ class ModulosTableSeeder extends Seeder {
         Model::unguard();
 
         Modulo::create(array(
-            'ruta' => '/usuarios',
-            'nombre' => 'Usuarios',
+            'ruta' => '#',
+            'nombre' => 'Administración (SU)',
             'icono' => '',
-            'orden' => '0.1',
+            'orden' => '100.0',
+            'activo' => '0',
+        ));
+        $modulos = Modulo::create(array(
+            'ruta' => '#',
+            'nombre' => 'Admin. Modulos',
+            'icono' => '',
+            'orden' => '100.1',
             'activo' => '1',
         ));
-        Modulo::create(array(
-            'ruta' => '/adq',
-            'nombre' => 'Adquisiciones',
+        $modulos->acciones()->attach([1,2,3,4,5,6,7,8]);
+        $adminDb = Modulo::create(array(
+            'ruta' => '#',
+            'nombre' => 'Base de Datos',
             'icono' => '',
-            'orden' => '0.2',
+            'orden' => '100.2',
             'activo' => '1',
+        ));
+        $adminDb->acciones()->attach(9);
+
+        Modulo::create(array(
+            'ruta' => '#',
+            'nombre' => 'Administración del Sistema',
+            'icono' => '',
+            'orden' => '99.0',
+            'activo' => '0',
         ));
 
         Modulo::create(array(
-            'ruta' => '/directivos',
+            'ruta' => '#',
+            'nombre' => 'Usuarios',
+            'icono' => '',
+            'orden' => '1.0',
+            'activo' => '0',
+        ));
+        Modulo::create(array(
+            'ruta' => '#',
+            'nombre' => 'Adquisiciones',
+            'icono' => '',
+            'orden' => '2.0',
+            'activo' => '0',
+        ));
+
+        Modulo::create(array(
+            'ruta' => '#',
             'nombre' => 'Directivos',
             'icono' => '',
-            'orden' => '0.3',
-            'activo' => '1',
+            'orden' => '3.0',
+            'activo' => '0',
         ));
         Modulo::create(array(
-            'ruta' => '/recepcion',
+            'ruta' => '#',
             'nombre' => 'Recepción',
             'icono' => '',
-            'orden' => '0.4',
-            'activo' => '1',
+            'orden' => '4.0',
+            'activo' => '0',
         ));
         Modulo::create(array(
-            'ruta' => '/presupuesto',
+            'ruta' => '#',
             'nombre' => 'Presupuesto',
             'icono' => '',
-            'orden' => '0.5',
-            'activo' => '1',
+            'orden' => '5.0',
+            'activo' => '0',
         ));
         Modulo::create(array(
-            'ruta' => '/contabilidad',
+            'ruta' => '#',
             'nombre' => 'Contabilidad',
             'icono' => '',
-            'orden' => '0.6',
-            'activo' => '1',
+            'orden' => '6.0',
+            'activo' => '0',
         ));
         Modulo::create(array(
-            'ruta' => '/bancos',
+            'ruta' => '#',
             'nombre' => 'Bancos',
             'icono' => '',
-            'orden' => '0.7',
-            'activo' => '1',
+            'orden' => '7.0',
+            'activo' => '0',
         ));
         Modulo::create(array(
-            'ruta' => '/fext',
+            'ruta' => '#',
             'nombre' => 'Fondos Externos',
             'icono' => '',
-            'orden' => '0.8',
-            'activo' => '1',
+            'orden' => '8.0',
+            'activo' => '0',
         ));
+
+
     }
 }

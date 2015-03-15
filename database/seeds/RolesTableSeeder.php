@@ -10,6 +10,8 @@ class RolesTableSeeder extends Seeder {
     {
         Model::unguard();
 
+        $root = Role::create(array('role_name' => 'Root'));
+        $root->modulos()->attach([1,2,3]);
         Role::create(array('role_name' => 'Administrador'));
         Role::create(array('role_name' => 'Usuario'));
         Role::create(array('role_name' => 'Adquisiciones'));
