@@ -3,18 +3,20 @@
 use Guia\User;
 use Illuminate\Contracts\View\View;
 use Guia\Models\Modulo;
+use Illuminate\Support\Collection;
 
 class MenuComposer {
 
-    var $modulos;
+    public $modulos;
 
     public function __construct(Modulo $modulos)
     {
         if(\Auth::check()) {
             $user = User::find(\Auth::user()->id);
             if (count($user->roles) > 0){
+                $modulos = new Collection();
                 foreach ($user->roles as $role) {
-                    $modulos = $role->modulos()->orderBy('orden')->get();
+                    $modulos = $modulos->merge($role->modulos()->orderBy('orden')->get());
                 }
                 $this->modulos = $modulos;
             } else {
