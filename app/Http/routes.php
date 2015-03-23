@@ -20,10 +20,10 @@ Route::get('/normatividad', 'PaginasController@normatividad');
 
 Route::get('home', 'HomeController@index');
 
-Route::controllers([
-	'auth' => 'Auth\AuthController',
-	'password' => 'Auth\PasswordController',
-]);
+//Route::controllers([
+//	'auth' => 'Auth\AuthController',
+//	'password' => 'Auth\PasswordController',
+//]);
 Route::get('/login', 'Auth\GuiaAuthController@getLogin');
 Route::post('/login', 'Auth\GuiaAuthController@authenticate');
 
