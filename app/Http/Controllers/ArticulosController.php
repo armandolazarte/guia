@@ -82,7 +82,7 @@ class ArticulosController extends Controller {
 
 			return view('reqs.formArticulo')->with($data);
 		} else {
-			return redirect()->action('RequisicionController@show', array($req_id))->with(['alert-class' => 'alert-warning', 'message' => 'El artículo no corresponde a la requisición']);;
+			return redirect()->action('RequisicionController@show', array($req_id))->with(['alert-class' => 'alert-warning', 'message' => 'El artículo no corresponde a la requisición']);
 		}
 	}
 
