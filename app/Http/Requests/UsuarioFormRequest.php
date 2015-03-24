@@ -27,7 +27,7 @@ class UsuarioFormRequest extends Request {
 		if(empty($userId)) {
 			$rules_1 = [
 				'username' => 'required|numeric|min:7|unique:users',
-				'password' => 'required|confirmed',
+				'password' => 'required|confirmed|min:4',
 				'email' => 'required|email|unique:users'
 			];
 		//Rules for Edit
@@ -41,7 +41,7 @@ class UsuarioFormRequest extends Request {
 
 		$rules_2 = [
 			'nombre' => 'required',
-			'prefijo' => 'alpha|max:5',
+			'prefijo' => 'max:5',
 			'iniciales' => 'alpha|max:5'
 		];
 
