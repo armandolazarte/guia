@@ -228,8 +228,13 @@ class ImportadorCatalogos {
             {
                 $user = new User();
                 $user->username = $usuario_nuevo->usr;
-                $user->email = $usuario_nuevo->usr;
-                $user->password = $usuario_nuevo->usr;
+                $user->email = $usuario_nuevo->correo;
+                if(!empty($usuario_nuevo->correo)){
+                    $temp_password = $usuario_nuevo->correo;
+                } else {
+                    $temp_password = $usuario_nuevo->usr;
+                }
+                $user->password = bcrypt($temp_password);
                 $user->nombre = $usuario_nuevo->nombre;
                 $user->cargo = $usuario_nuevo->cargo;
 
@@ -240,8 +245,9 @@ class ImportadorCatalogos {
 
                 if ($usuario_nuevo->iniciales == null){
                     $usuario_nuevo->iniciales = '';
+                } else {
+                    $user->iniciales = $usuario_nuevo->iniciales;
                 }
-                $user->iniciales = $usuario_nuevo->iniciales;
 
                 $urg = Urg::whereUrg($usuario_nuevo->lim_inf)->get(array('id'));
                 if (count($urg) > 0) {
