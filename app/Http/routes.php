@@ -110,3 +110,12 @@ Route::group(array('prefix' => 'solicitud', 'middleware' => ['auth','selPresu'])
     Route::patch('/{solicitud}/recurso/{recurso}', 'SolicitudRecursosController@update');
     Route::delete('/{solicitud}/recurso/{recurso}', 'SolicitudRecursosController@destroy');
 });
+
+//** Proveedores **//
+Route::group(array('prefix' => 'proveedor'), function()
+{
+    Route::get('/evaluar', function()
+    {
+        return view('proveedor.evalForm');
+    });
+});
