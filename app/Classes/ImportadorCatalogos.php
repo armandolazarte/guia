@@ -222,6 +222,7 @@ class ImportadorCatalogos {
     }
 
     public function importarUsuarios(){
+        set_time_limit(60);
         $usuarios_externos = $this->consultarUsuariosExternos();
         if ( count($usuarios_externos) > 0 ) {
             foreach($usuarios_externos as $usuario_nuevo)
@@ -235,6 +236,7 @@ class ImportadorCatalogos {
                     $temp_password = $usuario_nuevo->usr;
                 }
                 $user->password = bcrypt($temp_password);
+                $user->legacy_username = $usuario_nuevo->usr;
                 $user->nombre = $usuario_nuevo->nombre;
                 $user->cargo = $usuario_nuevo->cargo;
 
