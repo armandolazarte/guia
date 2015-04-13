@@ -4,9 +4,8 @@
     <div class="row">
         <div class="col-md-12">
 
-            @include('admin.usuarios.formCargos')
-
             @if(isset($user))
+                @include('admin.usuarios.formCargos')
                 {!! Form::model($user, array('route' => array('admin.usuario.update', $user->id), 'method' => 'patch', 'class' => 'form-horizontal')) !!}
             @else
                 {!! Form::open(array('action' => 'UsuarioController@store'), array('class' => 'form-horizontal')) !!}
