@@ -4,6 +4,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Acceso extends Model {
 
+    protected $fillable = ['user_id','acceso_id','acceso_type'];
+
     //Acceso __belongs_to__ User
     public function user()
     {
