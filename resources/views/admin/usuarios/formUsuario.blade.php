@@ -6,6 +6,8 @@
 
             @if(isset($user))
                 @include('admin.usuarios.formCargos')
+                @include('admin.usuarios.formAcceso')
+
                 {!! Form::model($user, array('route' => array('admin.usuario.update', $user->id), 'method' => 'patch', 'class' => 'form-horizontal')) !!}
             @else
                 {!! Form::open(array('action' => 'UsuarioController@store'), array('class' => 'form-horizontal')) !!}
@@ -87,6 +89,8 @@
             {!! Form::submit('Aceptar', ['class' => 'col-sm-offset-2 btn btn-success']) !!}
 
             {!! Form::close() !!}
+
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#formAccesoModal">Crear Acceso Presupuestal</button>
         </div>
     </div>
 @stop
