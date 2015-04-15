@@ -50,6 +50,7 @@ Route::group(array('prefix' => 'admin'), function()
 {
 	Route::resource('usuario', 'UsuarioController');
     Route::post('usuario/cargos/store/{$user_id}', 'CargosController@store');
+    Route::post('usuario/acceso/store', 'AccesosController@store');
 
 	Route::get('/tiposProyectos/', 'TiposProyectosController@index');
 	Route::get('/tiposProyectos/nuevo', 'TiposProyectosController@create');
