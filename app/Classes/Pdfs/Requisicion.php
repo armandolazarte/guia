@@ -82,15 +82,17 @@ class Requisicion extends FPDF
         $this->MultiCell(50,4,utf8_decode($this->solicita->cargo),0,'C');
 
         //Dueño del proyecto
-        if (!empty($this->autoriza) && ($this->autoriza->username != $usuario_sad->username)){
-            $this->SetXY(114, -20);
-            $this->MultiCell(45,4,utf8_decode($this->autoriza->nombre),'T','C');
-            $this->SetX(114);
-            $this->MultiCell(45,4,utf8_decode($this->autoriza->cargo),0,'C');
+        if (!empty($this->autoriza)){
+            if ($this->autoriza->username != $usuario_sad->username) {
+                $this->SetXY(114, -20);
+                $this->MultiCell(45, 4, utf8_decode($this->autoriza->nombre), 'T', 'C');
+                $this->SetX(114);
+                $this->MultiCell(45, 4, utf8_decode($this->autoriza->cargo), 0, 'C');
+            }
         }
 
         //Vo. Bo.
-        if (!empty($this->vobo) && ($this->autoriza->username != $usuario_sad->username)){
+        if (!empty($this->vobo)){
             $this->SetXY(-57, -40);
             $this->MultiCell(50,4,utf8_decode($this->vobo->nombre),'T','C');
             $this->SetX(-57);
