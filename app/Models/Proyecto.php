@@ -75,42 +75,46 @@ class Proyecto extends Model {
             $accesos = Acceso::whereUserId($user_id)->get();
 
             foreach ($accesos as $acceso) {
-                if ($acceso->acceso_type == 'TipoProyecto') {
+                if ($acceso->acceso_type == 'Guia\Models\TipoProyecto') {
                     $arr_tipos_proyecto[] = $acceso->acceso_id;
                 }
-                if ($acceso->acceso_type == 'Urg') {
+                if ($acceso->acceso_type == 'Guia\Models\Urg') {
                     $arr_urgs[] = $acceso->acceso_id;
                 }
-                if ($acceso->acceso_type == 'Proyecto') {
+                if ($acceso->acceso_type == 'Guia\Models\Proyecto') {
                     $arr_proyectos[] = $acceso->acceso_id;
                 }
             }
 
-            if (count($arr_tipos_proyecto) > 0) {
-                $query->whereIn('tipo_proyecto_id', $arr_tipos_proyecto);
-            }
-            if (count($arr_urgs) > 0) {
-                $query->whereIn('urg_id', $arr_urgs);
-            }
-            if (count($arr_proyectos) > 0) {
-                $query->whereIn('id', $arr_proyectos);
-            }
+            if(count($arr_tipos_proyecto) > 0 || count($arr_urgs) > 0 || count($arr_proyectos) > 0){
+                if (count($arr_tipos_proyecto) > 0) {
+                    $query->whereIn('tipo_proyecto_id', $arr_tipos_proyecto);
+                }
+                if (count($arr_urgs) > 0) {
+                    $query->whereIn('urg_id', $arr_urgs);
+                }
+                if (count($arr_proyectos) > 0) {
+                    $query->whereIn('id', $arr_proyectos);
+                }
 
-            //Filtro por fecha
-            $query->whereNested(function($query) use ($presupuesto)
-            {
-                $query->whereBetween('inicio', array($presupuesto.'-01-01', $presupuesto.'-12-31'));
-                $query->orWhere(function($query) use ($presupuesto)
+                //Filtro por fecha
+                $query->whereNested(function($query) use ($presupuesto)
                 {
-                    $query->where('inicio', '<', $presupuesto.'-01-01');
-                    $query->where('fin', '=', '0000-00-00');
+                    $query->whereBetween('inicio', array($presupuesto.'-01-01', $presupuesto.'-12-31'));
+                    $query->orWhere(function($query) use ($presupuesto)
+                    {
+                        $query->where('inicio', '<', $presupuesto.'-01-01');
+                        $query->where('fin', '=', '0000-00-00');
+                    });
+                    $query->orWhere(function($query) use ($presupuesto)
+                    {
+                        $query->where('inicio', '<', $presupuesto.'-01-01');
+                        $query->where('fin', '>=', $presupuesto.'-01-01');
+                    });
                 });
-                $query->orWhere(function($query) use ($presupuesto)
-                {
-                    $query->where('inicio', '<', $presupuesto.'-01-01');
-                    $query->where('fin', '>=', $presupuesto.'-01-01');
-                });
-            });
+            } else {
+                $query->whereId(0);
+            }
 
         } else {
             $query->whereId(0);
