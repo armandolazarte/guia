@@ -79,6 +79,9 @@ Route::group(array('prefix' => 'pruebas'), function()
 //** Requisiciones **//
 Route::group(array('prefix' => 'req', 'middleware' => ['auth','selPresu']), function()
 {
+    Route::get('/recibir', 'RecibirController@seleccionarReq');
+    Route::patch('/recibir', 'RecibirController@recibirReq');
+
 	Route::match(['get', 'post'], '/', 'RequisicionController@index');
 	Route::match(['get', 'post'], '/nueva', 'RequisicionController@create');
 	Route::post('/store', 'RequisicionController@store');
@@ -97,6 +100,9 @@ Route::group(array('prefix' => 'req', 'middleware' => ['auth','selPresu']), func
 //** Solicitudes **//
 Route::group(array('prefix' => 'solicitud', 'middleware' => ['auth','selPresu']), function()
 {
+    Route::get('/recibir', 'RecibirController@seleccionarSol');
+    Route::patch('/recibir', 'RecibirController@recibirSol');
+
     Route::get('/', 'SolicitudController@index');
     Route::get('/nueva', 'SolicitudController@create');
     Route::post('/store', 'SolicitudController@store');
