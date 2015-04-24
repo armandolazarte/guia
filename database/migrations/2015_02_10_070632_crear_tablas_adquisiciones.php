@@ -61,7 +61,7 @@ class CrearTablasAdquisiciones extends Migration {
 			$table->integer('benef_id')->unsigned();
 			$table->foreign('benef_id')->references('id')->on('benefs');
 			$table->date('fecha_invitacion');
-			$table->date('fecha_cotiza');
+			$table->date('fecha_cotizacion');
 			$table->string('vigencia', 30);
 			$table->string('garantia', 30);
 			$table->timestamps();
