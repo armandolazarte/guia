@@ -117,3 +117,16 @@ Route::group(array('prefix' => 'solicitud', 'middleware' => ['auth','selPresu'])
     Route::patch('/{solicitud}/recurso/{recurso}', 'SolicitudRecursosController@update');
     Route::delete('/{solicitud}/recurso/{recurso}', 'SolicitudRecursosController@destroy');
 });
+
+//** Cotizaciones  **//
+Route::group(array('prefix' => 'invitacion', 'middleware' => ['auth']), function()
+{
+    Route::get('/{req_id}', 'InvitacionController@index');
+    Route::get('/{req_id}/nueva', 'InvitacionController@create');
+    Route::post('/{req_id}/nueva', 'InvitacionController@store');
+    Route::get('/{id}/info', 'InvitacionController@show');
+    Route::get('/{id}/pdf', 'InvitacionController@invitacionPDF');
+    Route::get('/{id}/editar', 'InvitacionController@edit');
+    Route::patch('/{id}', 'InvitacionController@update');
+    Route::delete('/{id}', 'InvitacionController@destroy');
+});
