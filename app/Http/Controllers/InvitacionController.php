@@ -1,6 +1,7 @@
 <?php namespace Guia\Http\Controllers;
 
 use Guia\Http\Requests;
+use Guia\Http\Requests\InvitacionRequest;
 use Guia\Http\Controllers\Controller;
 
 use Guia\Models\Cotizacion;
@@ -42,9 +43,10 @@ class InvitacionController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function store()
+	public function store(InvitacionRequest $request)
 	{
-		//
+		$invitacion = Cotizacion::create($request->all());
+        return redirect()->action('InvitacionController@show', array($invitacion->id));
 	}
 
 	/**
@@ -55,7 +57,8 @@ class InvitacionController extends Controller {
 	 */
 	public function show($id)
 	{
-		//
+        $invitacion = Cotizacion::findOrFail($id);
+        return view('invita.infoInvita')->with('cotizacion', $invitacion);
 	}
 
 	/**
