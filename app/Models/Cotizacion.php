@@ -19,7 +19,7 @@ class Cotizacion extends Model {
     //Cotizacion __belongs_to__ Benef
     public function benef()
     {
-        return $this->belongsTo('Guia\Models\Benefs');
+        return $this->belongsTo('Guia\Models\Benef');
     }
 
     //Cotizacion __belongs_to_many__ Articulo
