@@ -69,7 +69,16 @@ class InvitacionController extends Controller {
 	 */
 	public function edit($id)
 	{
-		//
+        $benefs = Benef::all(array('id','benef'));
+        foreach($benefs as $benef){
+            $arr_benefs[$benef->id] = $benef->benef;
+        }
+
+		$invitacion = Cotizacion::findOrFail($id);
+        return view('invita.formInvita')
+            ->with('cotizacion', $invitacion)
+            ->with('benefs', $arr_benefs)
+            ->with('req_id', $invitacion->req_id);
 	}
 
 	/**
@@ -78,9 +87,14 @@ class InvitacionController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update($id)
+	public function update($id, InvitacionRequest $request)
 	{
-		//
+        $invitacion = Cotizacion::findOrFail($id);
+        $invitacion->benef_id = $request->input('benef_id');
+        $invitacion->fecha_invitacion = $request->input('fecha_invitacion');
+        $invitacion->save();
+
+        return redirect()->action('InvitacionController@index', array($invitacion->req_id));
 	}
 
 	/**
@@ -91,7 +105,11 @@ class InvitacionController extends Controller {
 	 */
 	public function destroy($id)
 	{
-		//
+        $cotizacion = Cotizacion::findOrFail($id);
+        $req_id = $cotizacion->req_id;
+        $cotizacion->delete();
+
+        return redirect()->action('InvitacionController@index', array($req_id));
 	}
 
 }

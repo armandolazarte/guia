@@ -4,7 +4,7 @@
     <div class="row">
         <div class="col-md-12">
             @if(count($cotizaciones) > 0)
-                <table>
+                <table class="table table-condensed">
                     <thead>
                     <tr>
                         <th>Beneficiario</th>
@@ -13,7 +13,9 @@
                     </thead>
                     @foreach($cotizaciones as $cotiza)
                         <tr>
-                            <td>{{ $cotiza->benef->d_benef }}</td>
+                            <td>
+                                <a href="{{ action('InvitacionController@edit', $cotiza->id) }}">{{ $cotiza->benef->benef }}</a>
+                            </td>
                             <td>{{ $cotiza->fecha_invitacion }}</td>
                         </tr>
                     @endforeach
