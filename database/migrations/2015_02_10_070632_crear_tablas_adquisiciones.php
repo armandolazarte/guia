@@ -30,6 +30,8 @@ class CrearTablasAdquisiciones extends Migration {
 			$table->string('estatus', 20);
 			$table->smallInteger('responsable')->unsigned();
 			$table->date('fecha_auth');
+			$table->decimal('tipo_cambio', 9, 6);
+			$table->string('moneda', 10);
 			$table->string('tipo_orden', 20);
 			$table->timestamps();
 			$table->softDeletes();
