@@ -19,10 +19,10 @@ class Articulo extends Model {
         return $this->belongsTo('Guia\Models\Oc');
     }
 
-    //Articulo __belongs_to__ Rm
-    public function rm()
+    //Articulo __belongs_to_many__ Rm
+    public function rms()
     {
-        return $this->belongsTo('Guia\Models\Rm');
+        return $this->belongsToMany('Guia\Models\Rm');
     }
 
     //Articulo __belongs_to_many__ Cotizacion

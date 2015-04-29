@@ -46,12 +46,6 @@ class Rm extends Model {
         return $this->hasMany('Guia\Models\CompensaDestino');
     }
 
-    //Rm __has_many__ Articulo
-    public function articulos()
-    {
-        return $this->hasMany('Guia\Models\Articulo');
-    }
-
     //Rm __has_many__ Honorario
     public function honorarios()
     {
@@ -80,6 +74,12 @@ class Rm extends Model {
     public function solicitudes()
     {
         return $this->belongsToMany('Guia\Models\Solicitud')->withPivot('monto');
+    }
+
+    //Rm __belongs_to_many__ Articulo
+    public function articulos()
+    {
+        return $this->belongsToMany('Guia\Models\Articulo')->withPivot('monto');
     }
 
     //Rm __belongs_to_many__ Ingreso

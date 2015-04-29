@@ -48,9 +48,16 @@ class CrearTablasAdquisiciones extends Migration {
 			$table->integer('oc')->unsigned();
 			$table->string('unidad', 20);
 			$table->boolean('inventariable');
-			$table->integer('rm_id')->unsigned();
 			$table->timestamps();
 			$table->softDeletes();
+		});
+
+		Schema::create('articulo_rm', function(Blueprint $table)
+		{
+			$table->increments('id');
+			$table->integer('articulo_id')->unsigned();
+			$table->integer('rm_id')->unsigned();
+			$table->decimal('monto', 15, 3);
 		});
 
 		Schema::create('cotizaciones', function(Blueprint $table)
@@ -163,6 +170,7 @@ class CrearTablasAdquisiciones extends Migration {
 		Schema::drop('cuadros');
 		Schema::drop('articulo_cotizacion');
 		Schema::drop('cotizaciones');
+		Schema::drop('articulo_rm');
 		Schema::drop('articulos');
 		Schema::drop('reqs');
 	}
