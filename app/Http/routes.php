@@ -118,7 +118,7 @@ Route::group(array('prefix' => 'solicitud', 'middleware' => ['auth','selPresu'])
     Route::delete('/{solicitud}/recurso/{recurso}', 'SolicitudRecursosController@destroy');
 });
 
-//** Cotizaciones  **//
+//** Invitaciones  **//
 Route::group(array('prefix' => 'invitacion', 'middleware' => ['auth']), function()
 {
     Route::get('/{req_id}', 'InvitacionController@index');
@@ -129,4 +129,11 @@ Route::group(array('prefix' => 'invitacion', 'middleware' => ['auth']), function
     Route::get('/{id}/editar', 'InvitacionController@edit');
     Route::patch('/{id}', 'InvitacionController@update');
     Route::delete('/{id}', 'InvitacionController@destroy');
+});
+
+//** MatrizCuadro **//
+Route::group(array('prefix' => 'captura-cuadro', 'middleware' => ['auth']), function()
+{
+    Route::get('/{req_id}/nuevo', 'MatrizCuadroController@create');
+    Route::post('/', 'MatrizCuadroController@store');
 });
