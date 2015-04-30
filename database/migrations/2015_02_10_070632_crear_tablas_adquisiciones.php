@@ -67,12 +67,15 @@ class CrearTablasAdquisiciones extends Migration {
 			$table->increments('id');
 			$table->integer('req_id')->unsigned();
 			$table->foreign('req_id')->references('id')->on('reqs');
+            $table->integer('cuadro_id')->unsigned();
+            //$table->foreign('cuadro_id')->references('id')->on('cuadros');
 			$table->integer('benef_id')->unsigned();
 			$table->foreign('benef_id')->references('id')->on('benefs');
 			$table->date('fecha_invitacion');
 			$table->date('fecha_cotizacion');
 			$table->string('vigencia', 30);
 			$table->string('garantia', 30);
+            $table->boolean('imprimir');
 			$table->timestamps();
 			$table->softDeletes();
 		});
@@ -80,8 +83,8 @@ class CrearTablasAdquisiciones extends Migration {
 		Schema::create('articulo_cotizacion', function(Blueprint $table)
 		{
 			$table->increments('id');
-			$table->integer('req_id')->unsigned();
-			$table->foreign('req_id')->references('id')->on('reqs');
+			$table->integer('cotizacion_id')->unsigned();
+			$table->foreign('cotizacion_id')->references('id')->on('cotizaciones');
 			$table->integer('articulo_id')->unsigned();
 			$table->foreign('articulo_id')->references('id')->on('articulos');
 			$table->double('costo', 12, 3);
@@ -100,16 +103,9 @@ class CrearTablasAdquisiciones extends Migration {
 			$table->smallInteger('elabora')->unsigned();
 			$table->smallInteger('revisa')->unsigned();
 			$table->smallInteger('autoriza')->unsigned();
+            $table->text('criterio_adj');
 			$table->timestamps();
 			$table->softDeletes();
-		});
-
-		Schema::create('cotizacion_cuadro', function(Blueprint $table)
-		{
-			$table->increments('id');
-			$table->integer('cuadro_id')->unsigned();
-			$table->integer('cotizacion_id')->unsigned();
-			$table->string('criterio');
 		});
 
 		Schema::create('ocs', function(Blueprint $table)
@@ -168,7 +164,6 @@ class CrearTablasAdquisiciones extends Migration {
 		Schema::drop('egreso_oc');
 		Schema::drop('ocs_condiciones');
 		Schema::drop('ocs');
-		Schema::drop('cotizacion_cuadro');
 		Schema::drop('cuadros');
 		Schema::drop('articulo_cotizacion');
 		Schema::drop('cotizaciones');

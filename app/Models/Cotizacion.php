@@ -8,7 +8,7 @@ class Cotizacion extends Model {
     public $table = 'cotizaciones';
     use SoftDeletes;
 
-    protected $fillable = ['req_id', 'benef_id', 'fecha_invitacion', 'fecha_cotizacion', 'vigencia', 'garantia'];
+    protected $fillable = ['req_id', 'benef_id', 'fecha_invitacion', 'fecha_cotizacion', 'vigencia', 'garantia', 'imprimir'];
 
     //Cotizacion __belongs_to__ Req
     public function req()
@@ -28,10 +28,10 @@ class Cotizacion extends Model {
         return $this->belongsToMany('Guia\Models\Articulo')->withPivot('costo', 'sel')->withTimestamps();
     }
 
-    //Cotizacion __belongs_to_many__ Cuadro
-    public function cuadros()
+    //Cotizacion __belongs_to__ Cuadro
+    public function cuadro()
     {
-        return $this->belongsToMany('Guia\Models\Cuadro')->withPivot('criterio');
+        return $this->belongsTo('Guia\Models\Cuadro');
     }
 
 }
