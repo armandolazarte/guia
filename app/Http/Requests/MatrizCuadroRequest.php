@@ -11,7 +11,7 @@ class MatrizCuadroRequest extends Request {
 	 */
 	public function authorize()
 	{
-		return false;
+		return true;
 	}
 
 	/**
@@ -22,7 +22,7 @@ class MatrizCuadroRequest extends Request {
 	public function rules()
 	{
 		return [
-			//
+			'req_id' => 'required|integer'
 		];
 	}
 
