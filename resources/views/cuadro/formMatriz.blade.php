@@ -22,11 +22,30 @@
                         <td>{{ $articulo->unidad }}</td>
                         <td>{{ $articulo->cantidad }}</td>
                         @foreach($cotizaciones as $cotizacion)
-                            <td>{!! Form::radio('sel_'.$articulo->id.'_'.$cotizacion->id, $articulo->id.'_'.$cotizacion->id) !!} {!! Form::text('costo_'.$articulo->id.'_'.$cotizacion->id, '') !!}</td>
+                            <td>
+                                {!! Form::radio('sel_'.$articulo->id.'_'.$cotizacion->id, $articulo->id.'_'.$cotizacion->id) !!}
+                                {!! Form::text('costo_'.$articulo->id.'_'.$cotizacion->id, '') !!}
+                            </td>
                         @endforeach
-                        <td></td>
+                        <td>
+                            {!! Form::text('impuesto_'.$articulo->id, '16') !!}
+                        </td>
                     </tr>
                 @endforeach
+                <tr>
+                    <td colspan="3">Vigencia</td>
+                    @foreach($cotizaciones as $cotizacion)
+                        <td>{!! Form::text('vigencia_'.$cotizacion->id, '') !!}</td>
+                    @endforeach
+                    <td></td>
+                </tr>
+                <tr>
+                    <td colspan="3">Garantía</td>
+                    @foreach($cotizaciones as $cotizacion)
+                        <td>{!! Form::text('garantia_'.$cotizacion->id, '') !!}</td>
+                    @endforeach
+                    <td></td>
+                </tr>
             </table>
 
             {!! Form::hidden('req_id', $req_id) !!}
