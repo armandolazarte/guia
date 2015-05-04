@@ -23,7 +23,7 @@
                         <td>{{ $articulo->cantidad }}</td>
                         @foreach($cotizaciones as $cotizacion)
                             <td>
-                                {!! Form::radio('sel_'.$articulo->id.'_'.$cotizacion->id, $articulo->id.'_'.$cotizacion->id) !!}
+                                {!! Form::radio('sel_'.$articulo->id.'_'.$cotizacion->id, '1') !!}
                                 {!! Form::text('costo_'.$articulo->id.'_'.$cotizacion->id, '') !!}
                             </td>
                         @endforeach

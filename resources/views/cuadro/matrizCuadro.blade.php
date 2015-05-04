@@ -18,9 +18,9 @@
                         <td>{{ $articulo->articulo }}</td>
                         <td>{{ $articulo->unidad }}</td>
                         <td>{{ $articulo->cantidad }}</td>
-                        @foreach($cotizaciones as $cotizacion)
-                            <td>
-                                {{-- Selección y Monto --}}
+                        @foreach($articulo->cotizaciones as $cot)
+                            <td class="text-right">
+                                {{ $cot->pivot->sel == 1 ? '*' : '' }} {{ $cot->pivot->costo }}
                             </td>
                         @endforeach
                         <td>
@@ -29,10 +29,18 @@
                     </tr>
                 @endforeach
                 <tr>
-                    {{-- Vigencia --}}
+                    <td class="text-right" colspan="3">Vigencia</td>
+                    @foreach($cotizaciones as $cotizacion)
+                        <td>{{ $cotizacion->vigencia }}</td>
+                    @endforeach
+                    <td></td>
                 </tr>
                 <tr>
-                    {{-- Garantía --}}
+                    <td class="text-right" colspan="3">Garantía</td>
+                    @foreach($cotizaciones as $cotizacion)
+                        <td>{{ $cotizacion->garantia }}</td>
+                    @endforeach
+                    <td></td>
                 </tr>
             </table>
         </div>

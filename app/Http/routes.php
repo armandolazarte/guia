@@ -136,5 +136,5 @@ Route::group(array('prefix' => 'captura-cuadro', 'middleware' => ['auth']), func
 {
     Route::get('/{req_id}/nuevo', 'MatrizCuadroController@create');
     Route::post('/', 'MatrizCuadroController@store');
-    Route::get('/{req_id}', 'MatrizCuadro@show');
+    Route::get('/{req_id}', 'MatrizCuadroController@show');
 });

@@ -43,6 +43,12 @@ class MatrizCuadroController extends Controller {
 	{
         $req_id = $request->input('req_id');
 
+        //Si existe un cuadro para la requisición, redirecciona para mostrar el cuadro existente
+        $verifica_cuadro = Cuadro::whereReqId($req_id);
+        if(!empty($verifica_cuadro)){
+            return redirect()->action('MatrizCuadroController@show', array($req_id));
+        }
+
         //Crear Cuadro
         $cuadro = new Cuadro();
         $cuadro->req_id = $req_id;
@@ -61,20 +67,25 @@ class MatrizCuadroController extends Controller {
             foreach($arr_cotizaciones_id as $cotizacion_id){
                 $costo = $request->input('costo_'.$articulo_id.'_'.$cotizacion_id);
                 $sel = $request->input('sel_'.$articulo_id.'_'.$cotizacion_id);
+                if(empty($sel)){
+                    $sel = 0;
+                }
+                //Guarda información en tabla pivote articulo_cotizacion
                 $articulo->cotizaciones()->attach([$cotizacion_id => ['costo' => $costo, 'sel' => $sel]]);
             }
 
             //Actualizar impuesto en articulos
             $articulo->impuesto = $request->input('impuesto_'.$articulo_id);
+            $articulo->save();
         }
 
         //Actualizar fecha_cotiza en cotizaciones
         foreach($arr_cotizaciones_id as $cotizacion_id) {
             $cotizacion = Cotizacion::find($cotizacion_id);
             $cotizacion->cuadro_id = $cuadro->id;
-            $cotizacion->fecha_cotiza = \Carbon\Carbon::now()->toDateString();
+            $cotizacion->fecha_cotizacion = \Carbon\Carbon::now()->toDateString();
             $cotizacion->vigencia = $request->input('vigencia_'.$cotizacion_id);
-            $cotizacion->garantia = $request->input('garantia'.$cotizacion_id);
+            $cotizacion->garantia = $request->input('garantia_'.$cotizacion_id);
             $cotizacion->imprimir = true;
             $cotizacion->save();
         }
