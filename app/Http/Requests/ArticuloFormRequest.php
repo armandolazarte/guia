@@ -22,7 +22,7 @@ class ArticuloFormRequest extends Request {
 	public function rules()
 	{
 		return [
-			'req_id' => 'required|numeric',
+			'req_id' => 'required|integer|not_in:0',
 			'articulo' => 'required',
 			'cantidad' => 'required|numeric',
 			'unidad' => 'required'

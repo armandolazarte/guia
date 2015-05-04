@@ -26,9 +26,9 @@ class SolicitudFormRequest extends Request {
         if(empty($accion)) {
             return [
                 'tipo_solicitud' => 'required',
-                'proyecto_id' => 'required|numeric',
-                'urg_id' => 'required|numeric',
-                'benef_id' => 'required|numeric',
+                'proyecto_id' => 'required|integer|not_in:0',
+                'urg_id' => 'required|integer|not_in:0',
+                'benef_id' => 'required|integer|not_in:0',
                 'no_documento' => 'required',
                 'concepto' => 'required'
             ];

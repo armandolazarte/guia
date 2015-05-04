@@ -22,7 +22,7 @@ class MatrizCuadroRequest extends Request {
 	public function rules()
 	{
 		return [
-			'req_id' => 'required|integer'
+			'req_id' => 'required|integer|not_in:0'
 		];
 	}
 

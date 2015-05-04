@@ -22,9 +22,9 @@ class InvitacionRequest extends Request {
 	public function rules()
 	{
 		return [
-			'benef_id' => 'required|integer',
+			'benef_id' => 'required|integer|not_in:0',
             'fecha_invitacion' => 'required|date',
-            'req_id' => 'required|integer'
+            'req_id' => 'required|integer|not_in:0'
 		];
 	}
 

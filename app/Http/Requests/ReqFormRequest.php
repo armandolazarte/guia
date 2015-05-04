@@ -25,8 +25,8 @@ class ReqFormRequest extends Request {
 
         if(empty($accion)){
             return [
-                'urg_id' => 'required|numeric',
-                'proyecto_id' => 'required|numeric',
+                'urg_id' => 'required|integer|not_in:0',
+                'proyecto_id' => 'required|integer|not_in:0',
                 'etiqueta' => 'required',
                 'lugar_entrega' => 'required'
             ];
