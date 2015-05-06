@@ -138,3 +138,10 @@ Route::group(array('prefix' => 'captura-cuadro', 'middleware' => ['auth']), func
     Route::post('/', 'MatrizCuadroController@store');
     Route::get('/{req_id}', 'MatrizCuadroController@show');
 });
+
+//** OCs **//
+Route::group(array('prefix' => 'oc', 'middleware' => ['auth']), function()
+{
+    Route::get('/req/{req_id}', 'OcsController@index');
+    Route::post('/req/{req_id}', 'OcsController@store');
+});
