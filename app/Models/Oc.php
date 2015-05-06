@@ -16,7 +16,7 @@ class Oc extends Model {
     //Oc __belongs_to__ Benef
     public function benef()
     {
-        return $this->belongsTo('Guia\Models\Benefs');
+        return $this->belongsTo('Guia\Models\Benef');
     }
 
     //Oc __has_many__ Articulo
