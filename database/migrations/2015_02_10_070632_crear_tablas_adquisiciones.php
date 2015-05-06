@@ -47,7 +47,7 @@ class CrearTablasAdquisiciones extends Migration {
 			$table->double('costo', 12, 5);
 			$table->tinyInteger('impuesto');
 			$table->decimal('monto', 15, 3);
-			$table->integer('oc')->unsigned();
+			$table->integer('oc_id')->unsigned();
 			$table->string('unidad', 20);
 			$table->boolean('inventariable');
 			$table->timestamps();
