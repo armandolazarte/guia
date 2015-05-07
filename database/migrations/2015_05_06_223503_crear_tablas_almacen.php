@@ -29,7 +29,7 @@ class CrearTablasAlmacen extends Migration {
             $table->integer('urg_id')->unsigned();
             $table->integer('benef_id')->unsigned();
             $table->text('cmt');
-            $table->integer('user_id')->unsigned();
+            $table->smallInteger('responsable')->unsigned();
 			$table->timestamps();
 		});
 
@@ -40,8 +40,6 @@ class CrearTablasAlmacen extends Migration {
             $table->integer('articulo_id')->unsigned();
             $table->string('articulo_type');
             $table->decimal('cantidad', 15, 3)->unsigned();
-            $table->decimal('costo', 15, 3)->unsigned();
-            $table->tinyInteger('impuesto')->unsigned;
         });
 
         Schema::create('salidas', function(Blueprint $table)
@@ -51,7 +49,7 @@ class CrearTablasAlmacen extends Migration {
             $table->date('fecha_salida');
             $table->integer('urg_id')->unsigned();
             $table->text('cmt');
-            $table->integer('user_id')->unsigned();
+            $table->smallInteger('responsable')->unsigned();
             $table->timestamps();
         });
 
