@@ -31,4 +31,14 @@ class Articulo extends Model {
         return $this->belongsToMany('Guia\Models\Cotizacion')->withPivot('costo', 'sel')->withTimestamps();
     }
 
+    public function entradas()
+    {
+        return $this->morphToMany('Guia\Models\Almacen\Entrada', 'articulo_entrada');
+    }
+
+    public function salidas()
+    {
+        return $this->morphToMany('Guia\Models\Almacen\Salida', 'articulo_salida');
+    }
+
 }
