@@ -145,3 +145,12 @@ Route::group(array('prefix' => 'oc', 'middleware' => ['auth']), function()
     Route::get('/req/{req_id}', 'OcsController@index');
     Route::post('/req/{req_id}', 'OcsController@store');
 });
+
+//** Entradas de Almacén **//
+Route::group(array('prefix' => 'almacen/entrada', 'middleware' => ['auth']), function()
+{
+    Route::get('/oc', 'EntradaOcController@index');
+    Route::get('/oc/{oc}', 'EntradaOcController@create');
+    Route::post('/oc', 'EntradaOcController@store');
+
+});
