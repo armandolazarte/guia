@@ -33,12 +33,11 @@ class CrearTablasAlmacen extends Migration {
 			$table->timestamps();
 		});
 
-        Schema::create('articulo_entrada', function(Blueprint $table)
+        Schema::create('entrada_articulos', function(Blueprint $table)
         {
-            $table->increments('id');
             $table->integer('entrada_id')->unsigned();
-            $table->integer('articulo_id')->unsigned();
-            $table->string('articulo_type');
+            $table->integer('entrada_articulo_id')->unsigned();
+            $table->string('entrada_articulo_type');
             $table->decimal('cantidad', 15, 3)->unsigned();
         });
 
@@ -53,12 +52,11 @@ class CrearTablasAlmacen extends Migration {
             $table->timestamps();
         });
 
-        Schema::create('articulo_salida', function(Blueprint $table)
+        Schema::create('salida_articulos', function(Blueprint $table)
         {
-            $table->increments('id');
             $table->integer('salida_id')->unsigned();
-            $table->integer('articulo_id')->unsigned();
-            $table->string('articulo_type');
+            $table->integer('salida_articulo_id')->unsigned();
+            $table->string('salida_articulo_type');
             $table->decimal('cantidad', 15, 3)->unsigned();
         });
 	}
@@ -70,9 +68,9 @@ class CrearTablasAlmacen extends Migration {
 	 */
 	public function down()
 	{
-        Schema::drop('articulo_salida');
+        Schema::drop('salida_articulos');
         Schema::drop('salidas');
-        Schema::drop('articulo_entrada');
+        Schema::drop('entrada_articulos');
 		Schema::drop('entradas');
         Schema::drop('noreq_articulos');
 	}

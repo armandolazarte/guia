@@ -19,13 +19,13 @@ class Salida extends Model {
     //Salida __morphed_by_many__ Articulo
     public function articulos()
     {
-        return $this->morphedByMany('Guia\Models\Articulo', 'articulo_salida');
+        return $this->morphedByMany('Guia\Models\Articulo', 'salida_articulo');
     }
 
     //Salida __morphed_by_many__ NoreqArticulo
     public function noreq_articulos()
     {
-        return $this->morphedByMany('Guia\Models\Almacen\NoreqArticulo', 'articulo_salida');
+        return $this->morphedByMany('Guia\Models\Almacen\NoreqArticulo', 'salida_articulo');
     }
 
 }

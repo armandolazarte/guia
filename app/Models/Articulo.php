@@ -33,12 +33,12 @@ class Articulo extends Model {
 
     public function entradas()
     {
-        return $this->morphToMany('Guia\Models\Almacen\Entrada', 'articulo_entrada');
+        return $this->morphToMany('Guia\Models\Almacen\Entrada', 'entrada_articulo');
     }
 
     public function salidas()
     {
-        return $this->morphToMany('Guia\Models\Almacen\Salida', 'articulo_salida');
+        return $this->morphToMany('Guia\Models\Almacen\Salida', 'salida_articulo');
     }
 
 }
