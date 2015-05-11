@@ -25,13 +25,13 @@ class Entrada extends Model {
     //Entrada __morphed_by_many__ Articulo
     public function articulos()
     {
-        return $this->morphedByMany('Guia\Models\Articulo', 'entrada_articulo');
+        return $this->morphedByMany('Guia\Models\Articulo', 'entrada_articulo')->withPivot('cantidad');
     }
 
     //Entrada __morphed_by_many__ NoreqArticulo
     public function noreq_articulos()
     {
-        return $this->morphedByMany('Guia\Models\Almacen\NoreqArticulo', 'entrada_articulo');
+        return $this->morphedByMany('Guia\Models\Almacen\NoreqArticulo', 'entrada_articulo')->withPivot('cantidad');
     }
 
 }
