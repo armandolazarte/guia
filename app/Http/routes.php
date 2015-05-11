@@ -154,3 +154,11 @@ Route::group(array('prefix' => 'almacen/entrada', 'middleware' => ['auth']), fun
     Route::post('/oc', 'EntradaOcController@store');
 
 });
+
+//** Salidas de Almacén **//
+Route::group(array('prefix' => 'almacen/salida', 'middleware' => ['auth']), function()
+{
+    Route::get('/{entrada_id}/nueva', 'SalidaController@create');
+    Route::post('/', 'SalidaController@store');
+    Route::get('/{id}', 'SalidaController@show');
+});
