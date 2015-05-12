@@ -41,7 +41,7 @@
                             {{ $art->articulo }}
                         </td>
                         <td>
-                            {!! Form::text('cantidad_'.$art->id, $art->pivot->cantidad, array('size' => '20')) !!}
+                            {!! Form::text('cantidad_'.$art->id, $art->cantidad, array('size' => '20')) !!}
                         </td>
                         <td>{{ $art->costo }}</td>
                         <td>{{ $art->impuesto }}</td>
