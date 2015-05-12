@@ -1,5 +1,6 @@
 <?php namespace Guia\Http\Controllers;
 
+use Guia\Classes\Pdfs\EntradaSalidaPdf;
 use Guia\Http\Requests;
 use Guia\Http\Requests\EntradaOcRequest;
 use Guia\Http\Controllers\Controller;
@@ -115,5 +116,31 @@ class EntradaOcController extends Controller {
 	{
 		//
 	}
+
+    public function formatoPdf($id)
+    {
+        $entrada = Entrada::find($id);
+        $entrada->load('articulos');
+        if ($entrada->ref_tipo == 'OC') {
+            $oc = Oc::whereOc($entrada->ref)->get();
+        }
+
+        $data['tipo_formato'] = 'Entrada';
+        $data['req'] = $oc[0]->req->req;
+        $data['ref_tipo'] = $entrada->ref_tipo;
+        $data['ref'] = $entrada->ref;
+        $data['fecha_oc'] = $oc[0]->fecha_oc;
+        $data['d_proveedor'] = $entrada->benef->benef;
+        $data['id'] = $id;
+        $data['fecha'] = $entrada->fecha_entrada;
+        $data['d_urg'] = $entrada->urg->d_urg;
+        $data['cmt'] = $entrada->cmt;
+        $data['usr_id'] = $entrada->usr_id;
+
+        $entrada_pdf = new EntradaSalidaPdf($data);
+
+        return response($entrada_pdf->crearEntradaPdf($entrada))
+            ->header('Content-Type', 'application/pdf');
+    }
 
 }

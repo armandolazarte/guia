@@ -1,10 +1,12 @@
 <?php namespace Guia\Http\Controllers;
 
+use Guia\Classes\Pdfs\EntradaSalidaPdf;
 use Guia\Http\Requests;
 use Guia\Http\Controllers\Controller;
 
 use Guia\Models\Almacen\Entrada;
 use Guia\Models\Almacen\Salida;
+use Guia\Models\Oc;
 use Guia\Models\Urg;
 use Illuminate\Http\Request;
 
@@ -100,5 +102,33 @@ class SalidaController extends Controller {
 	{
 		//
 	}
+
+    public function formatoPdf($id)
+    {
+        $salida = Salida::find($id);
+        $salida->load('articulos');
+        $entrada = Entrada::find($salida->entrada_id);
+
+        if ($entrada->ref_tipo == 'OC') {
+            $oc = Oc::whereOc($entrada->ref)->get();
+        }
+
+        $data['tipo_formato'] = 'Salida';
+        $data['req'] = $oc[0]->req->req;
+        $data['ref_tipo'] = $entrada->ref_tipo;
+        $data['ref'] = $entrada->ref;
+        $data['fecha_oc'] = $oc[0]->fecha_oc;
+        $data['d_proveedor'] = $entrada->benef->benef;
+        $data['id'] = $id;
+        $data['fecha'] = $salida->fecha_salida;
+        $data['d_urg'] = $entrada->urg->d_urg;
+        $data['cmt'] = $salida->cmt;
+        $data['usr_id'] = $entrada->usr_id;
+
+        $salida_pdf = new EntradaSalidaPdf($data);
+
+        return response($salida_pdf->crearSalidaPdf($salida))
+            ->header('Content-Type', 'application/pdf');
+    }
 
 }

@@ -152,7 +152,7 @@ Route::group(array('prefix' => 'almacen/entrada', 'middleware' => ['auth']), fun
     Route::get('/oc', 'EntradaOcController@index');
     Route::get('/oc/{oc}', 'EntradaOcController@create');
     Route::post('/oc', 'EntradaOcController@store');
-
+    Route::get('/formato/{id}', 'EntradaOcController@formatoPdf');
 });
 
 //** Salidas de Almacén **//
@@ -161,4 +161,5 @@ Route::group(array('prefix' => 'almacen/salida', 'middleware' => ['auth']), func
     Route::get('/{entrada_id}/nueva', 'SalidaController@create');
     Route::post('/', 'SalidaController@store');
     Route::get('/{id}', 'SalidaController@show');
+    Route::get('/formato/{id}', 'SalidaController@formatoPdf');
 });
