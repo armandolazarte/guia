@@ -16,12 +16,6 @@ class Vale extends Model {
         return $this->belongsTo('Guia\Models\Proyecto');
     }
 
-    //Vale __belongs_to_many__ Reintegro
-    public function reintegros()
-    {
-        return $this->belongsToMany('Guia\Models\Reintegro')->withPivot('monto');
-    }
-
     //Vale __belongs_to_many__ Rm
     public function rms()
     {

@@ -24,4 +24,10 @@ class Objetivo extends Model {
         return $this->belongsToMany('Guia\Models\Vale')->withPivot('monto');
     }
 
+    //Objetivo __belongs_to_many__ Reintegro
+    public function reintegros()
+    {
+        return $this->belongsToMany('Guia\Models\Reintegro')->withPivot('monto');
+    }
+
 }

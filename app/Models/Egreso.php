@@ -25,10 +25,10 @@ class Egreso extends Model {
         return $this->belongsTo('Guia\Models\Benef');
     }
 
-    //Egreso __has_many__ Honorarios
-    public function honorarios()
+    //Egreso __has_many__ Reintegro
+    public function reintegros()
     {
-        return $this->hasMany('Guia\Models\Honorario');
+        return $this->hasMany('Guia\Models\Reintegro');
     }
 
     //Egreso __has_many__ Vales

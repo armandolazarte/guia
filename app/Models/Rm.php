@@ -46,10 +46,10 @@ class Rm extends Model {
         return $this->hasMany('Guia\Models\CompensaDestino');
     }
 
-    //Rm __has_many__ Honorario
-    public function honorarios()
+    //Rm __has_many__ Retencion
+    public function retenciones()
     {
-        return $this->hasMany('Guia\Models\Honorario');
+        return $this->hasMany('Guia\Models\Retencion');
     }
 
     //Rm __has_many__ FacturaConcepto
