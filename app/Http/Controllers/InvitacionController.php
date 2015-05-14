@@ -2,6 +2,7 @@
 
 use Guia\Http\Requests;
 use Guia\Http\Requests\InvitacionRequest;
+use Guia\Classes\Pdfs\InvitacionPdf;
 use Guia\Http\Controllers\Controller;
 
 use Guia\Models\Cotizacion;
@@ -112,4 +113,12 @@ class InvitacionController extends Controller {
         return redirect()->action('InvitacionController@index', array($req_id));
 	}
 
+    public function invitacionPdf($id)
+    {
+        $invitacion = Cotizacion::find($id);
+        $invitacion->load('articulos');
+        $invita_pdf = new InvitacionPdf($invitacion);
+
+        return response($invita_pdf->crearPdf())->header('Content-Type', 'application/pdf');
+    }
 }
