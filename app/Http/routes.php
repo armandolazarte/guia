@@ -132,11 +132,12 @@ Route::group(array('prefix' => 'invitacion', 'middleware' => ['auth']), function
 });
 
 //** MatrizCuadro **//
-Route::group(array('prefix' => 'captura-cuadro', 'middleware' => ['auth']), function()
+Route::group(array('prefix' => 'cuadro-comparativo', 'middleware' => ['auth']), function()
 {
     Route::get('/{req_id}/nuevo', 'MatrizCuadroController@create');
     Route::post('/', 'MatrizCuadroController@store');
     Route::get('/{req_id}', 'MatrizCuadroController@show');
+    Route::get('/{id}/pdf', 'CuadroController@cuadroPdf');
 });
 
 //** OCs **//

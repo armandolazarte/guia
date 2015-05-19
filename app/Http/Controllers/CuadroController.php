@@ -1,9 +1,11 @@
 <?php namespace Guia\Http\Controllers;
 
+use Guia\Classes\Pdfs\CuadroPdf;
 use Guia\Http\Requests;
 use Guia\Http\Requests\CuadroRequest;
 use Guia\Http\Controllers\Controller;
 
+use Guia\Models\Articulo;
 use Guia\Models\Cuadro;
 use Illuminate\Http\Request;
 
@@ -98,5 +100,18 @@ class CuadroController extends Controller {
 	{
 		//
 	}
+
+    public function cuadroPdf($id)
+    {
+        $cuadro = Cuadro::find($id);
+        $cuadro->load('cotizaciones');
+
+        $articulos = Articulo::whereReqId($cuadro->req_id)->get();
+        $articulos->load('cotizaciones');
+
+        $cuadro_pdf = new CuadroPdf($cuadro, $articulos);
+
+        return response($cuadro_pdf->crearPdf())->header('Content-Type', 'application/pdf');
+    }
 
 }
