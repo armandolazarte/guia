@@ -1,9 +1,12 @@
 <?php namespace Guia\Http\Controllers;
 
+use Guia\Classes\Pdfs\OrdenCompraPdf;
 use Guia\Http\Requests;
 use Guia\Http\Controllers\Controller;
 
+use Guia\Models\Articulo;
 use Guia\Models\Oc;
+use Guia\Models\OcsCondicion;
 use Illuminate\Http\Request;
 
 class OcsController extends Controller {
@@ -86,5 +89,14 @@ class OcsController extends Controller {
 	{
 		//
 	}
+
+    public function ordenCompraPdf($id)
+    {
+        $oc = Oc::find($id);
+        $oc->load('articulos');
+        $oc_pdf = new OrdenCompraPdf($oc);
+
+        return response($oc_pdf->crearPdf())->header('Content-Type', 'application/pdf');
+    }
 
 }
