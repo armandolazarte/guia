@@ -6,6 +6,7 @@ namespace Guia\Classes;
 use Guia\Models\Articulo;
 use Guia\Models\Cotizacion;
 use Guia\Models\Oc;
+use Guia\Models\OcsCondicion;
 
 class GeneradorOcs {
 
@@ -37,6 +38,10 @@ class GeneradorOcs {
                         $oc->fecha_oc = \Carbon\Carbon::now()->toDateString();;
                         $oc->benef_id = $cotizacion->benef_id;
                         $oc->save();
+
+                        $condiciones = new OcsCondicion();
+                        $condiciones->oc()->associate($oc);
+                        $condiciones->save();
                     }
 
                     //Actualizar articulo con oc_id
