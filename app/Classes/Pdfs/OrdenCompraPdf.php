@@ -3,6 +3,7 @@
 namespace Guia\Classes\Pdfs;
 
 use fpdf\FPDF;
+use Nat\Nat;
 use Carbon\Carbon;
 use Guia\Models\Oc;
 
@@ -112,20 +113,20 @@ class OrdenCompraPdf extends FPDF {
         $this->Cell(200,3,'CONDICIONES DE PAGO y ENTREGA DE BIENES',1,1,'C',true);
 
         $this->Cell(25,3,'FECHA DE ENTREGA:',1,0,'L',true);
-//        $this->Cell(47,3,utf8_decode($this->oc->condiciones->fecha_entrega),1,0,'L');
+        $this->Cell(47,3,utf8_decode($this->oc->condiciones->fecha_entrega),1,0,'L');
         $this->Cell(24,3,'LUGAR DE ENTREGA:',1,0,'L',true);
-//        $this->MultiCell(79, 3, utf8_decode($this->oc->condiciones->lugar_entrega), 1);
+        $this->MultiCell(79, 3, utf8_decode($this->oc->condiciones->lugar_entrega), 1);
 
         $this->SetXY(10,226);
         $this->Cell(35,3,'PAGO DE CONTADO',1,0,'L');
         $this->Cell(10,3,'PAGO:',1,0,'L',true);
-//        $this->Cell(51,3,utf8_decode($this->oc->condiciones->pago),1,1,'L');
+        $this->Cell(51,3,utf8_decode($this->oc->condiciones->pago),1,1,'L');
 
         $this->Cell(35,3,'PAGO EN PARCIALIDADES',1,0,'L');
         $this->Cell(27,3,'No. DE PARCIALIDADES:',1,0,'L',true);
-//        $this->Cell(10,3,$this->oc->condiciones->no_parcialidades,1,0,'L');
+        $this->Cell(10,3,$this->oc->condiciones->no_parcialidades,1,0,'L');
         $this->Cell(33,3,'PORCENTAJE DE ANTICIPO:',1,0,'L',true);
-//        $this->Cell(70,3,$this->oc->condiciones->porcentaje_anticipo.'%',1,0,'L');
+        $this->Cell(70,3,$this->oc->condiciones->porcentaje_anticipo.'%',1,0,'L');
 
         $this->SetXY(185, 223);
         $this->Cell(25,3,'FIANZAS',1,2,'C',true);
@@ -136,7 +137,7 @@ class OrdenCompraPdf extends FPDF {
         $this->SetXY(10,233);
         $this->Line($this->GetX(), $this->GetY(), $this->GetX(), 245);
         $this->Line(210, $this->GetY(), 210, 245);
-        //$this->MultiCell(200, 3, 'No. Req. '.$this->oc->req->req.' '.utf8_decode($this->condiciones->obs)."\nSolicita: ".utf8_decode($this->responsable_nombre).' ('.$this->responsable_correo.')',"T");
+        $this->MultiCell(200, 3, 'No. Req. '.$this->oc->req->req.' '.utf8_decode($this->oc->condiciones->obs)."\nSolicita: ".utf8_decode($this->oc->responsable).' ()',"T");
         $this->SetXY(10,245);
         $this->Cell(200,3,'OBSERVACIONES',1,1,'C',true);
 
@@ -233,7 +234,7 @@ class OrdenCompraPdf extends FPDF {
             $this->SetXY(140,$y_inicial);
             $this->SetFont('CenturyGothic','','7');
             $this->Cell(20,$h_renglon,$articulo->cantidad,1,0,'C');
-            //$this->Cell(25,$h_renglon,number_format($arr_art['costo'],2),1,0,'R');
+            $this->Cell(25,$h_renglon,number_format($articulo->costo,2),1,0,'R');
             $this->Cell(25,$h_renglon,number_format($importe_total,2),1,1,'R');
         }
 
@@ -247,24 +248,24 @@ class OrdenCompraPdf extends FPDF {
         //$pdf->Line($pdf->GetX(), 220, 210, 232);
 
         $total = $subtotal + $sum_iva;
-//        $importe_letra = NAT::letras(round($total, 2), $arr_oc['moneda']);
+        $nat = new Nat($total, $this->oc->req->moneda);
+        $importe_letra = $nat->convertir();
+        $simbolo_mondea = $this->monedas($this->oc->req->moneda);
 
         //Totales
         $this->SetAutoPageBreak(true, 60);
         $this->SetFont('Arial','',7);
         $this->SetXY(10,207);
-        $this->Cell(150,12,'IMPORTE CON LETRA: ',1,2,'L');
+        $this->Cell(150,12,'IMPORTE CON LETRA: '.$importe_letra,1,2,'L');
         $this->SetXY(160,207);
-        $this->Cell(25,4,'SUB-TOTAL ',1,2,'R',true);
-        $this->Cell(25,4,'I.V.A. ',1,2,'R',true);
-        $this->Cell(25,4,'TOTAL ',1,1,'R',true);
+        $this->Cell(25,4,'SUB-TOTAL '.$simbolo_mondea,1,2,'R',true);
+        $this->Cell(25,4,'I.V.A. '.$simbolo_mondea,1,2,'R',true);
+        $this->Cell(25,4,'TOTAL '.$simbolo_mondea,1,1,'R',true);
         $this->SetXY(185,207);
         $this->SetFont('CenturyGothic','','7');
         $this->Cell(25,4,number_format($subtotal,2),1,2,'R');
         $this->Cell(25,4,number_format($sum_iva,2),1,2,'R');
         $this->Cell(25,4,number_format($total,2),1,1,'R');
-
-
 
         $this->Output('Req_'.$this->oc->req->req.'_OC_'.$this->oc->oc.'.pdf', 'I');
     }
@@ -273,13 +274,15 @@ class OrdenCompraPdf extends FPDF {
     {
         switch ($moneda)
         {
-            case "Libras": $moneda = "£"; break;
-            case "Euros": $moneda = "€"; break;
-            case "Yenes": $moneda = "¥"; break;
-            case "USD": $moneda = "USD"; break;
-            default: $moneda = "$";
+            case "Libras": $simbolo_moneda = "£"; break;
+            case "Euros": $simbolo_moneda = "€"; break;
+            case "Yenes": $simbolo_moneda = "¥"; break;
+            case "USD": $simbolo_moneda = "USD"; break;
+            default: $simbolo_moneda = "$";
         }
-        $moneda = iconv('UTF-8', 'windows-1252', $moneda);
+        $simbolo_moneda = iconv('UTF-8', 'windows-1252', $simbolo_moneda);
+
+        return $simbolo_moneda;
     }
 
 }
