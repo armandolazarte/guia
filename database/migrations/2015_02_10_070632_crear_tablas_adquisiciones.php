@@ -44,7 +44,6 @@ class CrearTablasAdquisiciones extends Migration {
 			$table->foreign('req_id')->references('id')->on('reqs');
 			$table->text('articulo');
 			$table->double('cantidad', 12, 5);
-			$table->double('costo', 12, 5);
 			$table->tinyInteger('impuesto');
 			$table->decimal('monto', 15, 3);
 			$table->integer('oc_id')->unsigned();
