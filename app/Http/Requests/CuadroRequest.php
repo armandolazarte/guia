@@ -30,7 +30,6 @@ class CuadroRequest extends Request {
         } else {
             return [
                 'id' => 'required|integer|not_in:0',
-                'req_id' => 'required|integer|not_in:0',
                 'accion' => 'required'
             ];
         }

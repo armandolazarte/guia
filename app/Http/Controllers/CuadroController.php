@@ -1,6 +1,7 @@
 <?php namespace Guia\Http\Controllers;
 
 use Guia\Classes\Pdfs\CuadroPdf;
+use Guia\Classes\TerminarCuadro;
 use Guia\Http\Requests;
 use Guia\Http\Requests\CuadroRequest;
 use Guia\Http\Controllers\Controller;
@@ -77,14 +78,18 @@ class CuadroController extends Controller {
         $accion = $request->input('accion');
         if(isset($accion)) {
             if ($accion == 'Terminar') {
-                $estatus = 'Terminada';
+                $terminar_cuadro = new TerminarCuadro($cuadro);
+                $terminar_cuadro->setMontoArticulo();
+                $terminar_cuadro->estatusReq('Cotizada');
+                $cuadro->estatus = 'Terminado';
+
             } elseif ($accion == 'Reanudar') {
                 $estatus = '';
             }
         }
-        $cuadro->estatus = $estatus;
         $cuadro->save();
 
+        return redirect()->action('MatrizCuadroController@show', array($cuadro->req_id));
         /**
          * @todo Actualizar estatus de requisición a cotizada
          */
