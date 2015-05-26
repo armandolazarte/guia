@@ -3,6 +3,14 @@
 @section('content')
     <div class="row">
         <div class="col-md-12">
+
+            <!-- Formulario para terminar Cuadro Comparativo -->
+            {!! Form::open(array('action' => array('CuadroController@update', $cuadro_id), 'method' => 'patch')) !!}
+            {!! Form::hidden('id', $cuadro_id) !!}
+            {!! Form::hidden('accion', 'Terminar') !!}
+            {!! Form::submit('Terminar Cuadro', array('class' => 'btn btn-primary btn-sm')) !!}
+            {!! Form::close() !!}
+
             <table class="table table-bordered">
                 <thead>
                 <th>Artículo</th>

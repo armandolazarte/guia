@@ -103,8 +103,9 @@ class MatrizCuadroController extends Controller {
 	{
         $cotizaciones = Cotizacion::whereReqId($req_id)->get();
         $articulos = Articulo::whereReqId($req_id)->get();
+        $cuadro_id = Cuadro::whereReqId($req_id)->pluck('id');
 
-        return view('cuadro.matrizCuadro', compact('req_id', 'cotizaciones', 'articulos'));
+        return view('cuadro.matrizCuadro', compact('req_id', 'cotizaciones', 'articulos', 'cuadro_id'));
 	}
 
 	/**
