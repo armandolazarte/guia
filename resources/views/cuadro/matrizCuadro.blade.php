@@ -11,6 +11,11 @@
             {!! Form::submit('Terminar Cuadro', array('class' => 'btn btn-primary btn-sm')) !!}
             {!! Form::close() !!}
 
+            <!-- Formulario para cancelar Cuadro Comparativo -->
+            {!! Form::open(array('action' => array('CuadroController@update', $cuadro_id), 'method' => 'delete')) !!}
+            {!! Form::submit('Cancelar Cuadro', array('class' => 'btn btn-danger btn-sm')) !!}
+            {!! Form::close() !!}
+
             <table class="table table-bordered">
                 <thead>
                 <th>Artículo</th>

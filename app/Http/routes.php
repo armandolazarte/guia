@@ -141,6 +141,7 @@ Route::group(array('prefix' => 'cuadro-comparativo', 'middleware' => ['auth']), 
     Route::patch('/{id}/update', 'MatrizCuadroController@update');
     Route::get('/{id}/pdf', 'CuadroController@cuadroPdf');
     Route::patch('/{id}', 'CuadroController@update');
+    Route::delete('/{id}', 'CuadroController@destroy');
 });
 
 //** OCs **//

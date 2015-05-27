@@ -7,6 +7,7 @@ use Guia\Http\Requests\CuadroRequest;
 use Guia\Http\Controllers\Controller;
 
 use Guia\Models\Articulo;
+use Guia\Models\Cotizacion;
 use Guia\Models\Cuadro;
 use Illuminate\Http\Request;
 
@@ -96,14 +97,23 @@ class CuadroController extends Controller {
 	}
 
 	/**
-	 * Remove the specified resource from storage.
+	 * Elimina cuadro comparativo, cotizaciones y relación articulo_cotizacion
 	 *
 	 * @param  int  $id
 	 * @return Response
 	 */
 	public function destroy($id)
 	{
-		//
+		$cuadro = Cuadro::findOrFail($id);
+        $req_id = $cuadro->req_id;
+        $cotizaciones = Cotizacion::whereReqId($cuadro->req_id)->with('articulos')->get();
+        foreach($cotizaciones as $cotizacion) {
+            $cotizacion->articulos()->detach();
+            $cotizacion->delete();
+        }
+        $cuadro->delete();
+
+        return redirect()->action('RequisicionController@show', array($req_id));
 	}
 
     public function cuadroPdf($id)
