@@ -16,6 +16,17 @@ class Consecutivo {
         }
     }
 
+    public function nextPreReq()
+    {
+        $sol = Req::orderBy('sol', 'DESC')->first(array('sol'));
+        if(isset($sol)){
+            $sol->sol ++;
+            return $sol->sol;
+        } else {
+            return 1;
+        }
+    }
+
     public function nextOc()
     {
         $oc = Oc::orderBy('oc', 'DESC')->first(['oc']);
