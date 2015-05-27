@@ -63,15 +63,16 @@ class MatrizCuadroController extends Controller {
 
         foreach($arr_articulos_id as $articulo_id){
             $articulo = Articulo::find($articulo_id);
+            $sel_value = $request->input('sel_'.$articulo_id);
 
             foreach($arr_cotizaciones_id as $cotizacion_id){
                 $costo = $request->input('costo_'.$articulo_id.'_'.$cotizacion_id);
-                $sel = $request->input('sel_'.$articulo_id.'_'.$cotizacion_id);
-                if(empty($sel)){
-                    $sel = 0;
-                }
+                $sel_value == $cotizacion_id ? $sel = 1 : $sel = 0;
+
                 //Guarda información en tabla pivote articulo_cotizacion
-                $articulo->cotizaciones()->attach([$cotizacion_id => ['costo' => $costo, 'sel' => $sel]]);
+                if($costo > 0){
+                    $articulo->cotizaciones()->attach([$cotizacion_id => ['costo' => $costo, 'sel' => $sel]]);
+                }
             }
 
             //Actualizar impuesto en articulos
@@ -109,25 +110,79 @@ class MatrizCuadroController extends Controller {
 	}
 
 	/**
-	 * Show the form for editing the specified resource.
+	 * Formulario para editar un cuadro comparativo
 	 *
 	 * @param  int  $id
 	 * @return Response
 	 */
 	public function edit($id)
 	{
-		//
+        $cuadro = Cuadro::find($id);
+        $cuadro->load('cotizaciones');
+        $cotizaciones = $cuadro->cotizaciones;
+
+        $articulos = Articulo::whereReqId($cuadro->req_id)->get();
+        $articulos->load('cotizaciones');
+
+        return view('cuadro.formMatrizEdit', compact('cuadro', 'articulos', 'cotizaciones'));
 	}
 
 	/**
-	 * Update the specified resource in storage.
+	 * Actualiza cuadro comparativo
 	 *
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update($id)
+	public function update($id, MatrizCuadroRequest $request)
 	{
-		//
+        /**
+         * @todo Validar que no se seleccione una cotización de un artículo con costo == 0
+         */
+        $cuadro = Cuadro::find($id);
+        $arr_articulos_id = Articulo::whereReqId($cuadro->req_id)->lists('id');
+        $arr_cotizaciones_id = Cotizacion::whereReqId($cuadro->req_id)->lists('id');
+
+        foreach($arr_articulos_id as $articulo_id){
+            $articulo = Articulo::find($articulo_id);
+            $sel_value = $request->input('sel_'.$articulo_id);
+
+            foreach($arr_cotizaciones_id as $cotizacion_id) {
+                $costo_nuevo = $request->input('costo_'.$articulo_id.'_'.$cotizacion_id);
+                if(isset($costo_nuevo))
+                {
+                    $sel_value == $cotizacion_id && $costo_nuevo > 0 ? $sel = 1 : $sel = 0;
+
+                    //Verifica existencia de pivote
+                    if($articulo->cotizaciones()->get()->contains($cotizacion_id)){
+                        $costo_actual = $articulo->cotizaciones()->whereCotizacionId($cotizacion_id)->first()->pivot->costo;
+                        $sel_actual = $articulo->cotizaciones()->whereCotizacionId($cotizacion_id)->first()->pivot->sel;
+
+                        if ($costo_actual != $costo_nuevo || $sel_actual != $sel) {
+                            $articulo->cotizaciones()
+                                ->updateExistingPivot($cotizacion_id, ['costo' => $costo_nuevo, 'sel' => $sel]);
+                        }
+                    } else { //Crea un nuevo registro en pivote articulo_cotizacion
+
+                        $articulo->cotizaciones()->attach([$cotizacion_id => ['costo' => $costo_nuevo, 'sel' => $sel]]);
+                    }
+                }
+            }
+
+            //Actualizar impuesto en articulos
+            $articulo->impuesto = $request->input('impuesto_'.$articulo_id);
+            $articulo->save();
+        }
+
+        //Actualiza información de vigencia y garantía @cotizaciones
+        foreach($arr_cotizaciones_id as $cotizacion_id) {
+            $cotizacion = Cotizacion::find($cotizacion_id);
+            $cotizacion->vigencia = $request->input('vigencia_'.$cotizacion_id);
+            $cotizacion->garantia = $request->input('garantia_'.$cotizacion_id);
+            $cotizacion->imprimir = true;
+            $cotizacion->save();
+        }
+
+        return redirect()->action('MatrizCuadroController@show', array($cuadro->req_id));
 	}
 
 	/**

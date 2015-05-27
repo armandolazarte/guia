@@ -4,7 +4,7 @@
     <div class="row">
         <div class="col-md-12">
             @include('partials.formErrors')
-            {!! Form::open(array('action' => 'MatrizCuadroController@store')) !!}
+            {!! Form::open(array('action' => ['MatrizCuadroController@update', $cuadro->id], 'method' => 'patch')) !!}
 
             <table class="table table-bordered">
                 <thead>
@@ -23,32 +23,38 @@
                         <td>{{ $articulo->cantidad }}</td>
                         @foreach($cotizaciones as $cotizacion)
                             <td>
-                                {!! Form::radio('sel_'.$articulo->id, $cotizacion->id) !!}
-                                {!! Form::text('costo_'.$articulo->id.'_'.$cotizacion->id, '') !!}
+                                @if($articulo->cotizaciones()->get()->contains($cotizacion->id)) {{-- //Verifica que exista pivote --}}
+                                    {!! Form::radio('sel_'.$articulo->id, $cotizacion->id, $articulo->cotizaciones()->whereCotizacionId($cotizacion->id)->first()->pivot->sel) !!}
+                                    {!! Form::text('costo_'.$articulo->id.'_'.$cotizacion->id, $articulo->cotizaciones()->whereCotizacionId($cotizacion->id)->first()->pivot->costo) !!}
+                                @else
+                                    {!! Form::radio('sel_'.$articulo->id, $cotizacion->id) !!}
+                                    {!! Form::text('costo_'.$articulo->id.'_'.$cotizacion->id, '') !!}
+                                @endif
+                                {{-- dd($articulo->cotizaciones()->whereCotizacionId($cotizacion->id)->first()->pivot->costo) --}}
                             </td>
                         @endforeach
                         <td>
-                            {!! Form::text('impuesto_'.$articulo->id, '16') !!}
+                            {!! Form::text('impuesto_'.$articulo->id, $articulo->impuesto) !!}
                         </td>
                     </tr>
                 @endforeach
                 <tr>
                     <td colspan="3">Vigencia</td>
                     @foreach($cotizaciones as $cotizacion)
-                        <td>{!! Form::text('vigencia_'.$cotizacion->id, '') !!}</td>
+                        <td>{!! Form::text('vigencia_'.$cotizacion->id, $cotizacion->vigencia) !!}</td>
                     @endforeach
                     <td></td>
                 </tr>
                 <tr>
                     <td colspan="3">Garantía</td>
                     @foreach($cotizaciones as $cotizacion)
-                        <td>{!! Form::text('garantia_'.$cotizacion->id, '') !!}</td>
+                        <td>{!! Form::text('garantia_'.$cotizacion->id, $cotizacion->garantia) !!}</td>
                     @endforeach
                     <td></td>
                 </tr>
             </table>
 
-            {!! Form::hidden('req_id', $req_id) !!}
+            {!! Form::hidden('req_id', $cuadro->req_id) !!}
             <div class="col-sm-offset-2 col-sm-10">
                 {!! Form::submit('Aceptar', array('class' => 'btn btn-primary btn-sm')) !!}
             </div>

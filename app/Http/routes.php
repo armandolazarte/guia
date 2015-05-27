@@ -137,6 +137,8 @@ Route::group(array('prefix' => 'cuadro-comparativo', 'middleware' => ['auth']), 
     Route::get('/{req_id}/nuevo', 'MatrizCuadroController@create');
     Route::post('/', 'MatrizCuadroController@store');
     Route::get('/{req_id}', 'MatrizCuadroController@show');
+    Route::get('/{id}/editar', 'MatrizCuadroController@edit');
+    Route::patch('/{id}/update', 'MatrizCuadroController@update');
     Route::get('/{id}/pdf', 'CuadroController@cuadroPdf');
     Route::patch('/{id}', 'CuadroController@update');
 });
