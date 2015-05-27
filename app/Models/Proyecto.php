@@ -40,6 +40,12 @@ class Proyecto extends Model {
         return $this->hasMany('Guia\Models\Vale');
     }
 
+    //Proyecto __has_many__ PreReq
+    public function preReq()
+    {
+        return $this->hasMany('Guia\Models\PreReq');
+    }
+
     //Proyecto __belongs_to_many Fondos
     public function fondos()
     {

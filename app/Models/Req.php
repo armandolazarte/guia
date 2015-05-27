@@ -43,6 +43,12 @@ class Req extends Model {
         return $this->hasMany('Guia\Models\Cuadro');
     }
 
+    //Req __has_many__ PreReqArticulo
+    public function preReqArticulo()
+    {
+        return $this->hasMany('Guia\Models\PreReqArticulo');
+    }
+
     //Req __morph_many__ Registro
     public function registros()
     {
