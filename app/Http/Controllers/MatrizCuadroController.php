@@ -44,7 +44,7 @@ class MatrizCuadroController extends Controller {
         $req_id = $request->input('req_id');
 
         //Si existe un cuadro para la requisición, redirecciona para mostrar el cuadro existente
-        $verifica_cuadro = Cuadro::whereReqId($req_id);
+        $verifica_cuadro = Cuadro::whereReqId($req_id)->first();
         if(!empty($verifica_cuadro)){
             return redirect()->action('MatrizCuadroController@show', array($req_id));
         }
