@@ -24,7 +24,7 @@ class ModulosTableSeeder extends Seeder {
             'orden' => '100.1',
             'activo' => '1',
         ));
-        $modulos->acciones()->attach([1,2,3,4,5,6,7,8]);
+        $modulos->acciones()->attach([1,2,3,4,5,6,7,8,9,10]);
         $adminDb = Modulo::create(array(
             'ruta' => '#',
             'nombre' => 'Base de Datos',
@@ -32,7 +32,7 @@ class ModulosTableSeeder extends Seeder {
             'orden' => '100.2',
             'activo' => '1',
         ));
-        $adminDb->acciones()->attach(9);
+        $adminDb->acciones()->attach([11,12]);
 
         Modulo::create(array(
             'ruta' => '#',

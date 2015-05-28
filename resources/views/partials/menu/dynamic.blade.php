@@ -21,7 +21,7 @@
                 <ul>
                     @foreach($modulo->acciones as $accion)
                         @if($accion->activo)
-                            <li><a href="/{{ $accion->ruta }}">{{ $accion->nombre }}</a></li>
+                            <li><a href="{{ action($accion->ruta) }}">{{ $accion->nombre }}</a></li>
                         @endif
                     @endforeach
                 </ul>
@@ -32,7 +32,7 @@
                 <ul>
                     @foreach($modulo->acciones as $accion)
                         @if($accion->activo)
-                            <li><a href="/{{ $accion->ruta }}">{{ $accion->nombre }}</a></li>
+                            <li><a href="{{ action($accion->ruta) }}">{{ $accion->nombre }}</a></li>
                         @endif
                     @endforeach
                 </ul>
