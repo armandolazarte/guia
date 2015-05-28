@@ -68,7 +68,7 @@ Route::group(array('prefix' => 'proyectos'), function() {
 	Route::post('/importar/', 'ImportarProyectoController@store');
 });
 
-Route::group(array('prefix' => 'pruebas'), function()
+Route::group(array('prefix' => 'pruebas', 'middleware' => ['auth']), function()
 {
 	Route::get('/menu', function()
 	{
