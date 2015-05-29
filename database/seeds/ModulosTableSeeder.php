@@ -49,6 +49,9 @@ class ModulosTableSeeder extends Seeder {
             'orden' => '1.0',
             'activo' => '0',
         ));
+        Modulo::create(['ruta' => '#', 'nombre' => 'Solicitudes', 'icono' => '', 'orden' => '1.1', 'activo' => '1']);
+        Modulo::create(['ruta' => '#', 'nombre' => 'Requisiciones', 'icono' => '', 'orden' => '1.2', 'activo' => '1']);
+
         Modulo::create(array(
             'ruta' => '#',
             'nombre' => 'Adquisiciones',
@@ -56,6 +59,10 @@ class ModulosTableSeeder extends Seeder {
             'orden' => '2.0',
             'activo' => '0',
         ));
+        Modulo::create(['ruta' => '#', 'nombre' => 'Requisiciones', 'icono' => '', 'orden' => '2.1', 'activo' => '1']);
+        Modulo::create(['ruta' => '#', 'nombre' => 'Invitaciones', 'icono' => '', 'orden' => '2.2', 'activo' => '0']);
+        Modulo::create(['ruta' => '#', 'nombre' => 'Cuadros Comparativos', 'icono' => '', 'orden' => '2.3', 'activo' => '0']);
+        Modulo::create(['ruta' => '#', 'nombre' => 'Ordenes de compra', 'icono' => '', 'orden' => '2.3', 'activo' => '0']);
 
         Modulo::create(array(
             'ruta' => '#',
@@ -71,6 +78,9 @@ class ModulosTableSeeder extends Seeder {
             'orden' => '4.0',
             'activo' => '0',
         ));
+        Modulo::create(['ruta' => '#', 'nombre' => 'Cheques', 'icono' => '', 'orden' => '4.1', 'activo' => '1']);
+        Modulo::create(['ruta' => '#', 'nombre' => 'Solicitudes', 'icono' => '', 'orden' => '4.2', 'activo' => '1']);
+
         Modulo::create(array(
             'ruta' => '#',
             'nombre' => 'Presupuesto',
