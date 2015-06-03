@@ -49,4 +49,32 @@ class Req extends Model {
         return $this->morphMany('Guia\Models\Registro', 'docable');
     }
 
+    public function scopeEstatusResponsable($query, $arr_estatus, $arr_responsable)
+    {
+        if(count($arr_estatus) > 0){
+            $query->whereIn('estatus', $arr_estatus);
+        }
+
+        if(count($arr_responsable) > 0){
+            $query->whereIn('responsable', $arr_responsable);
+        }
+
+        if(count($arr_estatus) == 0 && count($arr_responsable) == 0){
+            $query->whereId(0);
+        }
+
+        return $query;
+    }
+
+    public function scopeMisReqs($query)
+    {
+        /**
+         * @todo Filtrar proyectos
+         */
+
+        $query->whereSolicita(\Auth::user()->id);
+
+        return $query;
+    }
+
 }
