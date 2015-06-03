@@ -4,7 +4,7 @@
 <div class="row">
     <div class="col-md-12">
         @if( count($reqs) > 0 )
-            <table class="table-hover">
+            <table class="table table-bordered">
                 <thead>
                 <tr>
                     <th>Requisición</th>
