@@ -5,6 +5,14 @@
     @include('reqs.partialInfoReq', array('req' => $req))
 
     @if(count($articulos) > 0)
+
+        {{-- Acciones Unidad de Suministros --}}
+        @if(array_search('Cotizador', $arr_roles) !== false || array_search('Adquisiciones', $arr_roles) !== false)
+            @include('reqs.accionesSuministros', array('req' => $req))
+        @endif
+
+    <div class="row">
+        <div class="col-sm-12">
         <table class="table-bordered">
             <thead>
                 <tr>
@@ -43,6 +51,8 @@
             </tr>
             @endforeach
         </table>
+        </div>
+    </div>
     @endif
 
     <div class="row">

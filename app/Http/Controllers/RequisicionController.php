@@ -93,6 +93,11 @@ class RequisicionController extends Controller {
         $req->fecha_req = Carbon::parse($req->fecha_req)->format('d/m/Y');
 		$articulos = Articulo::whereReqId($id)->get();
 		$data['req'] = $req;
+
+        $user = \Auth::user();
+        $arr_roles = $user->roles()->lists('role_name');
+        $data['arr_roles'] = $arr_roles;
+
 		if (isset($articulos)) {
 			$data['articulos'] = $articulos;
 		} else {
