@@ -1,6 +1,7 @@
 <?php namespace Guia\Http\Controllers;
 
 use Carbon\Carbon;
+use Guia\Classes\FiltroEstatusResponsable;
 use Guia\Models\Req;
 use Guia\Models\Urg;
 use Guia\Models\Articulo;
@@ -21,9 +22,17 @@ class RequisicionController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function index()
+	public function index($scope)
 	{
-		$reqs = Req::whereSolicita(\Auth::user()->id)->get();
+        if($scope == 'MisRequisiciones') {
+            $reqs = Req::misReqs()->get();
+        } elseif($scope == 'EstatusResponsable') {
+            $filtro = new FiltroEstatusResponsable();
+            $filtro->filtroReqs();
+            $reqs = Req::estatusResponsable($filtro->arr_estatus, $filtro->arr_responsable)->get();
+        } else {
+            $reqs = Req::whereSolicita(\Auth::user()->id)->get();
+        }
 		$reqs->load('urg');
 		return view('reqs.indexReq', compact('reqs'));
 	}
