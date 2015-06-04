@@ -5,6 +5,8 @@
         <div class="col-md-12">
             <a href="{{ action('RequisicionController@show', $req_id) }}" class="btn btn-primary btn-sm">Regresar a Requisición</a>
 
+            <a class="btn btn-primary btn-sm" href="{{ action('CuadroController@cuadroPdf', $cuadro_id) }}" role="button" target="_blank">Imprimir</a>
+
             <!-- Formulario para terminar Cuadro Comparativo -->
             {!! Form::open(array('action' => array('CuadroController@update', $cuadro_id), 'method' => 'patch')) !!}
             {!! Form::hidden('id', $cuadro_id) !!}

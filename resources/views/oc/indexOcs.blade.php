@@ -13,6 +13,7 @@
                         <th>Fecha OC</th>
                         <th>Proveedor</th>
                         <th>Estatus</th>
+                        <th>PDF</th>
                     </tr>
                     </thead>
                     @foreach($ocs as $oc)
@@ -21,6 +22,9 @@
                             <td>{{ $oc->fecha_oc }}</td>
                             <td>{{ $oc->benef->benef }}</td>
                             <td>{{ $oc->estatus }}</td>
+                            <td>
+                                <a class="btn btn-primary btn-sm" href="{{ action('OcsController@ordenCompraPdf', $oc->id) }}" role="button" target="_blank">Imprimir</a>
+                            </td>
                         </tr>
                     @endforeach
                 </table>
