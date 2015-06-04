@@ -23,6 +23,9 @@
                             <td>{{ $oc->benef->benef }}</td>
                             <td>{{ $oc->estatus }}</td>
                             <td>
+                                <a class="btn btn-primary btn-sm" href="{{ action('OcsCondicionesController@edit', $oc->condiciones->id) }}" role="button">Condiciones</a>
+                            </td>
+                            <td>
                                 <a class="btn btn-primary btn-sm" href="{{ action('OcsController@ordenCompraPdf', $oc->id) }}" role="button" target="_blank">Imprimir</a>
                             </td>
                         </tr>

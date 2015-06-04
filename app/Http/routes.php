@@ -150,4 +150,6 @@ Route::group(array('prefix' => 'oc', 'middleware' => ['auth']), function()
     Route::get('/req/{req_id}', 'OcsController@index');
     Route::post('/req/{req_id}', 'OcsController@store');
     Route::get('/{id}/pdf', 'OcsController@ordenCompraPdf');
+    Route::get('/condiciones/{id}', 'OcsCondicionesController@edit');
+    Route::patch('/condiciones/{id}', 'OcsCondicionesController@update');
 });
