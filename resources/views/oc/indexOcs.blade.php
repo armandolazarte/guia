@@ -3,6 +3,8 @@
 @section('content')
     <div class="row">
         <div class="col-md-12">
+            <a href="{{ action('RequisicionController@show', $req_id) }}" class="btn btn-primary btn-sm">Regresar a Requisición</a>
+
             @if(count($ocs) > 0)
                 <table class="table table-condensed">
                     <thead>

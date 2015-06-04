@@ -3,6 +3,7 @@
 @section('content')
     <div class="row">
         <div class="col-md-12">
+            <a href="{{ action('RequisicionController@show', $req_id) }}" class="btn btn-primary btn-sm">Regresar a Requisición</a>
 
             <!-- Formulario para terminar Cuadro Comparativo -->
             {!! Form::open(array('action' => array('CuadroController@update', $cuadro_id), 'method' => 'patch')) !!}

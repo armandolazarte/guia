@@ -28,6 +28,12 @@ class MatrizCuadroController extends Controller {
 	 */
 	public function create($req_id)
 	{
+        //Si existe un cuadro para la requisición, redirecciona para mostrar el cuadro existente
+        $verifica_cuadro = Cuadro::whereReqId($req_id)->first();
+        if(!empty($verifica_cuadro)){
+            return redirect()->action('MatrizCuadroController@edit', array($verifica_cuadro->id));
+        }
+
         $cotizaciones = Cotizacion::whereReqId($req_id)->get();
         $articulos = Articulo::whereReqId($req_id)->get();
 

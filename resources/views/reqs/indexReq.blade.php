@@ -36,7 +36,7 @@
             </table>
         @else
             <div class="alert alert-info">
-                No hay requisiciones por recibir
+                No hay requisiciones por listar
             </div>
         @endif
     </div>
