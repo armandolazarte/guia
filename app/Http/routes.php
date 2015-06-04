@@ -82,7 +82,7 @@ Route::group(array('prefix' => 'req', 'middleware' => ['auth','selPresu']), func
     Route::get('/recibir', 'RecibirController@seleccionarReq');
     Route::patch('/recibir', 'RecibirController@recibirReq');
 
-	Route::match(['get', 'post'], '/filtro/{scope}', 'RequisicionController@index');
+	Route::match(['get', 'post'], '/filtro/{scope?}', 'RequisicionController@index');
 	Route::match(['get', 'post'], '/nueva', 'RequisicionController@create');
 	Route::post('/store', 'RequisicionController@store');
 	Route::get('/{req_id}/info', 'RequisicionController@show');

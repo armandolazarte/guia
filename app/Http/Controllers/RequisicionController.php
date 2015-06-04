@@ -22,8 +22,18 @@ class RequisicionController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function index($scope)
+	public function index($scope = null)
 	{
+
+        if($scope == null){
+            $user = \Auth::user();
+            $arr_roles = $user->roles()->lists('role_name');
+
+            if(array_search('Cotizador', $arr_roles) !== false || array_search('Adquisiciones', $arr_roles) !== false){
+                $scope = 'EstatusResponsable';
+            }
+        }
+
         if($scope == 'MisRequisiciones') {
             $reqs = Req::misReqs()->get();
         } elseif($scope == 'EstatusResponsable') {
