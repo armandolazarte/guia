@@ -43,4 +43,10 @@
             </div>
         </div>
     </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            @include('partials.archivos.formUpload', array('presupuesto' => '2015', 'linkable_id' => $solicitud->id, 'linkable_type' => 'Guia\Models\Solicitud'))
+        </div>
+    </div>
 @stop
