@@ -22,7 +22,7 @@ class CreateArchivosTable extends Migration {
                 $table->integer('linkable_id')->unsigned();
                 $table->string('linkable_type');
                 $table->string('name');
-                $table->string('mime', 50);
+                $table->string('mime');
                 $table->integer('size')->unsigned();
                 $table->dateTime('created_original');
                 $table->string('extension', 4);
@@ -35,7 +35,6 @@ class CreateArchivosTable extends Migration {
                 $table->integer('archivo_id')->unsigned();
                 $table->integer('chunk_id')->unsigned();
                 $table->binary('data');
-                $table->timestamps();
             });
         }
 	}
