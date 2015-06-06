@@ -24,6 +24,7 @@ class FirmasSolRec
 
     public static function getUsersVoBo()
     {
+        $arr_users = array();
         $cargos = Cargo::with('user')->get();
         foreach($cargos as $cargo){
             $arr_users[] = $cargo->user;
