@@ -19,6 +19,7 @@ class ImportadorCatalogos {
 
     public function __construct($db_origen){
         $this->db_origen = $db_origen;
+        set_time_limit(120);
     }
 
     //URG
@@ -222,7 +223,6 @@ class ImportadorCatalogos {
     }
 
     public function importarUsuarios(){
-        set_time_limit(60);
         $usuarios_externos = $this->consultarUsuariosExternos();
         if ( count($usuarios_externos) > 0 ) {
             foreach($usuarios_externos as $usuario_nuevo)
@@ -275,7 +275,6 @@ class ImportadorCatalogos {
 
     //RMs
     public function importarRms(){
-        set_time_limit(60);
         $rms_externos = $this->consultarRmsExternos();
         if ( count($rms_externos) > 0 ) {
             foreach($rms_externos as $rm_nuevo)
