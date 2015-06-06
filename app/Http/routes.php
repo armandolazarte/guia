@@ -27,6 +27,8 @@ Route::controllers([
 Route::get('/login', 'Auth\GuiaAuthController@getLogin');
 Route::post('/login', 'Auth\GuiaAuthController@authenticate');
 
+Route::post('/archivos/upload', 'ArchivosController@store');
+
 Route::group(array('prefix' => 'admin/su'), function()
 {
 	Route::get('/modulos', 'ModuloController@index');
