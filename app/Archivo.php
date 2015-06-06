@@ -8,6 +8,6 @@ class Archivo extends Model {
 
     public function data_file()
     {
-        return $this->hasMany('DataFile');
+        return $this->hasMany('Guia\DataFile');
     }
 }
