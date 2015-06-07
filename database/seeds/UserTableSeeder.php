@@ -10,7 +10,7 @@ class UserTableSeeder extends Seeder {
     {
         Model::unguard();
 
-        $psw = Hash::make('toor');
+        $psw = bcrypt('toor');
         $root = User::create(array(
             'username' => 'root',
             'email' => 'root@sysadmin.com',
@@ -23,7 +23,7 @@ class UserTableSeeder extends Seeder {
         ));
         $root->roles()->attach([1,2]);
 
-        $psw = Hash::make('1234');
+        $psw = bcrypt('1234');
         $user = User::create(array(
             'username' => '1234',
             'email' => 'usuario@prueba.com',
