@@ -7,8 +7,13 @@
     @if(count($articulos) > 0)
 
         {{-- Acciones Unidad de Suministros --}}
-        @if(array_search('Cotizador', $arr_roles) !== false || array_search('Adquisiciones', $arr_roles) !== false)
+        @if($acciones_suministros)
             @include('reqs.accionesSuministros', array('req' => $req))
+        @endif
+
+        {{-- Acciones Unidad de Presupuesto --}}
+        @if($acciones_presu)
+            @include('reqs.accionesPresuReq', array('req' => $req))
         @endif
 
     <div class="row">

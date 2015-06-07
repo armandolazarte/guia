@@ -85,8 +85,17 @@ class SolicitudController extends Controller {
 	 */
 	public function show($id)
 	{
+        //Determina Acciones Unidad de Presupuesto
+        $user = \Auth::user();
+        $arr_roles = $user->roles()->lists('role_name');
+        if(array_search('Ejecutora', $arr_roles) !== false || array_search('Presupuesto', $arr_roles) !== false){
+            $acciones_presu = true;
+        } else {
+            $acciones_presu = false;
+        }
+
         $solicitud = Solicitud::find($id);
-        return view('solicitudes.infoSolicitud', compact('solicitud'));
+        return view('solicitudes.infoSolicitud', compact('solicitud', 'acciones_presu'));
 	}
 
 	/**

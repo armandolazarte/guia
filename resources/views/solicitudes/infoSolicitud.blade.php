@@ -1,6 +1,12 @@
 @extends('layouts.theme')
 
 @section('content')
+
+    {{-- Acciones Unidad de Presupuesto --}}
+    @if($acciones_presu)
+        @include('reqs.accionesPresuReq', array('sol' => $solicitud))
+    @endif
+
     <div class="row">
         <div class="col-md-12">
 

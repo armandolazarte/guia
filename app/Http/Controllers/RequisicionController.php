@@ -108,6 +108,18 @@ class RequisicionController extends Controller {
         $arr_roles = $user->roles()->lists('role_name');
         $data['arr_roles'] = $arr_roles;
 
+        if(array_search('Cotizador', $arr_roles) !== false || array_search('Adquisiciones', $arr_roles) !== false){
+            $data['acciones_suministros'] = true;
+        } else {
+            $data['acciones_suministros'] = false;
+        }
+
+        if(array_search('Ejecutora', $arr_roles) !== false || array_search('Presupuesto', $arr_roles) !== false){
+            $data['acciones_presu'] = true;
+        } else {
+            $data['acciones_presu'] = false;
+        }
+
 		if (isset($articulos)) {
 			$data['articulos'] = $articulos;
 		} else {
