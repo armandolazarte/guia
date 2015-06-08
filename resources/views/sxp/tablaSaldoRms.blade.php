@@ -35,7 +35,7 @@
                         <td></td>
                         <td>{{ $rm->objetivo->objetivo }}</td>
                         <td>
-                            RM {{ $rm->rm }} - Cta. {{ $rm->cog->cog }}
+                            RM {{ $rm->rm }} - Cta. <span data-toggle="tooltip" data-placement="top" title="{{ $rm->cog->d_cog }}">{{ $rm->cog->cog }}</span>
                         </td>
                         <td class="text-right">{{ number_format($rm->monto,2) }}</td>
                         @if($modo_tabla == 'extendida')
@@ -60,4 +60,13 @@
             </table>
         </div>
     </div>
+@stop
+
+@section('js')
+    @parent
+    <script>
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+    </script>
 @stop
