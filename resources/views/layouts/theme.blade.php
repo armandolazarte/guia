@@ -9,6 +9,8 @@
     @section('css')
     <link href="/css/app.css" rel="stylesheet">
 
+        <script src="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet"></script>
+
     <!-- Fonts -->
     <link href='//fonts.googleapis.com/css?family=Roboto:400,300' rel='stylesheet' type='text/css'>
 
@@ -61,9 +63,9 @@
 </div>
 
 @section('js')
-<!-- Scripts -->
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.1/js/bootstrap.min.js"></script>
+    <!-- Scripts -->
+    <script src="{{ asset('jquery/jquery-2.1.4.min.js') }}"></script>
+    <script src="{{ asset('js/bootstrap.min.js') }}"></script>
 @show
 </body>
 </html>
