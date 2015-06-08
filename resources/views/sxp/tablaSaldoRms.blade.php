@@ -1,45 +1,63 @@
-{{-- Recibir modo de tabla: Condensado || Extendida --}}
+{{-- Recibir modo de tabla: Condensada || Extendida --}}
 
-<table class="table table-bordered table-condensed">
-    <tr>
-        <th>BMS</th>
-        <th>Objetivo</th>
-        <th>RM - Cta. de Gasto (i)</th>
-        <th>Presupuestado</th>
-        @if($modo_tabla == 'ext')
-            <th>Depositado</th>{{-- Oculto para URG --}}
-        @endif
-        <th>Compensado*</th>
-        <th>Depositado</th>
-        @if($modo_tabla == 'ext')
-            <th>Ejercido*</th>{{-- Cheques + Egresos + Retenciones --}}
-        @else
-            <th>Ejercido</th>
-            <th>Reintegro DF</th>{{-- Cheques + Devoluciones directas --}}
-        @endif
-        <th>Reservado</th>{{-- Sol. + Req. --}}
-        <th>Comprobado Vales</th>
-        <th>Saldo</th>
-        @if($modo_tabla == 'ext')
-            <th>Saldo por Depositar</th>
-        @endif
-    </tr>
+@extends('layouts.theme')
 
-    @foreach($rms as $rm)
-        <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr>
-    @endforeach
+@section('content')
+    <div class="row">
+        <div class="col-md-12">
 
-</table>
+            <table class="table table-bordered table-condensed table-hover">
+                <tr>
+                    <th>BMS</th>
+                    <th>Objetivo</th>
+                    <th>RM - Cta. de Gasto</th>
+                    <th>Presupuestado</th>
+                    @if($modo_tabla == 'extendida')
+                        <th>Depositado</th>{{-- Oculto para URG --}}
+                    @endif
+                    <th>Compensado*</th>
+                    @if($modo_tabla == 'condensada')
+                        <th>Ejercido*</th>{{-- Cheques + Egresos + Retenciones --}}
+                    @elseif($modo_tabla == 'extendida')
+                        <th>Ejercido</th>
+                        <th>Reintegro DF</th>{{-- Cheques + Devoluciones directas --}}
+                    @endif
+                    <th>Reservado*</th>{{-- Sol. + Req. --}}
+                    <th>Comprobado Vales</th>
+                    <th>Saldo</th>
+                    @if($modo_tabla == 'extendida')
+                        <th>Saldo por Depositar</th>
+                    @endif
+                </tr>
+
+                @foreach($rms as $rm)
+                    <tr>
+                        <td></td>
+                        <td>{{ $rm->objetivo->objetivo }}</td>
+                        <td>
+                            RM {{ $rm->rm }} - Cta. {{ $rm->cog->cog }}
+                        </td>
+                        <td class="text-right">{{ number_format($rm->monto,2) }}</td>
+                        @if($modo_tabla == 'extendida')
+                            <td></td>{{-- Depositado --}}
+                        @endif
+                        <td></td>{{-- Compensado --}}
+                        @if($modo_tabla == 'condensada')
+                            <td></td>{{-- Ejercido --}}
+                        @elseif($modo_tabla == 'extendida')
+                            <td></td>{{-- Ejercido --}}
+                            <td></td>{{-- Reintegros DF --}}
+                        @endif
+                        <td></td>{{-- Reservado --}}
+                        <td></td>{{-- Comprobado Vales --}}
+                        <td></td>{{-- Saldo --}}
+                        @if($modo_tabla == 'extendida')
+                            <td></td>{{-- Saldo por Depositar --}}
+                        @endif
+                    </tr>
+                @endforeach
+
+            </table>
+        </div>
+    </div>
+@stop

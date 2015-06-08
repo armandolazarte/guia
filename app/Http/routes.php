@@ -155,3 +155,10 @@ Route::group(array('prefix' => 'oc', 'middleware' => ['auth']), function()
     Route::get('/condiciones/{id}', 'OcsCondicionesController@edit');
     Route::patch('/condiciones/{id}', 'OcsCondicionesController@update');
 });
+
+//** Presupuesto **//
+Route::group(array('prefix' => 'presupuesto', 'middleware' => ['auth']), function()
+{
+    Route::get('/saldo-proyecto/{id}/{modo_tabla?}', 'PresupuestoController@saldoRms');
+});
+
