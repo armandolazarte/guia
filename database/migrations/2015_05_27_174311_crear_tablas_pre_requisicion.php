@@ -19,21 +19,19 @@ class CrearTablasPreRequisicion extends Migration {
             $table->date('fecha');
             $table->integer('urg_id')->unsigned();
             $table->foreign('urg_id')->references('id')->on('urgs');
-            $table->integer('proyecto_id')->unsigned();
-            $table->foreign('proyecto_id')->references('id')->on('proyectos');
             $table->string('etiqueta', 100);
             $table->string('lugar_entrega');
             $table->text('obs');
-            $table->smallInteger('solicita')->unsigned();
-            $table->text('justifica');
-            $table->smallInteger('grado')->unsigned();
-            $table->string('estatus', 20);
-            $table->integer('user_id')->unsigned();//Responsable
+            $table->integer('user_id')->unsigned();//Solicita
             $table->foreign('user_id')->references('id')->on('users');
+            $table->text('justifica');
+            $table->text('grado', 5);
+            $table->string('usuario_final');
+            $table->string('estatus', 20);
             $table->string('tipo_orden', 20);
 		});
 
-        Schema::create('pre_reqs_articulos', function(Blueprint $table)
+        Schema::create('pre_req_articulos', function(Blueprint $table)
         {
             $table->increments('id');
             $table->integer('pre_req_id')->unsigned();
@@ -54,7 +52,7 @@ class CrearTablasPreRequisicion extends Migration {
 	 */
 	public function down()
 	{
-        Schema::drop('pre_reqs_articulos');
+        Schema::drop('pre_req_articulos');
 		Schema::drop('pre_reqs');
 	}
 
