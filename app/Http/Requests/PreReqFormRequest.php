@@ -1,0 +1,40 @@
+<?php namespace Guia\Http\Requests;
+
+use Guia\Http\Requests\Request;
+
+class PreReqFormRequest extends Request {
+
+	/**
+	 * Determine if the user is authorized to make this request.
+	 *
+	 * @return bool
+	 */
+	public function authorize()
+	{
+		return true;
+	}
+
+	/**
+	 * Get the validation rules that apply to the request.
+	 *
+	 * @return array
+	 */
+	public function rules()
+	{
+        $accion = $this->input('accion');
+        $sol = \Consecutivo::nextPreReq();;
+
+        $this->merge(['sol' => $sol]);
+
+        if(empty($accion)){
+            return [
+                'urg_id' => 'required|integer|not_in:0',
+                'etiqueta' => 'required',
+                'lugar_entrega' => 'required'
+            ];
+        } else {
+            return ['accion' => 'required'];
+        }
+	}
+
+}

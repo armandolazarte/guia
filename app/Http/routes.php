@@ -151,3 +151,20 @@ Route::group(array('prefix' => 'oc', 'middleware' => ['auth']), function()
     Route::post('/req/{req_id}', 'OcsController@store');
     Route::get('/{id}/pdf', 'OcsController@ordenCompraPdf');
 });
+
+//** Pre Requisiciones **//
+Route::group(array('prefix' => 'solicitud-req', 'middleware' => ['auth','selPresu']), function()
+{
+    Route::match(['get', 'post'], '/', 'PreReqController@index');
+    Route::match(['get', 'post'], '/nueva', 'PreReqController@create');
+    Route::post('/store', 'PreReqController@store');
+    Route::get('/{prereq_id}/info', 'PreReqController@show');
+    Route::get('/{prereq_id}/editar', ['middleware' => 'autorizaEditarPreReq', 'uses' => 'PreReqController@edit']);
+    Route::patch('/{prereq_id}', 'PreReqController@update');
+
+    Route::get('/{prereq_id}/articulos/agregar', ['middleware' => 'autorizaEditarPreReq', 'uses' => 'PreReqArticulosController@create']);
+    Route::post('/articulos/store', 'PreReqArticulosController@store');
+    Route::get('/{prereq_id}/articulos/{articulo}/editar', ['middleware' => 'autorizaEditarPreReq', 'uses' => 'PreReqArticulosController@edit']);
+    Route::patch('/articulos/{articulo}', 'PreReqArticulosController@update');
+    Route::delete('/articulos/{articulo}', 'PreReqArticulosController@destroy');
+});
