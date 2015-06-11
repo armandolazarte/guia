@@ -163,6 +163,10 @@ class SolicitudController extends Controller {
                 $estatus = 'Enviada';
             } elseif($accion == 'Recuperar'){
                 $estatus = '';
+            } elseif($accion == 'Autorizar'){
+                $estatus = 'Autorizada';
+            } elseif($accion == 'Desautorizar'){
+                $estatus = 'Recibida';
             }
 
             $solicitud->estatus = $estatus;

@@ -4,7 +4,7 @@
 
     {{-- Acciones Unidad de Presupuesto --}}
     @if($acciones_presu)
-        @include('reqs.accionesPresuReq', array('sol' => $solicitud))
+        @include('solicitudes.accionesPresuSol', array('solicitud' => $solicitud))
     @endif
 
     <div class="row">
