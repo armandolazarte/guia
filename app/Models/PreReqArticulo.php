@@ -5,6 +5,7 @@ use Illuminate\Database\Eloquent\Model;
 class PreReqArticulo extends Model {
 
     public $timestamps = false;
+    protected $fillable = ['articulo','cantidad','unidad'];
 
     //PreReqArticulo __belongs_to__ PreReq
     public function preReq()
