@@ -1,6 +1,7 @@
 <?php namespace Guia\Classes;
 
 use Guia\Models\Oc;
+use Guia\Models\PreReq;
 use Guia\Models\Req;
 
 class Consecutivo {
@@ -11,6 +12,17 @@ class Consecutivo {
         if(isset($req)){
             $req->req ++;
             return $req->req;
+        } else {
+            return 1;
+        }
+    }
+
+    public function nextPreReq()
+    {
+        $sol = PreReq::orderBy('sol', 'DESC')->first(array('sol'));
+        if(isset($sol)){
+            $sol->sol ++;
+            return $sol->sol;
         } else {
             return 1;
         }

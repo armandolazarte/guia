@@ -34,6 +34,12 @@ class Urg extends Model {
         return $this->hasMany('Guia\Models\Req');
     }
 
+    //Urg __has_many__ PreReq
+    public function preReq()
+    {
+        return $this->hasMany('Guia\Models\PreReq');
+    }
+
     //Urg __belongs_to_many__ Cargo
     public function cargos()
     {

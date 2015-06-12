@@ -48,4 +48,11 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     {
         return $this->hasMany('Guia\Models\Registro');
     }
+
+    //User __has_many__ PreReq
+    public function preReq()
+    {
+        return $this->hasMany('Guia\Models\PreReq');
+    }
+
 }

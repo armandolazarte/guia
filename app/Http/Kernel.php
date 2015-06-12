@@ -31,6 +31,7 @@ class Kernel extends HttpKernel {
         'selPresu' => 'Guia\Http\Middleware\SelPresupuestoEnSession',
         'autorizaEditarReq' => 'Guia\Http\Middleware\AutorizaEditarReq',
         'autorizaEditarSol' => 'Guia\Http\Middleware\AutorizaEditarSol',
+        'autorizaEditarPreReq' => 'Guia\Http\Middleware\AutorizaEditarPreReq',
 	];
 
 }
