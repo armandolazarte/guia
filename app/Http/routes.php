@@ -162,8 +162,6 @@ Route::group(array('prefix' => 'presupuesto', 'middleware' => ['auth']), functio
     Route::get('/saldo-proyecto/{id}/{modo_tabla?}', 'PresupuestoController@saldoRms');
 });
 
-});
-
 //** Pre Requisiciones **//
 Route::group(array('prefix' => 'solicitud-req', 'middleware' => ['auth','selPresu']), function()
 {
