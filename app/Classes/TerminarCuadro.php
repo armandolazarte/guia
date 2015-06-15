@@ -21,7 +21,7 @@ class TerminarCuadro {
 
     public function __construct(Cuadro $cuadro)
     {
-        $this->req = Req::find($cuadro->id);
+        $this->req = Req::find($cuadro->req_id);
         $this->getArticulos($cuadro->req_id);
     }
 
