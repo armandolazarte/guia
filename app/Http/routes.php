@@ -97,6 +97,10 @@ Route::group(array('prefix' => 'req', 'middleware' => ['auth','selPresu']), func
 	Route::get('/{req_id}/articulos/{articulo}/editar', ['middleware' => 'autorizaEditarReq', 'uses' => 'ArticulosController@edit']);
 	Route::patch('/articulos/{articulo}', 'ArticulosController@update');
 	Route::delete('/articulos/{articulo}', 'ArticulosController@destroy');
+
+    Route::get('/{id}/autorizar', 'AutorizarReqController@formAutorizar');
+    Route::patch('/{id}/autorizar', 'AutorizarReqController@autorizar');
+    Route::patch('/{id}/desautorizar', 'AutorizarReqController@desautorizar');
 });
 
 //** Solicitudes **//
