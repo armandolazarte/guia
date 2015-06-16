@@ -94,4 +94,16 @@ class Rm extends Model {
         return $this->belongsToMany('Guia\Models\Egreso')->withPivot('monto')->withTimestamps();
     }
 
+    public function getRmCogAttribute()
+    {
+        return $this->rm.' '.$this->cog->cog.' '.$this->cog->d_cog;
+    }
+
+    public function getCogRmSaldoAttribute()
+    {
+        /**
+         * @todo Agregar cálculo del saldo por RM
+         */
+        return $this->cog->cog.' - '.$this->rm.' - $';
+    }
 }
