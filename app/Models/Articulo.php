@@ -31,4 +31,25 @@ class Articulo extends Model {
         return $this->belongsToMany('Guia\Models\Cotizacion')->withPivot('costo', 'sel')->withTimestamps();
     }
 
+    public function getMontoCotizadoAttribute()
+    {
+        foreach ($this->cotizaciones as $cot) {
+            if ($cot->pivot->sel == 1) {
+                $monto_cotizado = $cot->pivot->costo;
+            }
+        }
+
+        return $monto_cotizado;
+    }
+
+    public function getSubTotalAttribute()
+    {
+        return $this->monto_cotizado * $this->cantidad;
+    }
+
+    public function getMontoTotalAttribute()
+    {
+        return $this->sub_total * (($this->impuesto * 0.01) + 1);
+    }
+
 }
