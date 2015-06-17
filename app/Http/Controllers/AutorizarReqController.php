@@ -6,6 +6,7 @@ use Guia\Http\Controllers\Controller;
 
 use Guia\Models\Articulo;
 use Guia\Models\Req;
+use Guia\Models\Rm;
 use Illuminate\Http\Request;
 
 class AutorizarReqController extends Controller {
@@ -19,11 +20,12 @@ class AutorizarReqController extends Controller {
 	{
         $req = Req::find($id);
         $req->fecha_req = Carbon::parse($req->fecha_req)->format('d/m/Y');
-        $articulos = Articulo::whereReqId($id)->get();
-        $articulos->load('cotizaciones');
+        $articulos = Articulo::whereReqId($id)->with('cotizaciones')->with('rms.cog')->get();
 
+        $arr_rms = Rm::whereProyectoId($req->proyecto_id)->get()->lists('cog_rm_saldo', 'id');
         $data['req'] = $req;
         $data['articulos'] = $articulos;
+        $data['arr_rms'] = $arr_rms;
 
         return view('reqs.formAutorizarReq')->with($data);
 	}
@@ -34,9 +36,34 @@ class AutorizarReqController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function autorizar($id)
+	public function asignarRms(Request $request)
 	{
-		//
+        $rm_id = $request->input('rm_id');
+		$arr_articulo_id = $request->input('arr_articulo_id');
+        if (! isset($arr_articulo_id) ){
+            $arr_articulo_id = array();
+        }
+
+        $articulos = Articulo::whereReqId($request->input('req_id'))->get();
+        foreach($articulos as $articulo){
+            if(array_search($articulo->id, $arr_articulo_id) !== false){
+                if($articulo->rms->count() > 0){
+                    $articulo->rms()->updateExistingPivot($articulo->rms[0]->id, ['rm_id' => $rm_id, 'monto' => $articulo->monto_total]);
+                } else {
+                    $articulo->rms()->attach($rm_id, ['monto' => $articulo->monto_total]);
+                }
+                //$articulo->rms()->sync([$rm_id => ['monto' => $articulo->monto_total]]);
+            }
+
+            $alta = $request->input('alta_'.$articulo->id);
+            isset($alta) ? $inventariable = $request->input('alta_'.$articulo->id) : $inventariable = 0;
+            if($articulo->inventariable !== $alta){
+                $articulo->inventariable = $alta;
+                $articulo->save();
+            }
+        }
+
+        return redirect()->action('AutorizarReqController@formAutorizar', [$request->input('req_id')]);
 	}
 
 	/**

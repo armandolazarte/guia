@@ -90,7 +90,7 @@ Route::group(array('prefix' => 'req', 'middleware' => ['auth','selPresu']), func
 	Route::get('/{req_id}/info', 'RequisicionController@show');
     Route::get('/{req_id}/editar', ['middleware' => 'autorizaEditarReq', 'uses' => 'RequisicionController@edit']);
     Route::get('/{req_id}/pdf', 'RequisicionController@formatoPdf');
-    Route::patch('/{req_id}', 'RequisicionController@update');
+    Route::patch('/{req_id}/actualizar', 'RequisicionController@update');
 
 	Route::get('/{req_id}/articulos/agregar', ['middleware' => 'autorizaEditarReq', 'uses' => 'ArticulosController@create']);
 	Route::post('/articulos/store', 'ArticulosController@store');
@@ -99,7 +99,7 @@ Route::group(array('prefix' => 'req', 'middleware' => ['auth','selPresu']), func
 	Route::delete('/articulos/{articulo}', 'ArticulosController@destroy');
 
     Route::get('/{id}/autorizar', 'AutorizarReqController@formAutorizar');
-    Route::patch('/{id}/autorizar', 'AutorizarReqController@autorizar');
+    Route::patch('/asignar-rms', 'AutorizarReqController@asignarRms');
     Route::patch('/{id}/desautorizar', 'AutorizarReqController@desautorizar');
 });
 
