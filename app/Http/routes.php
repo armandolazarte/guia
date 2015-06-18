@@ -18,6 +18,14 @@ Route::get('/acercade', 'PaginasController@acercade');
 Route::get('/manuales', 'PaginasController@manuales');
 Route::get('/normatividad', 'PaginasController@normatividad');
 
+Route::group(array('prefix' => 'inicio', 'middleware' => 'auth'), function()
+{
+    Route::get('/usuario-urg', 'PaginasController@inicioUsuario');
+    Route::get('/suministros', 'PaginasController@inicioSuministros');
+    Route::get('/presupuesto', 'PaginasController@inicioPresupuesto');
+    Route::get('/almacen', 'PaginasController@inicioAlmacen');
+});
+
 Route::get('home', 'HomeController@index');
 
 Route::controllers([
