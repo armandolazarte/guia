@@ -163,10 +163,11 @@ class RequisicionController extends Controller {
         $accion = $request->input('accion');
         if(isset($accion)){
 
-            if($accion == 'Enviar') {
-                $estatus = 'Enviada';
-            } elseif($accion == 'Recuperar'){
-                $estatus = '';
+            switch($accion) {
+                case 'Enviar': $estatus = 'Enviada'; break;
+                case 'Recuperar': $estatus = ''; break;
+                case 'Autorizar': $estatus = 'Autorizada'; break;
+                case 'Desautorizar': $estatus = 'Cotizada'; break;
             }
 
             $req->estatus = $estatus;
