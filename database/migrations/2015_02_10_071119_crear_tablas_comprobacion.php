@@ -18,7 +18,7 @@ class CrearTablasComprobacion extends Migration {
 			$table->string('oficio_c', 50);
 			$table->string('comp_siiau', 20);
 			$table->string('estatus', 20);
-			$table->smallInteger('responsable')->unsigned();
+			$table->integer('user_id')->unsigned();
 			$table->smallInteger('elabora')->unsigned();
 			$table->timestamps();
 			$table->softDeletes();

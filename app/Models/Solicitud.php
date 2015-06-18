@@ -26,6 +26,12 @@ class Solicitud extends Model {
         return $this->belongsTo('Guia\Models\Proyecto');
     }
 
+    //Solicitud __belongs_to__ User
+    public function user()
+    {
+        return $this->belongsTo('Guia\User');
+    }
+
     //Solicitud __has_many__ SolicitudDev
     public function solicitudDevs()
     {

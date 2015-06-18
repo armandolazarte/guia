@@ -7,6 +7,12 @@ class Comp extends Model {
 
     use SoftDeletes;
 
+    //Comp __belongs_to__ User
+    public function user()
+    {
+        return $this->belongsTo('Guia\User');
+    }
+
     //Comp __has_many__ CompsDev
     public function compsDevs()
     {

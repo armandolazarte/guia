@@ -50,9 +50,33 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     }
 
     //User __has_many__ PreReq
-    public function preReq()
+    public function preReqs()
     {
         return $this->hasMany('Guia\Models\PreReq');
+    }
+
+    //User __has_many__ Req
+    public function reqs()
+    {
+        return $this->hasMany('Guia\Models\Req');
+    }
+
+    //User __has_many__ Solicitud
+    public function solicitudes()
+    {
+        return $this->hasMany('Guia\Models\Solicitud');
+    }
+
+    //User __has_many__ Comp
+    public function comps()
+    {
+        return $this->hasMany('Guia\Models\Comp');
+    }
+
+    //User __has_many__ Egreso
+    public function egresos()
+    {
+        return $this->hasMany('Guia\Models\Egreso');
     }
 
 }

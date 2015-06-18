@@ -19,6 +19,12 @@ class Req extends Model {
         return $this->belongsTo('Guia\Models\Proyecto');
     }
 
+    //Req __belongs_to__ User
+    public function user()
+    {
+        return $this->belongsTo('Guia\User');
+    }
+
     //Req __has_many__ Articulo
     public function articulos()
     {

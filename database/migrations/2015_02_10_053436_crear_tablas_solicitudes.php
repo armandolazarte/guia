@@ -32,7 +32,7 @@ class CrearTablasSolicitudes extends Migration {
 			$table->smallInteger('autoriza')->unsigned();
 			$table->smallInteger('vobo')->unsigned();
 			$table->string('estatus', 20);
-			$table->smallInteger('responsable')->unsigned();
+			$table->integer('user_id')->unsigned();
 			$table->decimal('monto_pagado', 15, 3);
 			$table->boolean('viaticos');
 			$table->date('fecha_recibido');

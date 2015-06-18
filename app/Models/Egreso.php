@@ -25,6 +25,12 @@ class Egreso extends Model {
         return $this->belongsTo('Guia\Models\Benef');
     }
 
+    //Egreso __belongs_to__ User
+    public function user()
+    {
+        return $this->belongsTo('Guia\User');
+    }
+
     //Egreso __has_many__ Reintegro
     public function reintegros()
     {
