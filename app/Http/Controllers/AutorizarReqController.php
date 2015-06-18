@@ -27,6 +27,14 @@ class AutorizarReqController extends Controller {
         $data['articulos'] = $articulos;
         $data['arr_rms'] = $arr_rms;
 
+        $rms_asignados = true;
+        foreach ($articulos as $articulo) {
+            if ($articulo->rms->count() == 0) {
+                $rms_asignados = false;
+            }
+        }
+        $data['rms_asignados'] = $rms_asignados;
+
         return view('reqs.formAutorizarReq')->with($data);
 	}
 
