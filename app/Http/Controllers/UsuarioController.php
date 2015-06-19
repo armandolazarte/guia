@@ -72,11 +72,21 @@ class UsuarioController extends Controller {
         $cargos = $user->cargos;
         $urgs = Urg::all();
 
+        //Verifica si el rol del usuario es Administrador
+        $user_actual = \Auth::user();
+        $arr_roles = $user_actual->roles()->lists('role_name');
+        if(array_search('Administrador', $arr_roles) !== false){
+            $role_admin = true;
+        } else {
+            $role_admin = false;
+        }
+
 		return view('admin.usuarios.formUsuario')
 			->with('user', $user)
 			->with('roles', $roles)
             ->with('cargos', $cargos)
-            ->with('urgs', $urgs);
+            ->with('urgs', $urgs)
+            ->with('role_admin', $role_admin);
 	}
 
 	/**

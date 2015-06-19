@@ -5,8 +5,10 @@
         <div class="col-md-12">
 
             @if(isset($user))
-                @include('admin.usuarios.formCargos')
-                @include('admin.usuarios.formAcceso')
+                @if($role_admin)
+                    @include('admin.usuarios.formCargos')
+                    @include('admin.usuarios.formAcceso')
+                @endif
 
                 {!! Form::model($user, array('route' => array('admin.usuario.update', $user->id), 'method' => 'patch', 'class' => 'form-horizontal')) !!}
             @else
@@ -52,7 +54,6 @@
                     {!! Form::label('cargo', 'Cargo Actual', ['class' => 'col-sm-2 control-label']) !!}
                     <div class="col-sm-10">
                         {!! Form::text('cargo', $user->cargo, ['class' => 'form-control']) !!}
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#formCargosModal">Registrar Cargo - URG</button>
                     </div>
                 </div>
 
@@ -70,27 +71,30 @@
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <div class="col-sm-2 control-label">Roles</div>
-                    <div class="col-sm-10">
-                        @foreach($roles as $role)
+                @if($role_admin)
+                    <div class="form-group">
+                        <div class="col-sm-2 control-label">Roles</div>
+                        <div class="col-sm-10">
+                            @foreach($roles as $role)
 
-                            @if(isset($user))
-                                {!! Form::checkbox('role_user[]', $role->id, $user->roles->contains($role->id)) !!}
-                            @else
-                                {!! Form::checkbox('role_user[]', $role->id, false) !!}
-                            @endif
-                                {!! Form::label('role_user[]', $role->role_name) !!}
-                            ::
-                        @endforeach
+                                @if(isset($user))
+                                    {!! Form::checkbox('role_user[]', $role->id, $user->roles->contains($role->id)) !!}
+                                @else
+                                    {!! Form::checkbox('role_user[]', $role->id, false) !!}
+                                @endif
+                                    {!! Form::label('role_user[]', $role->role_name) !!}
+                                ::
+                            @endforeach
+                        </div>
                     </div>
-                </div>
+
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#formCargosModal">Registrar Cargo - URG</button>
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#formAccesoModal">Crear Acceso Presupuestal</button>
+                @endif
 
             {!! Form::submit('Aceptar', ['class' => 'col-sm-offset-2 btn btn-success']) !!}
 
             {!! Form::close() !!}
-
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#formAccesoModal">Crear Acceso Presupuestal</button>
         </div>
     </div>
 @stop
