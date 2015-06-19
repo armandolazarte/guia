@@ -110,6 +110,34 @@ class ModulosTableSeeder extends Seeder {
             'activo' => '0',
         ));
 
+        Modulo::create(array(
+            'ruta' => '#',
+            'nombre' => 'URG',
+            'icono' => '',
+            'orden' => '9.0',
+            'activo' => '0',
+        ));
+        Modulo::create(['ruta' => '#', 'nombre' => 'Solicitudes (PreReq)', 'icono' => '', 'orden' => '9.1', 'activo' => '1']);
+        Modulo::create(['ruta' => '#', 'nombre' => 'Requisiciones', 'icono' => '', 'orden' => '9.2', 'activo' => '1']);
 
+        Modulo::create(array(
+            'ruta' => '#',
+            'nombre' => 'Usuario',
+            'icono' => '',
+            'orden' => '10.0',
+            'activo' => '0',
+        ));
+        Modulo::create(['ruta' => '#', 'nombre' => 'Solicitudes (PreReq)', 'icono' => '', 'orden' => '10.1', 'activo' => '1']);
+
+        Modulo::create(array(
+            'ruta' => '#',
+            'nombre' => 'Almacén',
+            'icono' => '',
+            'orden' => '11.0',
+            'activo' => '0',
+        ));
+        Modulo::create(['ruta' => '#', 'nombre' => 'Entradas', 'icono' => '', 'orden' => '11.1', 'activo' => '1']);
+        Modulo::create(['ruta' => '#', 'nombre' => 'Salidas', 'icono' => '', 'orden' => '11.2', 'activo' => '1']);
+        Modulo::create(['ruta' => '#', 'nombre' => 'Reportes', 'icono' => '', 'orden' => '11.3', 'activo' => '1']);
     }
 }
