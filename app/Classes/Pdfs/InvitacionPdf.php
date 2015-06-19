@@ -69,7 +69,7 @@ class InvitacionPdf extends FPDF {
         $this->MultiCell(60,4,utf8_decode($this->usuario_adq->cargo),0,'C');
         $this->SetY(-10);
 
-        $responsable = User::find($this->invitacion->req->responsable);
+        $responsable = User::find($this->invitacion->req->user_id);
         $this->Cell(50,4,'Solicita: '.utf8_decode($responsable->nombre),0,'L');
         $this->Ln();
         $this->Cell(50,4,'Correo: '.$responsable->email,0,'L');

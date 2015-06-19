@@ -137,7 +137,7 @@ class OrdenCompraPdf extends FPDF {
         $this->SetXY(10,233);
         $this->Line($this->GetX(), $this->GetY(), $this->GetX(), 245);
         $this->Line(210, $this->GetY(), 210, 245);
-        $this->MultiCell(200, 3, 'No. Req. '.$this->oc->req->req.' '.utf8_decode($this->oc->condiciones->obs)."\nSolicita: ".utf8_decode($this->oc->responsable).' ()',"T");
+        $this->MultiCell(200, 3, 'No. Req. '.$this->oc->req->req.' '.utf8_decode($this->oc->condiciones->obs)."\nSolicita: ".utf8_decode($this->oc->req->user->nombre).' ()',"T");
         $this->SetXY(10,245);
         $this->Cell(200,3,'OBSERVACIONES',1,1,'C',true);
 

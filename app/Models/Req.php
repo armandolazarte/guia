@@ -68,7 +68,7 @@ class Req extends Model {
         }
 
         if(count($arr_responsable) > 0){
-            $query->whereIn('responsable', $arr_responsable);
+            $query->whereIn('user_id', $arr_responsable);
         }
 
         if(count($arr_estatus) == 0 && count($arr_responsable) == 0){

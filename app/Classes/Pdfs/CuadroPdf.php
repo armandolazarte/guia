@@ -34,7 +34,7 @@ class CuadroPdf extends FPDF {
         $this->Cell(140);
         $this->Cell(50,5,'REQUISICION NO. '.$this->req->req,0,0);
 
-        $responsable = User::find($this->req->responsable);
+        $responsable = User::find($this->req->user_id);
         $this->Cell(50,5,'FORMULO. '.utf8_decode($responsable->nombre),0,1);
         $this->Cell(140);
         $fecha = Carbon::parse($this->cuadro->fecha_cuadro)->format('d/m/Y');
