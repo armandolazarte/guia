@@ -31,7 +31,7 @@ class RecibirController extends Controller {
         foreach($request->input('arr_sol_id') as $sol_id){
             $solicitud = Solicitud::find($sol_id);
             $solicitud->estatus = $request->input('estatus');
-            $solicitud->responsable = \Auth::user()->id;
+            $solicitud->user_id = \Auth::user()->id;
             $solicitud->save();
 
             //Creación de registro
@@ -48,7 +48,7 @@ class RecibirController extends Controller {
         foreach($request->input('arr_req_id') as $req_id){
             $requisicion = Req::find($req_id);
             $requisicion->estatus = $request->input('estatus');
-            $requisicion->responsable = \Auth::user()->id;
+            $requisicion->user_id = \Auth::user()->id;
             $requisicion->save();
 
             //Creación de registro
