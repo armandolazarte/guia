@@ -18,6 +18,13 @@ Route::get('/acercade', 'PaginasController@acercade');
 Route::get('/manuales', 'PaginasController@manuales');
 Route::get('/normatividad', 'PaginasController@normatividad');
 
+Route::group(array('prefix' => 'activar-cuenta'), function() {
+    Route::get('/', 'Util\ActivarCuentaController@legacyLogin');
+    Route::post('/login', 'Util\ActivarCuentaController@legacyLoginCheck');
+    Route::get('/usuario', ['uses' => 'Util\ActivarCuentaController@formUsuario', 'middleware' => 'auth']);
+    Route::patch('/{id}/usuario', ['uses' => 'Util\ActivarCuentaController@activarUsuario', 'middleware' => 'auth']);
+});
+
 Route::group(array('prefix' => 'inicio', 'middleware' => 'auth'), function()
 {
     Route::get('/usuario-urg', 'PaginasController@inicioUsuario');

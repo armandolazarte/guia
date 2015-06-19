@@ -10,59 +10,56 @@ class ActivarCuentaController extends Controller {
 
 	public function legacyLogin()
     {
-        /**
-         * @todo Crear fomulario en formLegacyLogin
-         */
-
         return view('util.activar_cuenta.formLegacyLogin');
     }
 
     public function legacyLoginCheck(Request $request)
     {
         $legacy_username = $request->input('legacy_username');
-        $legacy_psw = $request->input('legacy_psw');
+        $legacy_psw = md5($request->input('legacy_psw'));
 
         $legacy_user = \DB::connection('legacy')->table('tbl_usuarios')
             ->where('usr', '=', $legacy_username)
             ->get(['usr','psw']);
 
-        if($legacy_user->psw == $legacy_psw) {
-            /**
-             * @todo Consultar id de usuario
-             * @todo Condición en caso de que la cuenta ya esté activa: Redireccionar a /login c/mensaje
-             * @todo Crear sesión
-             */
+        if($legacy_user[0]->psw == $legacy_psw) {
+            $user = User::whereLegacyUsername($legacy_username)->first();
 
-            return redirect()->action('ActivarCuentaController@formUser', []);
+            //Verifica si la cuenta ya está activa y en su caso redirecciona a login
+            if($user->active == 1) {
+                return redirect()->action('Auth\GuiaAuthController@getLogin')
+                    ->with(['message' => 'Su cuenta ya está activa, por favor inicie sesión', 'alert-class' => 'alert-info']);
+            }
+
+            //Inicia sesión para el usuario
+            \Auth::loginUsingId($user->id);
+
+            return redirect()->action('Util\ActivarCuentaController@formUsuario');
+
         } else {
-            return redirect()->action('ActivarCuentaController@legacyLogin');
+            return redirect()->action('Util\ActivarCuentaController@legacyLogin')
+                ->with(['message' => 'El nombre de usuario o contraseña no coinciden', 'alert-class' => 'alert-danger']);
         }
 
     }
 
-    public function formUser()
+    public function formUsuario()
     {
-        /**
-         * @todo Agregar condiciones para no mostrar seleccción de roles, cargos y urgs en formUsuario
-         */
         $user = User::find(\Auth::user()->id);
-
-        return view('admin.usuarios.formUsuario', compact('user'));
+        return view('util.activar_cuenta.formActivarUsuario', compact('user'));
     }
 
-    public function updateUser(UsuarioFormRequest $request, $id)
+    public function activarUsuario(Requests\ActivarCuentaRequest $request, $id)
     {
         $user = User::findOrFail($id);
         $all_request = $request->all();
         $all_request['password'] = bcrypt($all_request['password']);
         $user->update($all_request);
 
-        /**
-         * @todo Agregar rol usuario-urg por default
-         * @todo Agregar mensaje a mostrar en landing page
-         */
+        $user->roles()->attach(3);//$rol_id (3) => corresponde a rol "usuario"
 
-        return redirect()->action('PaginasController@inicioUsuario');
+        return redirect()->action('PaginasController@inicioUsuario')
+            ->with(['message' => 'Su cuenta ha sido activada con éxito.', 'alert-class' => 'alert-success']);
     }
 
 }
