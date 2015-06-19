@@ -63,7 +63,7 @@ Route::group(array('prefix' => 'admin/su'), function()
 	Route::post('/importar-catalogos', 'ImportaCatalogosController@importar');
 });
 
-Route::group(array('prefix' => 'admin'), function()
+Route::group(array('prefix' => 'admin', 'middleware' => ['auth']), function()
 {
 	Route::resource('usuario', 'UsuarioController');
     Route::post('usuario/cargos/store/{$user_id}', 'CargosController@store');
