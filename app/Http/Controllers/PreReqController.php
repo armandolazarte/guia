@@ -78,7 +78,7 @@ class PreReqController extends Controller {
     {
         $prereq = PreReq::findOrFail($id);
 
-        $urgs = Urg::all(array('id','urg','d_urg'));
+        $urgs = Urg::has('proyectos', '!=', 0)->get();
 
         return view('prereqs.formPreRequisicion')
             ->with('prereq', $prereq)
