@@ -26,5 +26,6 @@ class RolesTableSeeder extends Seeder {
         Role::create(array('role_name' => 'Bancos'));
         Role::create(array('role_name' => 'Fondos Externos'));
         Role::create(array('role_name' => 'DMCYP - DIP'));
+        Role::create(array('role_name' => 'Usuario (Solicitud)'));
     }
 }
