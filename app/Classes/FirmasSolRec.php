@@ -13,9 +13,9 @@ class FirmasSolRec
     {
         $urg_id = Proyecto::find($proyecto_id)->urg_id;
         $urg = Urg::find($urg_id);
-        $cargos = $urg->cargos()->where('fin', '=', '0000-00-00')->get(array('user_id'));
-        if (count($cargos) > 0){
-            $user_id = $cargos[0]->user_id;
+        $cargo = $urg->cargos()->where('fin', '=', '0000-00-00')->first(array('user_id'));
+        if ($cargo !== null){
+            $user_id = $cargo->user_id;
         } else {
             $user_id = 0;
         }
