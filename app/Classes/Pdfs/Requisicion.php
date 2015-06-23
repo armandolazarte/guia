@@ -186,6 +186,6 @@ class Requisicion extends FPDF
         $this->SetY(248);
         $this->Line($this->GetX(), $this->GetY(), 210, $this->GetY());//Linea inferior
 
-        $this->Output('Req'.$this->req->req,'I');
+        $this->Output('Req_'.$this->req->req.'.pdf','I');
     }
 }

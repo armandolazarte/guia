@@ -210,6 +210,6 @@ class SolicitudController extends Controller {
     {
         $solicitud = Solicitud::find($id);
         $solicitud_pdf = new SolicitudPdf($solicitud);
-        return view($solicitud_pdf->crearPdf());
+        return response($solicitud_pdf->crearPdf()->header('Content-Type', 'application/pdf'));
     }
 }

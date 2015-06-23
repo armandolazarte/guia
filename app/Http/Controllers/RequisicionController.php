@@ -209,7 +209,7 @@ class RequisicionController extends Controller {
         $req = Req::find($id);
         $articulos = Articulo::whereReqId($id)->get();
         $req_pdf = new Requisicion($req, $articulos);
-        return view($req_pdf->crearPdf());
+        return response($req_pdf->crearPdf()->header('Content-Type', 'application/pdf'));
     }
 
 }

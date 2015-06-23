@@ -199,66 +199,55 @@ class SolicitudPdf extends FPDF
         //Fin de Tabla
 
         //Footer no repetitivo por fecha y # de solicitud
-//        $info_usr = Info_Usuario::info($arr_solicitud['solicita']);
+        $solicita = User::find($this->solicitud->solicita);
         $this->SetY(-44);
         $this->SetFont('Arial','',10);
-        /*if ($res_proy['usr'] == $arr_solicitud['solicita'])
-        {
-            //Solo una firma
+
+        //Verificar si el responsable del proyecto es el solicitante
+        if($this->solicitud->autoriza == $this->solicitud->solicita) {
             $this->Cell(190, 5, "A T E N T A M E N T E", 0, 1, "C");
             $this->SetFont('Arial','B',10);
             $this->Cell(190,4,utf8_decode ("\"Piensa y Trabaja\""),0,1,'C');
-            if (!empty($LEYENDA)) {
-                $this->SetFont('Arial','BI',10);
-                $this->Cell(190,4,utf8_decode ("$LEYENDA"),0,1,'C');
-            }
+//            if (!empty($LEYENDA)) {
+//                $this->SetFont('Arial','BI',10);
+//                $this->Cell(190,4,utf8_decode (""),0,1,'C');//Leyenda
+//            }
             $this->SetFont('Arial','',10);
-            $this->Cell(190,4,utf8_decode ("Guadalajara, Jalisco, a ".$fecha_texto),0,1,'C');
+            $this->Cell(190,4,utf8_decode ("Guadalajara, Jalisco, a "),0,1,'C');//$fecha_texto
             $this->Ln(10);
-            $this->MultiCell(190,5,utf8_decode($info_usr['prefijo']." ".$info_usr['nombre']),0,'C');
-            $this->MultiCell(190,5,utf8_decode($info_usr['cargo']),0,'C');
-        } elseif ($presu['usr'] == $info_usr['usr']) {
-            //Solo una firma
-            $this->Cell(190, 5, "A T E N T A M E N T E", 0, 1, "C");
-            $this->SetFont('Arial','B',10);
-            $this->Cell(190,4,utf8_decode ("\"Piensa y Trabaja\""),0,1,'C');
-            if (!empty($LEYENDA)) {
-                $this->SetFont('Arial','BI',10);
-                $this->Cell(190,4,utf8_decode ("$LEYENDA"),0,1,'C');
-            }
-            $this->SetFont('Arial','',10);
-            $this->Cell(190,4,utf8_decode ("Guadalajara, Jalisco, a ".$fecha_texto),0,1,'C');
-            $this->Ln(10);
-            $this->MultiCell(190,5,utf8_decode($res_proy['prefijo']." ".$res_proy['nombre']),0,'C');
-            $this->MultiCell(190,5,utf8_decode($res_proy['cargo']),0,'C');
+
+            $this->MultiCell(190,5,utf8_decode($solicita->prefijo." ".$solicita->nombre),0,'C');
+            $this->MultiCell(190,5,utf8_decode($solicita->cargo),0,'C');
         } else {
             //Firma de solicitante y responsable
             $this->Cell(90, 5, "A T E N T A M E N T E",10, 1, "L");
             $this->SetFont('Arial','B',10);
             $this->Cell(90,4,utf8_decode ("\"Piensa y Trabaja\""),0,1,'L');
-            if (!empty($LEYENDA)) {
-                $this->SetFont('Arial','BI',10);
-                $this->Cell(90,4,utf8_decode ("$LEYENDA"),0,1,'L');
-            }
+//            if (!empty($LEYENDA)) {
+//                $this->SetFont('Arial','BI',10);
+//                $this->Cell(90,4,utf8_decode ("$LEYENDA"),0,1,'L');
+//            }
             $this->SetFont('Arial','',10);
-            $this->Cell(90,4,utf8_decode ("Guadalajara, Jalisco, a ".$fecha_texto),0,1,'L');
+            $this->Cell(90,4,utf8_decode ("Guadalajara, Jalisco, a "),0,1,'L');//fecha_texto
             $this->Ln(11);
-            $this->MultiCell(90,5,utf8_decode($info_usr['prefijo']." ".$info_usr['nombre']),0,'L');
-            $this->MultiCell(90,5,utf8_decode($info_usr['cargo']),0,'L');
 
+            $this->MultiCell(90,5,utf8_decode($solicita->prefijo." ".$solicita->nombre),0,'L');
+            $this->MultiCell(90,5,utf8_decode($solicita->cargo),0,'L');
+
+            $autoriza = User::find($this->solicitud->autoriza);
             $this->SetXY(95,-20);
             $this->SetFont('Arial','',8);
             $this->Cell(65, 4, "AUTORIZA", 0, 2, "C");
-            $this->MultiCell(65,4,utf8_decode($res_proy['prefijo']." ".$res_proy['nombre']),0,'C');
+            $this->MultiCell(65,4,utf8_decode($autoriza->prefijo." ".$autoriza->nombre),0,'C');
             $this->SetX(95);
-            $this->MultiCell(65,4,utf8_decode($res_proy['cargo']),0,'C');
-        }*/
+            $this->MultiCell(65,4,utf8_decode($autoriza->cargo),0,'C');
+        }
 
         $this->SetFont('Arial','',7);
         $this->SetXY(-40, -10);
         $this->Cell(35, 4, "Solicitud SIGI #".$this->solicitud->id, 0, 1, "R");
 
-        $this->Output('Solicitud'.$this->solicitud->id, 'I');
+        $this->Output('Solicitud_'.$this->solicitud->id.'.pdf', 'I');
 
     }
 }
