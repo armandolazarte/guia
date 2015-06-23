@@ -68,4 +68,9 @@ class Solicitud extends Model {
         return $this->morphMany('Guia\Models\Registro', 'docable');
     }
 
+    public function archivos()
+    {
+        return $this->morphMany('Guia\Archivo', 'archivable');
+    }
+
 }

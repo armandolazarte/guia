@@ -10,4 +10,10 @@ class Archivo extends Model {
     {
         return $this->hasMany('Guia\DataFile');
     }
+
+    public function archivable()
+    {
+        return $this->morphTo();
+    }
+
 }
