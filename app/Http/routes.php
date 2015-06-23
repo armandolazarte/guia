@@ -43,6 +43,7 @@ Route::get('/login', 'Auth\GuiaAuthController@getLogin');
 Route::post('/login', 'Auth\GuiaAuthController@authenticate');
 
 Route::post('/archivos/upload', 'ArchivosController@store');
+Route::get('/archivos/descargar/{presupuesto}/{id}', 'ArchivosController@descargar');
 
 Route::group(array('prefix' => 'admin/su'), function()
 {

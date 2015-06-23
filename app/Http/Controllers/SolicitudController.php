@@ -1,6 +1,7 @@
 <?php namespace Guia\Http\Controllers;
 
 use Carbon\Carbon;
+use Guia\Archivo;
 use Guia\Classes\FirmasSolRec;
 use Guia\Classes\Pdfs\SolicitudPdf;
 use Guia\Http\Requests;
@@ -95,7 +96,9 @@ class SolicitudController extends Controller {
         }
 
         $solicitud = Solicitud::find($id);
-        return view('solicitudes.infoSolicitud', compact('solicitud', 'acciones_presu'));
+        $archivos = Archivo::on('archivo_2015')->whereLinkableId($id)->get();
+
+        return view('solicitudes.infoSolicitud', compact('solicitud', 'acciones_presu', 'archivos'));
 	}
 
 	/**
