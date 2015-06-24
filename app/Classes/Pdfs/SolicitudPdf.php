@@ -204,7 +204,7 @@ class SolicitudPdf extends FPDF
         $this->SetFont('Arial','',10);
 
         //Verificar si el responsable del proyecto es el solicitante
-        if($this->solicitud->autoriza == $this->solicitud->solicita) {
+        if($this->solicitud->autoriza == $this->solicitud->solicita || $this->solicitud->autoriza == 0) {
             $this->Cell(190, 5, "A T E N T A M E N T E", 0, 1, "C");
             $this->SetFont('Arial','B',10);
             $this->Cell(190,4,utf8_decode ("\"Piensa y Trabaja\""),0,1,'C');
