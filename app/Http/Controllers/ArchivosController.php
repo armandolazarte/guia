@@ -1,6 +1,7 @@
 <?php namespace Guia\Http\Controllers;
 
 use Guia\Archivo;
+use Guia\DataFile;
 use Guia\Http\Requests;
 use Guia\Http\Controllers\Controller;
 
@@ -129,10 +130,8 @@ class ArchivosController extends Controller {
     public function descargar($presupuesto, $id)
     {
         $archivo = Archivo::on('archivo_'.$presupuesto)->find($id);
-//        if(!empty($archivo->mime)){
-//            $headers = array('Content-Type: '.$archivo->mime.',');
-//        }
-        return response()->download('', $archivo->name);
+        $data_file = DataFile::on('archivo_'.$presupuesto)->whereArchivoId($id)->get();
+        return response($data_file[0]->data)->header('Content-Type', $archivo->mime);
     }
 
 }
