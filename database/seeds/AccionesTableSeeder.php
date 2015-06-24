@@ -58,6 +58,11 @@ class AccionesTableSeeder extends Seeder {
         Accion::create(['ruta' => 'ArticulosController@update', 'nombre' => '', 'icono' => '', 'orden' => '', 'activo' => '0']);
         Accion::create(['ruta' => 'ArticulosController@destroy', 'nombre' => '', 'icono' => '', 'orden' => '', 'activo' => '0']);
 
+        //-- Autorizar Requisición --//
+        Accion::create(['ruta' => 'AutorizarReqController@formAutorizar', 'nombre' => '', 'icono' => '', 'orden' => '', 'activo' => '0']);
+        Accion::create(['ruta' => 'AutorizarReqController@asignarRms', 'nombre' => '', 'icono' => '', 'orden' => '', 'activo' => '0']);
+        Accion::create(['ruta' => 'AutorizarReqController@desautorizar', 'nombre' => '', 'icono' => '', 'orden' => '', 'activo' => '0']);
+
         //-- Recibir Solicitudes --//
         Accion::create(['ruta' => 'RecibirController@seleccionarSol', 'nombre' => '', 'icono' => '', 'orden' => '', 'activo' => '0']);
         Accion::create(['ruta' => 'RecibirController@recibirSol', 'nombre' => '', 'icono' => '', 'orden' => '', 'activo' => '0']);
@@ -100,5 +105,33 @@ class AccionesTableSeeder extends Seeder {
         Accion::create(['ruta' => 'OcsController@index', 'nombre' => '', 'icono' => '', 'orden' => '', 'activo' => '0']);
         Accion::create(['ruta' => 'OcsController@store', 'nombre' => '', 'icono' => '', 'orden' => '', 'activo' => '0']);
         Accion::create(['ruta' => 'OcsController@ordenCompraPdf', 'nombre' => '', 'icono' => '', 'orden' => '', 'activo' => '0']);
+        Accion::create(['ruta' => 'OcsCondicionesController@edit', 'nombre' => '', 'icono' => '', 'orden' => '', 'activo' => '0']);
+        Accion::create(['ruta' => 'OcsCondicionesController@update', 'nombre' => '', 'icono' => '', 'orden' => '', 'activo' => '0']);
+
+        //-- Reportes Presupuesto --//
+        Accion::create(['ruta' => 'PresupuestoController@saldoRms', 'nombre' => '', 'icono' => '', 'orden' => '', 'activo' => '0']);
+
+        //-- Pre-Requisición (Solicitud) --//
+        Accion::create(['ruta' => 'PreReqController@index', 'nombre' => '', 'icono' => '', 'orden' => '', 'activo' => '0']);
+        Accion::create(['ruta' => 'PreReqController@create', 'nombre' => '', 'icono' => '', 'orden' => '', 'activo' => '0']);
+        Accion::create(['ruta' => 'PreReqController@store', 'nombre' => '', 'icono' => '', 'orden' => '', 'activo' => '0']);
+        Accion::create(['ruta' => 'PreReqController@show', 'nombre' => '', 'icono' => '', 'orden' => '', 'activo' => '0']);
+        Accion::create(['ruta' => 'PreReqController@edit', 'nombre' => '', 'icono' => '', 'orden' => '', 'activo' => '0']);
+        Accion::create(['ruta' => 'PreReqController@update', 'nombre' => '', 'icono' => '', 'orden' => '', 'activo' => '0']);
+        Accion::create(['ruta' => 'PreReqArticulosController@create', 'nombre' => '', 'icono' => '', 'orden' => '', 'activo' => '0']);
+        Accion::create(['ruta' => 'PreReqArticulosController@store', 'nombre' => '', 'icono' => '', 'orden' => '', 'activo' => '0']);
+        Accion::create(['ruta' => 'PreReqArticulosController@edit', 'nombre' => '', 'icono' => '', 'orden' => '', 'activo' => '0']);
+        Accion::create(['ruta' => 'PreReqArticulosController@update', 'nombre' => '', 'icono' => '', 'orden' => '', 'activo' => '0']);
+        Accion::create(['ruta' => 'PreReqArticulosController@destroy', 'nombre' => '', 'icono' => '', 'orden' => '', 'activo' => '0']);
+
+        //-- Almacén --//
+        Accion::create(['ruta' => 'EntradaOcController@index', 'nombre' => 'Nueva Entrada (OC)', 'icono' => '', 'orden' => '', 'activo' => '0']);
+        Accion::create(['ruta' => 'EntradaOcController@create', 'nombre' => '', 'icono' => '', 'orden' => '', 'activo' => '0']);
+        Accion::create(['ruta' => 'EntradaOcController@store', 'nombre' => '', 'icono' => '', 'orden' => '', 'activo' => '0']);
+        Accion::create(['ruta' => 'EntradaOcController@formatoPdf', 'nombre' => '', 'icono' => '', 'orden' => '', 'activo' => '0']);
+        Accion::create(['ruta' => 'SalidaController@create', 'nombre' => 'Nueva Salida', 'icono' => '', 'orden' => '', 'activo' => '0']);
+        Accion::create(['ruta' => 'SalidaController@store', 'nombre' => '', 'icono' => '', 'orden' => '', 'activo' => '0']);
+        Accion::create(['ruta' => 'SalidaController@show', 'nombre' => '', 'icono' => '', 'orden' => '', 'activo' => '0']);
+        Accion::create(['ruta' => 'SalidaController@formatoPdf', 'nombre' => '', 'icono' => '', 'orden' => '', 'activo' => '0']);
     }
 }
