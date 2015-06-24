@@ -198,3 +198,22 @@ Route::group(array('prefix' => 'solicitud-req', 'middleware' => ['auth','selPres
     Route::patch('/articulos/{articulo}', 'PreReqArticulosController@update');
     Route::delete('/articulos/{articulo}', 'PreReqArticulosController@destroy');
 });
+});
+
+//** Entradas de Almacén **//
+Route::group(array('prefix' => 'almacen/entrada', 'middleware' => ['auth']), function()
+{
+    Route::get('/oc', 'EntradaOcController@index');
+    Route::get('/oc/{oc}', 'EntradaOcController@create');
+    Route::post('/oc', 'EntradaOcController@store');
+    Route::get('/formato/{id}', 'EntradaOcController@formatoPdf');
+});
+
+//** Salidas de Almacén **//
+Route::group(array('prefix' => 'almacen/salida', 'middleware' => ['auth']), function()
+{
+    Route::get('/{entrada_id}/nueva', 'SalidaController@create');
+    Route::post('/', 'SalidaController@store');
+    Route::get('/{id}', 'SalidaController@show');
+    Route::get('/formato/{id}', 'SalidaController@formatoPdf');
+});

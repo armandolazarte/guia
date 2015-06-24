@@ -31,6 +31,16 @@ class Articulo extends Model {
         return $this->belongsToMany('Guia\Models\Cotizacion')->withPivot('costo', 'sel')->withTimestamps();
     }
 
+    public function entradas()
+    {
+        return $this->morphToMany('Guia\Models\Almacen\Entrada', 'entrada_articulo')->withPivot('cantidad');
+    }
+
+    public function salidas()
+    {
+        return $this->morphToMany('Guia\Models\Almacen\Salida', 'salida_articulo')->withPivot('cantidad');
+    }
+
     public function getMontoCotizadoAttribute()
     {
         foreach ($this->cotizaciones as $cot) {
