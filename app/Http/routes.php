@@ -198,7 +198,6 @@ Route::group(array('prefix' => 'solicitud-req', 'middleware' => ['auth','selPres
     Route::patch('/articulos/{articulo}', 'PreReqArticulosController@update');
     Route::delete('/articulos/{articulo}', 'PreReqArticulosController@destroy');
 });
-});
 
 //** Entradas de Almacén **//
 Route::group(array('prefix' => 'almacen/entrada', 'middleware' => ['auth']), function()
