@@ -50,12 +50,17 @@
         </div>
     </div>
 
-    <div class="row">
-        <div class="col-sm-3">
-            @include('partials.archivos.showFiles', array('presupuesto' => '2015', 'linkable_id' => $solicitud->id, 'linkable_type' => 'Guia\Models\Solicitud'))
-        </div>
-        <div class="col-sm-9">
-            @include('partials.archivos.formUpload', array('presupuesto' => '2015', 'linkable_id' => $solicitud->id, 'linkable_type' => 'Guia\Models\Solicitud'))
+    <br>
+    <div class="panel panel-info">
+        <div class="panel-heading">Archivos</div>
+        <div class="panel-body">
+            <div class="col-sm-4">
+                @include('partials.archivos.showFiles', array('presupuesto' => '2015', 'linkable_id' => $solicitud->id, 'linkable_type' => 'Guia\Models\Solicitud'))
+            </div>
+            <div class="col-sm-8">
+                @include('partials.archivos.formUpload', array('presupuesto' => '2015', 'linkable_id' => $solicitud->id, 'linkable_type' => 'Guia\Models\Solicitud'))
+            </div>
+
         </div>
     </div>
 @stop
