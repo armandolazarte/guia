@@ -1,4 +1,6 @@
-<?php namespace Guia\Console;
+<?php
+
+namespace Guia\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
@@ -11,7 +13,7 @@ class Kernel extends ConsoleKernel {
 	 * @var array
 	 */
 	protected $commands = [
-		'Guia\Console\Commands\Inspire',
+        \App\Console\Commands\Inspire::class,
 	];
 
 	/**

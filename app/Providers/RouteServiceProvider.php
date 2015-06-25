@@ -1,4 +1,6 @@
-<?php namespace Guia\Providers;
+<?php
+
+namespace Guia\Providers;
 
 use Illuminate\Routing\Router;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;

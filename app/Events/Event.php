@@ -1,4 +1,6 @@
-<?php namespace Guia\Events;
+<?php
+
+namespace Guia\Events;
 
 abstract class Event {
 

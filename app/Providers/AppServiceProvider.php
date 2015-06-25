@@ -1,4 +1,6 @@
-<?php namespace Guia\Providers;
+<?php
+
+namespace Guia\Providers;
 
 use View;
 use Illuminate\Support\ServiceProvider;
