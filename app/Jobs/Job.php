@@ -1,6 +1,6 @@
 <?php
 
-namespace Guia\Job;
+namespace Guia\Jobs;
 
 use Illuminate\Bus\Queueable;
 

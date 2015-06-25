@@ -2,8 +2,7 @@
 
 namespace Guia\Events;
 
-abstract class Event {
-
-	//
-
+abstract class Event
+{
+    //
 }
