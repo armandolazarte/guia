@@ -1,7 +1,8 @@
-<?php namespace Guia\Events;
+<?php
 
-abstract class Event {
+namespace Guia\Events;
 
-	//
-
+abstract class Event
+{
+    //
 }

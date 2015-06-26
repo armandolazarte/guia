@@ -1,37 +1,38 @@
-<?php namespace Guia\Http;
+<?php
+
+namespace Guia\Http;
 
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
-class Kernel extends HttpKernel {
+class Kernel extends HttpKernel
+{
+    /**
+     * The application's global HTTP middleware stack.
+     *
+     * @var array
+     */
+    protected $middleware = [
+        \Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode::class,
+        \Guia\Http\Middleware\EncryptCookies::class,
+        \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
+        \Illuminate\Session\Middleware\StartSession::class,
+        \Illuminate\View\Middleware\ShareErrorsFromSession::class,
+        \Guia\Http\Middleware\VerifyCsrfToken::class,
+    ];
 
-	/**
-	 * The application's global HTTP middleware stack.
-	 *
-	 * @var array
-	 */
-	protected $middleware = [
-		'Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode',
-		'Illuminate\Cookie\Middleware\EncryptCookies',
-		'Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse',
-		'Illuminate\Session\Middleware\StartSession',
-		'Illuminate\View\Middleware\ShareErrorsFromSession',
-		'Guia\Http\Middleware\VerifyCsrfToken',
-	];
-
-	/**
-	 * The application's route middleware.
-	 *
-	 * @var array
-	 */
-	protected $routeMiddleware = [
-		'auth' => 'Guia\Http\Middleware\Authenticate',
-		'auth.basic' => 'Illuminate\Auth\Middleware\AuthenticateWithBasicAuth',
-		'guest' => 'Guia\Http\Middleware\RedirectIfAuthenticated',
+    /**
+     * The application's route middleware.
+     *
+     * @var array
+     */
+    protected $routeMiddleware = [
+        'auth' => \Guia\Http\Middleware\Authenticate::class,
+        'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
+        'guest' => \Guia\Http\Middleware\RedirectIfAuthenticated::class,
 		'role' => 'Guia\Http\Middleware\UserRoleInModule',
         'selPresu' => 'Guia\Http\Middleware\SelPresupuestoEnSession',
         'autorizaEditarReq' => 'Guia\Http\Middleware\AutorizaEditarReq',
         'autorizaEditarSol' => 'Guia\Http\Middleware\AutorizaEditarSol',
         'autorizaEditarPreReq' => 'Guia\Http\Middleware\AutorizaEditarPreReq',
-	];
-
+    ];
 }

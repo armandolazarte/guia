@@ -1,9 +1,10 @@
-<?php namespace Guia\Http\Requests;
+<?php
+
+namespace Guia\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-abstract class Request extends FormRequest {
-
-	//
-
+abstract class Request extends FormRequest
+{
+    //
 }
