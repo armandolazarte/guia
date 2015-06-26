@@ -69,7 +69,10 @@ class SolicitudController extends Controller {
 	 */
 	public function store(SolicitudFormRequest $request)
 	{
-        $request->merge(array('solicita' => \Auth::user()->id));
+        $request->merge(array(
+            'solicita' => \Auth::user()->id,
+            'fecha' => Carbon::now()->toDateString()
+        ));
 
         $autoriza = FirmasSolRec::getUserAutoriza($request->input('proyecto_id'));
         $request->merge(array('autoriza' => $autoriza));
