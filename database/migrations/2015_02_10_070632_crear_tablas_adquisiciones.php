@@ -49,6 +49,7 @@ class CrearTablasAdquisiciones extends Migration {
 			$table->integer('oc_id')->unsigned();
 			$table->string('unidad', 20);
 			$table->boolean('inventariable');
+            $table->string('obs', 20);
 			$table->timestamps();
 			$table->softDeletes();
 		});
