@@ -12,31 +12,33 @@ class CreateArchivosTable extends Migration {
 	 */
 	public function up()
 	{
-        $initial_year = env('PRESUPUESTO_INICIAL', '2010');
-        $actual_year = \Carbon\Carbon::now()->year;
+        Schema::create('folders', function(Blueprint $table) {
+            $table->increments('id');
+            $table->string('ruta');
+            $table->integer('folder_size')->unsigned();
+            $table->boolean('zip');
+        });
 
-        for($i = $initial_year; $i <= $actual_year; $i++){
-            Schema::connection('archivo_'.$i)->create('archivos', function(Blueprint $table)
-            {
-                $table->increments('id');
-                $table->integer('linkable_id')->unsigned();
-                $table->string('linkable_type');
-                $table->string('name');
-                $table->string('mime');
-                $table->integer('size')->unsigned();
-                $table->dateTime('created_original');
-                $table->string('extension', 4);
-                $table->string('tipo');
-                $table->timestamps();
-            });
+        Schema::create('folder_docs', function(Blueprint $table)
+        {
+            $table->increments('id');
+            $table->integer('folder_id')->unsigned();
+            $table->integer('doc_id')->unsigned();
+            $table->string('doc_type');
+        });
 
-            Schema::connection('archivo_'.$i)->create('data_files', function(Blueprint $table) {
-                $table->increments('id');
-                $table->integer('archivo_id')->unsigned();
-                $table->integer('chunk_id')->unsigned();
-                $table->binary('data');
-            });
-        }
+        Schema::create('files', function(Blueprint $table)
+        {
+            $table->increments('id');
+            $table->integer('folder_id')->unsigned();
+            $table->integer('doc_id')->unsigned();
+            $table->string('doc_type');
+            $table->string('name');
+            $table->string('mime');
+            $table->integer('size')->unsigned();
+            $table->string('tipo', 50);
+            $table->timestamps();
+        });
 	}
 
 	/**
@@ -46,13 +48,9 @@ class CreateArchivosTable extends Migration {
 	 */
 	public function down()
 	{
-        $initial_year = env('PRESUPUESTO_INICIAL', '2010');
-        $actual_year = \Carbon\Carbon::now()->year;
-
-        for($i = $initial_year; $i <= $actual_year; $i++) {
-            Schema::connection('archivo_'.$i)->drop('data_files');
-            Schema::connection('archivo_'.$i)->drop('archivos');
-        }
+        Schema::drop('files');
+        Schema::drop('folder_docs');
+        Schema::drop('folders');
 	}
 
 }
