@@ -28,4 +28,17 @@ class Fondo extends Model {
         return $this->morphMany('Guia\Models\Acceso', 'acceso');
     }
 
+    public function scopeFondosProyectosActivos($query)
+    {
+        $query->has('proyectos', '!=', 0);
+
+        return $query;
+    }
+
+    //Regrega el fondo junto con su descripción
+    public function getFondoDescAttribute()
+    {
+        return $this->fondo.' - '.$this->d_fondo;
+    }
+
 }
