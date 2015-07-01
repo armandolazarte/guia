@@ -23,7 +23,7 @@ class FiltroEstatusResponsable
             $this->user->load('roles');
         }
 
-        $this->arr_roles = $this->user->roles()->lists('role_name');
+        $this->arr_roles = $this->user->roles()->lists('role_name')->all();
 
     }
 

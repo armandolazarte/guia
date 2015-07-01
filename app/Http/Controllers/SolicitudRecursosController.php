@@ -33,7 +33,7 @@ class SolicitudRecursosController extends Controller {
                 $arr_excluir[] = $obj_excluir->id;
             }
 
-            $arr_objetivos_id = Rm::distinct()->whereProyectoId($solicitud->proyecto_id)->whereNotIn('objetivo_id', $arr_excluir)->lists('objetivo_id');
+            $arr_objetivos_id = Rm::distinct()->whereProyectoId($solicitud->proyecto_id)->whereNotIn('objetivo_id', $arr_excluir)->lists('objetivo_id')->all();
             $objetivos = Objetivo::whereIn('id', $arr_objetivos_id)->get();
             if (count($objetivos) == 0){
                 return redirect()->back()->with('message', 'Todos los Objetivos han sido asignados');

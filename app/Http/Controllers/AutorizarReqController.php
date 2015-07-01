@@ -22,7 +22,7 @@ class AutorizarReqController extends Controller {
         $req->fecha_req = Carbon::parse($req->fecha_req)->format('d/m/Y');
         $articulos = Articulo::whereReqId($id)->with('cotizaciones')->with('rms.cog')->get();
 
-        $arr_rms = Rm::whereProyectoId($req->proyecto_id)->get()->lists('cog_rm_saldo', 'id');
+        $arr_rms = Rm::whereProyectoId($req->proyecto_id)->get()->lists('cog_rm_saldo', 'id')->all();
         $data['req'] = $req;
         $data['articulos'] = $articulos;
         $data['arr_rms'] = $arr_rms;

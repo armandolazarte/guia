@@ -91,7 +91,7 @@ class SolicitudController extends Controller {
 	{
         //Determina Acciones Unidad de Presupuesto
         $user = \Auth::user();
-        $arr_roles = $user->roles()->lists('role_name');
+        $arr_roles = $user->roles()->lists('role_name')->all();
         if(array_search('Ejecutora', $arr_roles) !== false || array_search('Presupuesto', $arr_roles) !== false){
             $acciones_presu = true;
         } else {

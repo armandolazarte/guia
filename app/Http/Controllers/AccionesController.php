@@ -24,7 +24,7 @@ class AccionesController extends Controller {
     public function store(Request $request)
     {
         //Consulta rutas registradas en tabla acciones
-        $acciones = Accion::lists('ruta');
+        $acciones = Accion::lists('ruta')->all();
         $arr_rutas = $request->input('arr_rutas');
         foreach($arr_rutas as $ruta){
             if ( array_search($ruta, $acciones) === false) {

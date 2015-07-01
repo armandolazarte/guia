@@ -27,7 +27,7 @@ class RequisicionController extends Controller {
 
         if($scope == null){
             $user = \Auth::user();
-            $arr_roles = $user->roles()->lists('role_name');
+            $arr_roles = $user->roles()->lists('role_name')->all();
 
             if(array_search('Cotizador', $arr_roles) !== false || array_search('Adquisiciones', $arr_roles) !== false){
                 $scope = 'EstatusResponsable';
@@ -105,7 +105,7 @@ class RequisicionController extends Controller {
 		$data['req'] = $req;
 
         $user = \Auth::user();
-        $arr_roles = $user->roles()->lists('role_name');
+        $arr_roles = $user->roles()->lists('role_name')->all();
         $data['arr_roles'] = $arr_roles;
 
         if(array_search('Cotizador', $arr_roles) !== false || array_search('Adquisiciones', $arr_roles) !== false){

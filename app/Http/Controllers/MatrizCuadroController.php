@@ -64,8 +64,8 @@ class MatrizCuadroController extends Controller {
         $cuadro->save();
 
         //Insertar en articulo_cotizacion
-        $arr_articulos_id = Articulo::whereReqId($req_id)->lists('id');
-        $arr_cotizaciones_id = Cotizacion::whereReqId($req_id)->lists('id');
+        $arr_articulos_id = Articulo::whereReqId($req_id)->lists('id')->all();
+        $arr_cotizaciones_id = Cotizacion::whereReqId($req_id)->lists('id')->all();
 
         foreach($arr_articulos_id as $articulo_id){
             $articulo = Articulo::find($articulo_id);
@@ -145,8 +145,8 @@ class MatrizCuadroController extends Controller {
          * @todo Validar que no se seleccione una cotización de un artículo con costo == 0
          */
         $cuadro = Cuadro::find($id);
-        $arr_articulos_id = Articulo::whereReqId($cuadro->req_id)->lists('id');
-        $arr_cotizaciones_id = Cotizacion::whereReqId($cuadro->req_id)->lists('id');
+        $arr_articulos_id = Articulo::whereReqId($cuadro->req_id)->lists('id')->all();
+        $arr_cotizaciones_id = Cotizacion::whereReqId($cuadro->req_id)->lists('id')->all();
 
         foreach($arr_articulos_id as $articulo_id){
             $articulo = Articulo::find($articulo_id);

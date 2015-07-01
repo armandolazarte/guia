@@ -36,7 +36,7 @@ class ImportadorCatalogos {
         }
     }
     private function consultarUrgExternas(){
-        $urg_importadas = Urg::lists('urg');
+        $urg_importadas = Urg::lists('urg')->all();
         if ( count($urg_importadas) > 0 ) {
             $urg_externas = \DB::connection($this->db_origen)->table('tbl_ures')
                 ->whereNotIn ('ures', $urg_importadas)
@@ -64,7 +64,7 @@ class ImportadorCatalogos {
     }
 
     private function consultarFondosExternos(){
-        $fondos_importados = Fondo::lists('fondo');
+        $fondos_importados = Fondo::lists('fondo')->all();
         if ( count($fondos_importados) > 0 ) {
             $fondos_externos = \DB::connection($this->db_origen)->table('tbl_fondos')
                 ->whereNotIn ('fondo', $fondos_importados)
@@ -102,7 +102,7 @@ class ImportadorCatalogos {
     }
 
     private function consultarProyectosExternos(){
-        $proyectos_importados = Proyecto::lists('proyecto');
+        $proyectos_importados = Proyecto::lists('proyecto')->all();
         if ( count($proyectos_importados) > 0 ) {
             $proyectos_externos = \DB::connection($this->db_origen)->table('tbl_proyectos')
                 ->whereNotIn ('proy', $proyectos_importados)
@@ -136,7 +136,7 @@ class ImportadorCatalogos {
         }
     }
     private function consultarCuentasExternas(){
-        $cuentas_importadas = Cuenta::lists('cuenta');
+        $cuentas_importadas = Cuenta::lists('cuenta')->all();
         if ( count($cuentas_importadas) > 0 ) {
             $cuentas_externas = \DB::connection($this->db_origen)->table('tbl_cta_b')
                 ->whereNotIn ('cta_b', $cuentas_importadas)
@@ -182,7 +182,7 @@ class ImportadorCatalogos {
     }
 
     private function consultarBenefsExternos(){
-        $benefs_importados = Benef::lists('benef');
+        $benefs_importados = Benef::lists('benef')->all();
         if ( count($benefs_importados) > 0 ) {
             $benefs_externos = \DB::connection($this->db_origen)->table('tbl_benef')
                 ->whereNotIn ('benef', $benefs_importados)
@@ -210,7 +210,7 @@ class ImportadorCatalogos {
     }
 
     private function consultarCogExternos(){
-        $cogs_importados = Cog::lists('cog');
+        $cogs_importados = Cog::lists('cog')->all();
         if ( count($cogs_importados) > 0 ) {
             $cogs_externos = \DB::connection($this->db_origen)->table('tbl_cuentas')
                 ->whereNotIn ('cta', $cogs_importados)
@@ -261,7 +261,7 @@ class ImportadorCatalogos {
     }
 
     private function consultarUsuariosExternos(){
-        $usuarios_importados = User::lists('username');
+        $usuarios_importados = User::lists('username')->all();
         if ( count($usuarios_importados) > 0 ) {
             $usuarios_externos = \DB::connection($this->db_origen)->table('tbl_usuarios')
                 ->whereNotIn ('usr', $usuarios_importados)
@@ -329,7 +329,7 @@ class ImportadorCatalogos {
     }
 
     private function consultarRmsExternos(){
-        $rms_importados = Rm::lists('rm');
+        $rms_importados = Rm::lists('rm')->all();
         if ( count($rms_importados) > 0 ) {
             $rms_externos = \DB::connection($this->db_origen)->table('tbl_rm')
                 ->whereNotIn ('rm', $rms_importados)

@@ -74,7 +74,7 @@ class UsuarioController extends Controller {
 
         //Verifica si el rol del usuario es Administrador
         $user_actual = \Auth::user();
-        $arr_roles = $user_actual->roles()->lists('role_name');
+        $arr_roles = $user_actual->roles()->lists('role_name')->all();
         if(array_search('Administrador', $arr_roles) !== false){
             $role_admin = true;
         } else {
