@@ -4,6 +4,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class SolDeposito extends Model {
 
+    protected $fillable = ['fecha', 'fondo_id', 'afin_soldep'];
+
     //SolDeposito __belongs_to__ Fondo
     public function fondo()
     {
