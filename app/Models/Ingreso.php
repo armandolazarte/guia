@@ -7,16 +7,16 @@ class Ingreso extends Model {
 
     use SoftDeletes;
 
-    //Ingreso __belongs_to__ Cuenta
+    //Ingreso __belongs_to__ CuentaBancaria
     public function cuenta()
     {
-        return $this->belongsTo('Guia\Models\Cuenta');
+        return $this->belongsTo('Guia\Models\CuentaBancaria');
     }
 
-    //Ingreso __belongs_to__ Concepto
+    //Ingreso __belongs_to__ Cuenta
     public function concepto()
     {
-        return $this->belongsTo('Guia\Models\Concepto');
+        return $this->belongsTo('Guia\Models\Cuenta');
     }
 
     //Ingreso __belongs_to_many__ Rm

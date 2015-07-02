@@ -7,16 +7,16 @@ class Egreso extends Model {
 
     use SoftDeletes;
 
-    //Egreso __belongs_to__ Cuenta
+    //Egreso __belongs_to__ CuentaBancaria
     public function cuenta()
     {
-        return $this->belongsTo('Guia\Models\Cuenta');
+        return $this->belongsTo('Guia\Models\CuentaBancaria');
     }
 
-    //Egreso __belongs_to__ Concepto
+    //Egreso __belongs_to__ Cuenta
     public function concepto()
     {
-        return $this->belongsTo('Guia\Models\Concepto');
+        return $this->belongsTo('Guia\Models\Cuenta');
     }
 
     //Egreso __belongs_to__ Benef

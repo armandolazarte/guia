@@ -52,10 +52,10 @@ class Proyecto extends Model {
         return $this->belongsToMany('Guia\Models\Fondo');
     }
 
-    //Proyecto __belongs_to_many Cuentas
-    public function cuentas()
+    //Proyecto __belongs_to_many CuentaBancaria
+    public function cuentasBancarias()
     {
-        return $this->belongsToMany('Guia\Models\Cuenta');
+        return $this->belongsToMany('Guia\Models\CuentaBancaria');
     }
 
     //Proyecto __belongs_to_many Disponibles

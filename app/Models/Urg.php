@@ -10,10 +10,10 @@ class Urg extends Model {
         return $this->hasMany('Guia\Models\Proyecto');
     }
 
-    //Urg __has_many__ Cuenta
-    public function cuentas()
+    //Urg __has_many__ CuentaBancaria
+    public function cuentasBancarias()
     {
-        return $this->hasMany('Guia\Models\Cuenta');
+        return $this->hasMany('Guia\Models\CuentaBancaria');
     }
 
     //Urg __has_many__ Alta

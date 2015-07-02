@@ -4,6 +4,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Cuenta extends Model {
 
+    public $timestamps = false;
+
     //Cuenta __has_many__ Egresos
     public function egresos()
     {
@@ -14,18 +16,6 @@ class Cuenta extends Model {
     public function ingresos()
     {
         return $this->hasMany('Guia\Models\Ingreso');
-    }
-
-    //Cuenta __belongs_to_many__ Proyectos
-    public function proyectos()
-    {
-        return $this->belongsToMany('Guia\Models\Proyecto');
-    }
-
-    //Cuenta __belongs_to__ Urg
-    public function urg()
-    {
-        return $this->belongsTo('Guia\Models\Urg');
     }
 
 }

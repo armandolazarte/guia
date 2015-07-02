@@ -7,7 +7,7 @@ use Guia\Models\Rm;
 use Guia\Models\Urg;
 use Guia\Models\Fondo;
 use Guia\Models\Proyecto;
-use Guia\Models\Cuenta;
+use Guia\Models\CuentaBancaria;
 use Guia\Models\Benef;
 use Guia\Models\Proveedor;
 use Guia\Models\Cog;
@@ -123,7 +123,7 @@ class ImportadorCatalogos {
                 $urg = Urg::whereUrg($cuenta_nueva->ures)->get(array('id'));
                 !empty($cuenta_nueva->set_default) ? $activa = 1 : $activa = 0;
 
-                $cuenta = new Cuenta();
+                $cuenta = new CuentaBancaria();
                 $cuenta->cuenta = $cuenta_nueva->cta_b;
                 $cuenta->d_cuenta = $cuenta_nueva->d_cta_b;
                 $cuenta->no_cuenta = $cuenta_nueva->no_cuenta;
@@ -136,7 +136,7 @@ class ImportadorCatalogos {
         }
     }
     private function consultarCuentasExternas(){
-        $cuentas_importadas = Cuenta::lists('cuenta')->all();
+        $cuentas_importadas = CuentaBancaria::lists('cuenta')->all();
         if ( count($cuentas_importadas) > 0 ) {
             $cuentas_externas = \DB::connection($this->db_origen)->table('tbl_cta_b')
                 ->whereNotIn ('cta_b', $cuentas_importadas)
