@@ -11,7 +11,7 @@ class SolDepositosDoc extends Model {
     }
 
     //SolDepositosDoc __morph_to__ Solicitud|Oc
-    public function docable()
+    public function doc()
     {
         return $this->morphTo();
     }
