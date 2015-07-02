@@ -5,7 +5,7 @@ namespace Guia\Http\Controllers;
 use Guia\Models\Oc;
 use Guia\Models\Req;
 use Guia\Models\SolDeposito;
-use Guia\Models\SolDepositoDoc;
+use Guia\Models\SolDepositosDoc;
 use Guia\Models\Solicitud;
 use Illuminate\Http\Request;
 
@@ -35,23 +35,20 @@ class SolDepositoDocsController extends Controller
         $fondo_filto = $soldep->fondo_id;
 
         $solicitudes = array();
-        $solicitudes = Solicitud::whereEstatus('Autorizada')->with('proyecto'); // ->with('proyecto.fondos') //Opcional para cargar info sobre proyecto y fondo
-        $solicitudes->whereHas('proyecto', function($query) use ($fondo_filto){
-            $query->whereHas('fondos', function($fondos_query) use ($fondo_filto) {
-               $fondos_query->where('fondo_id', '=', $fondo_filto);
-            });
-        });
-        $solicitudes = $solicitudes->get();
+        $solicitudes = Solicitud::whereEstatus('Autorizada')->with('proyecto', 'benef')
+            ->whereHas('proyecto', function($query) use ($fondo_filto){
+                $query->whereHas('fondos', function($fondos_query) use ($fondo_filto) {
+                   $fondos_query->where('fondo_id', '=', $fondo_filto);
+                });
+            })->get();
 
         $reqs = array();
-        $reqs = Req::whereEstatus('Autorizada')->with('ocs', 'proyecto');
-        $reqs->whereHas('proyecto', function($query) use ($fondo_filto){
-            $query->whereHas('fondos', function($fondos_query) use ($fondo_filto) {
-                $fondos_query->where('fondo_id', '=', $fondo_filto);
-            });
-        });
-
-        $reqs = $reqs->get();
+        $reqs = Req::whereEstatus('Autorizada')->with('ocs.benef', 'proyecto')
+            ->whereHas('proyecto', function($query) use ($fondo_filto){
+                $query->whereHas('fondos', function($fondos_query) use ($fondo_filto) {
+                    $fondos_query->where('fondo_id', '=', $fondo_filto);
+                });
+            })->get();
 
         return view('soldep.formSolDepDocs', compact('soldep', 'solicitudes', 'reqs'));
     }
@@ -63,8 +60,21 @@ class SolDepositoDocsController extends Controller
      */
     public function store(Request $request)
     {
+        $soldep_doc = new SolDepositosDoc();
+        $soldep_doc->sol_deposito_id = $request->input('sol_deposito_id');
+        $soldep_doc->monto = $request->input('monto');
+        $soldep_doc->save();
 
-        return redirect()->action(array('SolDepositoDocsController@create', $request->soldep_id));
+        if($request->input('doc_type') == 'Solicitud') {
+            $doc = Solicitud::find($request->input('doc_id'));
+        }
+        if($request->input('doc_type') == 'Oc') {
+            $doc = Oc::find($request->input('doc_id'));
+        }
+
+        $doc->solDepositosDocs()->save($soldep_doc);
+
+        return redirect()->action('SolDepositoDocsController@create', $request->input('sol_deposito_id'));
     }
 
     /**

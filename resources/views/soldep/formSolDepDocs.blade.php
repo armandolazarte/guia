@@ -31,10 +31,10 @@
                         <td>{{ number_format($sol->monto, 2) }}</td>
                         <td>
                             {!! Form::open(array('action' => 'SolDepositoDocsController@store')) !!}
-                            {!! Form::text('monto_solicitado', $sol->monto) !!}
+                            {!! Form::text('monto', $sol->monto) !!}
                             {!! Form::hidden('doc_id', $sol->id) !!}
                             {!! Form::hidden('doc_type', 'Solicitud') !!}
-                            {!! Form::hidden('soldep_id', $soldep->id) !!}
+                            {!! Form::hidden('sol_deposito_id', $soldep->id) !!}
                             {!! Form::submit('+') !!}
                             {!! Form::close() !!}
                         </td>
@@ -66,10 +66,10 @@
                             <td></td>
                             <td>
                                 {!! Form::open(array('action' => 'SolDepositoDocsController@store')) !!}
-                                {!! Form::text('monto_solicitado', 0) !!}
+                                {!! Form::text('monto', 0) !!}
                                 {!! Form::hidden('doc_id', $oc->id) !!}
                                 {!! Form::hidden('doc_type', 'Oc') !!}
-                                {!! Form::hidden('soldep_id', $soldep->id) !!}
+                                {!! Form::hidden('sol_deposito_id', $soldep->id) !!}
                                 {!! Form::submit('+') !!}
                                 {!! Form::close() !!}
                             </td>
