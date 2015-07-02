@@ -73,4 +73,10 @@ class Solicitud extends Model {
         return $this->morphMany('Guia\Archivo', 'archivable');
     }
 
+    //Solicitud __morph_many__ SolDepositoDocs
+    public function solDepositoDocs()
+    {
+        return $this->morphMany('Guia\Models\SolDepositoDoc', 'docable');
+    }
+
 }

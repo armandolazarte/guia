@@ -10,4 +10,9 @@ class SolDepositoDoc extends Model {
         return $this->belongsTo('Guia\Models\SolDeposito');
     }
 
+    //SolDepositosDoc __morph_to__ Solicitud|Oc
+    public function docable()
+    {
+        return $this->morphTo();
+    }
 }

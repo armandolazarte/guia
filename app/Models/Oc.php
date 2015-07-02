@@ -37,4 +37,10 @@ class Oc extends Model {
         return $this->belongsToMany('Guia\Models\Egreso');
     }
 
+    //Oc __morph_many__ SolDepositoDocs
+    public function solDepositoDocs()
+    {
+        return $this->morphMany('Guia\Models\SolDepositoDoc', 'docable');
+    }
+
 }
