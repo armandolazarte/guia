@@ -67,14 +67,25 @@ class SolDepositoDocsController extends Controller
 
         if($request->input('doc_type') == 'Solicitud') {
             $doc = Solicitud::find($request->input('doc_id'));
+            $ocultar_id = 'sol-'.$request->input('doc_id');
+            $message = "Solicitud ".$request->input('doc_id')." agregada";
         }
         if($request->input('doc_type') == 'Oc') {
             $doc = Oc::find($request->input('doc_id'));
+            $ocultar_id = 'oc-'.$request->input('doc_id');
+            $message = "Orden de Compra ".$doc->oc." agregada";
         }
 
         $doc->solDepositosDocs()->save($soldep_doc);
 
-        return redirect()->action('SolDepositoDocsController@create', $request->input('sol_deposito_id'));
+        if($request->ajax()) {
+            return response()->json([
+                'message' => $message,
+                'ocultar' => $ocultar_id
+            ]);
+        }
+
+        //return redirect()->action('SolDepositoDocsController@create', $request->input('sol_deposito_id'));
     }
 
     /**
