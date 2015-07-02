@@ -216,3 +216,12 @@ Route::group(array('prefix' => 'almacen/salida', 'middleware' => ['auth']), func
     Route::get('/{id}', 'SalidaController@show');
     Route::get('/formato/{id}', 'SalidaController@formatoPdf');
 });
+
+//** Solicitud Depósito Concentradora  **//
+Route::group(array('prefix' => 'sol-dep-concentradora', 'middleware' => ['auth']), function()
+{
+    Route::get('/nueva', 'SolDepositoController@create');
+    Route::post('/nueva', 'SolDepositoController@store');
+    Route::get('/{soldep_id}/agregar-doc', 'SolDepositoDocsController@create');
+    Route::post('/agregar-doc', 'SolDepositoDocsController@store');
+});
