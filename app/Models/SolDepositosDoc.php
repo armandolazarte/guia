@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Eloquent\Model;
 
-class SolDepositoDoc extends Model {
+class SolDepositosDoc extends Model {
 
     //SolDepositosDoc __belongs_to__ SolDeposito
     public function solDeposito()
