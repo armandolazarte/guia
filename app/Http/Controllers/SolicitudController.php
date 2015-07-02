@@ -99,7 +99,11 @@ class SolicitudController extends Controller {
         }
 
         $solicitud = Solicitud::find($id);
-        $archivos = Archivo::on('archivo_2015')->whereLinkableId($id)->get();
+        /**
+         * @todo Modificar implementación para almacenar archivos
+         * //$archivos = Archivo::on('archivo_2015')->whereLinkableId($id)->get();
+         */
+        $archivos = array();
 
         return view('solicitudes.infoSolicitud', compact('solicitud', 'acciones_presu', 'archivos'));
 	}
