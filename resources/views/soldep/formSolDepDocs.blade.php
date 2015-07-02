@@ -17,7 +17,7 @@
                     <th>Proyecto</th>
                     <th>Estatus</th>
                     <th>Monto</th>
-                    <th>Monto a<br />Solicitar</th>
+                    <th>Monto a Solicitar</th>
                 </tr>
                 </thead>
                 @foreach($solicitudes as $sol)
@@ -30,8 +30,13 @@
                         <td>{{ $sol->estatus }}</td>
                         <td>{{ number_format($sol->monto, 2) }}</td>
                         <td>
-                            {!! Form::input('monto_solicitado', $sol->monto) !!}
-                            <a href="#">Agregar</a>
+                            {!! Form::open(array('action' => 'SolDepositoDocsController@store')) !!}
+                            {!! Form::text('monto_solicitado', $sol->monto) !!}
+                            {!! Form::hidden('doc_id', $sol->id) !!}
+                            {!! Form::hidden('doc_type', 'Solicitud') !!}
+                            {!! Form::hidden('soldep_id', $soldep->id) !!}
+                            {!! Form::submit('+') !!}
+                            {!! Form::close() !!}
                         </td>
                     </tr>
                 @endforeach
@@ -45,7 +50,7 @@
                     <th>Proyecto</th>
                     <th>Estatus OC</th>
                     <th>Monto</th>
-                    <th>Monto a<br />Solicitar</th>
+                    <th>Monto a Solicitar</th>
                 </tr>
                 </thead>
 
@@ -60,8 +65,13 @@
                             <td>{{ $oc->estatus }}</td>
                             <td></td>
                             <td>
-                                {!! Form::input('monto_solicitado', $sol->monto) !!}
-                                <a href="#">Agregar</a>
+                                {!! Form::open(array('action' => 'SolDepositoDocsController@store')) !!}
+                                {!! Form::text('monto_solicitado', 0) !!}
+                                {!! Form::hidden('doc_id', $oc->id) !!}
+                                {!! Form::hidden('doc_type', 'Oc') !!}
+                                {!! Form::hidden('soldep_id', $soldep->id) !!}
+                                {!! Form::submit('+') !!}
+                                {!! Form::close() !!}
                             </td>
                         </tr>
                     @endforeach
