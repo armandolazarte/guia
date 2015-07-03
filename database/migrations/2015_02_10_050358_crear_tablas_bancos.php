@@ -49,6 +49,7 @@ class CrearTablasBancos extends Migration {
 			$table->integer('cuenta_bancaria_id')->unsigned();
 			$table->foreign('cuenta_bancaria_id')->references('id')->on('cuentas_bancarias');
 			$table->integer('poliza')->unsigned();
+            $table->integer('cheque')->unsigned();
 			$table->date('fecha');
 			$table->integer('benef_id')->unsigned();
 			$table->foreign('benef_id')->references('id')->on('benefs');
