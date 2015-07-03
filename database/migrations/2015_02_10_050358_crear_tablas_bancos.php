@@ -12,10 +12,10 @@ class CrearTablasBancos extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('cuentas', function(Blueprint $table)
+		Schema::create('cuentas_bancarias', function(Blueprint $table)
 		{
 			$table->increments('id');
-			$table->smallInteger('cuenta')->unsigned()->unique();
+			$table->smallInteger('cuenta_bancaria')->unsigned()->unique();
 			$table->string('d_cuenta');
 			$table->string('no_cuenta');
 			$table->string('banco');
@@ -27,11 +27,11 @@ class CrearTablasBancos extends Migration {
 		});
 
 		//Relación entre Cuentas Bancarias y Proyectos para FEXT
-		Schema::create('cuenta_proyecto', function(Blueprint $table)
+		Schema::create('cuenta_bancaria_proyecto', function(Blueprint $table)
 		{
 			$table->increments('id');
-			$table->integer('cuenta_id')->unsigned();
-			$table->foreign('cuenta_id')->references('id')->on('cuentas');
+			$table->integer('cuenta_bancaria_id')->unsigned();
+			$table->foreign('cuenta_bancaria_id')->references('id')->on('cuentas_bancarias');
 			$table->integer('proyecto_id')->unsigned();
 			$table->foreign('proyecto_id')->references('id')->on('proyectos');
 		});
@@ -46,14 +46,14 @@ class CrearTablasBancos extends Migration {
 		Schema::create('egresos', function(Blueprint $table)
 		{
 			$table->increments('id');
-			$table->integer('cuenta_id')->unsigned();
-			$table->foreign('cuenta_id')->references('id')->on('cuentas');
+			$table->integer('cuenta_bancaria_id')->unsigned();
+			$table->foreign('cuenta_bancaria_id')->references('id')->on('cuentas_bancarias');
 			$table->integer('poliza')->unsigned();
 			$table->date('fecha');
 			$table->integer('benef_id')->unsigned();
 			$table->foreign('benef_id')->references('id')->on('benefs');
-			$table->integer('concepto_id')->unsigned();
-			$table->foreign('concepto_id')->references('id')->on('conceptos');
+			$table->integer('cuenta_id')->unsigned();
+			$table->foreign('cuenta_id')->references('id')->on('cuentas');
 			$table->string('cmt');
 			$table->decimal('monto', 15, 3);
 			$table->string('estatus', 30);
@@ -66,12 +66,12 @@ class CrearTablasBancos extends Migration {
 		Schema::create('ingresos', function(Blueprint $table)
 		{
 			$table->increments('id');
-			$table->integer('cuenta_id')->unsigned();
-			$table->foreign('cuenta_id')->references('id')->on('cuentas');
+            $table->integer('cuenta_bancaria_id')->unsigned();
+            $table->foreign('cuenta_bancaria_id')->references('id')->on('cuentas_bancarias');
 			$table->integer('poliza')->unsigned();
 			$table->date('fecha');
-			$table->integer('concepto_id')->unsigned();
-			$table->foreign('concepto_id')->references('id')->on('conceptos');
+            $table->integer('cuenta_id')->unsigned();
+            $table->foreign('cuenta_id')->references('id')->on('cuentas');
 			$table->string('cmt');
 			$table->decimal('monto', 15, 3);
 			$table->date('fecha_identifica');
