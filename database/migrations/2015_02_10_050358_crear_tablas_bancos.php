@@ -36,10 +36,10 @@ class CrearTablasBancos extends Migration {
 			$table->foreign('proyecto_id')->references('id')->on('proyectos');
 		});
 
-		Schema::create('conceptos', function(Blueprint $table)
+		Schema::create('cuentas', function(Blueprint $table)
 		{
 			$table->increments('id');
-			$table->string('concepto', 100);
+			$table->string('cuenta', 100);
 			$table->string('tipo', 20);
 		});
 
@@ -89,9 +89,9 @@ class CrearTablasBancos extends Migration {
 	{
 		Schema::drop('ingresos');
 		Schema::drop('egresos');
-		Schema::drop('conceptos');
-		Schema::drop('cuenta_proyecto');
 		Schema::drop('cuentas');
+		Schema::drop('cuenta_bancaria_proyecto');
+		Schema::drop('cuentas_bancarias');
 	}
 
 }
