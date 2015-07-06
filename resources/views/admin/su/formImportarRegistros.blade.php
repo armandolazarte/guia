@@ -16,7 +16,10 @@
 
     {!! Form::select('registro', array(
         'Solicitudes' => 'Solicitudes',
-        'Requisiciones' => 'Requisiciones')
+        'Requisiciones' => 'Requisiciones',
+        'OCs' => 'Ordenes de Compra',
+        'Articulos' => 'Articulos'
+        )
     ) !!}
 
     {!! Form::submit('Importar') !!}
