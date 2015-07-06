@@ -29,7 +29,6 @@ class CrearTablasAdquisiciones extends Migration {
 			$table->smallInteger('vobo')->unsigned();
 			$table->string('estatus', 20);
 			$table->integer('user_id')->unsigned();
-			$table->date('fecha_auth');
 			$table->decimal('tipo_cambio', 9, 6);
 			$table->string('moneda', 10);
 			$table->string('tipo_orden', 20);

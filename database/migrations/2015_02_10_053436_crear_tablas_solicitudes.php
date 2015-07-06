@@ -35,7 +35,6 @@ class CrearTablasSolicitudes extends Migration {
 			$table->integer('user_id')->unsigned();
 			$table->decimal('monto_pagado', 15, 3);
 			$table->boolean('viaticos');
-			$table->date('fecha_recibido');
 			$table->boolean('inventariable');
 			$table->timestamps();
 		});
