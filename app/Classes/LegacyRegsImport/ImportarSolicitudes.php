@@ -1,6 +1,6 @@
 <?php
 
-namespace Guia\Classes\LegacyImport;
+namespace Guia\Classes\LegacyRegsImport;
 
 
 use Guia\Models\Benef;

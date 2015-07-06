@@ -2,7 +2,7 @@
 
 namespace Guia\Http\Controllers;
 
-use Guia\Classes\LegacyImport\ImportarSolicitudes;
+use Guia\Classes\LegacyRegsImport\ImportarSolicitudes;
 use Illuminate\Http\Request;
 
 use Guia\Http\Requests;
