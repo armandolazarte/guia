@@ -18,7 +18,8 @@
         'Solicitudes' => 'Solicitudes',
         'Requisiciones' => 'Requisiciones',
         'OCs' => 'Ordenes de Compra',
-        'Articulos' => 'Articulos'
+        'Articulos' => 'Articulos',
+        'Invitaciones' => 'Invitaciones/Cuadros'
         )
     ) !!}
 
