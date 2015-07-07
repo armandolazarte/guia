@@ -33,7 +33,11 @@ class ImportarReqs
         $reqs_legacy = $this->consultarReqsLegacy();
 
         foreach ($reqs_legacy as $req_legacy) {
-            $proyecto = Proyecto::whereProyecto($req_legacy->proy)->get(['id','urg_id']);
+            if (!empty($req_legacy->proy)) {
+                $proyecto = Proyecto::whereProyecto($req_legacy->proy)->get(['id','urg_id']);
+            } else {
+                $proyecto = Proyecto::where('proyecto', 'like', $req_legacy->proy_esp.'%')->get(['id','urg_id']);
+            }
 
             //Determinar el ID del usuario solicitante
             $solicita_id = User::whereLegacyUsername($req_legacy->solicita)->pluck('id');
