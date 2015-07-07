@@ -293,7 +293,7 @@ class ImportadorCatalogos {
                 $cog = Cog::whereCog($rm_nuevo->cta)->get(['id']);
                 $fondo = Fondo::whereFondo($rm_nuevo->fondo)->get(array('id'));
 
-                if( count($cog) == 0 || count($fondo) == 0){
+                if( count($cog) == 0 || count($fondo) == 0 || count($proyecto) == 0){
                     dd('RM c/error: '.$rm_nuevo->rm);
                 }
 
