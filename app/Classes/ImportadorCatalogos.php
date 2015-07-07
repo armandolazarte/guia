@@ -340,4 +340,28 @@ class ImportadorCatalogos {
         }
         return $rms_externos;
     }
+
+    //Proyectos de Fondos Externos
+    public function importarProyectosFext()
+    {
+        $legacy_proyectos_fext = $this->consultarLegacyProyectosFext();
+        $urg_id = Urg::whereUrg('2.2.3')->pluck('id');
+
+        foreach($legacy_proyectos_fext as $legacy_proy_fext)
+        {
+            $proyecto = new Proyecto();
+            $proyecto->proyecto = $legacy_proy_fext->proy;
+            $proyecto->d_proyecto = $legacy_proy_fext->d_proy_esp;
+            $proyecto->urg_id = $urg_id;
+            $proyecto->tipo_proyecto_id = 3;
+            $proyecto->save();
+        }
+    }
+
+    private function consultarLegacyProyectosFext()
+    {
+        $proyectos_fext = \DB::connection($this->db_origen)->table('t_proyectos')->get();
+        return $proyectos_fext;
+    }
+
 }

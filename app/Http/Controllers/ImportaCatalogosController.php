@@ -50,6 +50,10 @@ class ImportaCatalogosController extends Controller {
             $importador->importarRms();
         }
 
+        if ($catalogo == "ProyectosFext"){
+            $importador->importarProyectosFext();
+        }
+
 		return redirect()->action('ImportaCatalogosController@index');
 	}
 
