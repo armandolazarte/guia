@@ -15,10 +15,20 @@ use Guia\User;
 
 class ImportadorCatalogos {
 
-    var $db_origen;
+    public $db_origen;
+    public $tipo_proyecto_id;
 
     public function __construct($db_origen){
         $this->db_origen = $db_origen;
+
+        if($this->db_origen == 'legacy') {
+            $this->tipo_proyecto_id = 1;
+        } elseif($this->db_origen == 'legacy_old') {
+            $this->tipo_proyecto_id = 2;
+        } elseif($this->db_origen == 'legacy_fext') {
+            $this->tipo_proyecto_id = 3;
+        }
+
         set_time_limit(120);
     }
 
@@ -89,7 +99,7 @@ class ImportadorCatalogos {
                 $proyecto->d_proyecto = $proyecto_nuevo->d_proy;
                 $proyecto->monto = $proyecto_nuevo->monto;
                 $proyecto->urg_id = $urg[0]->id;
-                $proyecto->tipo_proyecto_id = 1;
+                $proyecto->tipo_proyecto_id = $this->tipo_proyecto_id;
                 $proyecto->save();
 
                 $proyecto_fondo = \DB::connection($this->db_origen)->table('tbl_proyecto_fondo')
@@ -201,7 +211,7 @@ class ImportadorCatalogos {
             foreach($cogs_externos as $cog_nuevo)
             {
                 $cog = new Cog();
-                $cog->tipo_proyecto_id = 1;
+                $cog->tipo_proyecto_id = $this->tipo_proyecto_id;
                 $cog->cog = $cog_nuevo->cta;
                 $cog->d_cog = $cog_nuevo->d_cta;
                 $cog->save();
