@@ -20,15 +20,20 @@ class ActivarCuentaController extends Controller {
 
         $legacy_user = \DB::connection('legacy')->table('tbl_usuarios')
             ->where('usr', '=', $legacy_username)
-            ->get(['usr','psw']);
+            ->first(['usr','psw']);
 
-        if($legacy_user[0]->psw == $legacy_psw) {
+        if(empty($legacy_user)) {
+            return redirect()->action('Util\ActivarCuentaController@legacyLogin')
+                ->with(['message' => 'El usuario ingresado no se encuentra en el sistema anterior.', 'alert-class' => 'alert-danger']);
+        }
+
+        if($legacy_user->psw == $legacy_psw) {
             $user = User::whereLegacyUsername($legacy_username)->first();
 
             //Verifica si la cuenta ya está activa y en su caso redirecciona a login
             if($user->active == 1) {
                 return redirect()->action('Auth\GuiaAuthController@getLogin')
-                    ->with(['message' => 'Su cuenta ya está activa, por favor inicie sesión', 'alert-class' => 'alert-info']);
+                    ->with(['message' => 'Su cuenta ya está activa, por favor inicie sesión utilizando el menú que se encuentra a la izquierda.', 'alert-class' => 'alert-info']);
             }
 
             //Inicia sesión para el usuario
