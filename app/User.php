@@ -82,22 +82,22 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     }
 
     /**
-     * El usuario delega su cuenta a otros usuarios
+     * El usuario asigna su cuenta a otros usuarios
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function delega_usuarios()
+    public function asignaUsuarios()
     {
-        return $this->hasMany('Guia\Models\DelegaUsuario', 'user_id', 'id');
+        return $this->hasMany('Guia\Models\AsignaUsuario', 'user_id', 'id');
     }
 
     /**
-     * El usuario tiene acceso a las cuentas de otros usuarios
+     * El usuario tiene cuentas de usuarios asignados
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function acceso_usuarios()
+    public function usuariosAsignados()
     {
-        return $this->hasMany('Guia\Models\DelegaUsuario', 'delega_user_id', 'id');
+        return $this->hasMany('Guia\Models\AsignaUsuario', 'asignado_user_id', 'id');
     }
 }

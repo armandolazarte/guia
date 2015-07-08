@@ -70,6 +70,7 @@ Route::group(array('prefix' => 'admin/su'), function()
 Route::group(array('prefix' => 'admin', 'middleware' => ['auth']), function()
 {
 	Route::resource('usuario', 'UsuarioController');
+    Route::get('usuario/asignado/login/{id}', 'UsuarioAsignadoController@loginAsignado');
     Route::post('usuario/cargos/store/{$user_id}', 'CargosController@store');
     Route::post('usuario/acceso/store', 'AccesosController@store');
 

@@ -16,6 +16,7 @@ class AppServiceProvider extends ServiceProvider
     {
         View::composer('partials.menu.dynamic', 'Guia\Http\Composers\MenuComposer');
         View::composer('partials.filtroPresupuesto', 'Guia\Http\Composers\FiltroPresupuestoComposer');
+        View::composer('partials.usuariosAsignados', 'Guia\Http\Composers\UsuariosAsignadosComposer');
     }
 
     /**

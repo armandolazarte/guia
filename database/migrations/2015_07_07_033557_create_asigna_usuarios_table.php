@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateDelegaUsuariosTable extends Migration
+class CreateAsignaUsuariosTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,12 +12,12 @@ class CreateDelegaUsuariosTable extends Migration
      */
     public function up()
     {
-        Schema::create('delega_usuarios', function (Blueprint $table) {
+        Schema::create('asigna_usuarios', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users');
-            $table->integer('delega_user_id')->unsigned();
-            $table->foreign('delega_user_id')->references('id')->on('users');
+            $table->integer('asignado_user_id')->unsigned();
+            $table->foreign('asignado_user_id')->references('id')->on('users');
         });
     }
 
@@ -28,6 +28,6 @@ class CreateDelegaUsuariosTable extends Migration
      */
     public function down()
     {
-        Schema::drop('delega_usuarios');
+        Schema::drop('asigna_usuarios');
     }
 }
