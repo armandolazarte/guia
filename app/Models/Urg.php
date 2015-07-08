@@ -52,4 +52,14 @@ class Urg extends Model {
         return $this->morphMany('Guia\Models\Acceso', 'acceso');
     }
 
+    /**
+     * Concatena los atributos urg y d_urg
+     *
+     * @return string
+     */
+    public function getUrgDescAttribute()
+    {
+        return $this->urg.' - '.$this->d_urg;
+    }
+
 }
