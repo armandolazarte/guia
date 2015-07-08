@@ -98,8 +98,14 @@ class UsuarioController extends Controller {
 	public function update(UsuarioFormRequest $request, $id)
 	{
 		$user = User::findOrFail($id);
-        $all_request = $request->all();
-        $all_request['password'] = bcrypt($all_request['password']);
+
+        if($request->has('password')) {
+            $all_request = $request->all();
+            $all_request['password'] = bcrypt($all_request['password']);
+        } else {
+            $all_request = $request->except(['password', 'password_confirmation']);
+        }
+
 		$user->update($all_request);
 		$user->roles()->sync($request->input('role_user'));
 
