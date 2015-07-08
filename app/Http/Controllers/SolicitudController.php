@@ -35,15 +35,12 @@ class SolicitudController extends Controller {
 	 */
 	public function create()
 	{
-        $urgs = Urg::all(array('id','urg','d_urg'));
+        $arr_urgs = Urg::where('urg', 'LIKE', '%.%')->get()->lists('urg_desc', 'id')->all();
 
         $arr_tipos_solicitud['Reposicion'] = 'Reposicion (Reembolso)';
         $arr_tipos_solicitud['Recibo'] = 'Recibo (Pago a Proveedor)';
         $arr_tipos_solicitud['Vale'] = 'Vale (Gasto por Comprobar)';
 
-        foreach($urgs as $urg){
-            $arr_urgs[$urg->id] = $urg->urg.' - '.$urg->d_urg;
-        }
         $benefs = Benef::all(array('id','benef'));
         foreach($benefs as $benef){
             $arr_benefs[$benef->id] = $benef->benef;

@@ -54,7 +54,8 @@ class RequisicionController extends Controller {
 	 */
 	public function create()
 	{
-		$urgs = Urg::all(array('id','urg','d_urg'));
+		$urgs = Urg::where('urg', 'LIKE', '%.%')->get(array('id','urg','d_urg'));
+
 		$arr_proyectos = \FiltroAcceso::getArrProyectos();
         $arr_vobo = FirmasSolRec::getUsersVoBo();
 		return view('reqs.formRequisicion')
