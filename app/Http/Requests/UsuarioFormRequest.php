@@ -41,7 +41,7 @@ class UsuarioFormRequest extends Request {
 
 		$rules_2 = [
 			'nombre' => 'required',
-			'prefijo' => 'max:5',
+			'prefijo' => 'max:50',
 			'iniciales' => 'alpha|max:5'
 		];
 

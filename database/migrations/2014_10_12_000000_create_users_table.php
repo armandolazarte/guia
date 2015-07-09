@@ -22,7 +22,7 @@ class CreateUsersTable extends Migration
 
             $table->string('nombre');
             $table->string('cargo');
-            $table->string('prefijo', 5);
+            $table->string('prefijo', 50);
             $table->string('iniciales', 5);
             $table->integer('adscripcion')->unsigned();
 
