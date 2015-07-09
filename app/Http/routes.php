@@ -45,7 +45,7 @@ Route::post('/login', 'Auth\GuiaAuthController@authenticate');
 Route::post('/archivos/upload', 'ArchivosController@store');
 Route::get('/archivos/descargar/{presupuesto}/{id}', 'ArchivosController@descargar');
 
-Route::group(array('prefix' => 'admin/su'), function()
+Route::group(array('prefix' => 'admin/su', 'middleware' => ['auth']), function()
 {
 	Route::get('/modulos', 'ModuloController@index');
 	Route::get('/modulos/crear', 'ModuloController@create');
