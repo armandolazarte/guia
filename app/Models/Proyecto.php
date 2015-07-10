@@ -71,6 +71,11 @@ class Proyecto extends Model {
         return $this->morphMany('Guia\Models\Acceso', 'acceso');
     }
 
+    public function getProyectoDescripcionAttribute()
+    {
+        return $this->proyecto.' - '.$this->d_proyecto;
+    }
+
     public function scopeAcceso($query, $user_id, $presupuesto)
     {
         if(!empty($user_id)) {
