@@ -42,8 +42,8 @@ Route::controllers([
 Route::get('/login', 'Auth\GuiaAuthController@getLogin');
 Route::post('/login', 'Auth\GuiaAuthController@authenticate');
 
-Route::post('/archivos/upload', 'ArchivosController@store');
-Route::get('/archivos/descargar/{presupuesto}/{id}', 'ArchivosController@descargar');
+Route::post('/archivos/cargar', 'ArchivosController@store');
+Route::get('/archivos/descargar/{id}', 'ArchivosController@descargar');
 
 Route::group(array('prefix' => 'admin/su', 'middleware' => ['auth']), function()
 {

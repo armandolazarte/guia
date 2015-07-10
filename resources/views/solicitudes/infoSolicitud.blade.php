@@ -55,10 +55,10 @@
         <div class="panel-heading">Archivos</div>
         <div class="panel-body">
             <div class="col-sm-4">
-                @include('partials.archivos.showFiles', array('presupuesto' => '2015', 'linkable_id' => $solicitud->id, 'linkable_type' => 'Guia\Models\Solicitud'))
+                @include('partials.archivos.showFiles', array('documento_id' => $solicitud->id, 'documento_type' => 'Guia\Models\Solicitud'))
             </div>
             <div class="col-sm-8">
-                @include('partials.archivos.formUpload', array('presupuesto' => '2015', 'linkable_id' => $solicitud->id, 'linkable_type' => 'Guia\Models\Solicitud'))
+                @include('partials.archivos.formUpload', array('documento_id' => $solicitud->id, 'documento_type' => 'Guia\Models\Solicitud'))
             </div>
 
         </div>

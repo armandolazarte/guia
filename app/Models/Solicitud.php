@@ -70,7 +70,12 @@ class Solicitud extends Model {
 
     public function archivos()
     {
-        return $this->morphMany('Guia\Archivo', 'archivable');
+        return $this->morphMany('Guia\Models\Archivos\Archivo', 'documentos');
+    }
+
+    public function carpeta()
+    {
+        return $this->morphMany('Guia\Models\Archivos\Carpeta', 'documentos');
     }
 
     //Solicitud __morph_many__ SolDepositoDocs
