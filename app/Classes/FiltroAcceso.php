@@ -4,7 +4,7 @@ use Guia\Models\Proyecto;
 
 class FiltroAcceso {
 
-    var $proyectos;
+    var $arr_proyectos;
     var $user_id;
 
     public function __construct()
@@ -16,21 +16,16 @@ class FiltroAcceso {
     public function consultarProyectos()
     {
         $presupuesto = \Session::get('sel_presupuesto');
-        $this->proyectos = Proyecto::acceso($this->user_id, $presupuesto)->get(array('id','proyecto','d_proyecto'));
+        $this->arr_proyectos = array();
+        $this->arr_proyectos = Proyecto::acceso($this->user_id, $presupuesto)->get()->lists('proyecto_descripcion', 'id')->all();
     }
 
     public function getArrProyectos()
     {
         $this->consultarProyectos();
-
-        $arr_proyectos = array();
-        if (count($this->proyectos) > 0){
-            foreach($this->proyectos as $proyecto){
-                $arr_proyectos[$proyecto->id] = $proyecto->proyecto.' - '.$proyecto->d_proyecto;
-            }
-        } else {
-            $arr_proyectos[0] = 'No se ha dado de alta el acceso a los proyectos';
+        if (count($this->arr_proyectos) == 0){
+            $this->arr_proyectos[0] = 'No se ha dado de alta el acceso a los proyectos';
         }
-        return $arr_proyectos;
+        return $this->arr_proyectos;
     }
 }
