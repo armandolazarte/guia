@@ -45,7 +45,7 @@ class ArchivosController extends Controller {
         $files = $request->file('archivos');
 
         $archivador = new \Guia\Classes\Archivador($doc_data);
-        $destinationPath = storage_path('../../archivo_guia/'.$archivador->carpeta_id);//Cambiar / @linux
+        $destinationPath = storage_path(env('ARCHIVO_GENERAL', 'archivo').'/'.$archivador->carpeta_id);//Cambiar / @linux
 
         foreach($files as $file){
 
