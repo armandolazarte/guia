@@ -28,7 +28,7 @@ class ActivarCuentaRequest extends Request {
             'password' => 'required|confirmed',
             'email' => 'required|email|unique:users,email,'.$userId,
             'nombre' => 'required',
-            'prefijo' => 'max:5'
+            'prefijo' => 'max:50'
         ];
 	}
 
