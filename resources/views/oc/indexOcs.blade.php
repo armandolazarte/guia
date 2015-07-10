@@ -18,7 +18,7 @@
                     </thead>
                     @foreach($ocs as $oc)
                         <tr>
-                            <td class="text-center"><a href="{{ action('OcsController@show', $oc->oc) }}">{{ $oc->oc }}</a></td>
+                            <td class="text-center"><a href="{{ action('OcsController@show', $oc->id) }}">{{ $oc->oc }}</a></td>
                             <td>{{ $oc->fecha_oc }}</td>
                             <td>{{ $oc->benef->benef }}</td>
                             <td>{{ $oc->estatus }}</td>
