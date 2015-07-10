@@ -1,12 +1,14 @@
-<?php namespace Guia\Http\Controllers;
+<?php
 
-use Guia\Archivo;
+namespace Guia\Http\Controllers;
+
+
 use Guia\DataFile;
 use Guia\Http\Requests;
 use Guia\Http\Controllers\Controller;
+use Guia\Models\Archivos\Archivo;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class ArchivosController extends Controller {
 
@@ -91,28 +93,6 @@ class ArchivosController extends Controller {
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  int  $id
-     * @return Response
-     */
-    public function update($id)
-    {
-        //
-    }
-
-    /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
@@ -123,11 +103,17 @@ class ArchivosController extends Controller {
         //
     }
 
-    public function descargar($presupuesto, $id)
+    public function descargar($id)
     {
-        $archivo = Archivo::on('archivo_'.$presupuesto)->find($id);
-        $data_file = DataFile::on('archivo_'.$presupuesto)->whereArchivoId($id)->get();
-        return response($data_file[0]->data)->header('Content-Type', $archivo->mime);
+        $archivo = Archivo::find($id);
+        $ruta_descarga = env('ARCHIVO_GENERAL', 'archivo').'/'.$archivo->carpeta_id.'/'.$archivo->name;
+
+        if (\Storage::exists($archivo->carpeta_id.'/'.$archivo->name)) {
+            $headers = ['Content-Type' => $archivo->mime];
+            return response()->download($ruta_descarga, $archivo->name, $headers);
+        } else {
+            return redirect()->back()->with(['message' => 'No se puede descargar el archivo. Favor de comunicarse con el administrador del sisetma.', 'alert-class' => 'alert-danger']);
+        }
     }
 
 }
