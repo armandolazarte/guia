@@ -15,7 +15,7 @@ return [
     |
     */
 
-    'default' => 'local',
+    'default' => 'archivo',
 
     /*
     |--------------------------------------------------------------------------
@@ -46,6 +46,11 @@ return [
         'local' => [
             'driver' => 'local',
             'root'   => storage_path('app'),
+        ],
+
+        'archivo' => [
+            'driver' => 'local',
+            'root'   => storage_path(env('ARCHIVO_GENERAL', 'archivo')),
         ],
 
         'ftp' => [
