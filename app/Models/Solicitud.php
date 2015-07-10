@@ -70,7 +70,7 @@ class Solicitud extends Model {
 
     public function archivos()
     {
-        return $this->morphMany('Guia\Models\Archivos\Archivo', 'documentos');
+        return $this->morphMany('Guia\Models\Archivos\Archivo', 'documento');
     }
 
     public function carpeta()
