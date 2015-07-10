@@ -54,7 +54,15 @@ class OcsController extends Controller {
 	 */
 	public function show($id)
 	{
-		//
+        $oc = Oc::find($id);
+        $oc->load('articulos');
+
+        $archivos = $oc->archivos()->get();
+        if(count($archivos) == 0) {
+            $archivos = array();
+        }
+
+        return view('oc.infoOc', compact('oc','archivos'));
 	}
 
 	/**

@@ -43,4 +43,14 @@ class Oc extends Model {
         return $this->morphMany('Guia\Models\SolDepositosDoc', 'doc');
     }
 
+    public function archivos()
+    {
+        return $this->morphMany('Guia\Models\Archivos\Archivo', 'documento');
+    }
+
+    public function carpeta()
+    {
+        return $this->morphMany('Guia\Models\Archivos\Carpeta', 'documentos');
+    }
+
 }
