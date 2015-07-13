@@ -4,6 +4,7 @@ namespace Guia\Classes\Pdfs;
 
 use Carbon\Carbon;
 use fpdf\FPDF;
+use Guia\Classes\Utility;
 use Guia\Models\Solicitud;
 use Guia\User;
 
@@ -203,6 +204,8 @@ class SolicitudPdf extends FPDF
         $this->SetY(-44);
         $this->SetFont('Arial','',10);
 
+        $fecha_texto = Utility::fecha_texto($this->solicitud->fecha);
+
         //Verificar si el responsable del proyecto es el solicitante
         if($this->solicitud->autoriza == $this->solicitud->solicita || $this->solicitud->autoriza == 0) {
             $this->Cell(190, 5, "A T E N T A M E N T E", 0, 1, "C");
@@ -213,7 +216,7 @@ class SolicitudPdf extends FPDF
 //                $this->Cell(190,4,utf8_decode (""),0,1,'C');//Leyenda
 //            }
             $this->SetFont('Arial','',10);
-            $this->Cell(190,4,utf8_decode ("Guadalajara, Jalisco, a "),0,1,'C');//$fecha_texto
+            $this->Cell(190,4,utf8_decode ("Guadalajara, Jalisco, a ".$fecha_texto),0,1,'C');
             $this->Ln(10);
 
             $this->MultiCell(190,5,utf8_decode($solicita->prefijo." ".$solicita->nombre),0,'C');
@@ -228,7 +231,7 @@ class SolicitudPdf extends FPDF
 //                $this->Cell(90,4,utf8_decode ("$LEYENDA"),0,1,'L');
 //            }
             $this->SetFont('Arial','',10);
-            $this->Cell(90,4,utf8_decode ("Guadalajara, Jalisco, a "),0,1,'L');//fecha_texto
+            $this->Cell(90,4,utf8_decode ("Guadalajara, Jalisco, a ".$fecha_texto),0,1,'L');
             $this->Ln(11);
 
             $this->MultiCell(90,5,utf8_decode($solicita->prefijo." ".$solicita->nombre),0,'L');
