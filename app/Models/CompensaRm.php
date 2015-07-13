@@ -4,6 +4,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class CompensaRm extends Model {
 
+    protected $fillable = ['documento_afin','fecha','tipo'];
+
     //CompensaRm __has_many__ CompensaOrigen
     public function compensaOrigenes()
     {
