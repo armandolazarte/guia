@@ -12,6 +12,7 @@ use Guia\Http\Requests;
 use Guia\Classes\Pdfs\Requisicion;
 use Guia\Http\Controllers\Controller;
 
+use Guia\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -110,6 +111,12 @@ class RequisicionController extends Controller {
         $data['arr_roles'] = $arr_roles;
 
         if(array_search('Cotizador', $arr_roles) !== false || array_search('Adquisiciones', $arr_roles) !== false){
+
+            $usuarios_suministros = User::whereHas('roles', function($query) {
+                $query->whereIn('role_id', [4,5]);
+            })->where('id', '!=', Auth::user()->id)->orderBy('nombre')->lists('nombre', 'id')->all();
+            $data['usuarios_suministros'] = $usuarios_suministros;
+
             $data['acciones_suministros'] = true;
         } else {
             $data['acciones_suministros'] = false;
@@ -165,13 +172,24 @@ class RequisicionController extends Controller {
         if(isset($accion)){
 
             switch($accion) {
-                case 'Enviar': $estatus = 'Enviada'; break;
-                case 'Recuperar': $estatus = ''; break;
-                case 'Autorizar': $estatus = 'Autorizada'; break;
-                case 'Desautorizar': $estatus = 'Cotizada'; break;
+                case 'Enviar'       : $estatus = 'Enviada'; break;
+                case 'Recuperar'    :
+                case 'Regresar'     : $estatus = ''; break;
+                case 'Autorizar'    : $estatus = 'Autorizada'; break;
+                case 'Desautorizar' : $estatus = 'Cotizada'; break;
             }
 
-            $req->estatus = $estatus;
+            if($accion == 'Asignar') {
+                $user_id_responsable = $request->input('user_id');
+                if (empty($user_id_responsable)) {
+                    return redirect()->action('RequisicionController@show', array($req->id))->with(['message' => 'No se seleccionó ningún usuario a asignar']);
+                }
+                $estatus = 'Asignada';//Solo para efectos del registro
+                $req->user_id = $user_id_responsable;
+            } else {
+                $req->estatus = $estatus;
+            }
+
             $req->save();
 
             //Creación de registro
@@ -191,6 +209,9 @@ class RequisicionController extends Controller {
             $req->save();
         }
 
+        if($accion == 'Regresar') {
+            return redirect()->action('RequisicionController@index');
+        }
         return redirect()->action('RequisicionController@show', array($req->id));
 	}
 
