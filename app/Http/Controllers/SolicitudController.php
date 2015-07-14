@@ -42,6 +42,7 @@ class SolicitudController extends Controller {
         $arr_tipos_solicitud['Vale'] = 'Vale (Gasto por Comprobar)';
 
         $benefs = Benef::all(array('id','benef'));
+        $benefs = $benefs->sortBy('benef');
         foreach($benefs as $benef){
             $arr_benefs[$benef->id] = $benef->benef;
         }
@@ -133,6 +134,7 @@ class SolicitudController extends Controller {
             $arr_urgs[$urg->id] = $urg->urg.' - '.$urg->d_urg;
         }
         $benefs = Benef::all(array('id','benef'));
+        $benefs = $benefs->sortBy('benef');
         foreach($benefs as $benef){
             $arr_benefs[$benef->id] = $benef->benef;
         }

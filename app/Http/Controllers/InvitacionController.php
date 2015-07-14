@@ -30,6 +30,7 @@ class InvitacionController extends Controller {
 	public function create($req_id)
 	{
         $benefs = Benef::all(array('id','benef'));
+        $benefs = $benefs->sortBy('benef');
         foreach($benefs as $benef){
             $arr_benefs[$benef->id] = $benef->benef;
         }
@@ -71,6 +72,7 @@ class InvitacionController extends Controller {
 	public function edit($id)
 	{
         $benefs = Benef::all(array('id','benef'));
+        $benefs = $benefs->sortBy('benef');
         foreach($benefs as $benef){
             $arr_benefs[$benef->id] = $benef->benef;
         }
