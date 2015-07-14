@@ -40,6 +40,11 @@ class ImportarRegistrosController extends Controller
             $importa_oc->importarOcs();
         }
 
+        if($request->input('registro') == 'Condiciones') {
+            $importa_oc = new ImportarOcs($db_origen, $col_rango, $arr_rango);
+            $importa_oc->actualizarCondiciones();
+        }
+
         if($request->input('registro') == 'Articulos') {
             $importa_oc = new ImportarArticulos($db_origen, $col_rango, $arr_rango);
             $importa_oc->importarArticulos();

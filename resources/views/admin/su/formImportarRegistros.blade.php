@@ -18,6 +18,7 @@
         'Solicitudes' => 'Solicitudes',
         'Requisiciones' => 'Requisiciones',
         'OCs' => 'Ordenes de Compra',
+        'Condiciones' => 'Actualizar Condiciones',
         'Articulos' => 'Articulos',
         'Invitaciones' => 'Invitaciones/Cuadros'
         )

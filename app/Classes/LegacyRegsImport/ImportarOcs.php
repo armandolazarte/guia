@@ -5,6 +5,7 @@ namespace Guia\Classes\LegacyRegsImport;
 
 use Guia\Models\Benef;
 use Guia\Models\Oc;
+use Guia\Models\OcsCondicion;
 use Guia\Models\Req;
 
 class ImportarOcs
@@ -45,6 +46,53 @@ class ImportarOcs
 
             $oc_nueva->save();
         }
+    }
+
+    public function actualizarCondiciones()
+    {
+        $legacy_ocs = $this->consultarOcsLegacy();
+
+        foreach ($legacy_ocs as $oc_legacy)
+        {
+            $oc_nueva = Oc::where('oc', '=', $oc_legacy->oc)->first();
+            $this->relacionarCondiciones($oc_legacy->oc, $oc_nueva);
+        }
+    }
+
+    private function relacionarCondiciones($oc,Oc $oc_nueva)
+    {
+        $condiciones_legacy = $this->consultarCondicionesLegacy($oc);
+
+        if(count($condiciones_legacy) > 0) {
+            $condiciones_nueva = new OcsCondicion([
+                'forma_pago' => $condiciones_legacy->forma_pago,
+                'fecha_entrega' => $condiciones_legacy->fecha_entrega,
+                'pago' => $condiciones_legacy->pago,
+                'no_parcialidades' => $condiciones_legacy->no_parcialidades,
+                'porcentaje_anticipo' => $condiciones_legacy->porcentaje_anticipo,
+                'fecha_inicio' => $condiciones_legacy->fecha_inicio,
+                'fecha_conclusion' => $condiciones_legacy->fecha_conclusion,
+                'fianzas' => $condiciones_legacy->fianzas,
+                'obs' => $condiciones_legacy->obs,
+            ]);
+
+            $oc_nueva->condiciones()->save($condiciones_nueva);
+
+        } else {
+            $condiciones = new OcsCondicion();
+            $condiciones->oc()->associate($oc_nueva);
+            $condiciones->save();
+        }
+    }
+
+    private function consultarCondicionesLegacy($oc = null)
+    {
+        $condiciones_legacy = \DB::connection($this->db_origen)->table('tbl_condiciones');
+        if(!empty($this->col_rango)) {
+            $condiciones_legacy->where('oc', '=', $oc);
+        }
+
+        return $condiciones_legacy->first();
     }
 
     private function consultarOcsLegacy()
