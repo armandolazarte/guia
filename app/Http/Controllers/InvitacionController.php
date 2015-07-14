@@ -118,8 +118,8 @@ class InvitacionController extends Controller {
     public function invitacionPdf($id)
     {
         $invitacion = Cotizacion::find($id);
-        $invitacion->load('articulos');
-        $invita_pdf = new InvitacionPdf($invitacion);
+        $articulos = Articulo::whereReqId($invitacion->req_id)->get();
+        $invita_pdf = new InvitacionPdf($invitacion, $articulos);
 
         return response($invita_pdf->crearPdf())->header('Content-Type', 'application/pdf');
     }

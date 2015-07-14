@@ -11,11 +11,13 @@ class InvitacionPdf extends FPDF {
 
     public $invitacion;
     public $usuario_adq;
+    public $articulos;
 
-    public function __construct(Cotizacion $invitacion)
+    public function __construct(Cotizacion $invitacion, $articulos)
     {
         $this->invitacion = $invitacion;
         $this->usuario_adq = \InfoDirectivos::getResponsable('ADQ');
+        $this->articulos = $articulos;
 
         parent::__construct('P','mm','Letter');
     }
@@ -87,7 +89,7 @@ class InvitacionPdf extends FPDF {
         $this->Cell(160,5,'DESCRIPCION','TBR',1,'C');
 
         $this->SetFont('Arial','',8);
-        foreach($this->invitacion->articulos as $articulo)
+        foreach($this->articulos as $articulo)
         {
             //Condición para cambio de página
             if ($this->GetY() >= 215){
