@@ -12,7 +12,7 @@
 
             @include('solicitudes.partialInfoSol', array('sol' => $solicitud))
 
-            @include('solicitudes.partialInfoSolRecursos', array('sol' => $solicitud))
+            @include('solicitudes.partialInfoSolRecursos', array('sol' => $solicitud, 'arr_roles' => $arr_roles))
 
         </div>
     </div>

@@ -30,7 +30,7 @@ class RequisicionController extends Controller {
             $user = \Auth::user();
             $arr_roles = $user->roles()->lists('role_name')->all();
 
-            if(array_search('Cotizador', $arr_roles) !== false || array_search('Adquisiciones', $arr_roles) !== false){
+            if(array_search('Cotizador', $arr_roles) !== false || array_search('Adquisiciones', $arr_roles) !== false || array_search('Presupuesto', $arr_roles) !== false || array_search('Comprobacion', $arr_roles) !== false){
                 $scope = 'EstatusResponsable';
             }
         }

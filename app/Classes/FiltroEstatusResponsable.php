@@ -30,7 +30,14 @@ class FiltroEstatusResponsable
     public function filtroReqs()
     {
         $this->setEstatusReqs();
-        $this->setResponsable();
+        if(array_search('Cotizador', $this->arr_roles) !== false || array_search('Adquisiciones', $this->arr_roles) !== false) {
+            $this->setResponsable();
+        }
+    }
+
+    public function filtroSolicitudes()
+    {
+        $this->setEstatusSolicitudes();
     }
 
     private function setEstatusReqs()
@@ -41,8 +48,19 @@ class FiltroEstatusResponsable
             $arr_estatus = ['Terminada', 'Enviada', 'Recibida', 'Cotizando', 'Cotizada', 'Autorizada'];
         }
 
-        if(array_search('Presupuesto', $this->arr_roles) != false || array_search('Comprobacion', $this->arr_roles) != false) {
+        if(array_search('Presupuesto', $this->arr_roles) !== false || array_search('Comprobacion', $this->arr_roles) !== false) {
             $arr_estatus = ['Cotizada', 'Autorizada', 'Pagada'];
+        }
+
+        $this->arr_estatus = $arr_estatus;
+    }
+
+    private function setEstatusSolicitudes()
+    {
+        $arr_estatus = Array();
+
+        if(array_search('Presupuesto', $this->arr_roles) !== false || array_search('Comprobacion', $this->arr_roles) !== false) {
+            $arr_estatus = ['Enviada', 'Autorizada', 'Recibida'];
         }
 
         $this->arr_estatus = $arr_estatus;

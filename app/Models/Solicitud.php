@@ -84,4 +84,21 @@ class Solicitud extends Model {
         return $this->morphMany('Guia\Models\SolDepositosDoc', 'doc');
     }
 
+    public function scopeEstatusResponsable($query, $arr_estatus, $arr_responsable)
+    {
+        if(count($arr_estatus) > 0){
+            $query->whereIn('estatus', $arr_estatus);
+        }
+
+        if(count($arr_responsable) > 0){
+            $query->whereIn('user_id', $arr_responsable);
+        }
+
+        if(count($arr_estatus) == 0 && count($arr_responsable) == 0){
+            $query->whereId(0);
+        }
+
+        return $query;
+    }
+
 }

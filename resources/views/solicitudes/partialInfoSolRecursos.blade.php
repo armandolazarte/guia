@@ -4,7 +4,7 @@
         @foreach($solicitud->objetivos as $obj)
             <tr>
                 <td>
-                    @if($solicitud->estatus == "")
+                    @if($solicitud->estatus == "" || array_search('Presupuesto', $arr_roles) !== false || array_search('Comprobacion', $arr_roles) !== false)
                         <a href="{{ action('SolicitudRecursosController@edit', array($solicitud->id, $obj->id)) }}">{{ $obj->objetivo }} {{ $obj->d_objetivo }}</a>
                     @else
                         {{ $obj->objetivo }}
@@ -18,7 +18,7 @@
         @foreach($solicitud->rms as $rm)
             <tr>
                 <td>
-                    @if($solicitud->estatus == "")
+                    @if($solicitud->estatus == "" || array_search('Presupuesto', $arr_roles) !== false || array_search('Comprobacion', $arr_roles) !== false)
                         <a href="{{ action('SolicitudRecursosController@edit', array($solicitud->id, $rm->id)) }}">{{ $rm->rm }} Cuenta: {{ $rm->cog->cog }} {{ $rm->cog->d_cog }}</a>
                     @else
                         {{ $rm->rm }} Cuenta: {{ $rm->cog->cog }} {{ $rm->cog->d_cog }}

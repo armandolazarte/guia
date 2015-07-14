@@ -1,6 +1,7 @@
 <?php namespace Guia\Http\Controllers;
 
 use Carbon\Carbon;
+use Guia\Classes\FiltroEstatusResponsable;
 use Guia\Classes\FirmasSolRec;
 use Guia\Classes\Pdfs\SolicitudPdf;
 use Guia\Http\Requests;
@@ -21,9 +22,25 @@ class SolicitudController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function index()
+	public function index($scope = null)
 	{
-		$solicitudes = Solicitud::whereSolicita(\Auth::user()->id)->get();
+        $arr_roles = array();
+        if($scope == null){
+            $user = \Auth::user();
+            $arr_roles = $user->roles()->lists('role_name')->all();
+
+            if(array_search('Presupuesto', $arr_roles) !== false || array_search('Comprobacion', $arr_roles) !== false){
+                $scope = 'EstatusResponsable';
+            }
+        }
+
+        if($scope == 'EstatusResponsable') {
+            $filtro = new FiltroEstatusResponsable();
+            $filtro->filtroSolicitudes();
+            $solicitudes = Solicitud::estatusResponsable($filtro->arr_estatus, $filtro->arr_responsable)->get();
+        } else {
+            $solicitudes = Solicitud::whereSolicita(\Auth::user()->id)->get();
+        }
         $solicitudes->load('urg');
         return view('solicitudes.indexSolicitud', compact('solicitudes'));
 	}
@@ -87,6 +104,10 @@ class SolicitudController extends Controller {
 	 */
 	public function show($id)
 	{
+        $arr_roles = array();
+        $user = \Auth::user();
+        $arr_roles = $user->roles()->lists('role_name')->all();
+
         //Determina Acciones Unidad de Presupuesto
         $user = \Auth::user();
         $arr_roles = $user->roles()->lists('role_name')->all();
@@ -103,7 +124,7 @@ class SolicitudController extends Controller {
             $archivos = array();
         }
 
-        return view('solicitudes.infoSolicitud', compact('solicitud', 'acciones_presu', 'archivos'));
+        return view('solicitudes.infoSolicitud', compact('solicitud', 'acciones_presu', 'archivos', 'arr_roles'));
 	}
 
 	/**
