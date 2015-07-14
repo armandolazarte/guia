@@ -6,6 +6,7 @@ use Guia\Http\Requests\InvitacionRequest;
 use Guia\Classes\Pdfs\InvitacionPdf;
 use Guia\Http\Controllers\Controller;
 
+use Guia\Models\Articulo;
 use Guia\Models\Cotizacion;
 use Guia\Models\Benef;
 use Illuminate\Http\Request;
