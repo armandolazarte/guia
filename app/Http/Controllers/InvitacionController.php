@@ -9,6 +9,7 @@ use Guia\Http\Controllers\Controller;
 use Guia\Models\Articulo;
 use Guia\Models\Cotizacion;
 use Guia\Models\Benef;
+use Guia\Models\Cuadro;
 use Illuminate\Http\Request;
 
 class InvitacionController extends Controller {
@@ -49,6 +50,13 @@ class InvitacionController extends Controller {
 	 */
 	public function store(InvitacionRequest $request)
 	{
+        //Si existe un cuadro para la requisición, agrega la referencia del ID del cuadro
+        $verifica_cuadro = Cuadro::whereReqId($request->input('req_id'))->first();
+        if(!empty($verifica_cuadro)){
+            $request->merge(array(
+                'cuadro_id' => $verifica_cuadro->id
+            ));
+        }
         $request->merge(array(
             'fecha_invitacion' => Carbon::now()->toDateString()
         ));
