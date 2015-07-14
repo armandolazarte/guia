@@ -28,6 +28,8 @@ class ImportarSolicitudes {
         }
 
         $this->db_origen = $db_origen;
+
+        set_time_limit(240);
     }
 
     public function importarSolicitudes()
@@ -42,7 +44,7 @@ class ImportarSolicitudes {
                 ->value('benef');
 
             $benef_id = Benef::whereBenef($benef)->pluck('id');
-            $proyecto = Proyecto::whereProyecto($sol_legacy->proy)->get(['id','urg_id']);
+            $proyecto = Proyecto::whereProyecto($sol_legacy->proy)->first(['id','urg_id']);
 
             //Determinar el ID del usuario solicitante
             $solicita_id = User::whereLegacyUsername($sol_legacy->solicita)->pluck('id');
@@ -61,12 +63,18 @@ class ImportarSolicitudes {
                 $user_id = User::whereLegacyUsername($sol_legacy->responsable)->pluck('id');
             }
 
+            if(empty($sol_legacy->inventariable)) {
+                $inventariable = 0;
+            } else {
+                $inventariable = 1;
+            }
+
             $sol_nueva = new Solicitud();
             $sol_nueva->fecha = $sol_legacy->fecha;
             $sol_nueva->benef_id = $benef_id;
             $sol_nueva->tipo_solicitud = $sol_legacy->tipo_solicitud;
-            $sol_nueva->urg_id = $proyecto[0]->urg_id;
-            $sol_nueva->proyecto_id = $proyecto[0]->id;
+            $sol_nueva->urg_id = $proyecto->urg_id;
+            $sol_nueva->proyecto_id = $proyecto->id;
             $sol_nueva->concepto = $sol_legacy->concepto;
             $sol_nueva->obs = $sol_legacy->obs. ' #SIGI: '.$sol_legacy->solicitud_id;
             $sol_nueva->no_documento = $sol_legacy->no_documento;
@@ -77,7 +85,7 @@ class ImportarSolicitudes {
             $sol_nueva->user_id = $user_id;//responsable
             $sol_nueva->monto_pagado = $sol_legacy->monto_pagado;
             $sol_nueva->viaticos = $sol_legacy->viaticos;
-            $sol_nueva->inventariable = $sol_legacy->inventariable;
+            $sol_nueva->inventariable = $inventariable;
 
             $sol_nueva->save();
 
@@ -93,12 +101,19 @@ class ImportarSolicitudes {
                     $objs_solicitud = $this->consultarObjetivos($sol_legacy->solicitud_id);
                     if(count($objs_solicitud) > 0) {
                         foreach ($objs_solicitud as $obj_legacy) {
-                            $objetivo_id = Objetivo::whereObjetivo($obj_legacy)->value('id');
+                            $objetivo_id = Objetivo::whereObjetivo($obj_legacy->objetivo)->pluck('id');
+
+                            if(empty($obj_legacy)){
+                                dd($obj_legacy);
+                            }
                             $sol_nueva->objetivos()->attach($objetivo_id, ['monto' => $obj_legacy->monto]);
                         }
 
                     } else {//Si no, asigna primer objetivo que encuentre en el proyecto
-                        $objetivo_id = Rm::whereProyectoId($sol_nueva->proyecto_id)->value('objetivo_id');
+                        $objetivo_id = Rm::whereProyectoId($sol_nueva->proyecto_id)->pluck('objetivo_id');
+                        if(empty($objetivo_id->objetivo_id)){
+                            $objetivo_id = 1;
+                        }
                         $sol_nueva->objetivos()->attach($objetivo_id, ['monto' => $sol_nueva->monto]);
                     }
                 }
@@ -112,7 +127,6 @@ class ImportarSolicitudes {
         if(!empty($this->col_rango)){
             $solicitudes_legacy->whereBetween($this->col_rango, $this->arr_rango);
         }
-
 
         return $solicitudes_legacy->get();
     }

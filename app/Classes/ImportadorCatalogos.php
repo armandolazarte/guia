@@ -92,21 +92,25 @@ class ImportadorCatalogos {
         if ( count($proyectos_externos) > 0 ) {
             foreach($proyectos_externos as $proyecto_nuevo)
             {
-                $urg = Urg::whereUrg($proyecto_nuevo->ures)->get(array('id'));
-
+                $urg_id = Urg::whereUrg($proyecto_nuevo->ures)->pluck('id');
+                if(empty($urg_id)){
+                    dd('La URES no existe: '.$proyecto_nuevo->ures);
+                }
                 $proyecto = new Proyecto();
                 $proyecto->proyecto = $proyecto_nuevo->proy;
                 $proyecto->d_proyecto = $proyecto_nuevo->d_proy;
                 $proyecto->monto = $proyecto_nuevo->monto;
-                $proyecto->urg_id = $urg[0]->id;
+                $proyecto->urg_id = $urg_id;
                 $proyecto->tipo_proyecto_id = $this->tipo_proyecto_id;
                 $proyecto->save();
 
                 $proyecto_fondo = \DB::connection($this->db_origen)->table('tbl_proyecto_fondo')
                     ->where('proy', '=', $proyecto_nuevo->proy)
                     ->get();
-                $fondo = Fondo::whereFondo($proyecto_fondo[0]->fondo)->get(array('id'));
-                $proyecto->fondos()->attach($fondo[0]->id);
+                foreach($proyecto_fondo as $pf) {
+                    $fondo_id = Fondo::whereFondo($pf->fondo)->pluck('id');
+                    $proyecto->fondos()->attach($fondo_id);
+                }
             }
         }
     }

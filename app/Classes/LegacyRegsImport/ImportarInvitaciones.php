@@ -27,6 +27,8 @@ class ImportarInvitaciones
         }
 
         $this->db_origen = $db_origen;
+
+        set_time_limit(240);
     }
 
     public function importarInvitaciones()
@@ -39,46 +41,59 @@ class ImportarInvitaciones
 
             $cuadro_legacy = $this->consultarCuadroLegacy($invita_legacy->req);
             $articulos = Articulo::whereReqId($req->id)->get(['id']);
+            if(count($articulos) > 0) {
 
-            $cuadro_id = $this->crearCuadro($req, $fecha_cuadro);
+                $cuadro_id = $this->crearCuadro($req, $fecha_cuadro);
 
-            for($i = 1; $i < 7; $i++) {
-                $benef_id_i = 'benef_id_'.$i;
+                for ($i = 1; $i < 7; $i++) {
+                    $benef_id_i = 'benef_id_' . $i;
 
-                if(!empty($invita_legacy->$benef_id_i )) {
-                    $fecha_invita_i = 'fecha_invita_'.$i;
+                    if (!empty($invita_legacy->$benef_id_i)) {
+                        $fecha_invita_i = 'fecha_invita_' . $i;
 
-                    //Extrae de invitación para poblar una nueva cotización
-                    $benef_id = $this->getBenefId($invita_legacy->$benef_id_i);
+                        //Extrae de invitación para poblar una nueva cotización
+                        $benef_id = $this->getBenefId($invita_legacy->$benef_id_i);
 
-                    $cotiza_nueva = new Cotizacion();
-                    $cotiza_nueva->req_id = $req->id;
-                    $cotiza_nueva->cuadro_id = $cuadro_id;
-                    $cotiza_nueva->benef_id = $benef_id;
-                    $cotiza_nueva->fecha_invitacion = $invita_legacy->$fecha_invita_i;
-                    $cotiza_nueva->save();
+                        $cotiza_nueva = new Cotizacion();
+                        $cotiza_nueva->req_id = $req->id;
+                        $cotiza_nueva->cuadro_id = $cuadro_id;
+                        $cotiza_nueva->benef_id = $benef_id;
+                        $cotiza_nueva->fecha_invitacion = $invita_legacy->$fecha_invita_i;
+                        $cotiza_nueva->save();
 
-                    //extrae información de cuadro para poblar articulo_cotizacion
-                    $k = 0;
-                    foreach ($cuadro_legacy as $cotizacion_legacy) {
-                        $costo_i = 'costo_'.$i;
-                        $sel_i = 'sel_'.$i;
-                        if ($cotizacion_legacy->$costo_i > 0) {
+                        //extrae información de cuadro para poblar articulo_cotizacion
 
-                            if($cotizacion_legacy->$sel_i == 'S') {
-                                $sel = 1;
-                            } else {
-                                $sel = 0;
+                        if(count($cuadro_legacy) > 0) {
+
+                            if(count($articulos) != count($cuadro_legacy)){
+                                dd($req->id.' #Articulos: '.count($articulos).' #Cuadro: '.count($cuadro_legacy));
                             }
 
-                            $cotiza_nueva->articulos()->attach($articulos[$k]->id, [
-                                'costo' => $cotizacion_legacy->$costo_i,
-                                'sel' => $sel
-                            ]);
+                            $k = 0;
+                            foreach ($cuadro_legacy as $cotizacion_legacy) {
+                                $costo_i = 'costo_' . $i;
+                                $sel_i = 'sel_' . $i;
+                                if ($cotizacion_legacy->$costo_i > 0) {
+
+                                    if ($cotizacion_legacy->$sel_i == 'S') {
+                                        $sel = 1;
+                                    } else {
+                                        $sel = 0;
+                                    }
+
+                                    $cotiza_nueva->articulos()->attach($articulos[$k]->id, [
+                                        'costo' => $cotizacion_legacy->$costo_i,
+                                        'sel' => $sel
+                                    ]);
+                                }
+                                $k++;
+                            }
                         }
-                        $k ++;
                     }
                 }
+            }
+            else {
+                dd($req->id);
             }
         }
     }

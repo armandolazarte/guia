@@ -26,6 +26,8 @@ class ImportarArticulos
         }
 
         $this->db_origen = $db_origen;
+
+        set_time_limit(120);
     }
 
     public function importarArticulos()
@@ -41,6 +43,9 @@ class ImportarArticulos
             {
                 if(!empty($art_legacy->oc)) {
                     $oc_id = Oc::whereOc($art_legacy->oc)->pluck('id');
+                    if(empty($oc_id)) {
+                        $oc_id = 0;
+                    }
                 } else {
                     $oc_id = 0;
                 }
