@@ -30,7 +30,7 @@
                             </td>
                         @endforeach
                         <td>
-                            {!! Form::text('impuesto_'.$articulo->id, '16') !!}
+                            {!! Form::text('impuesto_'.$articulo->id, $iva) !!}
                         </td>
                     </tr>
                 @endforeach

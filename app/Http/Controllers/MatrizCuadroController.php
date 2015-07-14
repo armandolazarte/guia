@@ -36,8 +36,9 @@ class MatrizCuadroController extends Controller {
 
         $cotizaciones = Cotizacion::whereReqId($req_id)->get();
         $articulos = Articulo::whereReqId($req_id)->get();
+        $iva = \Utility::iva();
 
-        return view('cuadro.formMatriz', compact('req_id', 'cotizaciones', 'articulos'));
+        return view('cuadro.formMatriz', compact('req_id', 'cotizaciones', 'articulos', 'iva'));
 	}
 
 	/**
