@@ -35,7 +35,7 @@ class ImportarInvitaciones
 
         foreach ($legacy_invitaciones as $invita_legacy) {
             $req = Req::whereReq($invita_legacy->req)->first(['id', 'estatus']);
-            $fecha_cuadro = \DB::connection($this->db_origen)->table('tbl_req')->pluck('fecha_cuadro');
+            $fecha_cuadro = \DB::connection($this->db_origen)->table('tbl_req')->where('req', '=', $invita_legacy->req)->pluck('fecha_cuadro');
 
             $cuadro_legacy = $this->consultarCuadroLegacy($invita_legacy->req);
             $articulos = Articulo::whereReqId($req->id)->get(['id']);
