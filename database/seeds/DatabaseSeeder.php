@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
         $this->call('ObjActTableSeeder');
         $this->call('UnidadesTableSeeder');
         $this->call('CuentasTableSeeder');
+        $this->call('ConfigsTableSeeder');
 
         Model::reguard();
     }
