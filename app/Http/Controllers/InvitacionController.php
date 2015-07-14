@@ -1,5 +1,6 @@
 <?php namespace Guia\Http\Controllers;
 
+use Carbon\Carbon;
 use Guia\Http\Requests;
 use Guia\Http\Requests\InvitacionRequest;
 use Guia\Classes\Pdfs\InvitacionPdf;
@@ -47,6 +48,9 @@ class InvitacionController extends Controller {
 	 */
 	public function store(InvitacionRequest $request)
 	{
+        $request->merge(array(
+            'fecha_invitacion' => Carbon::now()->toDateString()
+        ));
 		$invitacion = Cotizacion::create($request->all());
         return redirect()->action('InvitacionController@show', array($invitacion->id));
 	}

@@ -20,13 +20,6 @@
                 </div>
             </div>
 
-            <div class="form-group">
-                {!! Form::label('fecha_invitacion', 'Fecha de la Invitación', array('class' => 'col-sm-2 control-label')) !!}
-                <div class="col-sm-10">
-                    {!! Form::text('fecha_invitacion', null, array('class'=>'form-control')) !!}
-                </div>
-            </div>
-
             {!! Form::hidden('req_id', $req_id) !!}
             <div class="col-sm-offset-2 col-sm-10">
                 {!! Form::submit('Aceptar', array('class' => 'btn btn-primary btn-sm')) !!}
