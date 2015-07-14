@@ -8,7 +8,7 @@ class Cotizacion extends Model {
     public $table = 'cotizaciones';
     use SoftDeletes;
 
-    protected $fillable = ['req_id', 'benef_id', 'fecha_invitacion', 'fecha_cotizacion', 'vigencia', 'garantia', 'imprimir'];
+    protected $fillable = ['req_id', 'cuadro_id', 'benef_id', 'fecha_invitacion', 'fecha_cotizacion', 'vigencia', 'garantia', 'imprimir'];
 
     //Cotizacion __belongs_to__ Req
     public function req()

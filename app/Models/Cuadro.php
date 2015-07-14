@@ -7,7 +7,7 @@ class Cuadro extends Model {
 
     use SoftDeletes;
 
-    protected $fillable = ['req_id', 'cuadro_id', 'fecha_cuadro', 'estatus', 'elabora', 'revisa', 'autoriza', 'criterio_adj'];
+    protected $fillable = ['req_id', 'fecha_cuadro', 'estatus', 'elabora', 'revisa', 'autoriza', 'criterio_adj'];
 
     //Cuadro __belongs_to__ Req
     public function req()
