@@ -39,4 +39,20 @@ class Utility {
         return $fecha_texto;
     }
 
+    public static function iva($fecha_consulta = null)
+    {
+        if(empty($fecha_consulta)) {
+            $fecha_consulta = \Carbon\Carbon::today()->toDateString();
+        }
+        $iva = \Guia\Config::where('variable', '=', 'IVA')
+            ->where('fecha_inicio', '<', $fecha_consulta)
+            ->whereNested(function($query) use($fecha_consulta) {
+                $query->where('fecha_fin', '=', '0000-00-00');
+                $query->orWhere('fecha_fin', '>', $fecha_consulta);
+            })
+            ->pluck('valor');
+
+        return (integer)$iva;
+    }
+
 }
