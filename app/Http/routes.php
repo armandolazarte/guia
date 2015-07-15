@@ -79,6 +79,8 @@ Route::group(array('prefix' => 'admin', 'middleware' => ['auth']), function()
 	Route::get('/tiposProyectos/editar/{tipoProyecto}', 'TiposProyectosController@edit');
 	Route::post('/tiposProyectos/{tipoProyecto}', 'TiposProyectosController@store');
 	Route::post('/tiposProyectos/actualizar/{tipoProyecto}', 'TiposProyectosController@update');
+
+    Route::post('/beneficiarios', 'BenefController@store');
 });
 
 Route::group(array('prefix' => 'proyectos'), function() {
