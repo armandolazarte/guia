@@ -5,6 +5,7 @@ use Illuminate\Database\Eloquent\Model;
 class Proveedor extends Model {
 
     public $table = 'proveedores';
+    protected $fillable = ['nombre_comercial','rfc','direccion','ciudad','estado','cp','tel','contacto','representante'];
 
     //Proveedor __belongs_to__ Benef
     public function benef()

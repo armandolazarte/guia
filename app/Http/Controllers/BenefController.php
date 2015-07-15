@@ -3,6 +3,7 @@
 namespace Guia\Http\Controllers;
 
 use Guia\Models\Benef;
+use Guia\Models\Proveedor;
 use Illuminate\Http\Request;
 
 use Guia\Http\Requests;
@@ -38,7 +39,11 @@ class BenefController extends Controller
      */
     public function store(BenefRequest $request)
     {
-        Benef::create($request->all());
+        $benef = Benef::create($request->all());
+        if($request->input('tipo') == 'Proveedor') {
+            $proveedor = new Proveedor();
+            $benef->proveedores()->save($proveedor);
+        }
 
         return redirect()->back()->with(['message' => 'Beneficiario registrado con éxito']);
     }
