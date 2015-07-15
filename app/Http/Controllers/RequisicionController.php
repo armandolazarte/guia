@@ -36,13 +36,13 @@ class RequisicionController extends Controller {
         }
 
         if($scope == 'MisRequisiciones') {
-            $reqs = Req::misReqs()->get();
+            $reqs = Req::misReqs()->orderBy('req', 'DESC')->get();
         } elseif($scope == 'EstatusResponsable') {
             $filtro = new FiltroEstatusResponsable();
             $filtro->filtroReqs();
-            $reqs = Req::estatusResponsable($filtro->arr_estatus, $filtro->arr_responsable)->get();
+            $reqs = Req::estatusResponsable($filtro->arr_estatus, $filtro->arr_responsable)->orderBy('req', 'DESC')->get();
         } else {
-            $reqs = Req::whereSolicita(\Auth::user()->id)->get();
+            $reqs = Req::whereSolicita(\Auth::user()->id)->orderBy('req', 'DESC')->get();
         }
 		$reqs->load('urg');
 		return view('reqs.indexReq', compact('reqs'));
