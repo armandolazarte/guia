@@ -152,4 +152,13 @@ class ImportarInvitaciones
 
         return $invitaciones_legacy->get();
     }
+
+    public function actualizarFechaCuadro()
+    {
+        $legacy_reqs = \DB::connection($this->db_origen)->table('tbl_req')->get(['req','fecha_cuadro']);
+        foreach ($legacy_reqs as $legacy_req) {
+            $req_id = Req::whereReq($legacy_req->req)->pluck('id');
+            Cuadro::whereReqId($req_id)->update(['fecha_cuadro' => $legacy_req->fecha_cuadro]);
+        }
+    }
 }
