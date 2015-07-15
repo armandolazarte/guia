@@ -42,17 +42,33 @@
                 </td>
                 <td>{!! $articulo->cantidad !!}</td>
                 <td>{!! $articulo->unidad !!}</td>
-                <td>
-                    @if(!empty($articulo->rm_id))
-                        {{-- @todo Obtener RM y Cuenta --}}
+                <td class="text-center">
+                    @if($articulo->rms->count() > 0)
+                        @foreach($articulo->rms as $rm)
+                            {{ $rm->cog->cog }} / {{ $rm->rm }}
+                        @endforeach
                     @else
                         <i>No asignado</i>
                     @endif
                 </td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                @if(count($articulo->cotizaciones) > 0)
+                    <td class="text-right">
+                        {{ number_format($articulo->monto_cotizado, 2) }}
+                    </td>
+                    <td class="text-right">
+                        {{ number_format($articulo->sub_total, 2) }}
+                    </td>
+                    <td class="text-right">
+                        {{ number_format($articulo->monto_total, 2) }}
+                    </td>
+                @else
+                    <td class="text-center" colspan="3">No cotizado</td>
+                @endif
+                <td class="text-center">
+                    @if($articulo->inventariable == 1)
+                        <span class="glyphicon glyphicon-ok"></span>
+                    @endif
+                </td>
             </tr>
             @endforeach
         </table>
