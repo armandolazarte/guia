@@ -224,18 +224,16 @@ class OrdenCompraPdf extends FPDF {
             $y_final = $this->GetY();
             $h_renglon = $y_final - $y_inicial; //Determina la altura del renglón
 
-            $importe_total = $articulo->cantidad * $articulo->costo;
-            $subtotal += $importe_total;
-            $iva = $articulo->impuesto * 0.01 * $importe_total;
+            $subtotal += $articulo->sub_total;
+            $iva = $articulo->impuesto * 0.01 * $articulo->sub_total;
             $sum_iva += $iva;
-            $importe_total = 0;
             $this->SetXY(10,$y_inicial);
             $this->Cell(15,$h_renglon, $articulo->unidad,1,0,'C');
             $this->SetXY(140,$y_inicial);
             $this->SetFont('CenturyGothic','','7');
             $this->Cell(20,$h_renglon,$articulo->cantidad,1,0,'C');
-            $this->Cell(25,$h_renglon,number_format($articulo->costo,2),1,0,'R');
-            $this->Cell(25,$h_renglon,number_format($importe_total,2),1,1,'R');
+            $this->Cell(25,$h_renglon,number_format($articulo->monto_cotizado,2),1,0,'R');
+            $this->Cell(25,$h_renglon,number_format($articulo->sub_total,2),1,1,'R');
         }
 
         //Dibuja lineas cuando termina iteración
