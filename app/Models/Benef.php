@@ -4,6 +4,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Benef extends Model {
 
+    protected $fillable = ['benef','tipo','tel','correo'];
+
     //Benef __has_many__ Egresos
     public function egresos()
     {
