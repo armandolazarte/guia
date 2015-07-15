@@ -61,7 +61,7 @@ class InvitacionController extends Controller {
             'fecha_invitacion' => Carbon::now()->toDateString()
         ));
 		$invitacion = Cotizacion::create($request->all());
-        return redirect()->action('InvitacionController@show', array($invitacion->id));
+        return redirect()->action('InvitacionController@index', array($invitacion->req_id));
 	}
 
 	/**

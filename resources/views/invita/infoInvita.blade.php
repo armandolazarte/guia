@@ -24,10 +24,6 @@
                 </div>
             @endif
 
-            {!! Form::open(array('action' => ['InvitacionController@destroy', $cotizacion->id], 'method' => 'delete')) !!}
-            {!! Form::submit('Borrar', array('class' => 'btn btn-danger btn-sm')) !!}
-            {!! Form::close() !!}
-
         </div>
     </div>
 @stop
