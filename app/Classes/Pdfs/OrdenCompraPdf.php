@@ -84,14 +84,23 @@ class OrdenCompraPdf extends FPDF {
         $this->Cell(135,4,utf8_decode(''),1,2,'C');//urg domicilio
         $this->Cell(135,3,'DOMICILIO',1,0,'C',true);
 
+        //Verifica que exista registro en tabla proveedores
+        if(count($this->oc->benef->proveedores) > 0){
+            $rfc = $this->oc->benef->proveedores[0]->rfc;
+            $direccion = $this->oc->benef->proveedores[0]->direccion;
+        } else {
+            $rfc = '';
+            $direccion = '';
+        }
+
         $this->SetXY(10,52);
         $this->Line($this->GetX(), $this->GetY(), $this->GetX(), 63);
         $this->Line($this->GetX(), $this->GetY(), 75, $this->GetY());
-        $this->MultiCell(65, 3, utf8_decode(''), 0);//prov direccion
+        $this->MultiCell(65, 3, utf8_decode($direccion), 0);//prov direccion
         $this->SetXY(75,52);
         $this->Cell(135,4,  utf8_decode($this->oc->benef->benef),1,2,'C');
         $this->Cell(135,3,'PROVEEDOR',1,2,'C',true);
-        $this->Cell(35,4,  utf8_decode($this->oc->benef->proveedores[0]->rfc),1,0,'C');
+        $this->Cell(35,4,  utf8_decode($rfc),1,0,'C');
         $this->Cell(60,4,  utf8_decode($this->oc->benef->correo),1,0,'C');
         $this->Cell(40,4,  utf8_decode($this->oc->benef->tel),1,0,'C');
         $this->SetXY(10,63);
