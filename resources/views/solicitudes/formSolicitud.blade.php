@@ -4,6 +4,8 @@
 <div class="row">
     <div class="col-md-12">
 
+        @include('benefs.formBenefModal')
+
         @if(isset($sol))
             {!! Form::model($sol, array('action' => array('SolicitudController@update', $sol->id), 'method' => 'patch', 'class' => 'form-horizontal')) !!}
             @if($sol->monto != 0)
@@ -49,9 +51,10 @@
 
         <div class="form-group">
             {!! Form::label('benef_id', 'Beneficiario del Cheque', array('class' => 'col-sm-2 control-label')) !!}
-            <div class="col-sm-10">
+            <div class="col-sm-9">
                 {!! Form::select('benef_id', $benefs, null, array('class' => 'form-control')) !!}
             </div>
+            <button type="button" class="btn btn-success btn-sm col-sm-1" data-toggle="modal" data-target="#formBenefModal">Registrar Nuevo</button>
         </div>
 
         <div class="form-group">

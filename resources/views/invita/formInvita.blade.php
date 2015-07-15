@@ -3,6 +3,9 @@
 @section('content')
     <div class="row">
         <div class="col-md-12">
+
+            @include('benefs.formBenefModal')
+
             <a href="{{ action('RequisicionController@show', $req_id) }}" class="btn btn-primary btn-sm">Regresar a Requisición</a>
 
             @include('partials.formErrors')
@@ -21,6 +24,12 @@
 
                 <div class="col-sm-2">
                     {!! Form::submit('Aceptar', array('class' => 'btn btn-success btn-sm')) !!}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-10">
+                    <button type="button" class="btn btn-success col-sm-2" data-toggle="modal" data-target="#formBenefModal">Registrar Nuevo</button>
                 </div>
             </div>
 
