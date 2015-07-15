@@ -55,6 +55,11 @@ class ImportarRegistrosController extends Controller
             $importa_invita->importarInvitaciones();
         }
 
+        if($request->input('registro') == 'ActualizarFechaCuadro') {
+            $importa_invita = new ImportarInvitaciones($db_origen, $col_rango, $arr_rango);
+            $importa_invita->actualizarFechaCuadro();
+        }
+
         return redirect()->action('ImportarRegistrosController@index')
             ->with(['message' => 'Importación de registros exitosa']);
     }

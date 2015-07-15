@@ -18,9 +18,10 @@
         'Solicitudes' => 'Solicitudes',
         'Requisiciones' => 'Requisiciones',
         'OCs' => 'Ordenes de Compra',
-        'Condiciones' => 'Actualizar Condiciones',
+        'Condiciones' => 'Actualizar Condiciones*',
         'Articulos' => 'Articulos',
-        'Invitaciones' => 'Invitaciones/Cuadros'
+        'Invitaciones' => 'Invitaciones/Cuadros',
+        'ActualizarFechaCuadro' => 'Actualizar Fecha de Cuadro*'
         )
     ) !!}
 
