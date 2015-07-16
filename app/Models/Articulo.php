@@ -49,6 +49,11 @@ class Articulo extends Model {
             }
         }
 
+        //Excepción para cuando hay cotizaciones pero aún no se elige el proveedor
+        if(!isset($monto_cotizado)) {
+            $monto_cotizado = 0;
+        }
+
         return $monto_cotizado;
     }
 
