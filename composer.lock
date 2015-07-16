@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "b2782165c0c446fff820b1968076a788",
+    "hash": "fe92325007077a29ad5584a51402dd5c",
     "packages": [
         {
             "name": "classpreloader/classpreloader",
@@ -1387,12 +1387,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/samuelmg/nat.git",
-                "reference": "4cd835f9be79a03f58117a091d1a794beab63bfc"
+                "reference": "4e9a827167d7cff2ec05b305a5972eac24da001d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/samuelmg/nat/zipball/4cd835f9be79a03f58117a091d1a794beab63bfc",
-                "reference": "4cd835f9be79a03f58117a091d1a794beab63bfc",
+                "url": "https://api.github.com/repos/samuelmg/nat/zipball/4e9a827167d7cff2ec05b305a5972eac24da001d",
+                "reference": "4e9a827167d7cff2ec05b305a5972eac24da001d",
                 "shasum": ""
             },
             "require": {
@@ -1424,7 +1424,7 @@
                 "numeros",
                 "pesos"
             ],
-            "time": "2015-05-22 18:29:07"
+            "time": "2015-07-16 17:11:09"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -3512,6 +3512,8 @@
     },
     "prefer-stable": false,
     "prefer-lowest": false,
-    "platform": [],
+    "platform": {
+        "php": ">=5.5.9"
+    },
     "platform-dev": []
 }
