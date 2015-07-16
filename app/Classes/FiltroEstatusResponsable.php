@@ -45,7 +45,7 @@ class FiltroEstatusResponsable
         $arr_estatus = Array();
 
         if(array_search('Cotizador', $this->arr_roles) !== false || array_search('Adquisiciones', $this->arr_roles) !== false) {
-            $arr_estatus = ['Terminada', 'Enviada', 'Recibida', 'Cotizando', 'Cotizada', 'Autorizada'];
+            $arr_estatus = ['Enviada', 'Recibida', 'Cotizando', 'Cotizada', 'Autorizada', 'Pagada'];
         }
 
         if(array_search('Presupuesto', $this->arr_roles) !== false || array_search('Comprobacion', $this->arr_roles) !== false) {
