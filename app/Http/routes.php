@@ -189,6 +189,14 @@ Route::group(array('prefix' => 'presupuesto', 'middleware' => ['auth']), functio
     Route::get('/saldo-proyecto/{id}/{modo_tabla?}', 'PresupuestoController@saldoRms');
 });
 
+//** Recursos Materiales */
+Route::group(array('prefix' => 'rm', 'middleware' => ['auth']), function()
+{
+    Route::get('/compensacion-interna/', 'CompensaInternaController@index');
+    Route::get('/compensacion-interna/nueva', 'CompensaInternaController@create');
+    Route::post('/compensacion-interna/nueva', 'CompensaInternaController@store');
+});
+
 //** Pre Requisiciones **//
 Route::group(array('prefix' => 'solicitud-req', 'middleware' => ['auth','selPresu']), function()
 {
@@ -232,3 +240,14 @@ Route::group(array('prefix' => 'sol-dep-concentradora', 'middleware' => ['auth']
     Route::get('/{soldep_id}/agregar-doc', 'SolDepositoDocsController@create');
     Route::post('/agregar-doc', 'SolDepositoDocsController@store');
 });
+
+Route::group(array('prefix' => 'api', 'middleware' => ['auth']), function()
+{
+    Route::get('/rm-dropdown/', function()
+    {
+        $proyecto_id = \Input::get('proyecto_id');
+        $rms = \Guia\Models\Rm::where('proyecto_id', '=', $proyecto_id)->get(['rm','id']);
+        return response()->json($rms);
+    });
+});
+
