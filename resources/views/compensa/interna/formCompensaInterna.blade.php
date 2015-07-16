@@ -35,6 +35,9 @@
 
                     <div class="panel-body">
                         <div class="grupo-rm-origen">
+                            <div class="alert-info">
+                                <h5><span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span></h5>
+                            </div>
                             <div class="form-group rmorigen-select-container">
                                 {!! Form::label('rm_origen', 'Recurso Material', array('class' => 'col-sm-4 control-label')) !!}
                                 <div class="col-sm-8">
@@ -69,7 +72,11 @@
                     </div>
 
                     <div class="panel-body">
+                        {{-- RM Destino Existente --}}
                         <div class="grupo-rm-destino">
+                            <div class="alert-info">
+                                <h5><span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>Recurso Material Existente</h5>
+                            </div>
                             <div class="form-group">
                                 {!! Form::label('rm_destino', 'Recurso Material', array('class' => 'col-sm-4 control-label')) !!}
                                 <div class="col-sm-8">
@@ -84,6 +91,38 @@
                                 <div class="col-sm-8">
                                     <input name="monto_destino[]" class="form-control">
                                     {{--{!! Form::text('monto_destino[]', null, ['class' => 'form-control']) !!}--}}
+                                </div>
+                            </div>
+                        </div>
+
+                        {{-- Nuevo RM Destino --}}
+                        <div class="grupo-rm-nuevo">
+                            <div class="alert-success">
+                                <h5><span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>Nuevo Recurso Material</h5>
+                            </div>
+                            {{-- Captura Nuevo RM --}}
+                            <div class="form-group">
+                                {!! Form::label('rm_nuevo', 'Nuevo Recurso Material', array('class' => 'col-sm-4 control-label')) !!}
+                                <div class="col-sm-8">
+                                    <input name="rm_nuevo[]" class="form-control">
+                                </div>
+                            </div>
+                            {{-- Selección COG --}}
+                            <div class="form-group">
+                                {!! Form::label('cog_nuevo', 'Cuenta de Objeto de Gasto', array('class' => 'col-sm-4 control-label')) !!}
+                                <div class="col-sm-8">
+                                    <select name="cog_nuevo[]", class="form-control">
+                                        @foreach($cogs as $cog)
+                                            <option value="{{ $cog->id }}">{{ $cog->cog }} {{ $cog->d_cog }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            {{-- Captura monto del RM nuevo --}}
+                            <div class="form-group">
+                                {!! Form::label('monto_nuevo_rm', 'Monto', array('class' => 'col-sm-4 control-label')) !!}
+                                <div class="col-sm-8">
+                                    <input name="monto_nuevo_rm[]" class="form-control">
                                 </div>
                             </div>
                         </div>
