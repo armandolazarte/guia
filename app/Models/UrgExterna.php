@@ -4,6 +4,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class UrgExterna extends Model {
 
+    public $timestamps = false;
     protected $fillable = ['urg_externa','d_urg_externa'];
 
     //UrgExterna __has_many__ CompensaExterna
