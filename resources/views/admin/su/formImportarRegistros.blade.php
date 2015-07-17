@@ -21,7 +21,8 @@
         'Condiciones' => 'Actualizar Condiciones*',
         'Articulos' => 'Articulos',
         'Invitaciones' => 'Invitaciones/Cuadros',
-        'ActualizarFechaCuadro' => 'Actualizar Fecha de Cuadro*'
+        'ActualizarFechaCuadro' => 'Actualizar Fecha de Cuadro*',
+        'Compensaciones' => 'Compensaciones (Requiere Importar Proy+RMs)'
         )
     ) !!}
 

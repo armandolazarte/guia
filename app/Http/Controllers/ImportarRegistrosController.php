@@ -3,6 +3,7 @@
 namespace Guia\Http\Controllers;
 
 use Guia\Classes\LegacyRegsImport\ImportarArticulos;
+use Guia\Classes\LegacyRegsImport\ImportarCompensa;
 use Guia\Classes\LegacyRegsImport\ImportarInvitaciones;
 use Guia\Classes\LegacyRegsImport\ImportarOcs;
 use Guia\Classes\LegacyRegsImport\ImportarReqs;
@@ -58,6 +59,11 @@ class ImportarRegistrosController extends Controller
         if($request->input('registro') == 'ActualizarFechaCuadro') {
             $importa_invita = new ImportarInvitaciones($db_origen, $col_rango, $arr_rango);
             $importa_invita->actualizarFechaCuadro();
+        }
+
+        if($request->input('registro') == 'Compensaciones') {
+            $importa_compensa = new ImportarCompensa($db_origen);
+            $importa_compensa->importarCompensaciones();
         }
 
         return redirect()->action('ImportarRegistrosController@index')
