@@ -14,7 +14,8 @@
                         'Beneficiarios' => 'Beneficiarios',
                         'COG' => 'COG',
                         'Usuarios' => 'Usuarios',
-                        'Rms' => 'Rms'
+                        'Rms' => 'Rms',
+                        'UrgExternas' => 'URG Externas'
             ),
             'Fondos Externos' => array(
                         'ProyectosFext' => 'Proyectos FEXT'

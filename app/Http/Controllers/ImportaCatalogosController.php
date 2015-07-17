@@ -54,6 +54,10 @@ class ImportaCatalogosController extends Controller {
             $importador->importarProyectosFext();
         }
 
+        if ($catalogo == "UrgExternas"){
+            $importador->importarUrgsExternas();
+        }
+
 		return redirect()->action('ImportaCatalogosController@index');
 	}
 

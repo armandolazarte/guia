@@ -11,6 +11,7 @@ use Guia\Models\CuentaBancaria;
 use Guia\Models\Benef;
 use Guia\Models\Proveedor;
 use Guia\Models\Cog;
+use Guia\Models\UrgExterna;
 use Guia\User;
 
 class ImportadorCatalogos {
@@ -376,6 +377,35 @@ class ImportadorCatalogos {
     {
         $proyectos_fext = \DB::connection($this->db_origen)->table('t_proyectos')->get();
         return $proyectos_fext;
+    }
+
+    //Importar URG Externas
+    public function importarUrgsExternas()
+    {
+        $legacy_urgs = $this->consultarLegacyUrgExternas();
+        if ( count($legacy_urgs) > 0 ) {
+            foreach($legacy_urgs as $legacy_urg)
+            {
+                $urg_externa = new UrgExterna();
+                $urg_externa->urg_externa = $legacy_urg->ures_ext;
+                $urg_externa->d_urg_externa = $legacy_urg->d_ures_ext;
+                $urg_externa->save();
+            }
+        }
+    }
+
+    private function consultarLegacyUrgExternas()
+    {
+        $urgs_importadas = UrgExterna::lists('urg_externa')->all();
+        if ( count($urgs_importadas) > 0 ) {
+            $legacy_urgs = \DB::connection($this->db_origen)->table('tbl_ures_ext')
+                ->whereNotIn ('ures_ext', $urgs_importadas)
+                ->get();
+        } else {
+            $legacy_urgs = \DB::connection($this->db_origen)->table('tbl_ures_ext')
+                ->get();
+        }
+        return $legacy_urgs;
     }
 
 }
