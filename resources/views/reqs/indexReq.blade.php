@@ -26,11 +26,19 @@
                         <td>{{ $req->urg->d_urg }}</td>
                         <td>{{ $req->etiqueta }}</td>
                         <td>{{ $req->estatus }}</td>
+                        {{-- Si cotizada --}}
+                        <td></td>
+
+                        {{-- Si Oc --}}
                         <td></td>
                         <td></td>
                         <td></td>
-                        <td></td>
-                        <td></td>
+
+                        @if(isset($req->user->nombre))
+                            <td>{{ $req->user->nombre }}</td>
+                        @else
+                            <td></td>
+                        @endif
                     </tr>
                 @endforeach
             </table>

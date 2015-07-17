@@ -45,6 +45,7 @@ class RequisicionController extends Controller {
             $reqs = Req::whereSolicita(\Auth::user()->id)->orderBy('req', 'DESC')->get();
         }
 		$reqs->load('urg');
+        $reqs->load('user');
 		return view('reqs.indexReq', compact('reqs'));
 	}
 
