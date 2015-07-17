@@ -57,12 +57,20 @@ class OcsController extends Controller {
         $oc = Oc::find($id);
         $oc->load('articulos');
 
+        $user = \Auth::user();
+        $arr_roles = $user->roles()->lists('role_name')->all();
+        if (array_search('Cotizador', $arr_roles) !== false || array_search('Adquisiciones', $arr_roles) !== false) {
+            $acciones_suministros = true;
+        } else {
+            $acciones_suministros = false;
+        }
+
         $archivos = $oc->archivos()->get();
         if(count($archivos) == 0) {
             $archivos = array();
         }
 
-        return view('oc.infoOc', compact('oc','archivos'));
+        return view('oc.infoOc', compact('oc','archivos','acciones_suministros'));
 	}
 
 	/**

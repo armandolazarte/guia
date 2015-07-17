@@ -3,8 +3,10 @@
 @section('content')
     <div class="row">
         <div class="col-md-12">
-            <a href="{{ action('RequisicionController@show', $oc->req_id) }}" class="btn btn-primary btn-sm">Regresar a Requisición</a>
-            <a href="{{ action('OcsController@index', $oc->req_id) }}" class="btn btn-primary btn-sm">Regresar a Ordenes de Compra</a>
+            @if($acciones_suministros)
+                <a href="{{ action('RequisicionController@show', $oc->req_id) }}" class="btn btn-primary btn-sm">Regresar a Requisición</a>
+                <a href="{{ action('OcsController@index', $oc->req_id) }}" class="btn btn-primary btn-sm">Regresar a Ordenes de Compra</a>
+            @endif
 
             <table class="table table-condensed">
                 <thead>

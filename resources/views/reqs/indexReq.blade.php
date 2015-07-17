@@ -30,9 +30,27 @@
                         <td></td>
 
                         {{-- Si Oc --}}
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        @if(count($req->ocs) > 0)
+                            <td class="text-center">
+                                @foreach($req->ocs as $oc)
+                                    <a href="{{ action('OcsController@show', $oc->id) }}">{{ $oc->oc }}</a> <br>
+                                @endforeach
+                            </td>
+                            <td class="text-center">
+                                @foreach($req->ocs as $oc)
+                                    {{ $oc->fecha_oc }} <br>
+                                @endforeach
+                            </td>
+                            <td class="text-center">
+                                @foreach($req->ocs as $oc)
+                                    {{ $oc->estatus }} <br>
+                                @endforeach
+                            </td>
+                        @else
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        @endif
 
                         @if(isset($req->user->nombre))
                             <td>{{ $req->user->nombre }}</td>
