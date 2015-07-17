@@ -27,7 +27,7 @@ class InvitacionPdf extends FPDF {
         !empty($this->invitacion->benef->contacto) ? $contacto = $this->invitacion->benef->contacto : $contacto = '';
 
         $this->Image(asset('img/membrete_req.jpg'),10,3,0,25);
-        $this->Cell(20,5,'Hoja '.$this->PageNo().'de {nb}',0,1,'R');
+//        $this->Cell(20,5,'Hoja '.$this->PageNo().'de {nb}',0,1,'R');//Deshabilitado debido a que causa un error al generar PDF
         $this->SetXY(10,30);
         $this->SetFont('Arial','B',8);
         $this->Cell(30,4,'PROVEEDOR:',0,1,'L');
