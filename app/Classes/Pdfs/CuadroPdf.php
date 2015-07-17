@@ -30,7 +30,7 @@ class CuadroPdf extends FPDF {
         $this->Cell(100,5,'CUADRO COMPARATIVO SADMVA/'.$this->cuadro->id,0,0);
         $this->SetFont('Arial','',8);
         $this->Cell(40);
-        $this->Cell(20,5,'Hoja '.$this->PageNo().'de {nb}',0,1,'R');
+//        $this->Cell(20,5,'Hoja '.$this->PageNo().'de {nb}',0,1,'R');//Deshabilitado por precaución debido a que causa un error al generar PDF
         $this->Cell(140);
         $this->Cell(50,5,'REQUISICION NO. '.$this->req->req,0,0);
 
