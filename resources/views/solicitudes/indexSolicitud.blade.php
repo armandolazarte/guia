@@ -10,8 +10,8 @@
                 <th>Solicitud</th>
                 <th>Fecha</th>
                 <th>Proyecto</th>
-                <th>Unidad Responsable (Aplicación)</th>
-                <th>Concepto</th>
+                <th>Oficio</th>
+                <th>Beneficiario</th>
                 <th>Estatus</th>
                 <th>Monto</th>
             </tr>
@@ -21,8 +21,8 @@
                     <td class="text-center"><a href="{{ action('SolicitudController@show', array($sol->id)) }}">{{ $sol->id }}</a></td>
                     <td>{{ $sol->fecha }}</td>
                     <td class="text-center">{{ $sol->proyecto->proyecto }}</td>
-                    <td>{{ $sol->urg->d_urg }}</td>
-                    <td>{{ $sol->concepto }}</td>
+                    <td>{{ $sol->no_documento }}</td>
+                    <td>{{ $sol->benef->benef }}</td>
                     <td>{{ $sol->estatus }}</td>
                     <td class="text-right">{{ number_format($sol->monto, 2) }}</td>
                 </tr>

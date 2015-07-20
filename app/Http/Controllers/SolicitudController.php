@@ -37,11 +37,12 @@ class SolicitudController extends Controller {
         if($scope == 'EstatusResponsable') {
             $filtro = new FiltroEstatusResponsable();
             $filtro->filtroSolicitudes();
-            $solicitudes = Solicitud::estatusResponsable($filtro->arr_estatus, $filtro->arr_responsable)->get();
+            $solicitudes = Solicitud::estatusResponsable($filtro->arr_estatus, $filtro->arr_responsable)->orderBy('id', 'DESC')->get();
         } else {
-            $solicitudes = Solicitud::whereSolicita(\Auth::user()->id)->get();
+            $solicitudes = Solicitud::whereSolicita(\Auth::user()->id)->orderBy('id', 'DESC')->get();
         }
         $solicitudes->load('urg');
+        $solicitudes->load('benef');
         return view('solicitudes.indexSolicitud', compact('solicitudes'));
 	}
 
