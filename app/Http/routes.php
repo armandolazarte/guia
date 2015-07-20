@@ -241,6 +241,13 @@ Route::group(array('prefix' => 'sol-dep-concentradora', 'middleware' => ['auth']
     Route::post('/agregar-doc', 'SolDepositoDocsController@store');
 });
 
+//** Egresos */
+Route::group(array('prefix' => 'egresos', 'middleware' => ['auth']), function()
+{
+    Route::get('/generar', 'GenerarEgresoController@create');
+    Route::post('/generar', 'GenerarEgresoController@store');
+});
+
 Route::group(array('prefix' => 'api', 'middleware' => ['auth']), function()
 {
     Route::get('/rm-dropdown/', function()
