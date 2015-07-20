@@ -47,7 +47,7 @@ class Consecutivo {
             $egreso->cheque ++;
             return $egreso->cheque;
         } else {
-            return 1;
+            return env('CHEQUE_INICIAL', 1);
         }
     }
 
@@ -58,7 +58,7 @@ class Consecutivo {
             $egreso->poliza ++;
             return $egreso->poliza;
         } else {
-            return 1;
+            return env('POLIZA_EGRESO_INICIAL', 1);
         }
     }
 
