@@ -22,7 +22,7 @@ class Articulo extends Model {
     //Articulo __belongs_to_many__ Rm
     public function rms()
     {
-        return $this->belongsToMany('Guia\Models\Rm');
+        return $this->belongsToMany('Guia\Models\Rm')->withPivot('monto');
     }
 
     //Articulo __belongs_to_many__ Cotizacion
