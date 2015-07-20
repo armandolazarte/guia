@@ -39,7 +39,10 @@
         <div class="form-group">
             {!! Form::label('porcentaje_anticipo', 'Porcentaje de Anticipo', array('class' => 'col-sm-2 control-label')) !!}
             <div class="col-sm-10">
-                {!! Form::text('porcentaje_anticipo', null, array('class'=>'form-control', 'maxlength' => '3', 'maxwidth' => '3')) !!}
+                <div class="input-group">
+                    {!! Form::text('porcentaje_anticipo', null, array('class'=>'form-control', 'maxlength' => '3', 'maxwidth' => '3')) !!}
+                    <span class="input-group-addon">%</span>
+                </div>
             </div>
         </div>
 
