@@ -9,6 +9,8 @@
                 <tr>
                     <th>Requisición</th>
                     <th>Fecha</th>
+                    <th>Proyecto</th>
+                    <th>Fondo</th>
                     <th>Unidad Responsable</th>
                     <th>Etiqueta</th>
                     <th>Estatus</th>
@@ -23,7 +25,21 @@
                     <tr>
                         <td><a href="{{ action('RequisicionController@show', array($req->id)) }}">{{ $req->req }}</a></td>
                         <td>{{ $req->fecha_req }}</td>
-                        <td>{{ $req->urg->d_urg }}</td>
+                        <td class="text-center">
+                            <span data-toggle="tooltip" data-placement="top" title="{{ $req->proyecto->d_proyecto }}">
+                            {{ $req->proyecto->proyecto }}
+                            </span>
+                        </td>
+                        <td class="text-center">
+                            <span data-toggle="tooltip" data-placement="top" title="{{ $req->proyecto->fondos()->pluck('d_fondo') }}">
+                                {{ $req->proyecto->fondos()->pluck('fondo') }}
+                            </span>
+                        </td>
+                        <td class="text-center">
+                            <span data-toggle="tooltip" data-placement="top" title="{{ $req->proyecto->urg->d_urg }}">
+                                {{ $req->proyecto->urg->urg }}
+                            </span>
+                        </td>
                         <td>{{ $req->etiqueta }}</td>
                         <td>{{ $req->estatus }}</td>
                         {{-- Si cotizada --}}
@@ -67,4 +83,13 @@
         @endif
     </div>
 </div>
+@stop
+
+@section('js')
+    @parent
+    <script>
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+    </script>
 @stop
