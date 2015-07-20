@@ -55,7 +55,7 @@ class CrearTablasBancos extends Migration {
 			$table->foreign('benef_id')->references('id')->on('benefs');
 			$table->integer('cuenta_id')->unsigned();
 			$table->foreign('cuenta_id')->references('id')->on('cuentas');
-			$table->string('cmt');
+			$table->string('concepto');
 			$table->decimal('monto', 15, 3);
 			$table->string('estatus', 30);
 			$table->integer('user_id')->unsigned();
