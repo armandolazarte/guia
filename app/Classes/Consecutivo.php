@@ -1,5 +1,6 @@
 <?php namespace Guia\Classes;
 
+use Guia\Models\Egreso;
 use Guia\Models\Oc;
 use Guia\Models\PreReq;
 use Guia\Models\Req;
@@ -38,4 +39,27 @@ class Consecutivo {
             return 1;
         }
     }
+
+    public function nextCheque()
+    {
+        $egreso = Egreso::orderBy('cheque', 'DESC')->first(array('cheque'));
+        if(isset($egreso)){
+            $egreso->cheque ++;
+            return $egreso->cheque;
+        } else {
+            return 1;
+        }
+    }
+
+    public function nextPolizaEgreso()
+    {
+        $egreso = Egreso::orderBy('poliza', 'DESC')->first(array('poliza'));
+        if(isset($egreso)){
+            $egreso->poliza ++;
+            return $egreso->poliza;
+        } else {
+            return 1;
+        }
+    }
+
 }
