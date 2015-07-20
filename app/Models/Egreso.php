@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Egreso extends Model {
 
     use SoftDeletes;
+    protected $fillable = ['cuenta_bancaria_id','poliza','cheque','fecha','benef_id','cuenta_id','concepto','monto','estatus','user_id','fecha_cobro'];
 
     //Egreso __belongs_to__ CuentaBancaria
     public function cuenta()
