@@ -131,7 +131,7 @@ class SolicitudPdf extends FPDF
         $this->SetFont('Arial','',10);
         $this->SetX(25);
 
-        if($this->solicitud->tipo_solicitud == 'Vale'){
+        if (count($this->solicitud->objetivos) > 0){
             $this->MultiCell(60,5,"Desglose por Objetivo:",1,'C');
             $this->SetFont('CenturyGothic','','10');
             foreach($this->solicitud->objetivos as $obj){

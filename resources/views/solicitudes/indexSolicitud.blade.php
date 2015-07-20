@@ -14,6 +14,7 @@
                 <th>Beneficiario</th>
                 <th>Estatus</th>
                 <th>Monto</th>
+                <th>Tipo</th>
             </tr>
             </thead>
             @foreach($solicitudes as $sol)
@@ -25,6 +26,7 @@
                     <td>{{ $sol->benef->benef }}</td>
                     <td>{{ $sol->estatus }}</td>
                     <td class="text-right">{{ number_format($sol->monto, 2) }}</td>
+                    <td>{{ $sol->tipo_solicitud }}</td>
                 </tr>
             @endforeach
         </table>

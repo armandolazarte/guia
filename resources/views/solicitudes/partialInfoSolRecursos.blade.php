@@ -1,5 +1,5 @@
 <table class="table table-bordered">
-    @if($solicitud->tipo_solicitud == "Vale")
+    @if(count($solicitud->objetivos) > 0)
         <thead><tr><th>Objetivo</th> <th>Monto</th></tr></thead>
         @foreach($solicitud->objetivos as $obj)
             <tr>

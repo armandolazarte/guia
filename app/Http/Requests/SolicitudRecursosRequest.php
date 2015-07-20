@@ -21,17 +21,12 @@ class SolicitudRecursosRequest extends Request {
 	 */
 	public function rules()
 	{
-        if ($this->input('tipo_solicitud') == 'Vale') {
-            $rules = ['objetivo_id' => 'required|integer|not_in:0'];
-        } else {
-            $rules = ['rm_id' => 'required|integer|not_in:0'];
-        }
-
-        $rules = array_merge($rules, [
+        $rules = [
+            'rm_id' => 'required|integer|not_in:0',
             'solicitud_id' => 'required|integer|not_in:0',
             'tipo_solicitud' => 'required',
             'monto' => 'required|numeric'
-        ]);
+        ];
         return $rules;
 	}
 

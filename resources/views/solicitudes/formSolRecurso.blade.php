@@ -14,7 +14,7 @@
 
     @include('partials.formErrors')
 
-    @if($solicitud->tipo_solicitud == "Vale")
+    @if(count($objetivos) > 0)
         <div class="form-group">
             <label for="objetivo_id">Objetivo</label>
             <div class="input-group">
@@ -47,7 +47,14 @@
 
     {!! Form::hidden('solicitud_id', $solicitud->id) !!}
     {!! Form::hidden('tipo_solicitud', $solicitud->tipo_solicitud) !!}
-    {!! Form::submit('Aceptar', array('class' => 'btn btn-primary')) !!}
+    {{--Impide editar el monto si es un vale y está desglosado por objetivo--}}
+    @if(count($objetivos) == 0)
+        {!! Form::submit('Aceptar', array('class' => 'btn btn-primary')) !!}
+    @else
+        <div class="alert-info">
+            Debido a disposiciones recientes el monto por objetivo solo puede ser borrado, por lo que el desglose deberá realizarse por Recurso Material
+        </div>
+    @endif
     {!! Form::close() !!}
 
     @if(isset($solicitud) && isset($recurso_id))
