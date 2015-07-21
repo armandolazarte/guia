@@ -246,6 +246,10 @@ Route::group(array('prefix' => 'egresos', 'middleware' => ['auth']), function()
 {
     Route::get('/generar', 'GenerarEgresoController@create');
     Route::post('/generar', 'GenerarEgresoController@store');
+
+    Route::get('/listado', 'EgresosController@index');
+    Route::get('/{id}/editar', 'EgresosController@edit');
+    Route::patch('/{id}/editar', 'EgresosController@update');
 });
 
 Route::group(array('prefix' => 'api', 'middleware' => ['auth']), function()
