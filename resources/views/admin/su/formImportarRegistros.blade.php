@@ -22,7 +22,8 @@
         'Articulos' => 'Articulos',
         'Invitaciones' => 'Invitaciones/Cuadros',
         'ActualizarFechaCuadro' => 'Actualizar Fecha de Cuadro*',
-        'Compensaciones' => 'Compensaciones (Requiere Importar Proy+RMs)'
+        'Compensaciones' => 'Compensaciones (Requiere Importar Proy+RMs)',
+        'ActualizarImpuesto' => 'Actualizar Impuesto (Reqs Cotizadas)'
         )
     ) !!}
 

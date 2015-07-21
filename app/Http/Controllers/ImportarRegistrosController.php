@@ -2,6 +2,7 @@
 
 namespace Guia\Http\Controllers;
 
+use Guia\Classes\LegacyRegsImport\ActualizarImpuesto;
 use Guia\Classes\LegacyRegsImport\ImportarArticulos;
 use Guia\Classes\LegacyRegsImport\ImportarCompensa;
 use Guia\Classes\LegacyRegsImport\ImportarInvitaciones;
@@ -64,6 +65,11 @@ class ImportarRegistrosController extends Controller
         if($request->input('registro') == 'Compensaciones') {
             $importa_compensa = new ImportarCompensa($db_origen);
             $importa_compensa->importarCompensaciones();
+        }
+
+        if($request->input('registro') == 'ActualizarImpuesto') {
+            $actualizar_impuesto = new ActualizarImpuesto($db_origen);
+            $actualizar_impuesto->actualizarImpuesto();
         }
 
         return redirect()->action('ImportarRegistrosController@index')
