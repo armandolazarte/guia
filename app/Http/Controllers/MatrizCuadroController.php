@@ -7,6 +7,7 @@ use Guia\Http\Requests\MatrizCuadroRequest;
 use Guia\Models\Articulo;
 use Guia\Models\Cotizacion;
 use Guia\Models\Cuadro;
+use Guia\Models\Req;
 use Illuminate\Http\Request;
 
 class MatrizCuadroController extends Controller {
@@ -98,6 +99,16 @@ class MatrizCuadroController extends Controller {
             $cotizacion->save();
         }
 
+        //Actualizar Tipo de Cambio en @reqs
+        $tipo_cambio = $request->input('tipo_cambio');
+        $moneda = $request->input('moneda');
+        if (!empty($tipo_cambio) && !empty($moneda)) {
+            $req = Req::find($req_id);
+            $req->tipo_cambio = $tipo_cambio;
+            $req->moneda = $moneda;
+            $req->save();
+        }
+
         return redirect()->action('MatrizCuadroController@show', array($req_id));
 	}
 
@@ -113,7 +124,11 @@ class MatrizCuadroController extends Controller {
         $articulos = Articulo::whereReqId($req_id)->get();
         $cuadro_id = Cuadro::whereReqId($req_id)->pluck('id');
 
-        return view('cuadro.matrizCuadro', compact('req_id', 'cotizaciones', 'articulos', 'cuadro_id'));
+        $req = Req::whereId($req_id)->first(['tipo_cambio','moneda']);
+        $req->tipo_cambio == 0 ? $tipo_cambio = '' : $tipo_cambio = $req->tipo_cambio;
+        $moneda = $req->moneda;
+
+        return view('cuadro.matrizCuadro', compact('req_id', 'cotizaciones', 'articulos', 'cuadro_id', 'tipo_cambio','moneda'));
 	}
 
 	/**
@@ -131,7 +146,11 @@ class MatrizCuadroController extends Controller {
         $articulos = Articulo::whereReqId($cuadro->req_id)->get();
         $articulos->load('cotizaciones');
 
-        return view('cuadro.formMatrizEdit', compact('cuadro', 'articulos', 'cotizaciones'));
+        $req = Req::whereId($cuadro->req_id)->first(['tipo_cambio','moneda']);
+        $req->tipo_cambio == 0 ? $tipo_cambio = '' : $tipo_cambio = $req->tipo_cambio;
+        $moneda = $req->moneda;
+
+        return view('cuadro.formMatrizEdit', compact('cuadro', 'articulos', 'cotizaciones', 'tipo_cambio','moneda'));
 	}
 
 	/**
@@ -187,6 +206,16 @@ class MatrizCuadroController extends Controller {
             $cotizacion->garantia = $request->input('garantia_'.$cotizacion_id);
             $cotizacion->imprimir = true;
             $cotizacion->save();
+        }
+
+        //Actualizar Tipo de Cambio en @reqs
+        $tipo_cambio = $request->input('tipo_cambio');
+        $moneda = $request->input('moneda');
+        if (!empty($tipo_cambio) && !empty($moneda)) {
+            $req = Req::find($cuadro->req_id);
+            $req->tipo_cambio = $tipo_cambio;
+            $req->moneda = $moneda;
+            $req->save();
         }
 
         return redirect()->action('MatrizCuadroController@show', array($cuadro->req_id));

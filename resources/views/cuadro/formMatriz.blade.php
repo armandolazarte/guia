@@ -8,6 +8,16 @@
             @include('partials.formErrors')
             {!! Form::open(array('action' => 'MatrizCuadroController@store')) !!}
 
+            <div class="form-group">
+                {!! Form::label('tipo_cambio', 'Tipo de Cambio', array('class' => 'col-sm-1 control-label')) !!}
+                <div class="col-sm-1">
+                    {!! Form::text('tipo_cambio', '', ['class' => 'form-control']) !!}
+                </div>
+                <div class="col-sm-3">
+                    {!! Form::select('moneda', ['' => 'Peso Mexicano', 'USD' => 'Dolar', 'CAD' => 'Dolar Canadiense', 'Euros' => 'Euros', 'Libras' => 'Libras'], null, ['class' => 'form-control']) !!}
+                </div>
+            </div>
+
             <table class="table table-bordered">
                 <thead>
                 <th>Artículo</th>

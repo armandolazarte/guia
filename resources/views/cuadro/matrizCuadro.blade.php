@@ -20,6 +20,19 @@
             {!! Form::close() !!}
 
             <table class="table table-bordered">
+                <tr>
+                    @if(empty($tipo_cambio))
+                        <td>Cotización en Pesos Mexicanos</td>
+                    @else
+                        <td>
+                            Tipo de Cambio: {{ number_format($tipo_cambio, 2) }}
+                            Moneda: {{ $moneda }}
+                        </td>
+                    @endif
+                </tr>
+            </table>
+
+            <table class="table table-bordered">
                 <thead>
                 <th>Artículo</th>
                 <th>Unidad</th>
