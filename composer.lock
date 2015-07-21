@@ -1387,12 +1387,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/samuelmg/nat.git",
-                "reference": "4e9a827167d7cff2ec05b305a5972eac24da001d"
+                "reference": "d7770754594589d3c67235e91c7293c2636e97a4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/samuelmg/nat/zipball/4e9a827167d7cff2ec05b305a5972eac24da001d",
-                "reference": "4e9a827167d7cff2ec05b305a5972eac24da001d",
+                "url": "https://api.github.com/repos/samuelmg/nat/zipball/d7770754594589d3c67235e91c7293c2636e97a4",
+                "reference": "d7770754594589d3c67235e91c7293c2636e97a4",
                 "shasum": ""
             },
             "require": {
@@ -1424,7 +1424,7 @@
                 "numeros",
                 "pesos"
             ],
-            "time": "2015-07-16 17:11:09"
+            "time": "2015-07-21 16:01:18"
         },
         {
             "name": "swiftmailer/swiftmailer",
