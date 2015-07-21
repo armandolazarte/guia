@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 
 use Guia\Http\Requests;
 use Guia\Http\Controllers\Controller;
+use Nat\Nat;
 
 class EgresosController extends Controller
 {
@@ -94,5 +95,19 @@ class EgresosController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function chequeRtf($id)
+    {
+        $egreso = Egreso::findOrFail($id);
+        $fecha_texto = \Utility::fecha_texto($egreso->fecha);
+        $nat = new Nat($egreso->monto, '');
+        $monto_letra = $nat->convertir();
+
+        $presu = \InfoDirectivos::getResponsable('PRESU')->iniciales;
+        $cfin = \InfoDirectivos::getResponsable('FIN')->iniciales;
+        $elabora = \Auth::user()->iniciales;
+
+        return view('egresos.formCheque', compact('egreso', 'monto_letra', 'fecha_texto','presu','cfin','elabora'));
     }
 }

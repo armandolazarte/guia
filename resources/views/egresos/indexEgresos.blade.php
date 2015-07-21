@@ -16,6 +16,7 @@
                     <th>Monto</th>
                     <th>Estatus</th>
                     <th>Respnosable</th>
+                    <th>Imprimir</th>
                 </tr>
 
                 @foreach($egresos as $egreso)
@@ -38,6 +39,7 @@
                         <td class="text-right">{{ number_format($egreso->monto, 2) }}</td>
                         <td>{{ $egreso->estatus }}</td>
                         <td>{{ $egreso->user->nombre }}</td>
+                        <td><a href="{{ action('EgresosController@chequeRtf', $egreso->id) }}" target="_blank">Imprimir</a></td>
                     </tr>
                 @endforeach
 
