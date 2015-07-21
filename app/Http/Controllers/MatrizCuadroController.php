@@ -32,7 +32,11 @@ class MatrizCuadroController extends Controller {
         //Si existe un cuadro para la requisición, redirecciona para mostrar el cuadro existente
         $verifica_cuadro = Cuadro::whereReqId($req_id)->first();
         if(!empty($verifica_cuadro)){
-            return redirect()->action('MatrizCuadroController@edit', array($verifica_cuadro->id));
+            if (empty($verifica_cuadro->estatus) || $verifica_cuadro->estatus == 'Cotizando') {
+                return redirect()->action('MatrizCuadroController@edit', array($verifica_cuadro->id));
+            } elseif ($verifica_cuadro->estatus == 'Terminado') {
+                return redirect()->action('MatrizCuadroController@show', array($req_id));
+            }
         }
 
         $cotizaciones = Cotizacion::whereReqId($req_id)->get();
