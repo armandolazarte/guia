@@ -127,7 +127,7 @@ class GenerarEgresoController extends Controller
         $doc->estatus = 'Pagada';
         $doc->save();
 
-        return redirect(action('GenerarEgresoController@create'))->with(['message' => 'Cheque Generado']);
+        return redirect(action('GenerarEgresoController@create'))->with(['message' => 'Cheque '.$cheque.' Generado']);
 
 //        if($request->ajax()) {
 //            return response()->json([
