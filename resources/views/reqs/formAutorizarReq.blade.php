@@ -30,6 +30,7 @@
                                 <th>Alta</th>
                                 <th>Sub-Total</th>
                                 <th>Total (Incluye IVA)</th>
+                                <th>TOTAL MXP</th>
                             </tr>
                             </thead>
                             @foreach($articulos as $articulo)
@@ -64,6 +65,9 @@
                                     </td>
                                     <td class="text-right">
                                         {{ number_format($articulo->monto_total, 2) }}
+                                    </td>
+                                    <td class="text-right">
+                                        {{ number_format($articulo->monto, 2) }}
                                     </td>
                                 </tr>
                             @endforeach
