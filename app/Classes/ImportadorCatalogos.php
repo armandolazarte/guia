@@ -1,5 +1,6 @@
 <?php namespace Guia\Classes;
 
+use Guia\Models\Acceso;
 use Guia\Models\Actividad;
 use Guia\Models\Cargo;
 use Guia\Models\Objetivo;
@@ -286,6 +287,46 @@ class ImportadorCatalogos {
                 ->get();
         }
         return $usuarios_externos;
+    }
+
+    public function actualizarDerechos()
+    {
+        $usuarios_legacy = \DB::connection($this->db_origen)->table('tbl_usuarios')
+            ->where('sel_proy', '!=', '')
+            ->orWhere('lim_inf', '!=', '')
+            ->get(['usr','sel_proy','lim_inf','lim_sup']);
+
+        foreach($usuarios_legacy as $usuario_legacy) {
+            $user = User::where('legacy_username', '=', $usuario_legacy->usr)->with('accesos')->first();
+
+            //Verificar que no tenga accesos
+            if (count($user->accesos) == 0) {
+
+                if (!empty($usuario_legacy->sel_proy)) {
+                    $arr_sel_proy = explode(',', $usuario_legacy->sel_proy);
+                    $proyectos = Proyecto::whereIn('proyecto', $arr_sel_proy)->get();
+                    foreach ($proyectos as $proyecto) {
+                        $acceso = new Acceso(['acceso_id' => $proyecto->id, 'acceso_type' => 'Guia\Models\Proyecto']);
+                        $user->accesos()->save($acceso);
+                    }
+                }
+            }
+
+            //Verificar que no tenga accesos
+            if (count($user->accesos) == 0) {
+                if (!empty($usuario_legacy->lim_inf)) {
+                    $urg_id = Urg::whereIn('urg', [$usuario_legacy->lim_inf])->pluck('id');
+                    $acceso = new Acceso(['acceso_id' => $urg_id, 'acceso_type' => 'Guia\Models\Urg']);
+                    $user->accesos()->save($acceso);
+                }
+
+                if (!empty($usuario_legacy->lim_sup)) {
+                    $urg_id = Urg::whereIn('urg', [$usuario_legacy->lim_sup])->pluck('id');
+                    $acceso = new Acceso(['acceso_id' => $urg_id, 'acceso_type' => 'Guia\Models\Urg']);
+                    $user->accesos()->save($acceso);
+                }
+            }
+        }
     }
 
     //RMs

@@ -14,6 +14,7 @@
                         'Beneficiarios' => 'Beneficiarios',
                         'COG' => 'COG',
                         'Usuarios' => 'Usuarios',
+                        'ActualizarDerechosUsuario' => 'Actualizar Derechos de Usuarios',
                         'Rms' => 'Rms',
                         'UrgExternas' => 'URG Externas'
             ),

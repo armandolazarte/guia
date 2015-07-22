@@ -46,6 +46,10 @@ class ImportaCatalogosController extends Controller {
             $importador->importarUsuarios();
         }
 
+        if ($catalogo == "ActualizarDerechosUsuario"){
+            $importador->actualizarDerechos();
+        }
+
         if ($catalogo == "Rms"){
             $importador->importarRms();
         }
