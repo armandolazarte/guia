@@ -41,6 +41,7 @@
                     <th>{{ $cotizacion->benef->benef }}</th>
                 @endforeach
                 <th>IVA</th>
+                <th>No Cotizado</th>
                 </thead>
                 @foreach($articulos as $articulo)
                     <tr>
@@ -55,6 +56,11 @@
                         <td>
                             {{ $articulo->impuesto }}
                         </td>
+                        <td class="text-center">
+                            @if($articulo->no_cotizado == 1)
+                                <span class="glyphicon glyphicon-remove"></span>
+                            @endif
+                        </td>
                     </tr>
                 @endforeach
                 <tr>
@@ -62,14 +68,14 @@
                     @foreach($cotizaciones as $cotizacion)
                         <td>{{ $cotizacion->vigencia }}</td>
                     @endforeach
-                    <td></td>
+                    <td colspan="2"></td>
                 </tr>
                 <tr>
                     <td class="text-right" colspan="3">Garantía</td>
                     @foreach($cotizaciones as $cotizacion)
                         <td>{{ $cotizacion->garantia }}</td>
                     @endforeach
-                    <td></td>
+                    <td colspan="2"></td>
                 </tr>
             </table>
         </div>

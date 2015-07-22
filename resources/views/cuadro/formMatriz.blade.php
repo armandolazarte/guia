@@ -27,6 +27,7 @@
                     <th>{{ $cotizacion->benef->benef }}</th>
                 @endforeach
                 <th>IVA</th>
+                <th>No Cotizado</th>
                 </thead>
                 @foreach($articulos as $articulo)
                     <tr>
@@ -42,6 +43,9 @@
                         <td>
                             {!! Form::text('impuesto_'.$articulo->id, $iva) !!}
                         </td>
+                        <td class="text-center">
+                            {!! Form::checkbox('no_cotizado_'.$articulo->id, 1, $articulo->inventariable) !!}
+                        </td>
                     </tr>
                 @endforeach
                 <tr>
@@ -49,14 +53,14 @@
                     @foreach($cotizaciones as $cotizacion)
                         <td>{!! Form::text('vigencia_'.$cotizacion->id, '') !!}</td>
                     @endforeach
-                    <td></td>
+                    <td colspan="2"></td>
                 </tr>
                 <tr>
                     <td colspan="3">Garantía</td>
                     @foreach($cotizaciones as $cotizacion)
                         <td>{!! Form::text('garantia_'.$cotizacion->id, '') !!}</td>
                     @endforeach
-                    <td></td>
+                    <td colspan="2"></td>
                 </tr>
             </table>
 

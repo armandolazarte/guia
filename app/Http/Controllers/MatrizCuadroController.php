@@ -78,19 +78,22 @@ class MatrizCuadroController extends Controller {
         foreach($arr_articulos_id as $articulo_id){
             $articulo = Articulo::find($articulo_id);
             $sel_value = $request->input('sel_'.$articulo_id);
+            $no_cotizado = $request->input('no_cotizado_'.$articulo_id);
+            if (empty($no_cotizado)) {
+                $no_cotizado = 0;
+            }
 
             foreach($arr_cotizaciones_id as $cotizacion_id){
                 $costo = $request->input('costo_'.$articulo_id.'_'.$cotizacion_id);
-                $sel_value == $cotizacion_id ? $sel = 1 : $sel = 0;
+                $sel_value == $cotizacion_id && empty($no_cotizado) ? $sel = 1 : $sel = 0;
 
                 //Guarda información en tabla pivote articulo_cotizacion
-                if($costo > 0){
-                    $articulo->cotizaciones()->attach([$cotizacion_id => ['costo' => $costo, 'sel' => $sel]]);
-                }
+                $articulo->cotizaciones()->attach([$cotizacion_id => ['costo' => $costo, 'sel' => $sel]]);
             }
 
-            //Actualizar impuesto en articulos
+            //Actualizar impuesto y no_cotizado en articulos
             $articulo->impuesto = $request->input('impuesto_'.$articulo_id);
+            $articulo->no_cotizado = $request->input('no_cotizado_'.$articulo_id);
             $articulo->save();
         }
 
@@ -119,7 +122,7 @@ class MatrizCuadroController extends Controller {
 
         //Creación de registro
         $fecha_hora = Carbon::now();
-        $registro = new Registro(['user_id' => Auth::user()->id, 'estatus' => $estatus_req, 'fecha_hora' => $fecha_hora]);
+        $registro = new Registro(['user_id' => \Auth::user()->id, 'estatus' => $estatus_req, 'fecha_hora' => $fecha_hora]);
         $req->registros()->save($registro);
 
         return redirect()->action('MatrizCuadroController@show', array($req_id));
@@ -184,12 +187,16 @@ class MatrizCuadroController extends Controller {
         foreach($arr_articulos_id as $articulo_id){
             $articulo = Articulo::find($articulo_id);
             $sel_value = $request->input('sel_'.$articulo_id);
+            $no_cotizado = $request->input('no_cotizado_'.$articulo_id);
+            if (empty($no_cotizado)) {
+                $no_cotizado = 0;
+            }
 
             foreach($arr_cotizaciones_id as $cotizacion_id) {
                 $costo_nuevo = $request->input('costo_'.$articulo_id.'_'.$cotizacion_id);
                 if(isset($costo_nuevo))
                 {
-                    $sel_value == $cotizacion_id && $costo_nuevo > 0 ? $sel = 1 : $sel = 0;
+                    $sel_value == $cotizacion_id && $costo_nuevo > 0 && empty($no_cotizado) ? $sel = 1 : $sel = 0;
 
                     //Verifica existencia de pivote
                     if($articulo->cotizaciones()->get()->contains($cotizacion_id)){
@@ -209,6 +216,7 @@ class MatrizCuadroController extends Controller {
 
             //Actualizar impuesto en articulos
             $articulo->impuesto = $request->input('impuesto_'.$articulo_id);
+            $articulo->no_cotizado = $no_cotizado;
             $articulo->save();
         }
 
