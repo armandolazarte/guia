@@ -1,5 +1,6 @@
 <?php namespace Guia\Http\Controllers;
 
+use Guia\Models\AsignaUsuario;
 use Guia\Models\Urg;
 use Guia\User;
 use Guia\Models\Role;
@@ -77,8 +78,10 @@ class UsuarioController extends Controller {
         $arr_roles = $user_actual->roles()->lists('role_name')->all();
         if(array_search('Administrador', $arr_roles) !== false){
             $role_admin = true;
+            $usuarios = User::all()->sortBy('nombre')->lists('nombre','id')->all();
         } else {
             $role_admin = false;
+            $usuarios = [];
         }
 
 		return view('admin.usuarios.formUsuario')
@@ -86,7 +89,8 @@ class UsuarioController extends Controller {
 			->with('roles', $roles)
             ->with('cargos', $cargos)
             ->with('urgs', $urgs)
-            ->with('role_admin', $role_admin);
+            ->with('role_admin', $role_admin)
+            ->with('usuarios', $usuarios);
 	}
 
 	/**

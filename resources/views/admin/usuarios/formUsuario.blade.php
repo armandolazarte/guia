@@ -8,6 +8,7 @@
                 @if($role_admin)
                     @include('admin.usuarios.formCargos')
                     @include('admin.usuarios.formAcceso')
+                    @include('admin.usuarios.asignaUsuario.formAsignar')
                 @endif
 
                 {!! Form::model($user, array('route' => array('admin.usuario.update', $user->id), 'method' => 'patch', 'class' => 'form-horizontal')) !!}
@@ -90,6 +91,7 @@
 
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#formCargosModal">Registrar Cargo - URG</button>
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#formAccesoModal">Crear Acceso Presupuestal</button>
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#formAsignarUsuarioModal">Asignar Usaurio</button>
                 @endif
 
             {!! Form::submit('Aceptar', ['class' => 'col-sm-offset-2 btn btn-success']) !!}
