@@ -29,6 +29,7 @@
                     <th>Sub-Total</th>
                     <th>Total (Incluye IVA)</th>
                     <th>Alta</th>
+                    <th>No Cotizado</th>
                 </tr>
             </thead>
             @foreach($articulos as $articulo)
@@ -67,6 +68,11 @@
                 <td class="text-center">
                     @if($articulo->inventariable == 1)
                         <span class="glyphicon glyphicon-ok"></span>
+                    @endif
+                </td>
+                <td class="text-center">
+                    @if($articulo->no_cotizado == 1)
+                        <span class="glyphicon glyphicon-remove"></span>
                     @endif
                 </td>
             </tr>
