@@ -14,6 +14,13 @@
             {!! Form::submit('Terminar Cuadro', array('class' => 'btn btn-primary btn-sm')) !!}
             {!! Form::close() !!}
 
+            <!-- Formulario para reanudar Cuadro Comparativo -->
+            {!! Form::open(array('action' => array('CuadroController@update', $cuadro_id), 'method' => 'patch')) !!}
+            {!! Form::hidden('id', $cuadro_id) !!}
+            {!! Form::hidden('accion', 'Reanudar') !!}
+            {!! Form::submit('Reanudar Cuadro', array('class' => 'btn btn-primary btn-sm')) !!}
+            {!! Form::close() !!}
+
             <!-- Formulario para cancelar Cuadro Comparativo -->
             {!! Form::open(array('action' => array('CuadroController@update', $cuadro_id), 'method' => 'delete')) !!}
             {!! Form::submit('Cancelar Cuadro', array('class' => 'btn btn-danger btn-sm')) !!}

@@ -85,7 +85,10 @@ class CuadroController extends Controller {
                 $cuadro->estatus = 'Terminado';
 
             } elseif ($accion == 'Reanudar') {
-                $estatus = '';
+                $terminar_cuadro = new TerminarCuadro($cuadro);
+                $terminar_cuadro->unsetMontoArticulo();
+                $terminar_cuadro->estatusReq('Cotizando');
+                $cuadro->estatus = '';
             }
         }
         $cuadro->save();

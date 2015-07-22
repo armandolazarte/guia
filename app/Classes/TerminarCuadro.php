@@ -59,6 +59,19 @@ class TerminarCuadro {
         }
     }
 
+    /**
+     * Actualiza a 0's el monto de cada artículo cotizado en la tabla articulos
+     */
+    public function unsetMontoArticulo()
+    {
+        foreach($this->articulos as $articulo)
+        {
+            $articulo_x_modificar = Articulo::find($articulo->id);
+            $articulo_x_modificar->monto = 0;
+            $articulo_x_modificar->save();
+        }
+    }
+
     public function estatusReq($estatus)
     {
         $req = Req::find($this->req->id);
