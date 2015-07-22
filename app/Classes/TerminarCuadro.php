@@ -25,9 +25,15 @@ class TerminarCuadro {
         $this->getArticulos($cuadro->req_id);
     }
 
+    /**
+     * Obtiene los artículos cotizados con información de la cotización
+     *
+     * @param $req_id
+     */
     public function getArticulos($req_id)
     {
         $articulos = Articulo::whereReqId($req_id)
+            ->where('no_cotizado', '=', 0)
             ->with(['cotizaciones' => function($query) {
                 $query->wherePivot('sel', '=', 1);
             }])
@@ -35,6 +41,9 @@ class TerminarCuadro {
         $this->articulos = $articulos;
     }
 
+    /**
+     * Actualiza el monto de cada artículo cotizado en la tabla articulos
+     */
     public function setMontoArticulo()
     {
         foreach($this->articulos as $articulo)
