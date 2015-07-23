@@ -58,6 +58,10 @@ class ImportaCatalogosController extends Controller {
             $importador->importarProyectosFext();
         }
 
+        if ($catalogo == "ActualizarDerechosFext"){
+            $importador->actualizarDerechosFext();
+        }
+
         if ($catalogo == "UrgExternas"){
             $importador->importarUrgsExternas();
         }

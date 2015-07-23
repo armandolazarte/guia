@@ -420,6 +420,21 @@ class ImportadorCatalogos {
         return $proyectos_fext;
     }
 
+    public function actualizarDerechosFext()
+    {
+        $proyectos_fext = \DB::connection($this->db_origen)->table('t_proyectos')->get(['proy','usr']);
+
+        foreach ($proyectos_fext as $proyecto_fext) {
+            $proyecto = Proyecto::where('proyecto', '=', $proyecto_fext->proy)->first(['id']);
+            $user = User::where('legacy_username', '=', $proyecto_fext->usr)->first();
+
+            if (!empty($user) && !empty($proyecto)) {
+                $acceso = new Acceso(['acceso_id' => $proyecto->id, 'acceso_type' => 'Guia\Models\Proyecto']);
+                $user->accesos()->save($acceso);
+            }
+        }
+    }
+
     //Importar URG Externas
     public function importarUrgsExternas()
     {

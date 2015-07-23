@@ -19,7 +19,8 @@
                         'UrgExternas' => 'URG Externas'
             ),
             'Fondos Externos' => array(
-                        'ProyectosFext' => 'Proyectos FEXT'
+                        'ProyectosFext' => 'Proyectos FEXT',
+                        'ActualizarDerechosFext' => 'Actualizar Derechos FEXT'
             )
         )
     ) !!}
