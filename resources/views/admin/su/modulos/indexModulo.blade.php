@@ -26,7 +26,7 @@
                     <td>{{ $modulo->activo }}</td>
                     <td>
                         @foreach($modulo->acciones as $accion)
-                            <a href="{{ action('AccionesController@edit', $accion->id) }}">{{ $accion->ruta }}::{{ $accion->nombre }}::{{ $accion->activo }}</a><br />
+                            <a href="{{ action('AccionesController@edit', $accion->id) }}">{{ $accion->ruta }} :: Scope {{ $accion->pivot->scope }} :: {{ $accion->nombre }} :: {{ $accion->activo }}</a><br />
                         @endforeach
                     </td>
                     <td>

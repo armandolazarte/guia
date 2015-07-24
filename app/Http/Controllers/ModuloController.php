@@ -119,6 +119,12 @@ class ModuloController extends Controller {
         if( count(\Input::get('accion_modulo')) > 0 ){
             $accion_modulo = \Input::get('accion_modulo');
             $modulo->acciones()->sync($accion_modulo);
+
+            foreach ($accion_modulo  as $accion) {
+                if (!empty(\Input::get('scope_'.$accion))) {
+                    $modulo->acciones()->updateExistingPivot($accion, ['scope' => \Input::get('scope_' . $accion)]);
+                }
+            }
         }
 
 		return redirect()->action('ModuloController@index');

@@ -42,6 +42,7 @@
             <table class="table table-condensed">
                 <thead><tr>
                     <th>Ruta</th>
+                    <th>Scope</th>
                     <th>Nombre</th>
                 </tr></thead>
                 @foreach($acciones as $accion)
@@ -53,6 +54,13 @@
                                 {!! Form::checkbox('accion_modulo[]', $accion->id, false) !!}
                             @endif
                                 {!! Form::label('accion_modulo[]', $accion->ruta) !!}
+                        </td>
+                        <td>
+                            @if($accion->modulos()->get()->contains($modulo->id))
+                                {!! Form::text('scope_'.$accion->id, $accion->modulos()->whereModuloId($modulo->id)->first()->pivot->scope) !!}
+                            @else
+                                {!! Form::text('scope_'.$accion->id) !!}
+                            @endif
                         </td>
                         <td>{{ $accion->nombre }}</td>
                     </tr>
