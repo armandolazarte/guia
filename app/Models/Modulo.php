@@ -15,7 +15,7 @@ class Modulo extends Model {
     //Modulo __belongs_to_many__ Accion
     public function acciones()
     {
-        return $this->belongsToMany('Guia\Models\Accion');
+        return $this->belongsToMany('Guia\Models\Accion')->withPivot('scope');
     }
 
 }

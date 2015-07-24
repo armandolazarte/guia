@@ -12,7 +12,7 @@ class Accion extends Model {
     //Accion __belongs_to_many__ Modulo
     public function modulos()
     {
-        return $this->belongsToMany('Guia\Models\Modulo');
+        return $this->belongsToMany('Guia\Models\Modulo')->withPivot('scope');
     }
 
 }
