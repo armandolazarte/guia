@@ -99,13 +99,22 @@ class Proyecto extends Model {
 
             if(count($arr_tipos_proyecto) > 0 || count($arr_urgs) > 0 || count($arr_proyectos) > 0){
                 if (count($arr_tipos_proyecto) > 0) {
-                    $query->whereIn('tipo_proyecto_id', $arr_tipos_proyecto);
+                    $query->orWhere(function($query) use ($arr_tipos_proyecto)
+                    {
+                        $query->whereIn('tipo_proyecto_id', $arr_tipos_proyecto);
+                    });
                 }
                 if (count($arr_urgs) > 0) {
-                    $query->whereIn('urg_id', $arr_urgs);
+                    $query->orWhere(function($query) use ($arr_urgs)
+                    {
+                        $query->whereIn('urg_id', $arr_urgs);
+                    });
                 }
                 if (count($arr_proyectos) > 0) {
-                    $query->whereIn('id', $arr_proyectos);
+                    $query->orWhere(function($query) use ($arr_proyectos)
+                    {
+                        $query->whereIn('id', $arr_proyectos);
+                    });
                 }
 
                 //Filtro por fecha
