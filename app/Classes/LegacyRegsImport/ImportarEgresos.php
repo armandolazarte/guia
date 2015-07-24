@@ -42,8 +42,7 @@ class ImportarEgresos
             'concepto' => '('.$e_legacy->concepto.') '.$e_legacy->cmt,
             'monto' => round($e_legacy->monto,2),
             'estatus' => $e_legacy->estatus,
-            'user_id' => $e_legacy->$user_id,
-            'fecha_cobro' => $e_legacy->fecha_cobro
+            'user_id' => $e_legacy->$user_id
         ]);
     }
 
