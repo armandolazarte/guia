@@ -7,21 +7,21 @@
             {!! Form::open(['url' => 'http://finanzas.cucei.udg.mx/presu/imprime_ch_temp.php']) !!}
             {{--{!! Form::open(['url' => 'http://legacy.sigi.dev/presu/imprime_ch_temp.php']) !!}--}}
 
-            {!! Form::text('fecha', $fecha_texto, ['readonly']) !!}
+            {!! Form::text('fecha', $fecha_texto, ['readonly', 'class' => 'form-control']) !!}
             <br>
-            {!! Form::text('benef', $egreso->benef->benef, ['readonly']) !!}
+            {!! Form::text('benef', $egreso->benef->benef, ['readonly', 'class' => 'form-control']) !!}
             <br>
-            {!! Form::text('monto', $egreso->monto, ['readonly']) !!}
+            {!! Form::text('monto', round($egreso->monto, 2), ['readonly', 'class' => 'form-control']) !!}
             <br>
-            {!! Form::text('concepto', $egreso->concepto, ['readonly']) !!}
+            {!! Form::textarea('concepto', $egreso->concepto, ['readonly', 'class' => 'form-control', 'rows' => '3']) !!}
             <br>
-            {!! Form::text('monto_letra', $monto_letra, ['readonly']) !!}
+            {!! Form::text('monto_letra', $monto_letra, ['readonly', 'class' => 'form-control']) !!}
             <br>
 
             @foreach($arr_rms as $rm => $value)
                 {!! Form::text('rm[]', $rm, ['readonly']) !!}
                 {!! Form::text('cog[]', $value['cog'], ['readonly']) !!}
-                {!! Form::text('monto_rm[]', $value['monto'], ['readonly']) !!}
+                {!! Form::text('monto_rm[]', round($value['monto'], 2), ['readonly']) !!}
                 <br>
             @endforeach
             <br>

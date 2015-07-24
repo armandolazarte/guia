@@ -108,7 +108,7 @@ class EgresosController extends Controller
             $arr_rms[$rm->rm]['monto'] += $rm->pivot->monto;
         }
         $fecha_texto = \Utility::fecha_texto($egreso->fecha);
-        $nat = new Nat($egreso->monto, '');
+        $nat = new Nat(round($egreso->monto, 2), '');
         $monto_letra = $nat->convertir();
 
         $presu = \InfoDirectivos::getResponsable('PRESU')->iniciales;
