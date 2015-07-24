@@ -10,9 +10,9 @@
                     @foreach($modulo->acciones as $accion)
                         @if($accion->activo)
                             @if(!empty($accion->modulos()->whereModuloId($modulo->id)->first()->pivot->scope))
-                                <li><a href="{{ action($accion->ruta, $accion->modulos()->whereModuloId($modulo->id)->first()->pivot->scope) }}">{{ $accion->nombre }} X</a></li>
+                                <li><a href="{{ action($accion->ruta, $accion->modulos()->whereModuloId($modulo->id)->first()->pivot->scope) }}">{{ $accion->nombre }}</a></li>
                             @else
-                                <li><a href="{{ action($accion->ruta) }}">{{ $accion->nombre }} Y</a></li>
+                                <li><a href="{{ action($accion->ruta) }}">{{ $accion->nombre }}</a></li>
                             @endif
                         @endif
                     @endforeach
