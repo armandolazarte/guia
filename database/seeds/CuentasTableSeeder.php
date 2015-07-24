@@ -11,6 +11,7 @@ class CuentasTableSeeder extends Seeder {
         Model::unguard();
 
         Cuenta::create(['cuenta' => 'Presupuesto', 'tipo' => 'Ejecutora']);
+        Cuenta::create(['cuenta' => 'ReintegroDF', 'tipo' => 'Ejecutora']);
         Cuenta::create(['cuenta' => 'Recursos Presupuesto (Ministración)', 'tipo' => 'Ejecutora']);
         Cuenta::create(['cuenta' => 'Comisiones Bancarias', 'tipo' => 'BancoCargo']);
         Cuenta::create(['cuenta' => 'Abono Bancario', 'tipo' => 'BancoAbono']);
@@ -33,6 +34,7 @@ class CuentasTableSeeder extends Seeder {
         Cuenta::create(['cuenta' => 'Fondo Fijo de Caja', 'tipo' => 'ComunOtro']);
         Cuenta::create(['cuenta' => 'Apertura de Cuenta', 'tipo' => 'BancoAbono']);
         Cuenta::create(['cuenta' => 'I0110/186/10 (MUJERES)', 'tipo' => 'PuenteExt']);
+        Cuenta::create(['cuenta' => 'Retención ISR', 'tipo' => 'Ejecutora']);
     }
 
 }
