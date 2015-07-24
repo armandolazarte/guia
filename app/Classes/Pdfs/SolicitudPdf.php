@@ -114,12 +114,14 @@ class SolicitudPdf extends FPDF
         $this->SetFont('Arial','',10);
         $this->Ln();
 
-        $this->Ln(3);
-        $this->SetX(25);
-        $this->Cell(28,3.5,'Observaciones:',0,0,'L');
-        $this->SetFont('Arial','',9);
-        $this->MultiCell(155, 3.5, utf8_decode ($this->solicitud->obs), 0, "L");
-        $this->Ln(8);
+        if (!empty($this->solicitud->obs)) {
+            $this->Ln(3);
+            $this->SetX(25);
+            $this->Cell(28, 3.5, 'Observaciones:', 0, 0, 'L');
+            $this->SetFont('Arial', '', 9);
+            $this->MultiCell(155, 3.5, utf8_decode($this->solicitud->obs), 0, "L");
+            $this->Ln(8);
+        }
 
         $this->SetX(25);
         $this->SetFont('Arial','',10);
@@ -140,22 +142,51 @@ class SolicitudPdf extends FPDF
                 $this->Cell(20, 5, number_format($obj->pivot->monto,2), 1, 1, 'R');
             }
         } else {
-            $this->MultiCell(60,5,"Desglose por RM/Cuenta:",1,'C');
+            $y_tabla_rm_inicio = $this->GetY();
             $this->SetFont('CenturyGothic','','10');
-            foreach($this->solicitud->rms as $rm){
-                $this->SetX(25);
+            $i = 0;
+            foreach ($this->solicitud->rms as $rm) {
+                switch ($i) {
+                    case 0:
+                        $this->SetXY(25, $y_tabla_rm_inicio);
+                        $this->Cell(58,5,"Desglose por RM/Cuenta",1, 2,'C');
+                        break;
+                    case 6:
+                        $y_tabla_rm_fin = $this->GetY();
+                        $this->SetXY(85, $y_tabla_rm_inicio);
+                        $this->Cell(58,5,"Desglose por RM/Cuenta",1, 1,'C');
+                        break;
+                    case 12:
+                        $this->SetXY(145, $y_tabla_rm_inicio);
+                        $this->Cell(58,5,"Desglose por RM/Cuenta",1, 1,'C');
+                        break;
+                }
+
+                if ($i < 6) {
+                    $x_total = 25;
+                    $this->SetX(25);
+                } elseif ($i >= 6 || $i < 12) {
+                    $x_total = 85;
+                    $this->SetX(85);
+                } else {
+                    $x_total = 145;
+                    $this->SetX(145);
+                }
+
                 $this->Cell(20, 5, $rm->rm, 1, 0, "C");
-                $this->Cell(20, 5, $rm->cog->cog, 1, 0, "C");
-                $this->Cell(20, 5, number_format($rm->pivot->monto,2), 1, 1, "R");
+                $this->Cell(15, 5, $rm->cog->cog, 1, 0, "C");
+                $this->Cell(23, 5, number_format($rm->pivot->monto,2), 1, 1, "R");
+                $i++;
             }
         }
 
         $this->SetFont('Arial','B',10);
-        $this->SetX(25);
-        $this->Cell(40, 5, "TOTAL", 1, 0, "C");
+        $this->SetX($x_total);
+        $this->Cell(35, 5, "TOTAL", 1, 0, "C");
         $this->SetFont('CenturyGothic','','10');
-        $this->Cell(20, 5, number_format($this->solicitud->monto,2), "BR", 1, "R");
+        $this->Cell(23, 5, number_format($this->solicitud->monto,2), 1, 1, "R");
         $this->SetFont('Arial','',11);
+        $this->SetY($y_tabla_rm_fin);
         $this->Ln(3);
 
         //Tabla Finanzas
