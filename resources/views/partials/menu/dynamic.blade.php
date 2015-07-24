@@ -9,10 +9,10 @@
                 <ul class="dropdown-menu" role="menu">
                     @foreach($modulo->acciones as $accion)
                         @if($accion->activo)
-                            @if($accion->modulos()->get()->contains($modulo->id))
-                                <li><a href="{{ action($accion->ruta, $accion->modulos()->whereModuloId($modulo->id)->first()->pivot->scope) }}">{{ $accion->nombre }}</a></li>
+                            @if(!empty($accion->modulos()->whereModuloId($modulo->id)->first()->pivot->scope))
+                                <li><a href="{{ action($accion->ruta, $accion->modulos()->whereModuloId($modulo->id)->first()->pivot->scope) }}">{{ $accion->nombre }} X</a></li>
                             @else
-                                <li><a href="{{ action($accion->ruta) }}">{{ $accion->nombre }}</a></li>
+                                <li><a href="{{ action($accion->ruta) }}">{{ $accion->nombre }} Y</a></li>
                             @endif
                         @endif
                     @endforeach
