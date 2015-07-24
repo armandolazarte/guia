@@ -29,12 +29,14 @@ class CuentasTableSeeder extends Seeder {
         Cuenta::create(['cuenta' => 'Taller', 'tipo' => 'PuenteOtro']);
         Cuenta::create(['cuenta' => 'Diplomado', 'tipo' => 'PuenteOtro']);
         Cuenta::create(['cuenta' => 'Devolucion Recursos', 'tipo' => 'PuenteDev']);
-        Cuenta::create(['cuenta' => 'VARIOS', 'tipo' => 'ComunOtro']);
+        Cuenta::create(['cuenta' => 'Varios', 'tipo' => 'ComunOtro']);
         Cuenta::create(['cuenta' => 'Aportaciones Especiales', 'tipo' => 'PuenteOtro']);
         Cuenta::create(['cuenta' => 'Fondo Fijo de Caja', 'tipo' => 'ComunOtro']);
         Cuenta::create(['cuenta' => 'Apertura de Cuenta', 'tipo' => 'BancoAbono']);
         Cuenta::create(['cuenta' => 'I0110/186/10 (MUJERES)', 'tipo' => 'PuenteExt']);
         Cuenta::create(['cuenta' => 'Retención ISR', 'tipo' => 'Ejecutora']);
+        Cuenta::create(['cuenta' => 'Apertura de Cuenta', 'tipo' => 'ComunOtro']);
+        Cuenta::create(['cuenta' => 'Devolución de Cheque', 'tipo' => 'ComunOtro']);
     }
 
 }
