@@ -8,7 +8,11 @@
                 <ul>
                     @foreach($modulo->acciones as $accion)
                         @if($accion->activo)
-                            <li><a href="{{ action($accion->ruta) }}">{{ $accion->nombre }}</a></li>
+                            @if($accion->modulos()->get()->contains($modulo->id))
+                                <li><a href="{{ action($accion->ruta, $accion->modulos()->whereModuloId($modulo->id)->first()->pivot->scope) }}">{{ $accion->nombre }}</a></li>
+                            @else
+                                <li><a href="{{ action($accion->ruta) }}">{{ $accion->nombre }}</a></li>
+                            @endif
                         @endif
                     @endforeach
                 </ul>
@@ -21,7 +25,11 @@
                 <ul>
                     @foreach($modulo->acciones as $accion)
                         @if($accion->activo)
-                            <li><a href="{{ action($accion->ruta) }}">{{ $accion->nombre }}</a></li>
+                            @if($accion->modulos()->get()->contains($modulo->id))
+                                <li><a href="{{ action($accion->ruta, $accion->modulos()->whereModuloId($modulo->id)->first()->pivot->scope) }}">{{ $accion->nombre }}</a></li>
+                            @else
+                                <li><a href="{{ action($accion->ruta) }}">{{ $accion->nombre }}</a></li>
+                            @endif
                         @endif
                     @endforeach
                 </ul>
@@ -32,7 +40,11 @@
                 <ul>
                     @foreach($modulo->acciones as $accion)
                         @if($accion->activo)
-                            <li><a href="{{ action($accion->ruta) }}">{{ $accion->nombre }}</a></li>
+                            @if($accion->modulos()->get()->contains($modulo->id))
+                                <li><a href="{{ action($accion->ruta, $accion->modulos()->whereModuloId($modulo->id)->first()->pivot->scope) }}">{{ $accion->nombre }}</a></li>
+                            @else
+                                <li><a href="{{ action($accion->ruta) }}">{{ $accion->nombre }}</a></li>
+                            @endif
                         @endif
                     @endforeach
                 </ul>
