@@ -17,7 +17,7 @@ class ModuloController extends Controller {
 	 */
 	public function index()
 	{
-		$modulos = Modulo::with('roles')->get();
+		$modulos = Modulo::with('roles')->orderBy('orden')->get();
 		$data['modulos'] = $modulos;
 		return view('admin.su.modulos.indexModulo', $data);
 	}
