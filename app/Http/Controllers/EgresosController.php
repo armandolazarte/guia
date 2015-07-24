@@ -100,6 +100,13 @@ class EgresosController extends Controller
     public function chequeRtf($id)
     {
         $egreso = Egreso::findOrFail($id);
+        $arr_rms = [];
+        foreach ($egreso->rms as $rm) {
+            $arr_rms[$rm->rm] = ['cog' => $rm->cog->cog, 'monto' => 0];
+        }
+        foreach ($egreso->rms as $rm) {
+            $arr_rms[$rm->rm]['monto'] += $rm->pivot->monto;
+        }
         $fecha_texto = \Utility::fecha_texto($egreso->fecha);
         $nat = new Nat($egreso->monto, '');
         $monto_letra = $nat->convertir();
@@ -108,6 +115,6 @@ class EgresosController extends Controller
         $cfin = \InfoDirectivos::getResponsable('FIN')->iniciales;
         $elabora = \Auth::user()->iniciales;
 
-        return view('egresos.formCheque', compact('egreso', 'monto_letra', 'fecha_texto','presu','cfin','elabora'));
+        return view('egresos.formCheque', compact('egreso', 'monto_letra', 'fecha_texto','presu','cfin','elabora','arr_rms'));
     }
 }

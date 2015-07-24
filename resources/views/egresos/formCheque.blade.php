@@ -18,10 +18,10 @@
             {!! Form::text('monto_letra', $monto_letra, ['readonly']) !!}
             <br>
 
-            @foreach($egreso->rms as $rm)
-                {!! Form::text('rm[]', $rm->rm, ['readonly']) !!}
-                {!! Form::text('cog[]', $rm->cog->cog, ['readonly']) !!}
-                {!! Form::text('monto_rm[]', $rm->pivot->monto, ['readonly']) !!}
+            @foreach($arr_rms as $rm => $value)
+                {!! Form::text('rm[]', $rm, ['readonly']) !!}
+                {!! Form::text('cog[]', $value['cog'], ['readonly']) !!}
+                {!! Form::text('monto_rm[]', $value['monto'], ['readonly']) !!}
                 <br>
             @endforeach
             <br>
