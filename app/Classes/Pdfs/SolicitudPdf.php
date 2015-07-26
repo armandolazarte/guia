@@ -186,7 +186,9 @@ class SolicitudPdf extends FPDF
         $this->SetFont('CenturyGothic','','10');
         $this->Cell(23, 5, number_format($this->solicitud->monto,2), 1, 1, "R");
         $this->SetFont('Arial','',11);
-        $this->SetY($y_tabla_rm_fin);
+        if ($i > 6) {
+            $this->SetY($y_tabla_rm_fin);
+        }
         $this->Ln(3);
 
         //Tabla Finanzas
