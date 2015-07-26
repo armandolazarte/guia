@@ -25,25 +25,16 @@ class RequisicionController extends Controller {
 	 */
 	public function index($scope = null)
 	{
-
-        if($scope == null){
-            $user = \Auth::user();
-            $arr_roles = $user->roles()->lists('role_name')->all();
-
-            if(array_search('Cotizador', $arr_roles) !== false || array_search('Adquisiciones', $arr_roles) !== false || array_search('Presupuesto', $arr_roles) !== false || array_search('Comprobacion', $arr_roles) !== false){
-                $scope = 'EstatusResponsable';
-            }
-        }
-
-        if($scope == 'MisRequisiciones') {
-            $reqs = Req::misReqs()->orderBy('req', 'DESC')->get();
-        } elseif($scope == 'EstatusResponsable') {
+        if ($scope == 'suministros' || $scope == 'presupuesto') {
             $filtro = new FiltroEstatusResponsable();
             $filtro->filtroReqs();
             $reqs = Req::estatusResponsable($filtro->arr_estatus, $filtro->arr_responsable)->orderBy('req', 'DESC')->get();
+        } elseif ($scope == 'seguimiento') {
+            $reqs = Req::seguimiento()->get();
         } else {
-            $reqs = Req::whereSolicita(\Auth::user()->id)->orderBy('req', 'DESC')->get();
+            $reqs = Req::misReqs()->orderBy('req', 'DESC')->get();
         }
+
 		$reqs->load('proyecto.urg');
         $reqs->load('proyecto.fondos');
         $reqs->load('user');
