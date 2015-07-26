@@ -89,4 +89,15 @@ class Req extends Model {
         return $query;
     }
 
+    public function scopeSeguimiento($query)
+    {
+        /**
+         * @todo Filtrar por presupuesto
+         */
+
+        $query->whereNotIn('estatus', ['','Cancelada'])->orderBy('req', 'DESC');
+
+        return $query;
+    }
+
 }
