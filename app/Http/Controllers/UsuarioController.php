@@ -111,7 +111,11 @@ class UsuarioController extends Controller {
         }
 
 		$user->update($all_request);
-		$user->roles()->sync($request->input('role_user'));
+        if (count($request->input('role_user')) > 0) {
+            $user->roles()->sync($request->input('role_user'));
+        } else {
+            $user->roles()->detach();
+        }
 
 		return redirect()->action('UsuarioController@show', array($user->id));
 	}
