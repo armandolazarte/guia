@@ -4,25 +4,35 @@
 <div class="row">
     <div class="col-md-12">
         @if( count($reqs) > 0 )
-            <table class="table table-bordered">
+            <table class="table table-bordered table-condensed table-hover">
                 <thead>
-                <tr>
-                    <th>Requisición</th>
-                    <th>Fecha</th>
-                    <th>Proyecto</th>
-                    <th>Fondo</th>
-                    <th>Unidad Responsable</th>
-                    <th>Etiqueta</th>
-                    <th>Estatus</th>
-                    <th>Monto</th>
-                    <th>Orden de Compra</th>
-                    <th>Fecha OC</th>
-                    <th>Estatus OC</th>
-                    <th>Responsable Adq.</th>
+                <tr class="active">
+                    <th class="text-center">Requisición</th>
+                    <th class="text-center">Fecha</th>
+                    <th class="text-center">Proyecto</th>
+                    <th class="text-center">Fondo</th>
+                    <th class="text-center">Unidad Responsable</th>
+                    <th class="text-center">Etiqueta</th>
+                    <th class="text-center">Estatus</th>
+                    <th class="text-center">Monto</th>
+                    <th class="text-center">Orden de Compra</th>
+                    <th class="text-center">Fecha OC</th>
+                    <th class="text-center">Estatus OC</th>
+                    <th class="text-center">Responsable Adq.</th>
                 </tr>
                 </thead>
                 @foreach($reqs as $req)
-                    <tr>
+                    @if($req->estatus == 'Cotizando')
+                        <tr class="active">
+                    @elseif($req->estatus == 'Cotizada')
+                        <tr class="info">
+                    @elseif($req->estatus == 'Autorizada')
+                        <tr class="success">
+                    @elseif($req->estatus == '')
+                        <tr class="warning">
+                    @else
+                        <tr>
+                    @endif
                         <td><a href="{{ action('RequisicionController@show', array($req->id)) }}">{{ $req->req }}</a></td>
                         <td>{{ $req->fecha_req }}</td>
                         <td class="text-center">
