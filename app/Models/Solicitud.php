@@ -86,6 +86,9 @@ class Solicitud extends Model {
 
     public function scopeEstatusResponsable($query, $arr_estatus, $arr_responsable)
     {
+        $ids_proyectos = \FiltroAcceso::getIdsProyectos();
+        $query->whereIn('proyecto_id', $ids_proyectos);
+
         if(count($arr_estatus) > 0){
             $query->whereIn('estatus', $arr_estatus);
         }
@@ -97,6 +100,24 @@ class Solicitud extends Model {
         if(count($arr_estatus) == 0 && count($arr_responsable) == 0){
             $query->whereId(0);
         }
+
+        return $query;
+    }
+
+    public function scopeMisSolicitudes($query)
+    {
+        $ids_proyectos = \FiltroAcceso::getIdsProyectos();
+        $query->whereIn('proyecto_id', $ids_proyectos);
+        $query->whereSolicita(\Auth::user()->id);
+
+        return $query;
+    }
+
+    public function scopeSeguimiento($query)
+    {
+        $ids_proyectos = \FiltroAcceso::getIdsProyectos();
+        $query->whereIn('proyecto_id', $ids_proyectos);
+        $query->whereNotIn('estatus', ['','Cancelada'])->orderBy('id', 'DESC');
 
         return $query;
     }
