@@ -63,6 +63,9 @@ class Req extends Model {
 
     public function scopeEstatusResponsable($query, $arr_estatus, $arr_responsable)
     {
+        $ids_proyectos = \FiltroAcceso::getIdsProyectos();
+        $query->whereIn('proyecto_id', $ids_proyectos);
+
         if(count($arr_estatus) > 0){
             $query->whereIn('estatus', $arr_estatus);
         }
@@ -80,10 +83,8 @@ class Req extends Model {
 
     public function scopeMisReqs($query)
     {
-        /**
-         * @todo Filtrar proyectos
-         */
-
+        $ids_proyectos = \FiltroAcceso::getIdsProyectos();
+        $query->whereIn('proyecto_id', $ids_proyectos);
         $query->whereSolicita(\Auth::user()->id);
 
         return $query;
@@ -91,10 +92,8 @@ class Req extends Model {
 
     public function scopeSeguimiento($query)
     {
-        /**
-         * @todo Filtrar por presupuesto
-         */
-
+        $ids_proyectos = \FiltroAcceso::getIdsProyectos();
+        $query->whereIn('proyecto_id', $ids_proyectos);
         $query->whereNotIn('estatus', ['','Cancelada'])->orderBy('req', 'DESC');
 
         return $query;
