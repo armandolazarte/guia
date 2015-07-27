@@ -4,21 +4,29 @@
 <div class="row">
     <div class="col-md-12">
     @if( count($solicitudes) > 0 )
-        <table class="table table-bordered table-hover">
+        <table class="table table-bordered table-hover table-condensed">
             <thead>
-            <tr>
-                <th>Solicitud</th>
-                <th>Fecha</th>
-                <th>Proyecto</th>
-                <th>Oficio</th>
-                <th>Beneficiario</th>
-                <th>Estatus</th>
-                <th>Monto</th>
-                <th>Tipo</th>
+            <tr class="active">
+                <th class="text-center">Solicitud</th>
+                <th class="text-center">Fecha</th>
+                <th class="text-center">Proyecto</th>
+                <th class="text-center">Oficio</th>
+                <th class="text-center">Beneficiario</th>
+                <th class="text-center">Estatus</th>
+                <th class="text-center">Monto</th>
+                <th class="text-center">Tipo</th>
             </tr>
             </thead>
             @foreach($solicitudes as $sol)
-                <tr>
+                @if($sol->estatus == '')
+                    <tr class="warning">
+                @elseif($sol->estatus == 'Recibida')
+                    <tr class="info">
+                @elseif($sol->estatus == 'Autorizada')
+                    <tr class="success">
+                @else
+                    <tr>
+                @endif
                     <td class="text-center"><a href="{{ action('SolicitudController@show', array($sol->id)) }}">{{ $sol->id }}</a></td>
                     <td>{{ $sol->fecha }}</td>
                     <td class="text-center">{{ $sol->proyecto->proyecto }}</td>
