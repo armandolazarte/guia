@@ -1,31 +1,43 @@
-<?php namespace Guia\Classes;
+<?php
+
+namespace Guia\Classes;
+
 
 use Guia\Models\Proyecto;
 
-class FiltroAcceso {
+class FiltroAcceso
+{
 
-    var $arr_proyectos;
-    var $user_id;
+    public $user_id;
+    public $presupuesto;
 
     public function __construct()
     {
         $user = \Auth::user();
         isset($user) ? $this->user_id = $user->id : $this->user_id = 0;
-    }
 
-    public function consultarProyectos()
-    {
-        $presupuesto = \Session::get('sel_presupuesto');
-        $this->arr_proyectos = array();
-        $this->arr_proyectos = Proyecto::acceso($this->user_id, $presupuesto)->get()->lists('proyecto_descripcion', 'id')->all();
+        //Fallback en caso de que no esté implementado middleware 'selPresu' en ruta
+        if (!(\Session::has('sel_presupuesto'))) {
+            \Session::put('sel_presupuesto', \Carbon\Carbon::now()->year);
+        }
+
+        $this->presupuesto = \Session::get('sel_presupuesto');
     }
 
     public function getArrProyectos()
     {
-        $this->consultarProyectos();
-        if (count($this->arr_proyectos) == 0){
-            $this->arr_proyectos[0] = 'No se ha dado de alta el acceso a los proyectos';
+        $arr_proyectos = array();
+        $arr_proyectos = Proyecto::acceso($this->user_id, $this->presupuesto)->get()->lists('proyecto_descripcion', 'id')->all();
+        if (count($arr_proyectos) == 0){
+            $arr_proyectos[0] = 'No se ha dado de alta el acceso a los proyectos';
         }
-        return $this->arr_proyectos;
+        return $arr_proyectos;
+    }
+
+    public function getIdsProyectos() {
+        $arr_id_proyectos = array();
+        $arr_id_proyectos = Proyecto::acceso($this->user_id, $this->presupuesto)->lists('id')->all();
+
+        return $arr_id_proyectos;
     }
 }
