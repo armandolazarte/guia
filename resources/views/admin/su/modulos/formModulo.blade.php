@@ -56,7 +56,7 @@
                                 {!! Form::label('accion_modulo[]', $accion->ruta) !!}
                         </td>
                         <td>
-                            @if($accion->modulos()->get()->contains($modulo->id))
+                            @if(isset($modulo) && $accion->modulos()->get()->contains($modulo->id))
                                 {!! Form::text('scope_'.$accion->id, $accion->modulos()->whereModuloId($modulo->id)->first()->pivot->scope) !!}
                             @else
                                 {!! Form::text('scope_'.$accion->id) !!}
