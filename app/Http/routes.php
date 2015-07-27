@@ -132,7 +132,7 @@ Route::group(array('prefix' => 'solicitud', 'middleware' => ['auth','selPresu'])
     Route::get('/recibir', 'RecibirController@seleccionarSol');
     Route::patch('/recibir', 'RecibirController@recibirSol');
 
-    Route::get('/', 'SolicitudController@index');
+    Route::get('/reporte/{scope?}/{estatus?}', 'SolicitudController@index');
     Route::get('/nueva', 'SolicitudController@create');
     Route::post('/store', 'SolicitudController@store');
     Route::get('/{solicitud}/info', 'SolicitudController@show');

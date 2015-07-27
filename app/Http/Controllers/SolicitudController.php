@@ -24,23 +24,14 @@ class SolicitudController extends Controller {
 	 */
 	public function index($scope = null)
 	{
-        $arr_roles = array();
-        if($scope == null){
-            $user = \Auth::user();
-            $arr_roles = $user->roles()->lists('role_name')->all();
-
-            if(array_search('Presupuesto', $arr_roles) !== false || array_search('Comprobacion', $arr_roles) !== false){
-                $scope = 'EstatusResponsable';
-            }
-        }
-
-        if($scope == 'EstatusResponsable') {
+        if ($scope == 'presupuesto') {
             $filtro = new FiltroEstatusResponsable();
             $filtro->filtroSolicitudes();
             $solicitudes = Solicitud::estatusResponsable($filtro->arr_estatus, $filtro->arr_responsable)->orderBy('id', 'DESC')->get();
         } else {
-            $solicitudes = Solicitud::whereSolicita(\Auth::user()->id)->orderBy('id', 'DESC')->get();
+            $solicitudes = Solicitud::MisSolicitudes()->orderBy('id', 'DESC')->get();
         }
+
         $solicitudes->load('urg');
         $solicitudes->load('benef');
         return view('solicitudes.indexSolicitud', compact('solicitudes'));
