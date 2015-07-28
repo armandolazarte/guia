@@ -19,7 +19,8 @@ class CrearTablasRelInternas extends Migration {
 			$table->date('fecha_revision');
 			$table->smallInteger('envia')->unsigned();
 			$table->smallInteger('recibe')->unsigned();
-			$table->string('status', 12);
+			$table->string('estatus', 12);
+            $table->string('tipo_documentos', 20);
 			$table->timestamps();
 		});
 
