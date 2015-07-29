@@ -262,6 +262,9 @@ Route::group(array('prefix' => 'relaciones-internas', 'middleware' => ['auth']),
     Route::get('/{rel_interna_id}/agregar-docs', 'RelacionInternaDocController@create');
     Route::post('/agregar-docs', 'RelacionInternaDocController@store');
 
+    Route::get('/{rel_interna_id}/recibir-docs', 'RelacionInternaDocController@edit');
+    Route::patch('/{rel_interna_id}/recibir-docs', 'RelacionInternaDocController@update');
+
     Route::get('/{rel_interna_id}/info', 'RelacionInternaController@show');
     Route::get('/{rel_interna_id}/editar', 'RelacionInternaController@edit');
     Route::patch('/{rel_interna_id}/update', 'RelacionInternaController@update');
