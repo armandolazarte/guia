@@ -68,4 +68,10 @@ class Egreso extends Model {
         return $this->belongsToMany('Guia\Models\Oc');
     }
 
+    //Egreso __morph_many__ RelacionInternaDoc
+    public function relacionInternaDocs()
+    {
+        return $this->morphMany('Guia\Models\RelInternaDoc', 'docable');
+    }
+
 }
