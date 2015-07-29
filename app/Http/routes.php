@@ -254,6 +254,20 @@ Route::group(array('prefix' => 'egresos', 'middleware' => ['auth']), function()
     Route::get('/{id}/imprimir', 'EgresosController@chequeRtf');
 });
 
+//** Relaciones Internas */
+Route::group(array('prefix' => 'relaciones-internas', 'middleware' => ['auth']), function()
+{
+    Route::get('/', 'RelacionInternaController@index');
+    Route::post('/nueva', 'RelacionInternaController@store');
+    Route::get('/{rel_interna_id}/agregar-docs', 'RelacionInternaDocController@create');
+    Route::post('/agregar-docs', 'RelacionInternaDocController@store');
+
+    Route::get('/{rel_interna_id}/info', 'RelacionInternaController@show');
+    Route::get('/{rel_interna_id}/editar', 'RelacionInternaController@edit');
+    Route::patch('/{rel_interna_id}/update', 'RelacionInternaController@update');
+    Route::delete('/{rel_interna_id}/borrar-doc/{id}', 'RelacionInternaDocController@destroy');
+});
+
 Route::group(array('prefix' => 'api', 'middleware' => ['auth']), function()
 {
     Route::get('/rm-dropdown/', function()
