@@ -93,6 +93,9 @@
             </tr>
             @endforeach
         </table>
+
+            @include('reqs.partialAsignacionRms')
+
         </div>
     </div>
     @endif

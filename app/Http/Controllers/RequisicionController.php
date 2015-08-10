@@ -1,6 +1,7 @@
 <?php namespace Guia\Http\Controllers;
 
 use Carbon\Carbon;
+use Guia\Classes\ArticulosHelper;
 use Guia\Classes\FiltroEstatusResponsable;
 use Guia\Models\Req;
 use Guia\Models\Urg;
@@ -126,6 +127,11 @@ class RequisicionController extends Controller {
 		} else {
 			$data['articulos'] = array();
 		}
+
+        $articulos_helper = new ArticulosHelper($articulos);
+        $articulos_helper->setRmsArticulos();
+        $data['rms_articulos'] = $articulos_helper->rms_articulos;
+
 		return view('reqs.infoRequisicion')->with($data);
 	}
 
