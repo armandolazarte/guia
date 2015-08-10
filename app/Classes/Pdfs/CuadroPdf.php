@@ -121,6 +121,7 @@ class CuadroPdf extends FPDF {
             $arr_total[$cotizacion->id] = 0;
         }
 
+        $this->SetFont('Arial','',7);
         foreach($this->articulos as $articulo)
         {
             $this->SetX(29);//Posisiona para imprimir la descripción del artículo
@@ -176,14 +177,14 @@ class CuadroPdf extends FPDF {
         foreach($arr_sub_total as $sub_total){
             $this->Cell(27,4,number_format($sub_total,2),0,0,'R');
         }
-        $this->Ln(2);
+        $this->Ln(3);
 
         $this->SetX($x_prov - 10);
         $this->Cell(10,4,'IVA '.$this->cuadro->req->moneda,0,0,'R');
         foreach($arr_iva as $iva){
             $this->Cell(27,4,number_format(round($iva,2),2),0,0,'R');
         }
-        $this->Ln(2);
+        $this->Ln(3);
 
         $this->SetX($x_prov - 10);
         $this->Cell(10,4,'Total '.$this->cuadro->moneda,0,0,'R');
