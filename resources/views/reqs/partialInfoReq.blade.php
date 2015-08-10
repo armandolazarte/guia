@@ -18,7 +18,7 @@
         <td colspan="3">URG de Aplicación: {{ $req->urg->urg }} - {{ $req->urg->d_urg }}</td>
     </tr>
     <tr>
-        <td>Solicita:</td>
+        <td>Solicita: {{ $solicita->nombre }}</td>
         <td colspan="2">Lugar de Entrega: {{ $req->lugar_entrega }}</td>
     </tr>
     <tr>

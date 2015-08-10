@@ -132,6 +132,9 @@ class RequisicionController extends Controller {
         $articulos_helper->setRmsArticulos();
         $data['rms_articulos'] = $articulos_helper->rms_articulos;
 
+        $solicita = User::find($req->solicita);
+        $data['solicita'] = $solicita;
+
 		return view('reqs.infoRequisicion')->with($data);
 	}
 
