@@ -84,7 +84,7 @@
                                         <td class="text-center">
                                             {!! Form::checkbox('arr_articulo_id[]', $articulo->id) !!}
                                         </td>
-                                        <td class="text-right">
+                                        <td class="text-center">
                                             {{ $rm->cog->cog }} / {{ $rm->rm }}
                                         </td>
                                         <td>
