@@ -39,7 +39,7 @@ class CuadroPdf extends FPDF {
         $this->Cell(140);
         $fecha = Carbon::parse($this->cuadro->fecha_cuadro)->format('d/m/Y');
         $this->Cell(45,5,'FECHA CUADRO: '.$fecha,0,0);
-        $this->Cell(100,5,'DEPENDENCIA: '.utf8_decode($this->req->urg->d_urg),0,1);
+        $this->Cell(100,5,'DEPENDENCIA: '.utf8_decode($this->req->proyecto->urg->d_urg),0,1);
         $this->Ln(5);
 
         $this->SetFont('Arial','B',7);//---Tipografía para encavezado de tabla
