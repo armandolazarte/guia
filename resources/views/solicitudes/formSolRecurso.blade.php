@@ -2,6 +2,16 @@
 
 @section('content')
 
+    @if($solicitud->tipo_solicitud == 'Vale')
+        <div class="alert alert-info alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            Derivado de las recomendaciones de las auditorias, se realizaron cambios a la solicitud
+            tipo “VALES” los cuales consisten en: Elegir el recurso/partida en el cual
+            podría aplicarse el gasto, lo cual permitirá reservar el monto solicitado del
+            techo presupuestal del proyecto.
+        </div>
+    @endif
+
     @include('solicitudes.partialInfoSol', array('solicitud' => $solicitud))
 
     {{--@include('solicitudes.partialInfoSolRecursos', array('solicitud' => $solicitud))--}}
