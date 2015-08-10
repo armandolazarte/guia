@@ -27,18 +27,18 @@ class CuadroPdf extends FPDF {
         $this->SetFont('Arial','',10);
         $this->Image(asset('img/membrete_adq.jpg'),10,3,0,20);
         $this->Cell(140);
-        $this->Cell(100,5,'CUADRO COMPARATIVO SADMVA/'.$this->cuadro->id,0,0);
+        $this->Cell(100,5,'CUADRO COMPARATIVO SADMVA/'.$this->cuadro->id,0,1);
         $this->SetFont('Arial','',8);
-        $this->Cell(40);
+//        $this->Cell(40);
 //        $this->Cell(20,5,'Hoja '.$this->PageNo().'de {nb}',0,1,'R');//Deshabilitado por precaución debido a que causa un error al generar PDF
         $this->Cell(140);
-        $this->Cell(50,5,'REQUISICION NO. '.$this->req->req,0,0);
+        $this->Cell(45,5,'REQUISICION NO. '.$this->req->req,0,0);
 
         $responsable = User::find($this->req->user_id);
         $this->Cell(50,5,'FORMULO. '.utf8_decode($responsable->nombre),0,1);
         $this->Cell(140);
         $fecha = Carbon::parse($this->cuadro->fecha_cuadro)->format('d/m/Y');
-        $this->Cell(50,5,'FECHA CUADRO: '.$fecha,0,0);
+        $this->Cell(45,5,'FECHA CUADRO: '.$fecha,0,0);
         $this->Cell(100,5,'DEPENDENCIA: '.utf8_decode($this->req->urg->d_urg),0,1);
         $this->Ln(5);
 
