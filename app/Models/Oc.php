@@ -1,5 +1,6 @@
 <?php namespace Guia\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -41,6 +42,11 @@ class Oc extends Model {
     public function solDepositosDocs()
     {
         return $this->morphMany('Guia\Models\SolDepositosDoc', 'doc');
+    }
+
+    public function getFechaOcInfoAttribute()
+    {
+        return Carbon::parse($this->fecha_oc)->format('d/m/Y');
     }
 
     public function archivos()

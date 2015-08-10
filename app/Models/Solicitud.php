@@ -1,5 +1,6 @@
 <?php namespace Guia\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class Solicitud extends Model {
@@ -82,6 +83,11 @@ class Solicitud extends Model {
     public function solDepositosDocs()
     {
         return $this->morphMany('Guia\Models\SolDepositosDoc', 'doc');
+    }
+
+    public function getFechaInfoAttribute()
+    {
+        return Carbon::parse($this->fecha)->format('d/m/Y');
     }
 
     public function scopeEstatusResponsable($query, $arr_estatus, $arr_responsable)

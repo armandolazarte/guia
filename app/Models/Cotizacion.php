@@ -1,5 +1,6 @@
 <?php namespace Guia\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -32,6 +33,16 @@ class Cotizacion extends Model {
     public function cuadro()
     {
         return $this->belongsTo('Guia\Models\Cuadro');
+    }
+
+    public function getFechaInvitacionInfoAttribute()
+    {
+        return Carbon::parse($this->fecha_invitacion)->format('d/m/Y');
+    }
+
+    public function getFechaCotizacionInfoAttribute()
+    {
+        return Carbon::parse($this->fecha_cotizacion)->format('d/m/Y');
     }
 
 }

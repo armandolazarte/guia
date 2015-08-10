@@ -1,5 +1,6 @@
 <?php namespace Guia\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -59,6 +60,11 @@ class Req extends Model {
     public function registros()
     {
         return $this->morphMany('Guia\Models\Registro', 'docable');
+    }
+
+    public function getFechaInfoAttribute()
+    {
+        return Carbon::parse($this->fecha_req)->format('d/m/Y');
     }
 
     public function scopeEstatusResponsable($query, $arr_estatus, $arr_responsable)

@@ -1,5 +1,6 @@
 <?php namespace Guia\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -72,6 +73,11 @@ class Egreso extends Model {
     public function relacionInternaDocs()
     {
         return $this->morphMany('Guia\Models\RelInternaDoc', 'docable');
+    }
+
+    public function getFechaInfoAttribute()
+    {
+        return Carbon::parse($this->fecha)->format('d/m/Y');
     }
 
 }

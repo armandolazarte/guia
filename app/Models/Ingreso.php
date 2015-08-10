@@ -1,5 +1,6 @@
 <?php namespace Guia\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -23,6 +24,11 @@ class Ingreso extends Model {
     public function rms()
     {
         return $this->belongsToMany('Guia\Models\Rm')->withPivot('monto')->withTimestamps();
+    }
+
+    public function getFechaInfoAttribute()
+    {
+        return Carbon::parse($this->fecha)->format('d/m/Y');
     }
 
 }
