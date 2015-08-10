@@ -22,9 +22,37 @@ class AutorizarReqController extends Controller {
         $req->fecha_req = Carbon::parse($req->fecha_req)->format('d/m/Y');
         $articulos = Articulo::whereReqId($id)->with('cotizaciones')->with('rms.cog')->get();
 
+        //Determinar artículos que no tienen RMs asignado
+        $articulos_sin_rms = $articulos->reject(function ($articulos) {
+            return $articulos->rms->count() > 0;
+        });
+
+        //Determinar artículos que tienen RMs asignado
+        $articulos_con_rms = $articulos->filter(function ($articulos) {
+            return $articulos->rms->count() > 0;
+        });
+
+        //Crea arreglo con IDs de los RMs de los artículos
+        $arr_rms_ids = [];
+        foreach ($articulos_con_rms as $articulo) {
+            foreach ($articulo->rms as $rm) {
+                $arr_rms_ids[] = $rm->id;
+            }
+        }
+
+        //Consulta los artículos desde tabla rms
+        $rms_articulos = Rm::whereIn('id', $arr_rms_ids)->orderBy('rm')->with('articulos')->with('cog')->get();
+
+        //Ordena artículos por COG
+        $rms_articulos  = $rms_articulos->sortBy(function ($rms_articulos) {
+            return $rms_articulos->cog->cog;
+        });
+
         $arr_rms = Rm::whereProyectoId($req->proyecto_id)->get()->lists('cog_rm_saldo', 'id')->all();
         $data['req'] = $req;
         $data['articulos'] = $articulos;
+        $data['articulos_sin_rms'] = $articulos_sin_rms;
+        $data['rms_articulos'] = $rms_articulos;
         $data['arr_rms'] = $arr_rms;
 
         $rms_asignados = true;
