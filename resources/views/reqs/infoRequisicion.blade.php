@@ -36,7 +36,16 @@
             </tr>
             </thead>
             @foreach($articulos as $articulo)
-            <tr>
+                @if($articulo->rms->count() > 0)
+                    <tr class="bg-success">
+                @elseif($articulo->no_cotizado == 1)
+                    <tr class="bg-danger">
+                @elseif(count($articulo->cotizaciones) > 0)
+                    <tr class="bg-info">
+                @else
+                    <tr class="bg-warning">
+                @endif
+
                 <td>
                     @if($req->estatus == "")
                         <a href="{{ action('ArticulosController@edit', array($req->id, $articulo->id)) }}">{{ $articulo->articulo }}</a>
@@ -69,7 +78,7 @@
                         {{ number_format($articulo->monto_total, 2) }}
                     </td>
                 @else
-                    <td class="text-center" colspan="3">No cotizado</td>
+                    <td class="text-center" colspan="3">Por Cotizar</td>
                 @endif
                 <td class="text-center">
                     @if($articulo->inventariable == 1)
