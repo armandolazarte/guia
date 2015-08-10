@@ -2,7 +2,7 @@
     <tr>
         <td>Solicitud No. {{ $solicitud->id }}</td>
         <td>Tipo de Solicitud: {{ $solicitud->tipo_solicitud }}</td>
-        <td>Fecha: {{ $solicitud->fecha }}</td>
+        <td>Fecha: {{ $solicitud->fecha_info }}</td>
     </tr>
     <tr>
         <td>No. Oficio: {{ $solicitud->no_documento }}</td>

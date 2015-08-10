@@ -3,7 +3,7 @@
     <tr>
         <td>Requisición No. {{ $req->req }}</td>
         <td>Estatus: {{ $req->estatus }}</td>
-        <td>Fecha: {{ $req->fecha_req }}</td>
+        <td>Fecha: {{ $req->fecha_info }}</td>
     </tr>
     <tr>
         <td colspan="3">Etiqueta: {{ $req->etiqueta }}</td>

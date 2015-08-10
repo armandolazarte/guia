@@ -71,7 +71,7 @@ class RequisicionController extends Controller {
 
 		$req = new Req();
 		$req->req = \Consecutivo::nextReq();
-		$req->fecha_req = \Carbon\Carbon::now()->toDateString();
+		$req->fecha_req = Carbon::now()->toDateString();
 		$req->urg_id = $request->input('urg_id');
 		$req->proyecto_id = $request->input('proyecto_id');
 		$req->etiqueta = $request->input('etiqueta');
@@ -96,7 +96,6 @@ class RequisicionController extends Controller {
 	public function show($id)
 	{
 		$req = Req::find($id);
-        $req->fecha_req = Carbon::parse($req->fecha_req)->format('d/m/Y');
         $articulos = Articulo::whereReqId($id)->with('cotizaciones')->with('rms.cog')->get();
 		$data['req'] = $req;
 
