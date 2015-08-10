@@ -4,7 +4,6 @@ namespace Guia\Classes\Pdfs;
 
 use fpdf\FPDF;
 use Carbon\Carbon;
-use Guia\User;
 use Guia\Models\Cotizacion;
 
 class InvitacionPdf extends FPDF {
@@ -71,10 +70,9 @@ class InvitacionPdf extends FPDF {
         $this->MultiCell(60,4,utf8_decode($this->usuario_adq->cargo),0,'C');
         $this->SetY(-10);
 
-        $responsable = User::find($this->invitacion->req->user_id);
-        $this->Cell(50,4,'Solicita: '.utf8_decode($responsable->nombre),0,'L');
+        $this->Cell(50,4,'Solicita: '.utf8_decode($this->invitacion->req->user->nombre),0,'L');
         $this->Ln();
-        $this->Cell(50,4,'Correo: '.$responsable->email,0,'L');
+        $this->Cell(50,4,'Correo: '.$this->invitacion->req->user->email,0,'L');
     }
 
     public function crearPdf()
@@ -99,13 +97,13 @@ class InvitacionPdf extends FPDF {
             $this->Cell(40);
             //Se calcula cuantos renglones ocupará el artículo y su descripción
             $y_inicial = $this->GetY();
-            $this->MultiCell(160,5,utf8_decode($articulo->articulo),'R','L');
+            $this->MultiCell(160,5,utf8_decode($articulo->articulo),1,'L');
             $y_final = $this->GetY();
             $h_renglon = $y_final - $y_inicial; //Determina la altura del renglón
 
             $this->SetY($y_inicial);
-            $this->Cell(20,$h_renglon,$articulo->cantidad,'LR',0,'C');
-            $this->Cell(20,$h_renglon,$articulo->unidad,'R',1,'C');
+            $this->Cell(20,$h_renglon,$articulo->cantidad,1,0,'C');
+            $this->Cell(20,$h_renglon,$articulo->unidad,1,1,'C');
         }
         //Dibuja lineas cuando termina iteración
         $this->Line($this->GetX(), $this->GetY(), $this->GetX(), 220);

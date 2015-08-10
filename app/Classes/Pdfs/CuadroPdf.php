@@ -6,7 +6,6 @@ use fpdf\FPDF;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Guia\Models\Cuadro;
-use Guia\User;
 
 class CuadroPdf extends FPDF {
 
@@ -34,8 +33,7 @@ class CuadroPdf extends FPDF {
         $this->Cell(140);
         $this->Cell(45,5,'REQUISICION NO. '.$this->req->req,0,0);
 
-        $responsable = User::find($this->req->user_id);
-        $this->Cell(50,5,'FORMULO. '.utf8_decode($responsable->nombre),0,1);
+        $this->Cell(50,5,'FORMULO: '.utf8_decode($this->req->user->nombre),0,1);
         $this->Cell(140);
         $fecha = Carbon::parse($this->cuadro->fecha_cuadro)->format('d/m/Y');
         $this->Cell(45,5,'FECHA CUADRO: '.$fecha,0,0);
