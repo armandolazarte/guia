@@ -96,7 +96,7 @@ class RequisicionController extends Controller {
 	{
 		$req = Req::find($id);
         $req->fecha_req = Carbon::parse($req->fecha_req)->format('d/m/Y');
-		$articulos = Articulo::whereReqId($id)->get();
+        $articulos = Articulo::whereReqId($id)->with('cotizaciones')->with('rms.cog')->get();
 		$data['req'] = $req;
 
         $user = \Auth::user();

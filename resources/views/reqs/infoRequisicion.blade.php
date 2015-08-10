@@ -18,19 +18,22 @@
 
     <div class="row">
         <div class="col-sm-12">
-        <table class="table-bordered">
+        <table class="table table-bordered table-hover table-condensed">
             <thead>
                 <tr>
-                    <th>Artículo</th>
-                    <th>Cantidad</th>
-                    <th>Unidad</th>
-                    <th>Cuenta de Gasto / Rec. Material</th>
-                    <th>Costo Unitario</th>
-                    <th>Sub-Total</th>
-                    <th>Total (Incluye IVA)</th>
-                    <th>Alta</th>
-                    <th>No Cotizado</th>
+                    <th rowspan="2" class="text-center">Artículo</th>
+                    <th rowspan="2" class="text-center">Cantidad</th>
+                    <th rowspan="2" class="text-center">Unidad</th>
+                    <th rowspan="2" class="text-center">Cuenta de Gasto / Rec. Material <br>/ Monto Autorizado</th>
+                    <th colspan="3" class="text-center">Cotizado (Unidad de Suministros)</th>
+                    <th rowspan="2" class="text-center">Alta</th>
+                    <th rowspan="2" class="text-center">No Cotizado</th>
                 </tr>
+            <tr>
+                <th>Costo Unitario</th>
+                <th>Sub-Total</th>
+                <th>Total (Incluye IVA)</th>
+            </tr>
             </thead>
             @foreach($articulos as $articulo)
             <tr>
@@ -46,7 +49,10 @@
                 <td class="text-center">
                     @if($articulo->rms->count() > 0)
                         @foreach($articulo->rms as $rm)
-                            {{ $rm->cog->cog }} / {{ $rm->rm }}
+                            {{ $rm->cog->cog }} / {{ $rm->rm }} / $ {{ number_format($rm->pivot->monto, 2) }}
+                            @if($articulo->rms->count() > 1)
+                                <br>
+                            @endif
                         @endforeach
                     @else
                         <i>No asignado</i>
