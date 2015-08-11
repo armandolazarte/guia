@@ -10,19 +10,22 @@ class UnidadesTableSeeder extends Seeder {
     {
         Model::unguard();
 
-        Unidad::create(array('unidad' => 'Pieza','tipo' => 'Uso Frecuente'));
+        Unidad::create(array('unidad' => 'Caja', 'tipo' => 'Uso Frecuente'));
         Unidad::create(array('unidad' => 'Equipo', 'tipo' => 'Uso Frecuente'));
         Unidad::create(array('unidad' => 'Frasco', 'tipo' => 'Uso Frecuente'));
-        Unidad::create(array('unidad' => 'Caja', 'tipo' => 'Uso Frecuente'));
+        Unidad::create(array('unidad' => 'Kit', 'tipo' => 'Uso Frecuente'));
         Unidad::create(array('unidad' => 'Paquete', 'tipo' => 'Uso Frecuente'));
+        Unidad::create(array('unidad' => 'Pieza','tipo' => 'Uso Frecuente'));
         Unidad::create(array('unidad' => 'Rollo', 'tipo' => 'Uso Frecuente'));
-        Unidad::create(array('unidad' => 'Vial', 'tipo' => 'Uso Frecuente'));
         Unidad::create(array('unidad' => 'Unidad', 'tipo' => 'Uso Frecuente'));
-        Unidad::create(array('unidad' => 'Kg', 'tipo' => 'Sis. Métrico '));
-        Unidad::create(array('unidad' => 'gr', 'tipo' => 'Sis. Métrico '));
-        Unidad::create(array('unidad' => 'Lt', 'tipo' => 'Sis. Métrico '));
-        Unidad::create(array('unidad' => 'Metros', 'tipo' => 'Sis. Métrico '));
-        Unidad::create(array('unidad' => 'Mtr. Cúbico', 'tipo' => 'Sis. Métrico '));
+        Unidad::create(array('unidad' => 'Vial', 'tipo' => 'Uso Frecuente'));
+        Unidad::create(array('unidad' => 'gr', 'tipo' => 'Sis. Métrico'));
+        Unidad::create(array('unidad' => 'Kg', 'tipo' => 'Sis. Métrico'));
+        Unidad::create(array('unidad' => 'Lt', 'tipo' => 'Sis. Métrico'));
+        Unidad::create(array('unidad' => 'Metros', 'tipo' => 'Sis. Métrico'));
+        Unidad::create(array('unidad' => 'Mtr. Cúbico', 'tipo' => 'Sis. Métrico'));
+        Unidad::create(array('unidad' => 'Libras', 'tipo' => 'Sis. Inglés'));
+        Unidad::create(array('unidad' => 'Onzas', 'tipo' => 'Sis. Inglés'));
         Unidad::create(array('unidad' => 'Diseño', 'tipo' => 'Servicios'));
         Unidad::create(array('unidad' => 'Servicio', 'tipo' => 'Servicios'));
         Unidad::create(array('unidad' => 'Pares', 'tipo' => 'Otros'));
