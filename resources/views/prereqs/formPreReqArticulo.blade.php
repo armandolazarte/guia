@@ -17,12 +17,12 @@
 
     <div class="form-group">
         <label class="sr-only" for="articulo">Artículo</label>
-        {!! Form::textarea('articulo', isset($articulo->articulo) ? $articulo->articulo : '', array('cols' => '70', 'rows' => '3', 'class' => 'form-contro', 'placeholder' => 'Descripción del artículo')) !!}
+        {!! Form::textarea('articulo', isset($articulo->articulo) ? $articulo->articulo : '', array('cols' => '70', 'rows' => '3', 'class' => 'form-control', 'placeholder' => 'Descripción del artículo')) !!}
     </div>
 
     <div class="form-group">
         <label class="sr-only" for="cantidad">Cantidad</label>
-        {!! Form::text('cantidad', isset($articulo->cantidad) ? $articulo->cantidad : '', array('class' => 'form-contro', 'placeholder' => 'Cantidad', 'size' => '10')) !!}
+        {!! Form::text('cantidad', isset($articulo->cantidad) ? $articulo->cantidad : '', array('class' => 'form-control', 'placeholder' => 'Cantidad', 'size' => '10')) !!}
     </div>
 
     <div class="form-group">
