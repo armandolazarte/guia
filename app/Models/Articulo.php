@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Articulo extends Model {
 
     use SoftDeletes;
+    protected $fillable = ['req_id','articulo','cantidad','impuesto','monto','oc_id','unidad','inventariable','no_cotizado','obs'];
 
     //Articulo __belongs_to__ Req
     public function req()
