@@ -7,6 +7,7 @@ use Guia\Http\Requests;
 use Guia\Http\Requests\ArticuloFormRequest;
 use Guia\Http\Controllers\Controller;
 
+use Guia\User;
 use Illuminate\Http\Request;
 
 class ArticulosController extends Controller {
@@ -31,6 +32,8 @@ class ArticulosController extends Controller {
 		$req = Req::find($req_id);
 		$unidades = Unidad::all();
 		$data['req'] = $req;
+        $solicita = User::find($req->solicita);
+        $data['solicita'] = $solicita;
 
 		foreach($unidades as $unidad){
 			$arr_unidades[$unidad->tipo][$unidad->unidad] = $unidad->unidad;
@@ -47,12 +50,7 @@ class ArticulosController extends Controller {
 	 */
 	public function store(ArticuloFormRequest $request)
 	{
-		$articulo = new Articulo();
-		$articulo->req_id = $request->input('req_id');
-		$articulo->articulo = $request->input('articulo');
-		$articulo->cantidad = $request->input('cantidad');
-		$articulo->unidad = $request->input('unidad');
-		$articulo->save();
+        Articulo::create($request->all());
 
 		return redirect()->action('RequisicionController@show', array($request->input('req_id')));
 	}
@@ -71,6 +69,9 @@ class ArticulosController extends Controller {
 		//Verifica que el artículo corresponda a la requisición
 		if ($articulo->req_id == $req_id)
 		{
+            $solicita = User::find($articulo->req->solicita);
+            $data['solicita'] = $solicita;
+
 			$unidades = Unidad::all();
 			foreach($unidades as $unidad){
 				$arr_unidades[$unidad->tipo][$unidad->unidad] = $unidad->unidad;
@@ -94,16 +95,11 @@ class ArticulosController extends Controller {
 	 */
 	public function update(ArticuloFormRequest $request, $id)
 	{
-		$rules = array(
-			'articulo' => 'required',
-			'cantidad' => 'required|numeric',
-			'unidad' => 'required'
-		);
-
 		$articulo = Articulo::findOrFail($id);
 		$articulo->articulo = $request->input('articulo');
 		$articulo->cantidad = $request->input('cantidad');
-		$articulo->unidad =$request->input('unidad');
+		$articulo->unidad = $request->input('unidad');
+		$articulo->inventariable = $request->input('inventariable');
 		$articulo->save();
 
 		return redirect()->action('RequisicionController@show', array($articulo->req->id));
