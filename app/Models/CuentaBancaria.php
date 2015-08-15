@@ -30,4 +30,8 @@ class CuentaBancaria extends Model {
         return $this->belongsTo('Guia\Models\Urg');
     }
 
+    public function getCuentaTipoUrgAttribute()
+    {
+        return $this->cuenta_bancaria.' - '.$this->tipo.' ('.$this->urg->d_urg.')';
+    }
 }
