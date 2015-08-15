@@ -140,7 +140,7 @@ class ImportadorCatalogos {
                 !empty($cuenta_nueva->set_default) ? $activa = 1 : $activa = 0;
 
                 $cuenta = new CuentaBancaria();
-                $cuenta->cuenta = $cuenta_nueva->cta_b;
+                $cuenta->cuenta_bancaria = $cuenta_nueva->cta_b;
                 $cuenta->d_cuenta = $cuenta_nueva->d_cta_b;
                 $cuenta->no_cuenta = $cuenta_nueva->no_cuenta;
                 $cuenta->banco = $cuenta_nueva->banco;
@@ -152,7 +152,7 @@ class ImportadorCatalogos {
         }
     }
     private function consultarCuentasExternas(){
-        $cuentas_importadas = CuentaBancaria::lists('cuenta')->all();
+        $cuentas_importadas = CuentaBancaria::lists('cuenta_bancaria')->all();
         if ( count($cuentas_importadas) > 0 ) {
             $cuentas_externas = \DB::connection($this->db_origen)->table('tbl_cta_b')
                 ->whereNotIn ('cta_b', $cuentas_importadas)
