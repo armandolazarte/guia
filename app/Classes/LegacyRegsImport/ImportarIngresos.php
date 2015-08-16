@@ -38,7 +38,7 @@ class ImportarIngresos
         ]);
     }
 
-    public function importarEgresosLegacy()
+    public function importarIngresosLegacy()
     {
         \DB::connection($this->db_origen)->table('tbl_ingresos')
             ->where('cta_b', $this->cuenta_bancaria->cuenta_bancaria)
