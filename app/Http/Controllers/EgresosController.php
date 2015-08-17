@@ -18,7 +18,9 @@ class EgresosController extends Controller
      */
     public function index()
     {
-        $egresos = Egreso::all();
+        $presupuesto = \Session::get('sel_presupuesto');
+
+        $egresos = Egreso::where('fecha', '>=', '01-01-'.$presupuesto)->orderBy('cheque', 'desc')->get();
         $egresos->load('benef');
         $egresos->load('rms');
         $egresos->load('cuentaBancaria');
