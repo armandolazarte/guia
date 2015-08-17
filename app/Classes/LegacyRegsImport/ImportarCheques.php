@@ -9,80 +9,90 @@ use Guia\Models\Egreso;
 use Guia\Models\Rm;
 use Guia\User;
 
-class ImportarEgresos
+class ImportarCheques
 {
-
-    public $db_origen;
-    public $arr_rango;
-    public $col_rango;
-    public $cuenta_bancaria;
-
     public function __construct($db_origen, $col_rango, $arr_rango, $cuenta_bancaria_id)
     {
+        $this->db_origen = $db_origen;
+
         if(count($arr_rango) == 2 && !empty($col_rango)) {
             $this->arr_rango = $arr_rango;
             $this->col_rango = $col_rango;
         }
 
         $this->cuenta_bancaria = CuentaBancaria::find($cuenta_bancaria_id);
-
-        $this->db_origen = $db_origen;
     }
 
-    private function crearEgreso($e_legacy)
+    private function crearCheque($ch_legacy)
     {
-        $benef_id = $this->getBenefId($e_legacy->benef_id);
-        $cuenta_id = $this->getCuentaId($e_legacy->concepto);
-        $user_id = $this->getUserId($e_legacy->responsable);
+        $benef_id = $this->getBenefId($ch_legacy->benef_id);
+        $cuenta_id = $this->getCuentaId($ch_legacy->concepto);
+        $user_id = $this->getUserId($ch_legacy->responsable);
+
+        //Cancelado: Crear Poliza de cancelación
+        $cuenta_id == 99 ? $estatus = 'CANCELADO' : $estatus = $ch_legacy->estatus;
 
         $egreso = Egreso::create([
             'cuenta_bancaria_id' => $this->cuenta_bancaria->id,
-            'poliza' => $e_legacy->egreso_id,
-            'cheque' => 0,
-            'fecha' => $e_legacy->fecha,
+            'poliza' => 0,
+            'cheque' => $ch_legacy->cheque,
+            'fecha' => $ch_legacy->fecha,
             'benef_id' => $benef_id,
             'cuenta_id' => $cuenta_id,
-            'concepto' => '('.$e_legacy->concepto.') '.$e_legacy->cmt,
-            'monto' => round($e_legacy->monto,2),
-            'estatus' => $e_legacy->estatus,
-            'user_id' => $user_id
+            'concepto' => '('.$ch_legacy->concepto.') '.$ch_legacy->cmt,
+            'monto' => round($ch_legacy->monto,2),
+            'estatus' => $estatus,
+            'user_id' => $ch_legacy->$user_id,
+            'fecha_cobro' => $ch_legacy->fecha_cobro
         ]);
 
         //Presupuesto: Importar RMs
         if ($cuenta_id == 1 && $this->db_origen == 'legacy') {
-            $egreso_rms_legacy = $this->getEgresoRmLegacy($egreso->egreso_id);
-            foreach ($egreso_rms_legacy as $eg_rm) {
-                $rm_id = Rm::whereRm($eg_rm->rm)->pluck('id');
-                $egreso->rms()->attach($rm_id, ['monto' => $eg_rm->monto]);
+            $ch_rms_legacy = $this->getChequeRmLegacy($egreso->cheque);
+            foreach ($ch_rms_legacy as $ch_rm) {
+                $rm_id = Rm::whereRm($ch_rm->rm)->pluck('id');
+                $egreso->rms()->attach($rm_id, ['monto' => $ch_rm->monto]);
             }
         }
     }
 
-    public function importarEgresosLegacy()
+    public function importarChequesLegacy()
     {
-        $egresos_legacy = \DB::connection($this->db_origen)->table('tbl_egresos');
+        $cheques_importados = $this->getChequesImportados();
+
+        $egresos_legacy = \DB::connection($this->db_origen)->table('tbl_cheques');
         $egresos_legacy->where('cta_b', $this->cuenta_bancaria->cuenta_bancaria);
-        $egresos_legacy->where('concepto', 'NOT LIKE', 'Saldo%');
-        $egresos_legacy->where('concepto', 'NOT LIKE', 'No Identificado');
+        if (count($cheques_importados) > 0) {
+            $egresos_legacy->whereNotIn('cheque', $cheques_importados);
+        }
         if (!empty($this->col_rango)) {
             $egresos_legacy->whereBetween($this->col_rango, $this->arr_rango);
         }
-        $egresos_legacy->orderBy('fecha','egreso_id');
-        $egresos_legacy->chunk(100, function($egresos_legacy) {
-            foreach ($egresos_legacy as $e_legacy) {
-                $this->crearEgreso($e_legacy);
+        $egresos_legacy->where('concepto', 'NOT LIKE', 'Saldo%');
+        $egresos_legacy->orderBy('cheque');
+        $egresos_legacy->chunk(100, function($cheques_legacy) {
+            foreach ($cheques_legacy as $ch_legacy) {
+                $this->crearCheque($ch_legacy);
             }
         });
     }
 
-    private function getEgresoRmLegacy($egreso_id)
+    private function getChequesImportados()
     {
-        $egreso_rms = \DB::connection($this->db_origen)->table('tbl_egresos_rm')
+        $cheques_importados = Egreso::where('cuenta_bancaria_id', $this->cuenta_bancaria->id)
+            ->lists('cheque')->all();
+
+        return $cheques_importados;
+    }
+
+    private function getChequeRmLegacy($cheque)
+    {
+        $cheque_rms = \DB::connection($this->db_origen)->table('tbl_cheques_rm')
             ->where('cta_b', $this->cuenta_bancaria->cuenta_bancaria)
-            ->where('egreso_id', $egreso_id)
+            ->where('cheque', $cheque)
             ->get();
 
-        return $egreso_rms;
+        return $cheque_rms;
     }
 
     private function getBenefId($legacy_benef_id)
@@ -121,6 +131,7 @@ class ImportarEgresos
     {
         switch($legacy_concepto) {
             case 'Presupuesto':
+            case '':
                 $concepto_id = 1;
                 break;
             case 'Equivocado':
@@ -130,32 +141,14 @@ class ImportarEgresos
             case 'DevRecursos':
                 $concepto_id = 2;
                 break;
-            case 'IVA Com Banca en Linea':
-            case 'Otras Op Banca Linea':
-            case 'Com Banca en Linea':
-            case 'IVA Com Ch Emitidos':
-            case 'Com Ch Emitidos':
-            case 'Comision por Anualidad':
-            case 'IVA Comision por Anualidad':
-            case 'IVA Comision Cheques Pagados':
-            case 'Comision por Retencion Edo Cta':
-            case 'IVA Comision por Retencion Edo':
-            case 'Com Manejo Cta':
-            case 'IVA Com Manejo Cta':
-            case 'Comision Cheques Pagados':
-            case 'Com Sobregiro':
-            case 'IVA Com Sobregiro':
-                $concepto_id = 4;//Comisiones Bancarias
+            case 'Ministracion':
+                $concepto_id = 3;//Recursos Presupuesto (Ministración)
                 break;
-            case 'Apertura Inversion':
-                $concepto_id = 6;//Invsersion
-                break;
-            case 'Retención ISR':
-                $concepto_id = 24;
+            case 'CANCELADO':
+                $concepto_id = 99;
                 break;
         }
 
         return $concepto_id;
     }
-
 }

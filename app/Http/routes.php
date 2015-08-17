@@ -65,6 +65,9 @@ Route::group(array('prefix' => 'admin/su', 'middleware' => ['auth']), function()
 
     Route::get('importar-registros', 'ImportarRegistrosController@index');
     Route::post('importar-registros', 'ImportarRegistrosController@importar');
+
+    Route::get('importar-ejercicio', 'ImportarEjercicioController@index');
+    Route::post('importar-ejercicio', 'ImportarEjercicioController@importar');
 });
 
 Route::group(array('prefix' => 'admin', 'middleware' => ['auth']), function()
