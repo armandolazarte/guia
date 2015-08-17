@@ -1,6 +1,5 @@
 <?php namespace Guia\Http\Controllers;
 
-use Carbon\Carbon;
 use Guia\Classes\ArticulosHelper;
 use Guia\Http\Requests;
 use Guia\Http\Controllers\Controller;
@@ -8,6 +7,7 @@ use Guia\Http\Controllers\Controller;
 use Guia\Models\Articulo;
 use Guia\Models\Req;
 use Guia\Models\Rm;
+use Guia\User;
 use Illuminate\Http\Request;
 
 class AutorizarReqController extends Controller {
@@ -20,7 +20,6 @@ class AutorizarReqController extends Controller {
 	public function formAutorizar($id)
 	{
         $req = Req::find($id);
-        $req->fecha_req = Carbon::parse($req->fecha_req)->format('d/m/Y');
         $articulos = Articulo::whereReqId($id)->with('cotizaciones')->with('rms.cog')->get();
 
         $articulos_helper = new ArticulosHelper($articulos);
@@ -41,6 +40,9 @@ class AutorizarReqController extends Controller {
             }
         }
         $data['rms_asignados'] = $rms_asignados;
+
+        $solicita = User::find($req->solicita);
+        $data['solicita'] = $solicita;
 
         return view('reqs.formAutorizarReq')->with($data);
 	}
