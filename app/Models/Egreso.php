@@ -75,6 +75,12 @@ class Egreso extends Model {
         return $this->morphMany('Guia\Models\RelInternaDoc', 'docable');
     }
 
+    //Egreso __morph_many__ PolizaOrigen
+    public function polizaOrigen()
+    {
+        return $this->morphMany('Guia\Models\PolizaOrigen', 'origen');
+    }
+
     public function getFechaInfoAttribute()
     {
         return Carbon::parse($this->fecha)->format('d/m/Y');

@@ -94,6 +94,18 @@ class Rm extends Model {
         return $this->belongsToMany('Guia\Models\Egreso')->withPivot('monto')->withTimestamps();
     }
 
+    //Rm __belongs_to_many__ PolizaCargo
+    public function polizaCargos()
+    {
+        return $this->belongsToMany('Guia\Models\PolizaCargo')->withPivot('monto');
+    }
+
+    //Rm __belongs_to_many__ PolizaAbono
+    public function polizaAbonos()
+    {
+        return $this->belongsToMany('Guia\Models\PolizaAbono')->withPivot('monto');
+    }
+
     public function getRmCogAttribute()
     {
         return $this->rm.' '.$this->cog->cog.' '.$this->cog->d_cog;

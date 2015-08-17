@@ -26,6 +26,12 @@ class Ingreso extends Model {
         return $this->belongsToMany('Guia\Models\Rm')->withPivot('monto')->withTimestamps();
     }
 
+    //Ingreso __morph_many__ PolizaOrigen
+    public function polizaOrigen()
+    {
+        return $this->morphMany('Guia\Models\PolizaOrigen', 'origen');
+    }
+
     public function getFechaInfoAttribute()
     {
         return Carbon::parse($this->fecha)->format('d/m/Y');
