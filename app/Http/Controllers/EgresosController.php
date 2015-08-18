@@ -2,6 +2,10 @@
 
 namespace Guia\Http\Controllers;
 
+use Carbon\Carbon;
+use Guia\Models\Benef;
+use Guia\Models\Cuenta;
+use Guia\Models\CuentaBancaria;
 use Guia\Models\Egreso;
 use Illuminate\Http\Request;
 
@@ -36,7 +40,19 @@ class EgresosController extends Controller
      */
     public function create()
     {
-        //
+        $fecha = Carbon::today()->toDateString();
+        $cuentas = Cuenta::whereIn('tipo', ['Ejecutora'])->lists('cuenta', 'id')->all();
+        $cuentas_bancarias = CuentaBancaria::all()->lists('cuenta_tipo_urg','id');
+        $benefs = Benef::all()->sortBy('benef')->lists('benef','id');
+        $cheque = \Consecutivo::nextCheque();
+
+        /**
+         * @todo Monto por RM
+         * @todo Clonar selección de RM
+         * @todo Calcular monto total utilizando montos parciales por RM
+         */
+
+        return view('egresos.formEgreso', compact('fecha','cuentas','cuentas_bancarias','benefs','cheque'));
     }
 
     /**
@@ -44,9 +60,14 @@ class EgresosController extends Controller
      *
      * @return Response
      */
-    public function store()
+    public function store(Requests\EgresoFormRequest $request)
     {
-        //
+        $request->merge(array(
+            'user_id' => \Auth::user()->id,
+        ));
+
+        $egreso = Egreso::create($request->all());
+        return redirect()->action('EgresosController@show', [$egreso->id]);
     }
 
     /**
@@ -57,7 +78,9 @@ class EgresosController extends Controller
      */
     public function show($id)
     {
-        //
+        $egreso = Egreso::findOrFail($id);
+
+        return view('egresos.infoEgreso', compact('egreso'));
     }
 
     /**
