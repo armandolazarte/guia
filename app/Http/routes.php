@@ -282,5 +282,14 @@ Route::group(array('prefix' => 'api', 'middleware' => ['auth']), function()
         $rms = \Guia\Models\Rm::where('proyecto_id', '=', $proyecto_id)->get(['rm','id']);
         return response()->json($rms);
     });
+
+    Route::get('/proyectos-dropdown/', function()
+    {
+        $arr_proyectos = \FiltroAcceso::getArrProyectos();
+        foreach ($arr_proyectos as $k => $v) {
+            $proyectos[] = ['id' => $k, 'proyecto_descripcion' => $v];
+        }
+        return response()->json($proyectos);
+    });
 });
 
