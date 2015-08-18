@@ -93,7 +93,13 @@ class EgresosController extends Controller
     {
         $egreso = Egreso::findOrFail($id);
 
-        return view('egresos.formEgreso', compact('egreso'));
+        $cuentas = Cuenta::whereIn('tipo', ['Ejecutora'])->lists('cuenta', 'id')->all();
+        $cuentas_bancarias = CuentaBancaria::all()->lists('cuenta_tipo_urg','id');
+        $benefs = Benef::all()->sortBy('benef')->lists('benef','id');
+        $fecha = null;
+        $cheque = null;
+
+        return view('egresos.formEgreso', compact('egreso','fecha','cheque','cuentas','cuentas_bancarias','benefs'));
     }
 
     /**
@@ -102,10 +108,16 @@ class EgresosController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function update($id, Request $request)
+    public function update($id, Requests\EgresoFormRequest $request)
     {
         $egreso = Egreso::findOrFail($id);
-        $egreso->concepto = $request->input('concepto');
+        $egreso->update([
+            'fecha' => $request->input('fecha'),
+            'cuenta_bancaria_id' => $request->input('cuenta_bancaria_id'),
+            'benef_id' => $request->input('benef_id'),
+            'cheque' => $request->input('cheque'),
+            'concepto' => $request->input('concepto'),
+        ]);
         $egreso->save();
 
         return redirect()->action('EgresosController@index');

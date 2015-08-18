@@ -19,12 +19,14 @@
                     </div>
                 </div>
 
-                <div class="form-group">
-                    {!! Form::label('cuenta_id', 'Cuenta', array('class' => 'col-sm-2 control-label')) !!}
-                    <div class="col-sm-10">
-                        {!! Form::select('cuenta_id', ['0' => 'Seleccionar Cuenta'] + $cuentas, null, array('class' => 'form-control')) !!}
+                @if(!isset($egreso))
+                    <div class="form-group">
+                        {!! Form::label('cuenta_id', 'Cuenta', array('class' => 'col-sm-2 control-label')) !!}
+                        <div class="col-sm-10">
+                            {!! Form::select('cuenta_id', ['0' => 'Seleccionar Cuenta'] + $cuentas, null, array('class' => 'form-control')) !!}
+                        </div>
                     </div>
-                </div>
+                @endif
 
                 <div class="form-group">
                     {!! Form::label('cuenta_bancaria_id', 'Cuenta Bancaria', array('class' => 'col-sm-2 control-label')) !!}
@@ -58,12 +60,14 @@
                     </div>
                 </div>
 
-                <div class="form-group">
-                    {!! Form::label('monto', 'Monto', array('class' => 'col-sm-2 control-label')) !!}
-                    <div class="col-sm-10">
-                        {!! Form::text('monto', null, array('class'=>'form-control')) !!}
+                @if(!isset($egreso))
+                    <div class="form-group">
+                        {!! Form::label('monto', 'Monto', array('class' => 'col-sm-2 control-label')) !!}
+                        <div class="col-sm-10">
+                            {!! Form::text('monto', null, array('class'=>'form-control')) !!}
+                        </div>
                     </div>
-                </div>
+                @endif
 
                 <div class="form-group" id="div-seleccion-proyecto"></div>
 
