@@ -28,11 +28,12 @@ class EgresoFormRequest extends Request
          */
         return [
             'fecha' => 'required|date',
-            'cuenta_id' => 'required|integer|not_in:0,1',
+            'cuenta_id' => 'sometimes|required|integer|not_in:0,1',
             'cuenta_bancaria_id' => 'required|integer|not_in:0',
             'benef_id' => 'required|integer|not_in:0',
+            'cheque' => 'required|integer|min:1',
             'concepto' => 'required',
-            'monto' => 'required|numeric'
+            'monto' => 'sometimes|required|numeric'
         ];
     }
 }
