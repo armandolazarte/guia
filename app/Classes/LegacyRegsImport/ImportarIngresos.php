@@ -55,7 +55,6 @@ class ImportarIngresos
             ->where('cta_b', $this->cuenta_bancaria->cuenta_bancaria)
             ->where('concepto', 'NOT LIKE', 'Saldo%')
             ->where('concepto', 'NOT LIKE', 'No Identificado')
-            ->where('concepto', 'NOT LIKE', 'VARIOS')
             ->orderBy('fecha','ingreso_id')
             ->chunk(100, function($ingresos_legacy) {
                 foreach ($ingresos_legacy as $i_legacy) {
