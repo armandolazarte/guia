@@ -13,6 +13,7 @@ class ImportarCheques
 {
     public function __construct($db_origen, $col_rango, $arr_rango, $cuenta_bancaria_id)
     {
+        set_time_limit(240);
         $this->db_origen = $db_origen;
 
         if(count($arr_rango) == 2 && !empty($col_rango)) {
@@ -30,7 +31,7 @@ class ImportarCheques
         $user_id = $this->getUserId($ch_legacy->responsable);
 
         //Cancelado: Crear Poliza de cancelación
-        $cuenta_id == 99 ? $estatus = 'CANCELADO' : $estatus = $ch_legacy->estatus;
+        $cuenta_id == 27 ? $estatus = 'CANCELADO' : $estatus = $ch_legacy->estatus;
 
         $egreso = Egreso::create([
             'cuenta_bancaria_id' => $this->cuenta_bancaria->id,
@@ -42,7 +43,7 @@ class ImportarCheques
             'concepto' => '('.$ch_legacy->concepto.') '.$ch_legacy->cmt,
             'monto' => round($ch_legacy->monto,2),
             'estatus' => $estatus,
-            'user_id' => $ch_legacy->$user_id,
+            'user_id' => $user_id,
             'fecha_cobro' => $ch_legacy->fecha_cobro
         ]);
 
@@ -144,8 +145,11 @@ class ImportarCheques
             case 'Ministracion':
                 $concepto_id = 3;//Recursos Presupuesto (Ministración)
                 break;
+            case 'Dev Intereses':
+                $concepto_id = 7;//Intereses
+                break;
             case 'CANCELADO':
-                $concepto_id = 99;
+                $concepto_id = 27;//CANCELADO
                 break;
         }
 
