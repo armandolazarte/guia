@@ -37,6 +37,7 @@ class CuentasTableSeeder extends Seeder {
         Cuenta::create(['cuenta' => 'Retención ISR', 'tipo' => 'Ejecutora']);
         Cuenta::create(['cuenta' => 'Apertura de Cuenta', 'tipo' => 'ComunOtro']);
         Cuenta::create(['cuenta' => 'Devolución de Cheque', 'tipo' => 'ComunOtro']);
+        Cuenta::create(['cuenta' => 'CANCELADO', 'tipo' => 'Banco']);
     }
 
 }
