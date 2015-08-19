@@ -101,6 +101,9 @@ class ImportarIngresos
             case 'Pago Comisiones':
                 $concepto_id = 4;//Comisiones Bancarias
                 break;
+            case 'PROMEP':
+                $concepto_id = 11;//PROMEP
+                break;
             case 'VARIOS':
                 $concepto_id = 19;//Varios
                 break;

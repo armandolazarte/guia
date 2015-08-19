@@ -148,6 +148,12 @@ class ImportarCheques
             case 'Dev Intereses':
                 $concepto_id = 7;//Intereses
                 break;
+            case 'VARIOS':
+                $concepto_id = 19;//Varios
+                break;
+            case 'Retención ISR':
+                $concepto_id = 24;//Retención ISR
+                break;
             case 'CANCELADO':
                 $concepto_id = 27;//CANCELADO
                 break;
