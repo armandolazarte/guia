@@ -22,7 +22,7 @@ class AutorizarReqController extends Controller {
         $req = Req::find($id);
         $articulos = Articulo::whereReqId($id)->with('cotizaciones')->with('rms.cog')->get();
 
-        $articulos_helper = new ArticulosHelper($articulos);
+        $articulos_helper = new ArticulosHelper($articulos, $id);
         $articulos_helper->setArticulosSinRms();
         $articulos_helper->setRmsArticulos();
 

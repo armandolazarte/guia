@@ -127,7 +127,7 @@ class RequisicionController extends Controller {
 			$data['articulos'] = array();
 		}
 
-        $articulos_helper = new ArticulosHelper($articulos);
+        $articulos_helper = new ArticulosHelper($articulos, $id);
         $articulos_helper->setRmsArticulos();
         $data['rms_articulos'] = $articulos_helper->rms_articulos;
 

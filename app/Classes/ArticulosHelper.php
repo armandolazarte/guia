@@ -9,13 +9,15 @@ use Illuminate\Support\Collection;
 class ArticulosHelper
 {
     public $articulos;
+    public $req_id;
     public $articulos_sin_rms;
     public $articulos_con_rms;
     public $rms_articulos;
 
-    public function __construct(Collection $articulos)
+    public function __construct(Collection $articulos, $req_id)
     {
         $this->articulos = $articulos;
+        $this->req_id = $req_id;
     }
 
     public function setArticulosSinRms()
@@ -46,7 +48,11 @@ class ArticulosHelper
         }
 
         //Consulta los artículos desde tabla rms
-        $rms_articulos = Rm::whereIn('id', $arr_rms_ids)->orderBy('rm')->with('articulos')->with('cog')->get();
+        $rms_articulos = Rm::whereIn('id', $arr_rms_ids)->orderBy('rm')
+            ->with(['articulos' => function($query) {
+                $query->whereReqId($this->req_id);
+            }])
+            ->with('cog')->get();
 
         //Ordena artículos por COG
         $this->rms_articulos  = $rms_articulos->sortBy(function ($rms_articulos) {

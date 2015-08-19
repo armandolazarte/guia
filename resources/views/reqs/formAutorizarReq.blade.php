@@ -112,12 +112,12 @@
                                 @endforeach
                                 <tr id="subtotal-rm-{{ $rm->rm }}" class="bg-info">
                                     <td colspan="8" class="text-right">Sub-Total Autorizado (Cuenta: {{ $rm->cog->cog }} - RM: {{ $rm->rm }})</td>
-                                    <td class="text-right">{{ number_format($rm->articulos()->sum('articulo_rm.monto'), 2) }}</td>
+                                    <td class="text-right">{{ number_format($rm->articulos()->where('req_id', $req->id)->sum('articulo_rm.monto'), 2) }}</td>
                                 </tr>
                             @endforeach
                             <tr id="total-autorizado" class="bg-success">
                                 <td colspan="8" class="text-right">Total Autorizado</td>
-                                <td class="text-right">{{ number_format($rms_articulos->sum(function ($rm){ return $rm->articulos()->sum('articulo_rm.monto'); }), 2) }}</td>
+                                <td class="text-right">{{ number_format($rms_articulos->sum(function ($rm) use ($req){ return $rm->articulos()->where('req_id', $req->id)->sum('articulo_rm.monto'); }), 2) }}</td>
                             </tr>
 
                             <tr>
