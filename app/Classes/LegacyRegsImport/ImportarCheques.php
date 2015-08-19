@@ -148,6 +148,9 @@ class ImportarCheques
             case 'Dev Intereses':
                 $concepto_id = 7;//Intereses
                 break;
+            case 'PROMEP':
+                $concepto_id = 11;//PROMEP
+                break;
             case 'VARIOS':
                 $concepto_id = 19;//Varios
                 break;
