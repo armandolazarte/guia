@@ -3,6 +3,7 @@
 namespace Guia\Classes\LegacyRegsImport;
 
 
+use Guia\Models\CuentaBancaria;
 use Guia\Models\Ingreso;
 use Guia\Models\Rm;
 

@@ -73,9 +73,8 @@ class CrearTablasBancos extends Migration {
 			$table->date('fecha');
             $table->integer('cuenta_id')->unsigned();
             $table->foreign('cuenta_id')->references('id')->on('cuentas');
-			$table->string('cmt');
+			$table->string('concepto');
 			$table->decimal('monto', 15, 3);
-			$table->date('fecha_identifica');
 			$table->timestamps();
 			$table->softDeletes();
 		});
