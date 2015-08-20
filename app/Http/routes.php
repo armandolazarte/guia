@@ -191,6 +191,7 @@ Route::group(array('prefix' => 'oc', 'middleware' => ['auth']), function()
 Route::group(array('prefix' => 'presupuesto', 'middleware' => ['auth']), function()
 {
     Route::get('/saldo-proyecto/{id}/{modo_tabla?}', 'PresupuestoController@saldoRms');
+    Route::get('/egresos-proyecto/{proyecto_id?}', 'PresupuestoController@reporteEgresosProyecto');
 });
 
 //** Recursos Materiales */
@@ -293,6 +294,20 @@ Route::group(array('prefix' => 'api', 'middleware' => ['auth']), function()
             $proyectos[] = ['id' => $k, 'proyecto_descripcion' => $v];
         }
         return response()->json($proyectos);
+    });
+
+    Route::get('/egresos-proyecto/', function()
+    {
+        $proyecto_id = \Input::get('proyecto_id');
+        $egresos = \Guia\Models\Proyecto::findOrFail($proyecto_id)
+            ->egresos()
+            ->with('benef')
+            ->with('cuentaBancaria')
+            ->with('cuenta')
+            ->with('user')
+            ->get();
+
+        return response()->json($egresos);
     });
 });
 
