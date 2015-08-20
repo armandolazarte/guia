@@ -8,6 +8,7 @@ class Egreso extends Model {
 
     use SoftDeletes;
     protected $fillable = ['cuenta_bancaria_id','poliza','cheque','fecha','benef_id','cuenta_id','concepto','monto','estatus','user_id','fecha_cobro'];
+    protected $appends = ['fecha_info'];
 
     //Egreso __belongs_to__ CuentaBancaria
     public function cuentaBancaria()
@@ -67,6 +68,12 @@ class Egreso extends Model {
     public function ocs()
     {
         return $this->belongsToMany('Guia\Models\Oc');
+    }
+
+    //Egreso __belongs_to_many__ Proyecto
+    public function proyectos()
+    {
+        return $this->belongsToMany('Guia\Models\Proyecto')->withPivot('monto');
     }
 
     //Egreso __morph_many__ RelacionInternaDoc

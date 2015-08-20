@@ -65,6 +65,12 @@ class Proyecto extends Model {
             ->withPivot('monto','no_invoice');
     }
 
+    //Proyecto __belongs_to_many__ Egreso
+    public function egresos()
+    {
+        return $this->belongsToMany('Guia\Models\Egreso')->withPivot('monto');
+    }
+
     //Proyecto __morph_many__ Acceso
     public function accesos()
     {
@@ -139,6 +145,7 @@ class Proyecto extends Model {
         } else {
             $query->whereId(0);
         }
+        $query->orderBy('proyecto');
         return $query;
     }
 
