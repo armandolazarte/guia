@@ -24,7 +24,9 @@ class EgresosController extends Controller
     {
         $presupuesto = \Session::get('sel_presupuesto');
 
-        $egresos = Egreso::where('fecha', '>=', $presupuesto.'-01-01')->orderBy('cheque', 'desc')->get();
+        $egresos = Egreso::where('fecha', '>=', $presupuesto.'-01-01')
+            ->orderBy('cheque', 'desc')
+            ->paginate(50);
         $egresos->load('benef');
         $egresos->load('rms');
         $egresos->load('cuentaBancaria');

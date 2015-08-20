@@ -45,6 +45,8 @@
 
             </table>
 
+            {!! $egresos->render() !!}
+
         </div>
     </div>
 @stop
