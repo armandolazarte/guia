@@ -156,9 +156,11 @@ class ImportadorCatalogos {
         if ( count($cuentas_importadas) > 0 ) {
             $cuentas_externas = \DB::connection($this->db_origen)->table('tbl_cta_b')
                 ->whereNotIn ('cta_b', $cuentas_importadas)
+                ->where('set_default', '=', 'x')
                 ->get();
         } else {
             $cuentas_externas = \DB::connection($this->db_origen)->table('tbl_cta_b')
+                ->where('set_default', '=', 'x')
                 ->get();
         }
         return $cuentas_externas;
