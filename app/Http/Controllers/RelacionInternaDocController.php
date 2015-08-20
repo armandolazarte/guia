@@ -20,6 +20,8 @@ class RelacionInternaDocController extends Controller
      */
     public function create($rel_interna_id)
     {
+        $presupuesto = \Session::get('sel_presupuesto');
+
         $rel_interna = RelInterna::findOrFail($rel_interna_id);
 
         if ($rel_interna->tipo_documentos == 'Egresos') {
@@ -28,8 +30,11 @@ class RelacionInternaDocController extends Controller
              * @todo Filtrar egresos por grupo de usuarios
              */
 
-            $documentos = Egreso::whereUserId(\Auth::user()->id)->get();
-            //$documentos = Egreso::all();//Only for testing
+            //$documentos = Egreso::whereUserId(\Auth::user()->id)->get();
+            $documentos = Egreso::where('fecha', '>=', $presupuesto.'-01-01')
+                ->whereCuentaBancariaId(1)
+                ->orderBy('cheque', 'desc')
+                ->paginate(50);
 
             $documentos->load('benef');
             $documentos->load('cuentaBancaria');
