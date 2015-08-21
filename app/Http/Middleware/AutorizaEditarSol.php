@@ -20,7 +20,7 @@ class AutorizaEditarSol {
         $arr_roles = $user->roles()->lists('role_name')->all();
         //Valida que el usuario sea el dueño de la req y que la req no esté enviada
 
-        if(array_search('Presupuesto', $arr_roles) !== false || array_search('Comprobacion', $arr_roles) !== false) {
+        if(array_search('Presupuesto', $arr_roles) !== false || array_search('Comprobacion', $arr_roles) !== false || array_search('Contabilidad', $arr_roles) !== false) {
             return $next($request);
         }
 

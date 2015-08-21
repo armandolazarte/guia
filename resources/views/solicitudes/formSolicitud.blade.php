@@ -11,7 +11,6 @@
             @if($sol->monto != 0)
                 <div class="alert alert-info alert-dismissible" role="alert">
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    Para cambiar el tipo de solicitud de o hacia vale deben eliminarse los recursos.<br>
                     Para cambiar el proyecto deben eliminarse los recursos.
                 </div>
             @endif

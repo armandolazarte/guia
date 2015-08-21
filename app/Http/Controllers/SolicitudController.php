@@ -103,7 +103,7 @@ class SolicitudController extends Controller {
         //Determina Acciones Unidad de Presupuesto
         $user = \Auth::user();
         $arr_roles = $user->roles()->lists('role_name')->all();
-        if(array_search('Ejecutora', $arr_roles) !== false || array_search('Presupuesto', $arr_roles) !== false){
+        if(array_search('Ejecutora', $arr_roles) !== false || array_search('Presupuesto', $arr_roles) !== false || array_search('Comprobacion', $arr_roles) !== false || array_search('Contabilidad', $arr_roles) !== false){
             $acciones_presu = true;
         } else {
             $acciones_presu = false;
@@ -129,18 +129,9 @@ class SolicitudController extends Controller {
 	{
         $sol = Solicitud::findOrFail($id);
 
-        if($sol->monto == 0){
-            $arr_tipos_solicitud['Reposicion'] = 'Reposicion (Reembolso)';
-            $arr_tipos_solicitud['Recibo'] = 'Recibo (Pago a Proveedor)';
-            $arr_tipos_solicitud['Vale'] = 'Vale (Gasto por Comprobar)';
-        } else {
-            if($sol->tipo_solicitud == 'Vale'){
-                $arr_tipos_solicitud['Vale'] = 'Vale (Gasto por Comprobar)';
-            } else {
-                $arr_tipos_solicitud['Reposicion'] = 'Reposicion (Reembolso)';
-                $arr_tipos_solicitud['Recibo'] = 'Recibo (Pago a Proveedor)';
-            }
-        }
+        $arr_tipos_solicitud['Reposicion'] = 'Reposicion (Reembolso)';
+        $arr_tipos_solicitud['Recibo'] = 'Recibo (Pago a Proveedor)';
+        $arr_tipos_solicitud['Vale'] = 'Vale (Gasto por Comprobar)';
 
         $urgs = Urg::all(array('id','urg','d_urg'));
         foreach($urgs as $urg){
