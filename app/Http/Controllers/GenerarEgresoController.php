@@ -127,6 +127,13 @@ class GenerarEgresoController extends Controller
         $doc->estatus = 'Pagada';
         $doc->save();
 
+        //Inserta suma por proyecto en tabla egreso_proyecto
+        $egreso_rms = $egreso->rms()->get();
+        $egreso_rms = $egreso_rms->groupBy('proyecto_id');
+        $egreso_rms->each(function ($item, $key) use ($egreso) {
+            $egreso->proyectos()->attach($key, ['monto' => $egreso->rms()->where('proyecto_id', '=', $key)->sum('egreso_rm.monto')]);
+        });
+
         return redirect(action('GenerarEgresoController@create'))->with(['message' => 'Cheque '.$cheque.' Generado']);
 
 //        if($request->ajax()) {
