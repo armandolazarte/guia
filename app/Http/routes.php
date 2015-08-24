@@ -278,6 +278,11 @@ Route::group(array('prefix' => 'relaciones-internas', 'middleware' => ['auth']),
     Route::delete('/{rel_interna_id}/borrar-doc/{id}', 'RelacionInternaDocController@destroy');
 });
 
+/** Bancos */
+Route::group(array('prefix' => 'bancos', 'middleware' => ['auth']), function() {
+    Route::get('/egresos-benef', 'BancoController@reporteEgresosBenef');
+});
+
 Route::group(array('prefix' => 'api', 'middleware' => ['auth']), function()
 {
     Route::get('/rm-dropdown/', function()
@@ -308,6 +313,19 @@ Route::group(array('prefix' => 'api', 'middleware' => ['auth']), function()
             ->get();
 
         return response()->json($egresos);
+    });
+
+    Route::get('/benef-search/', function()
+    {
+        $benef_search = \Input::get('term');
+        $benefs = \Guia\Models\Benef::where('benef', 'LIKE', '%'.$benef_search.'%')
+            ->orderBy('benef')
+            ->get(['benef']);
+        foreach ($benefs as $benef) {
+            $arr_benefs[] = ['value' => $benef->benef];
+        }
+
+        return response()->json($arr_benefs);
     });
 });
 
