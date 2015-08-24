@@ -9,7 +9,7 @@
     @section('css')
     <link href="/css/app.css" rel="stylesheet">
 
-        <script src="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet"></script>
+        <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
 
     <!-- Fonts -->
     <link href='//fonts.googleapis.com/css?family=Roboto:400,300' rel='stylesheet' type='text/css'>
