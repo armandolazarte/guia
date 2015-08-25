@@ -53,4 +53,44 @@
             });
         });
     </script>
+
+    <script>
+        $('#consultar-benef').click(function(e) {
+            e.preventDefault();
+
+            var benef = $('#buscar-benef').val();
+            var cheque_poliza;
+
+            $.get('/api/benef-id?benef=' + benef, function(benef_id_data) {
+                /**
+                 * @todo Validar que encuentre el benef_id
+                 */
+                var benef_id = benef_id_data.benef_id;
+
+                $.get('/api/egresos-benef?benef_id=' + benef_id, function(data){
+                    $('#egresos').empty();
+                    $.each(data, function(index, egresoObj) {
+
+                        if (egresoObj.poliza == 0) {
+                            cheque_poliza = egresoObj.cheque;
+                        } else {
+                            cheque_poliza = egresoObj.poliza;
+                        }
+
+                        $('#egresos').append('<tr>' +
+                                '<td>'+egresoObj.cuenta_bancaria.cuenta_bancaria+'</td>' +
+                                '<td>'+cheque_poliza+'</td>' +
+                                '<td>'+egresoObj.fecha_info+'</td>' +
+                                '<td>'+egresoObj.benef.benef+'</td>' +
+                                '<td>'+egresoObj.cuenta.cuenta+'</td>' +
+                                '<td>'+egresoObj.concepto+'</td>' +
+                                '<td class="text-right">'+egresoObj.monto+'</td>' +
+                                '<td>'+egresoObj.estatus+'</td>' +
+                                '<td>'+egresoObj.user.nombre+'</td>' +
+                                '</tr>');
+                    });
+                });
+            }, 'json');
+        });
+    </script>
 @stop
