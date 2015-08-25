@@ -315,6 +315,20 @@ Route::group(array('prefix' => 'api', 'middleware' => ['auth']), function()
         return response()->json($egresos);
     });
 
+    Route::get('/egresos-benef/', function()
+    {
+        $benef_id = \Input::get('benef_id');
+        $egresos = \Guia\Models\Benef::findOrFail($benef_id)
+            ->egresos()
+            ->with('benef')
+            ->with('cuentaBancaria')
+            ->with('cuenta')
+            ->with('user')
+            ->get();
+
+        return response()->json($egresos);
+    });
+
     Route::get('/benef-search/', function()
     {
         $benef_search = \Input::get('term');
@@ -326,6 +340,14 @@ Route::group(array('prefix' => 'api', 'middleware' => ['auth']), function()
         }
 
         return response()->json($arr_benefs);
+    });
+
+    Route::get('/benef-id/', function()
+    {
+        $benef = \Input::get('benef');
+        $benef_id = \Guia\Models\Benef::where('benef', 'LIKE', $benef)->pluck('id');
+        $arr_benef_id = ['benef_id' => $benef_id];
+        return response()->json($arr_benef_id);
     });
 });
 
