@@ -42,7 +42,7 @@ class SolicitudPdf extends FPDF
         $this->SetFont('Arial','B',11);
         $this->Image(asset('img/Header_UDG_2014_CUCEI.jpg'),10,10,0,25);
 
-        $this->SetY(40);
+        $this->SetY(35);
         $this->Cell(190,5,'Solicitud de Recursos',0,2,'C');
         $this->Ln();
     }
@@ -50,24 +50,8 @@ class SolicitudPdf extends FPDF
     public function crearPdf()
     {
         $this->AliasNbPages();
-        $this->SetAutoPageBreak(true, 50);
+        $this->SetAutoPageBreak(true, 45);
         $this->AddPage();
-
-        //-----------------------------------------------//
-        /*$fondo = '';
-        unset($rm);
-        unset($cta);
-        unset($monto_rm);
-        $contador_rm = 0;
-        $cta_contable = "";
-        while ($arr_solicitud_rm = mysql_fetch_array($qry_solicitud_rm))
-        {
-            $fondo = $arr_solicitud_rm['fondo'];
-            $rm[] = $arr_solicitud_rm['rm'];
-            $cta[] = $arr_solicitud_rm['cta'];
-            $monto_rm[] = $arr_solicitud_rm['monto'];
-            $contador_rm ++;
-        }*/
 
         $usuario_finanzas = \InfoDirectivos::getResponsable('FIN');
         $usuario_presu = \InfoDirectivos::getResponsable('PRESU');
@@ -120,7 +104,7 @@ class SolicitudPdf extends FPDF
             $this->Cell(28, 3.5, 'Observaciones:', 0, 0, 'L');
             $this->SetFont('Arial', '', 9);
             $this->MultiCell(155, 3.5, utf8_decode($this->solicitud->obs), 0, "L");
-            $this->Ln(8);
+            $this->Ln();
         }
 
         $this->SetX(25);
@@ -189,7 +173,7 @@ class SolicitudPdf extends FPDF
         if ($i > 6) {
             $this->SetY($y_tabla_rm_fin);
         }
-        $this->Ln(3);
+        $this->Ln();
 
         //Tabla Finanzas
         $this->SetFont('Arial','',9);
