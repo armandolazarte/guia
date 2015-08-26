@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CrearTablaEgresoProyecto extends Migration
+class CreateEgresoProyectoTable extends Migration
 {
     /**
      * Run the migrations.
