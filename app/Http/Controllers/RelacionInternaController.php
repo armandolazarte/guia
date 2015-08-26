@@ -3,6 +3,7 @@
 namespace Guia\Http\Controllers;
 
 use Carbon\Carbon;
+use Guia\Models\Grupo;
 use Guia\Models\RelInterna;
 use Guia\User;
 use Illuminate\Http\Request;
@@ -50,9 +51,32 @@ class RelacionInternaController extends Controller
     public function show($id)
     {
         $rel_interna = RelInterna::findOrFail($id);
-        $arr_usuarios = User::all()->sortBy('nombre')->lists('nombre', 'id')->all();
 
-        return view('relint.infoRelInterna', compact('rel_interna', 'arr_usuarios'));
+        $grupos = Grupo::where('tipo', 'LIKE', 'Finanzas%')
+            ->orWhere('tipo', 'LIKE', 'Suministros%')
+            ->with(['users' => function($query){
+                $query->addSelect(['users.id','nombre']);
+                $query->where('users.id', '!=', \Auth::user()->id);
+                $query->orderBy('nombre');
+            }])
+            ->get();
+
+        $grupos_colectivo = $grupos->filter(function ($grupo) {
+            return $grupo->tipo == 'Finanzas Colectivo';
+        });
+        $grupos_colectivo = $grupos_colectivo->pluck('grupo','id');
+        $arr_grupos = $grupos_colectivo->toArray();
+
+        $grupos_usuarios = $grupos->filter(function ($grupo) {
+            return $grupo->tipo == 'Finanzas Individual';
+        });
+        $grupos_usuarios = $grupos_usuarios->pluck('users', 'grupo');
+        $grupos_usuarios = $grupos_usuarios->map(function ($grupo){
+            return $grupo->pluck('nombre', 'id');
+        });
+        $arr_usuarios = $grupos_usuarios->toArray();
+
+        return view('relint.infoRelInterna', compact('rel_interna','arr_grupos','arr_usuarios'));
     }
 
     /**
@@ -80,7 +104,17 @@ class RelacionInternaController extends Controller
         if ($request->input('accion') == 'Enviar') {
             $rel_interna = RelInterna::findOrFail($id);
             $rel_interna->fecha_envio = Carbon::today()->toDateString();
-            $rel_interna->recibe = $request->input('recibe');
+
+            $usuario_destino = $request->input('usuario_destino');
+            $grupo_destino = $request->input('grupo_destino');
+            if (!empty($grupo_destino)) {
+                $rel_interna->destino_id = $grupo_destino;
+                $rel_interna->destino_type = 'Guia\Models\Grupo';
+            } elseif (!empty($usuario_destino)) {
+                $rel_interna->destino_id = $usuario_destino;
+                $rel_interna->destino_type = 'Guia\User';
+            }
+
             $rel_interna->estatus = 'Enviada';
             $rel_interna->save();
             $message = 'Relación '.$rel_interna->id.' enviada con éxito';
