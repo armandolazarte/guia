@@ -39,6 +39,12 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         return $this->belongsToMany('Guia\Models\Role');
     }
 
+    //User __belongs_to_many__ Grupo
+    public function grupos()
+    {
+        return $this->belongsToMany('Guia\Models\Grupo')->withPivot('supervisa','administra');
+    }
+
     //User __has_many__ Acceso
     public function accesos()
     {
