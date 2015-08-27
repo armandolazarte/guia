@@ -306,10 +306,8 @@ Route::group(array('prefix' => 'api', 'middleware' => ['auth']), function()
         $proyecto_id = \Input::get('proyecto_id');
         $egresos = \Guia\Models\Proyecto::findOrFail($proyecto_id)
             ->egresos()
-            ->with('benef')
-            ->with('cuentaBancaria')
-            ->with('cuenta')
-            ->with('user')
+            ->with('benef','cuentaBancaria','cuenta','user')
+            ->with('rms.cog')
             ->get();
 
         return response()->json($egresos);
