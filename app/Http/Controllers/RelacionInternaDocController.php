@@ -34,6 +34,7 @@ class RelacionInternaDocController extends Controller
         $grupos_usuarios = $grupos_usuarios->map(function ($grupo){
             return $grupo->users->pluck('user_id');
         });
+        $arr_usuarios_grupo = [];
         foreach ($grupos_usuarios as $grupo) {
             foreach ($grupo as $user_id) {
                 //Genera $arr_usuarios_grupo para filtrar documentos por user_id
