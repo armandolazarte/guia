@@ -20,10 +20,20 @@ class RelacionInternaController extends Controller
      */
     public function index()
     {
-        $rel_internas = RelInterna::where('envia', \Auth::user()->id)
-            ->orWhere('recibe', \Auth::user()->id)->get();
+        $rel_enviadas = RelInterna::where('envia', \Auth::user()->id)->get();
 
-        return view('relint.indexRelInterna', compact('rel_internas'));
+        //Recibidas y por recibir
+        $user = \Auth::user();
+        $rel_destino_user = [];
+        $rel_destino_grupo = [];
+        $rel_destino_user =  $user->relInternas()->orderBy('estatus')->get();
+        $rel_destino_grupo = $user->grupos()
+            ->where('tipo', 'like', '%Colectivo%')
+            ->with(['relInternas' => function($query){
+                $query->orderBy('estatus','fecha_envio');
+            }])->get();
+
+        return view('relint.indexRelInterna', compact('rel_enviadas','rel_destino_user','rel_destino_grupo'));
     }
 
     /**
