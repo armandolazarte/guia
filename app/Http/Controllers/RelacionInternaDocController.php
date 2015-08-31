@@ -42,6 +42,7 @@ class RelacionInternaDocController extends Controller
             }
         }
 
+        $documentos_en_transito = [];
         if ($rel_interna->tipo_documentos == 'Egresos') {
             $documentos_en_transito = RelInternaDoc::distinct()->select('docable_id')
                 ->whereDocableType('Guia\Models\Egreso')
@@ -56,7 +57,6 @@ class RelacionInternaDocController extends Controller
                 })
                 ->whereNotIn('id', $documentos_en_transito)
                 ->orderBy('cheque', 'desc')
-                ->limit(20)
                 ->get();
 
             $documentos->load('benef');
