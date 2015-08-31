@@ -110,6 +110,12 @@ class AccionesTableSeeder extends Seeder {
 
         //-- Reportes Presupuesto --//
         Accion::create(['ruta' => 'PresupuestoController@saldoRms', 'nombre' => '', 'icono' => '', 'orden' => '', 'activo' => '0']);
+        Accion::create(['ruta' => 'PresupuestoController@reporteEgresosProyecto', 'nombre' => '', 'icono' => '', 'orden' => '', 'activo' => '0']);
+
+        //-- Compensaciones --//
+        Accion::create(['ruta' => 'ompensaInternaController@index', 'nombre' => 'Listado', 'icono' => '', 'orden' => '', 'activo' => '0']);
+        Accion::create(['ruta' => 'ompensaInternaController@create', 'nombre' => 'Nueva Compensación', 'icono' => '', 'orden' => '', 'activo' => '0']);
+        Accion::create(['ruta' => 'ompensaInternaController@store', 'nombre' => '', 'icono' => '', 'orden' => '', 'activo' => '0']);
 
         //-- Pre-Requisición (Solicitud) --//
         Accion::create(['ruta' => 'PreReqController@index', 'nombre' => '', 'icono' => '', 'orden' => '', 'activo' => '0']);
@@ -133,5 +139,34 @@ class AccionesTableSeeder extends Seeder {
         Accion::create(['ruta' => 'SalidaController@store', 'nombre' => '', 'icono' => '', 'orden' => '', 'activo' => '0']);
         Accion::create(['ruta' => 'SalidaController@show', 'nombre' => '', 'icono' => '', 'orden' => '', 'activo' => '0']);
         Accion::create(['ruta' => 'SalidaController@formatoPdf', 'nombre' => '', 'icono' => '', 'orden' => '', 'activo' => '0']);
+
+        //-- Sol. Depósito Concentradora --//
+        Accion::create(['ruta' => 'SolDepositoController@create', 'nombre' => '', 'icono' => '', 'orden' => '', 'activo' => '0']);
+        Accion::create(['ruta' => 'SolDepositoController@store', 'nombre' => '', 'icono' => '', 'orden' => '', 'activo' => '0']);
+        Accion::create(['ruta' => 'SolDepositoDocsController@create', 'nombre' => '', 'icono' => '', 'orden' => '', 'activo' => '0']);
+        Accion::create(['ruta' => 'SolDepositoDocsController@store', 'nombre' => '', 'icono' => '', 'orden' => '', 'activo' => '0']);
+
+        //-- Egresos --//
+        Accion::create(['ruta' => 'EgresosController@index', 'nombre' => '', 'icono' => '', 'orden' => '', 'activo' => '0']);
+        Accion::create(['ruta' => 'EgresosController@create', 'nombre' => '', 'icono' => '', 'orden' => '', 'activo' => '0']);
+        Accion::create(['ruta' => 'EgresosController@store', 'nombre' => '', 'icono' => '', 'orden' => '', 'activo' => '0']);
+        Accion::create(['ruta' => 'EgresosController@show', 'nombre' => '', 'icono' => '', 'orden' => '', 'activo' => '0']);
+        Accion::create(['ruta' => 'EgresosController@edit', 'nombre' => '', 'icono' => '', 'orden' => '', 'activo' => '0']);
+        Accion::create(['ruta' => 'EgresosController@update', 'nombre' => '', 'icono' => '', 'orden' => '', 'activo' => '0']);
+        Accion::create(['ruta' => 'EgresosController@chequeRtf', 'nombre' => '', 'icono' => '', 'orden' => '', 'activo' => '0']);
+
+        Accion::create(['ruta' => 'GenerarEgresoController@create', 'nombre' => '', 'icono' => '', 'orden' => '', 'activo' => '0']);
+        Accion::create(['ruta' => 'GenerarEgresoController@store', 'nombre' => '', 'icono' => '', 'orden' => '', 'activo' => '0']);
+
+        //-- Relaciones Internas --//
+        Accion::create(['ruta' => 'RelacionInternaController@index', 'nombre' => '', 'icono' => '', 'orden' => '', 'activo' => '0']);
+        Accion::create(['ruta' => 'RelacionInternaController@store', 'nombre' => '', 'icono' => '', 'orden' => '', 'activo' => '0']);
+        Accion::create(['ruta' => 'RelacionInternaController@show', 'nombre' => '', 'icono' => '', 'orden' => '', 'activo' => '0']);
+        Accion::create(['ruta' => 'RelacionInternaController@edit', 'nombre' => '', 'icono' => '', 'orden' => '', 'activo' => '0']);
+        Accion::create(['ruta' => 'RelacionInternaController@update', 'nombre' => '', 'icono' => '', 'orden' => '', 'activo' => '0']);
+        Accion::create(['ruta' => 'RelacionInternaDocController@create', 'nombre' => '', 'icono' => '', 'orden' => '', 'activo' => '0']);
+        Accion::create(['ruta' => 'RelacionInternaDocController@store', 'nombre' => '', 'icono' => '', 'orden' => '', 'activo' => '0']);
+        Accion::create(['ruta' => 'RelacionInternaDocController@edit', 'nombre' => '', 'icono' => '', 'orden' => '', 'activo' => '0']);
+        Accion::create(['ruta' => 'RelacionInternaDocController@update', 'nombre' => '', 'icono' => '', 'orden' => '', 'activo' => '0']);
     }
 }
