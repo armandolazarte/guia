@@ -5,6 +5,7 @@ namespace Guia\Http\Controllers;
 use Carbon\Carbon;
 use Guia\Models\Grupo;
 use Guia\Models\RelInterna;
+use Guia\Models\RelInternaDoc;
 use Guia\User;
 use Illuminate\Http\Request;
 
@@ -86,7 +87,15 @@ class RelacionInternaController extends Controller
         });
         $arr_usuarios = $grupos_usuarios->toArray();
 
-        return view('relint.infoRelInterna', compact('rel_interna','arr_grupos','arr_usuarios'));
+        //Carga documentos de la relación interna para mostrarlos
+        $rel_interna->load('relInternaDocs');
+        $documentos = [];
+        foreach ($rel_interna->relInternaDocs as $doc) {
+            $documentos[] = RelInternaDoc::find($doc->id)->docable;
+        }
+        $accion = 'consulta';
+
+        return view('relint.infoRelInterna', compact('rel_interna','arr_grupos','arr_usuarios','accion','documentos'));
     }
 
     /**

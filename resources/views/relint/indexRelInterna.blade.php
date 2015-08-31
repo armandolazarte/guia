@@ -14,7 +14,6 @@
                     <th class="text-center">ID</th>
                     <th class="text-center">Envía</th>
                     <th class="text-center">Fecha Envío</th>
-                    <th class="text-center">Destinatario</th>
                     <th class="text-center">Fecha Recibe</th>
                     <th class="text-center">Estatus</th>
                     <th class="text-center">Tipo de Documentos</th>
@@ -23,7 +22,7 @@
                 </thead>
             @foreach($rel_destino_user as $rel)
                 <tr>
-                    <td class="text-center">{{ $rel->id }}</td>
+                    <td class="text-center"><a href="{{ action('RelacionInternaController@show', $rel->id) }}">{{ $rel->id }}</a></td>
                     <td>{{ $rel->nombre_envia }}</td>
                     <td class="text-center">{{ $rel->fecha_envio_info }}</td>
                     <td class="text-center">{{ $rel->fecha_revision_info }}</td>
@@ -42,7 +41,7 @@
                     </thead>
                     @foreach($grupo->relInternas as $rel)
                         <tr>
-                            <td class="text-center">{{ $rel->id }}</td>
+                            <td class="text-center"><a href="{{ action('RelacionInternaController@show', $rel->id) }}">{{ $rel->id }}</a></td>
                             <td>{{ $rel->nombre_envia }}</td>
                             <td class="text-center">{{ $rel->fecha_envio_info }}</td>
                             <td class="text-center">{{ $rel->fecha_revision_info }}</td>
@@ -74,15 +73,15 @@
 
                 @foreach($rel_enviadas as $rel)
                     <tr>
-                        <td class="text-center">{{ $rel->id }}</td>
+                        <td class="text-center"><a href="{{ action('RelacionInternaController@show', $rel->id) }}">{{ $rel->id }}</a></td>
                         <td>{{ $rel->nombre_envia }}</td>
                         <td class="text-center">{{ $rel->fecha_envio_info }}</td>
                         <td class="text-center">{{ $rel->fecha_revision_info }}</td>
                         <td class="text-center">{{ $rel->estatus }}</td>
                         <td>{{ $rel->tipo_documentos }}</td>
                         <td>
-                            @if($rel->estatus != 'Recibida')
-                                <a href="{{ action('RelacionInternaDocController@edit', $rel->id) }}">Recibir</a>
+                            @if($rel->estatus != 'Recibida' && $rel->estatus != 'Enviada')
+                                <a href="{{ action('RelacionInternaDocController@create', $rel->id) }}">Agregar Documentos</a>
                             @endif
                         </td>
                     </tr>
