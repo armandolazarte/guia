@@ -103,7 +103,18 @@ class OcsController extends Controller {
 	 */
 	public function destroy($id)
 	{
-		//
+		$oc = Oc::findOrFail($id);
+        /**
+         * @todo Enviar correo a Jefe de la Unidad de Presupuesto
+         * @todo Eliminar archivos cargados
+         */
+        Articulo::where('oc_id', '=', $id)
+            ->update(['oc_id' => 0]);
+        $req_id = $oc->req_id;
+		$oc->delete();
+
+        return redirect()->action('OcsController@index', $req_id)
+            ->with(['message' => 'Orden de Compra cancelada con éxito', 'alert-class' => 'alert-success']);
 	}
 
     public function ordenCompraPdf($id)

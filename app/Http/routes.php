@@ -185,6 +185,7 @@ Route::group(array('prefix' => 'oc', 'middleware' => ['auth']), function()
     Route::get('/{id}/pdf', 'OcsController@ordenCompraPdf');
     Route::get('/condiciones/{id}', 'OcsCondicionesController@edit');
     Route::patch('/condiciones/{id}', 'OcsCondicionesController@update');
+    Route::delete('/{id}', 'OcsController@destroy');
 });
 
 //** Presupuesto **//
