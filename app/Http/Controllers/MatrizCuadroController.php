@@ -8,6 +8,7 @@ use Guia\Http\Requests\MatrizCuadroRequest;
 use Guia\Models\Articulo;
 use Guia\Models\Cotizacion;
 use Guia\Models\Cuadro;
+use Guia\Models\Oc;
 use Guia\Models\Registro;
 use Guia\Models\Req;
 use Illuminate\Http\Request;
@@ -140,11 +141,10 @@ class MatrizCuadroController extends Controller {
         $articulos = Articulo::whereReqId($req_id)->get();
         $cuadro_id = Cuadro::whereReqId($req_id)->pluck('id');
 
-        $req = Req::whereId($req_id)->first(['tipo_cambio','moneda']);
-        $tipo_cambio = $req->tipo_cambio;
-        $moneda = $req->moneda;
+        $req = Req::whereId($req_id)->first(['tipo_cambio','moneda','estatus']);
 
-        return view('cuadro.matrizCuadro', compact('req_id', 'cotizaciones', 'articulos', 'cuadro_id', 'tipo_cambio','moneda'));
+        $ocs = Oc::whereReqId($req_id)->with('benef')->get();
+        return view('cuadro.matrizCuadro', compact('req_id', 'cotizaciones', 'articulos', 'cuadro_id', 'req','ocs'));
 	}
 
 	/**

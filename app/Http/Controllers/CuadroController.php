@@ -9,6 +9,7 @@ use Guia\Http\Controllers\Controller;
 use Guia\Models\Articulo;
 use Guia\Models\Cotizacion;
 use Guia\Models\Cuadro;
+use Guia\Models\Oc;
 use Illuminate\Http\Request;
 
 class CuadroController extends Controller {
@@ -114,9 +115,23 @@ class CuadroController extends Controller {
             $cotizacion->articulos()->detach();
             $cotizacion->delete();
         }
+
+        /**
+         * @todo Enviar correo a Jefe de la Unidad de Presupuesto
+         * @todo Eliminar archivos cargados
+         */
+        $ocs = Oc::whereReqId($req_id)->lists('id');
+        if(count($ocs) > 0) {
+            Articulo::whereIn('oc_id', $ocs)->update(['oc_id' => 0]);
+            foreach($ocs as $oc_id) {
+                $oc = Oc::find($oc_id)->delete();
+            }
+        }
+
         $cuadro->delete();
 
-        return redirect()->action('RequisicionController@show', array($req_id));
+        return redirect()->action('RequisicionController@show', array($req_id))
+            ->with(['message' => 'Cuadro Comparativo cancelado con éxito', 'alert-class' => 'alert-success']);
 	}
 
     public function cuadroPdf($id)

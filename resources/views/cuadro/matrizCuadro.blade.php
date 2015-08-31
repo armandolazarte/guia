@@ -3,6 +3,8 @@
 @section('content')
     <div class="row">
         <div class="col-md-12">
+            @include('cuadro.modalCancelarCuadro')
+
             <a href="{{ action('RequisicionController@show', $req_id) }}" class="btn btn-primary btn-sm">Regresar a Requisición</a>
 
             <a class="btn btn-primary btn-sm" href="{{ action('CuadroController@cuadroPdf', $cuadro_id) }}" role="button" target="_blank">Imprimir</a>
@@ -15,25 +17,27 @@
             {!! Form::close() !!}
 
             <!-- Formulario para reanudar Cuadro Comparativo -->
-            {!! Form::open(array('action' => array('CuadroController@update', $cuadro_id), 'method' => 'patch')) !!}
-            {!! Form::hidden('id', $cuadro_id) !!}
-            {!! Form::hidden('accion', 'Reanudar') !!}
-            {!! Form::submit('Reanudar Cuadro', array('class' => 'btn btn-primary btn-sm')) !!}
-            {!! Form::close() !!}
+            @if($req->estatus == 'Pagada' || $req->estatus == 'Autorizada')
+                <button class="btn btn-primary btn-sm" disabled="disabled">Reanudar Cuadro</button>
+            @else
+                {!! Form::open(array('action' => array('CuadroController@update', $cuadro_id), 'method' => 'patch')) !!}
+                {!! Form::hidden('id', $cuadro_id) !!}
+                {!! Form::hidden('accion', 'Reanudar') !!}
+                {!! Form::submit('Reanudar Cuadro', array('class' => 'btn btn-primary btn-sm')) !!}
+                {!! Form::close() !!}
+            @endif
 
             <!-- Formulario para cancelar Cuadro Comparativo -->
-            {!! Form::open(array('action' => array('CuadroController@update', $cuadro_id), 'method' => 'delete')) !!}
-            {!! Form::submit('Cancelar Cuadro', array('class' => 'btn btn-danger btn-sm')) !!}
-            {!! Form::close() !!}
+            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modalCancelarCuadro"{{ $req->estatus == 'Pagada' || $req->estatus == 'Autorizada' ? ' disabled="disabled"' : '' }}>Cancelar Cuadro Comparativo</button>
 
             <table class="table table-bordered">
                 <tr>
-                    @if(empty($tipo_cambio))
+                    @if(empty($req->tipo_cambio))
                         <td>Cotización en Pesos Mexicanos</td>
                     @else
                         <td>
-                            Tipo de Cambio: {{ number_format($tipo_cambio, 2) }}
-                            Moneda: {{ $moneda }}
+                            Tipo de Cambio: {{ number_format($req->tipo_cambio, 2) }}
+                            Moneda: {{ $req->moneda }}
                         </td>
                     @endif
                 </tr>
