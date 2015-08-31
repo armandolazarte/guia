@@ -4,6 +4,7 @@ namespace Guia\Models;
 
 
 use Carbon\Carbon;
+use Guia\User;
 use Illuminate\Database\Eloquent\Model;
 
 class RelInterna extends Model {
@@ -30,5 +31,15 @@ class RelInterna extends Model {
     public function getFechaRevisionInfoAttribute()
     {
         return Carbon::parse($this->fecha_revision)->format('d/m/Y');
+    }
+
+    public function getNombreEnviaAttribute()
+    {
+        return User::find($this->envia)->nombre;
+    }
+
+    public function getNombreRecibeAttribute()
+    {
+        return User::find($this->recibe)->nombre;
     }
 }
