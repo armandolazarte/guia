@@ -87,6 +87,12 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         return $this->hasMany('Guia\Models\Egreso');
     }
 
+    //User __morph_many__ RelacionInterna
+    public function relInternas()
+    {
+        return $this->morphMany('Guia\Models\RelInterna', 'destino');
+    }
+
     /**
      * El usuario asigna su cuenta a otros usuarios
      *

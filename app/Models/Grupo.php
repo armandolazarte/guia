@@ -14,4 +14,10 @@ class Grupo extends Model
     {
         return $this->belongsToMany('Guia\User')->withPivot('supervisa','administra');
     }
+
+    //Grupo __morph_many__ RelacionInterna
+    public function relInternas()
+    {
+        return $this->morphMany('Guia\Models\RelInterna', 'destino');
+    }
 }
