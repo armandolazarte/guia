@@ -36,11 +36,6 @@
                     No hay Ordenes de Compra Generadas
                 </div>
             @endif
-                {!! Form::open(array('action' => array('OcsController@store',$req_id))) !!}
-                <div class="col-sm-10">
-                    {!! Form::submit('Generar OC', array('class' => 'btn btn-primary btn-sm')) !!}
-                </div>
-                {!! Form::close() !!}
         </div>
     </div>
 @stop
