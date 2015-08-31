@@ -24,17 +24,39 @@ class RelacionInternaDocController extends Controller
 
         $rel_interna = RelInterna::findOrFail($rel_interna_id);
 
-        if ($rel_interna->tipo_documentos == 'Egresos') {
-            /**
-             * @todo Filtrar egresos que no estén en relaciones en tránsito
-             * @todo Filtrar egresos por grupo de usuarios
-             */
+        //Consulta los usuarios de los grupos "Colectivos" a los que se pertenece
+        $grupos_usuarios = \Auth::user()->grupos()
+            ->where('tipo', 'LIKE', '%Colectivo%')
+            ->with(['users' => function($query){
+                $query->wherePivot('supervisa', '!=', 1);
+                $query->addSelect(['user_id']);
+            }])->get();
+        $grupos_usuarios = $grupos_usuarios->map(function ($grupo){
+            return $grupo->users->pluck('user_id');
+        });
+        foreach ($grupos_usuarios as $grupo) {
+            foreach ($grupo as $user_id) {
+                //Genera $arr_usuarios_grupo para filtrar documentos por user_id
+                $arr_usuarios_grupo[] = $user_id;
+            }
+        }
 
-            //$documentos = Egreso::whereUserId(\Auth::user()->id)->get();
+        if ($rel_interna->tipo_documentos == 'Egresos') {
+            $documentos_en_transito = RelInternaDoc::distinct()->select('docable_id')
+                ->whereDocableType('Guia\Models\Egreso')
+                ->where('validacion','=','')
+                ->groupBy('docable_id')
+                ->lists('docable_id')->all();
+
             $documentos = Egreso::where('fecha', '>=', $presupuesto.'-01-01')
-                ->whereCuentaBancariaId(1)
+                ->whereNested(function($query) use ($arr_usuarios_grupo) {
+                    $query->whereIn('user_id', $arr_usuarios_grupo);
+                    $query->orWhere('user_id', '=', \Auth::user()->id);
+                })
+                ->whereNotIn('id', $documentos_en_transito)
                 ->orderBy('cheque', 'desc')
-                ->paginate(50);
+                ->limit(20)
+                ->get();
 
             $documentos->load('benef');
             $documentos->load('cuentaBancaria');

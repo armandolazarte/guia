@@ -48,6 +48,3 @@
     @endforeach
 
 </table>
-@if($accion == 'agregar-docs')
-{!! $documentos->render() !!}
-@endif
