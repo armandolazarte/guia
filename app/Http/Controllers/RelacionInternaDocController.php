@@ -81,6 +81,7 @@ class RelacionInternaDocController extends Controller
     {
         $rel_interna = RelInterna::findOrFail($id);
         $rel_interna->load('relInternaDocs');
+        $documentos = [];
         foreach ($rel_interna->relInternaDocs as $doc) {
             $documentos[] = RelInternaDoc::find($doc->id)->docable;
         }

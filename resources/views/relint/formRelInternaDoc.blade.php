@@ -12,8 +12,16 @@
                 {!! Form::submit('Recibir', ['class' => 'btn btn-sm btn-success']) !!}
             @endif
 
-            @if($rel_interna->tipo_documentos == 'Egresos')
-                @include('relint.partialFormEgresos')
+            @if(count($documentos) > 0)
+                @if($rel_interna->tipo_documentos == 'Egresos')
+                    @include('relint.partialFormEgresos')
+                @endif
+            @else
+                @if($accion == 'recibir-docs')
+                    <div class="alert alert-warning" role="alert">No hay documentos por recibir</div>
+                @elseif($accion == 'agregar-docs')
+                    <div class="alert alert-warning" role="alert">No hay documentos por agregar</div>
+                @endif
             @endif
 
             @if($accion == 'recibir-docs')
