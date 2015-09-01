@@ -1,3 +1,4 @@
+@include('reqs.modalRegresarReq')
 <div class="row">
     <div class="col-sm-11">
         <div class="panel panel-default">
@@ -66,14 +67,11 @@
 
                         {{-- REGRESAR REQUISICION --}}
                         <div role="tabpanel" class="tab-pane" id="regresar">
-                            @if($req->estatus == 'Recibida')
-                                {!! Form::open(array('action' => ['RequisicionController@update', $req->id], 'method' => 'patch', 'class' => 'form')) !!}
-                                {!! Form::hidden('accion', 'Regresar') !!}
-                                {!! Form::submit('Regresar Requisición', array('class' => 'btn btn-warning')) !!}
-                                {!! Form::close() !!}
+                            @if($req->estatus != 'Autorizada' && $req->estatus != 'Pagada')
+                                <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#modalRegresarReq">Regresar Requisición</button>
                             @else
                                 <div class="alert alert-warning">
-                                    No se puede regresar la requisición
+                                    La requisición está <strong>{{ $req->estatus }}</strong> por lo que no se puede regresar
                                 </div>
                             @endif
                         </div>

@@ -3,6 +3,9 @@
 use Carbon\Carbon;
 use Guia\Classes\ArticulosHelper;
 use Guia\Classes\FiltroEstatusResponsable;
+use Guia\Models\Cotizacion;
+use Guia\Models\Cuadro;
+use Guia\Models\Oc;
 use Guia\Models\Req;
 use Guia\Models\Urg;
 use Guia\Models\Articulo;
@@ -193,6 +196,32 @@ class RequisicionController extends Controller {
 
             $req->save();
 
+            if($accion == 'Regresar') {
+                $cuadro = Cuadro::whereReqId($id)->first();
+                if(!empty($cuadro)) {
+                    $cuadro->delete();
+                }
+                $cotizaciones = Cotizacion::whereReqId($id)->with('articulos')->get();
+                if(count($cotizaciones) > 0) {
+                    foreach($cotizaciones as $cotizacion) {
+                        $cotizacion->articulos()->detach();
+                        $cotizacion->delete();
+                    }
+                }
+
+                /**
+                 * @todo Enviar correo a Jefe de la Unidad de Presupuesto
+                 * @todo Eliminar archivos cargados
+                 */
+                $ocs = Oc::whereReqId($id)->lists('id');
+                if(count($ocs) > 0) {
+                    Articulo::whereIn('oc_id', $ocs)->update(['oc_id' => 0]);
+                    foreach($ocs as $oc_id) {
+                        Oc::find($oc_id)->delete();
+                    }
+                }
+            }
+
             //Creación de registro
             $fecha_hora = Carbon::now();
             $registro = new Registro(['user_id' => Auth::user()->id, 'estatus' => $estatus, 'fecha_hora' => $fecha_hora]);
@@ -211,7 +240,8 @@ class RequisicionController extends Controller {
         }
 
         if($accion == 'Regresar') {
-            return redirect()->action('RequisicionController@index');
+            return redirect()->action('RequisicionController@index', 'suministros')
+                ->with(['message' => 'La requisición ha sido regresada con éxito', 'alert-class' => 'alert-success']);
         }
         return redirect()->action('RequisicionController@show', array($req->id));
 	}
