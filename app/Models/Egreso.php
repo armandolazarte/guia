@@ -76,6 +76,18 @@ class Egreso extends Model {
         return $this->belongsToMany('Guia\Models\Proyecto')->withPivot('monto');
     }
 
+    //Egreso __morph_many__ Archivo
+    public function archivos()
+    {
+        return $this->morphMany('Guia\Models\Archivos\Archivo', 'documento');
+    }
+
+    //Egreso __morph_many__ Carpeta
+    public function carpeta()
+    {
+        return $this->morphMany('Guia\Models\Archivos\Carpeta', 'documentos');
+    }
+
     //Egreso __morph_many__ RelacionInternaDoc
     public function relacionInternaDocs()
     {
