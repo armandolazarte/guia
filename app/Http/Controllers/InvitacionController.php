@@ -10,6 +10,8 @@ use Guia\Models\Articulo;
 use Guia\Models\Cotizacion;
 use Guia\Models\Benef;
 use Guia\Models\Cuadro;
+use Guia\Models\Registro;
+use Guia\Models\Req;
 use Illuminate\Http\Request;
 
 class InvitacionController extends Controller {
@@ -57,6 +59,21 @@ class InvitacionController extends Controller {
                 'cuadro_id' => $verifica_cuadro->id
             ));
         }
+
+        //Verifica si es la primer invitación
+        $cotizaciones_existentes = Cotizacion::whereReqId($request->input('req_id'))->count();
+
+        //Si es la primera, se crea registro en requisición y se actualiza su estatus
+        if($cotizaciones_existentes == 0) {
+            $req = Req::find($request->input('req_id'));
+            $estatus_req = 'Cotizando';
+            $req->save();
+
+            $fecha_hora = Carbon::now();
+            $registro = new Registro(['user_id' => \Auth::user()->id, 'estatus' => $estatus_req, 'fecha_hora' => $fecha_hora]);
+            $req->registros()->save($registro);
+        }
+
         $request->merge(array(
             'fecha_invitacion' => Carbon::now()->toDateString()
         ));

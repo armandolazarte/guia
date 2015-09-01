@@ -109,22 +109,15 @@ class MatrizCuadroController extends Controller {
             $cotizacion->save();
         }
 
-        //Actualización de tipo de cambio y estatus de la requisición y genera un nuevo registro
-        $req = Req::find($req_id);
-        $estatus_req = 'Cotizando';
+        //Actualización de tipo de cambio
         $tipo_cambio = $request->input('tipo_cambio');
         $moneda = $request->input('moneda');
         if (!empty($tipo_cambio) && !empty($moneda)) {
+            $req = Req::find($req_id);
             $req->tipo_cambio = $tipo_cambio;
             $req->moneda = $moneda;
+            $req->save();
         }
-        $req->estatus = $estatus_req;
-        $req->save();
-
-        //Creación de registro
-        $fecha_hora = Carbon::now();
-        $registro = new Registro(['user_id' => \Auth::user()->id, 'estatus' => $estatus_req, 'fecha_hora' => $fecha_hora]);
-        $req->registros()->save($registro);
 
         return redirect()->action('MatrizCuadroController@show', array($req_id));
 	}
