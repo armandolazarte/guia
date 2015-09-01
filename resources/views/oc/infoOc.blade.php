@@ -7,7 +7,7 @@
                 @include('oc.modalCancelarOc')
                 <a href="{{ action('RequisicionController@show', $oc->req_id) }}" class="btn btn-primary btn-sm">Regresar a Requisición</a>
                 <a href="{{ action('OcsController@index', $oc->req_id) }}" class="btn btn-primary btn-sm">Regresar a Ordenes de Compra</a>
-                <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modalCancelarOc">Cancelar Orden de Compra</button>
+                <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modalCancelarOc"{{ $oc->estatus != '' ? ' disabled="disabled"' : '' }}>Cancelar Orden de Compra</button>
             @endif
 
             <table class="table table-condensed">
