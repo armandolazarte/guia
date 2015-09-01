@@ -21,20 +21,20 @@
                                 {{--Invitaciones--}}
                                 <div class="col-sm-2">
                                     @if(count($req->cotizaciones) == 0)
-                                        <a href="{{ action('InvitacionController@create', $req->id) }}" class="btn btn-success">Agregar Invitación</a>
+                                        <a href="{{ action('InvitacionController@create', $req->id) }}" class="btn btn-success btn-sm">Agregar Invitación</a>
                                     @else
-                                        <a href="{{ action('InvitacionController@index', $req->id) }}" class="btn btn-primary"><span class="badge">{{ count($req->cotizaciones) }}</span> Invitaciones</a>
+                                        <a href="{{ action('InvitacionController@index', $req->id) }}" class="btn btn-primary btn-sm"><span class="badge">{{ count($req->cotizaciones) }}</span> Invitaciones</a>
                                     @endif
                                 </div>
 
                                 {{--Cuadro Comparativo--}}
                                 <div class="col-sm-2">
-                                    <a href="{{ action('MatrizCuadroController@create', $req->id) }}" class="btn btn-primary{{ count($req->cotizaciones) > 0 ? '' : ' disabled' }}"><span class="badge">{{ count($req->cuadros) }}</span> Cuadro Comparativo</a>
+                                    <a href="{{ action('MatrizCuadroController@create', $req->id) }}" class="btn btn-primary btn-sm{{ count($req->cotizaciones) > 0 ? '' : ' disabled' }}"><span class="badge">{{ count($req->cuadros) }}</span> Cuadro Comparativo</a>
                                 </div>
 
                                 {{--Si ya tiene OC--}}
                                 <div class="col-sm-2">
-                                    <a href="{{ action('OcsController@index', $req->id) }}" class="btn btn-primary{{ count($req->cuadros) > 0 ? '' : ' disabled' }}"><span class="badge">{{ count($req->ocs) }}</span> Ordenes de Compra</a>
+                                    <a href="{{ action('OcsController@index', $req->id) }}" class="btn btn-primary btn-sm{{ count($req->cuadros) > 0 ? '' : ' disabled' }}"><span class="badge">{{ count($req->ocs) }}</span> Ordenes de Compra</a>
                                 </div>
 
                                 {{--Generar Orden de Compra--}}

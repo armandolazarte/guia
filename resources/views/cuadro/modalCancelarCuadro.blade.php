@@ -9,11 +9,15 @@
 
                 <div class="alert alert-info" role="alert">
                     Para modificar información en el cuadro comparativo se suguiere "Reanudarlo"
-                    {!! Form::open(array('action' => array('CuadroController@update', $cuadro_id), 'method' => 'patch')) !!}
-                    {!! Form::hidden('id', $cuadro_id) !!}
-                    {!! Form::hidden('accion', 'Reanudar') !!}
-                    {!! Form::submit('Reanudar Cuadro', array('class' => 'btn btn-primary btn-sm')) !!}
-                    {!! Form::close() !!}
+                    @if($req->estatus == 'Pagada' || $req->estatus == 'Autorizada' || $req->estatus == 'Cotizando')
+                        <button class="btn btn-primary btn-sm" disabled="disabled">Reanudar Cuadro</button>
+                    @else
+                        {!! Form::open(array('action' => array('CuadroController@update', $cuadro_id), 'method' => 'patch')) !!}
+                        {!! Form::hidden('id', $cuadro_id) !!}
+                        {!! Form::hidden('accion', 'Reanudar') !!}
+                        {!! Form::submit('Reanudar Cuadro', array('class' => 'btn btn-primary btn-sm')) !!}
+                        {!! Form::close() !!}
+                    @endif
                 </div>
 
                 <div class="alert alert-danger" role="alert">

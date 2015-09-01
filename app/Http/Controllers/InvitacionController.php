@@ -123,6 +123,7 @@ class InvitacionController extends Controller {
 	{
         $cotizacion = Cotizacion::findOrFail($id);
         $req_id = $cotizacion->req_id;
+        $cotizacion->articulos()->detach();
         $cotizacion->delete();
 
         return redirect()->action('InvitacionController@index', array($req_id));

@@ -1,23 +1,33 @@
 @extends('layouts.theme')
 
 @section('content')
+    @include('cuadro.modalCancelarCuadro')
+
     <div class="row">
-        <div class="col-md-12">
-            @include('cuadro.modalCancelarCuadro')
-
+        <div class="col-md-2">
             <a href="{{ action('RequisicionController@show', $req_id) }}" class="btn btn-primary btn-sm">Regresar a Requisición</a>
+        </div>
 
+        <div class="col-md-1">
             <a class="btn btn-primary btn-sm" href="{{ action('CuadroController@cuadroPdf', $cuadro_id) }}" role="button" target="_blank">Imprimir</a>
+        </div>
 
-            <!-- Formulario para terminar Cuadro Comparativo -->
-            {!! Form::open(array('action' => array('CuadroController@update', $cuadro_id), 'method' => 'patch')) !!}
-            {!! Form::hidden('id', $cuadro_id) !!}
-            {!! Form::hidden('accion', 'Terminar') !!}
-            {!! Form::submit('Terminar Cuadro', array('class' => 'btn btn-primary btn-sm')) !!}
-            {!! Form::close() !!}
+        <div class="col-md-2">
+            @if($req->estatus == 'Recibida' || $req->estatus == 'Cotizando')
+                <!-- Formulario para terminar Cuadro Comparativo -->
+                {!! Form::open(array('action' => array('CuadroController@update', $cuadro_id), 'method' => 'patch')) !!}
+                {!! Form::hidden('id', $cuadro_id) !!}
+                {!! Form::hidden('accion', 'Terminar') !!}
+                {!! Form::submit('Terminar Cuadro', array('class' => 'btn btn-primary btn-sm')) !!}
+                {!! Form::close() !!}
+            @else
+                <button class="btn btn-primary btn-sm" disabled="disabled">Terminar Cuadro</button>
+            @endif
+        </div>
 
+        <div class="col-md-2">
             <!-- Formulario para reanudar Cuadro Comparativo -->
-            @if($req->estatus == 'Pagada' || $req->estatus == 'Autorizada')
+            @if($req->estatus == 'Pagada' || $req->estatus == 'Autorizada' || $req->estatus == 'Cotizando')
                 <button class="btn btn-primary btn-sm" disabled="disabled">Reanudar Cuadro</button>
             @else
                 {!! Form::open(array('action' => array('CuadroController@update', $cuadro_id), 'method' => 'patch')) !!}
@@ -26,10 +36,16 @@
                 {!! Form::submit('Reanudar Cuadro', array('class' => 'btn btn-primary btn-sm')) !!}
                 {!! Form::close() !!}
             @endif
+        </div>
 
+        <div class="col-md-2">
             <!-- Formulario para cancelar Cuadro Comparativo -->
             <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modalCancelarCuadro"{{ $req->estatus == 'Pagada' || $req->estatus == 'Autorizada' ? ' disabled="disabled"' : '' }}>Cancelar Cuadro Comparativo</button>
+        </div>
+    </div>
 
+    <div class="row">
+        <div class="col-md-12">
             <table class="table table-bordered">
                 <tr>
                     @if(empty($req->tipo_cambio))
