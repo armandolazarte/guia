@@ -33,7 +33,23 @@
                 <td><a href="{{ action('EgresosController@chequeRtf', $egreso->id) }}" target="_blank">Imprimir</a></td>
             </tr>
         </table>
-        <a href="{{ action('EgresosController@create') }}">Capturar Cheque</a>
+
+        {{-- @todo Solo mostrar "Captura Cheque" en ciertos roles --}}
+        {{--<a href="{{ action('EgresosController@create') }}">Capturar Cheque</a>--}}
+
+        <div class="panel panel-info">
+            <div class="panel-heading">Archivos</div>
+            <div class="panel-body">
+                <div class="col-sm-4">
+                    @include('partials.archivos.showFiles', array('documento_id' => $egreso->id, 'documento_type' => 'Guia\Models\Egreso'))
+                </div>
+                {{--<div class="col-sm-8">--}}
+                    {{--@include('partials.archivos.formUpload', array('documento_id' => $egreso->id, 'documento_type' => 'Guia\Models\Egreso'))--}}
+                {{--</div>--}}
+
+            </div>
+        </div>
+
     </div>
 </div>
 @stop

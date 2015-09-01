@@ -82,7 +82,10 @@ class EgresosController extends Controller
     {
         $egreso = Egreso::findOrFail($id);
 
-        return view('egresos.infoEgreso', compact('egreso'));
+        $archivos = [];
+        $archivos = $egreso->archivos()->get();
+
+        return view('egresos.infoEgreso', compact('egreso','archivos'));
     }
 
     /**
