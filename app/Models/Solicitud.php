@@ -85,6 +85,12 @@ class Solicitud extends Model {
         return $this->morphMany('Guia\Models\SolDepositosDoc', 'doc');
     }
 
+    //Solicitud __morph_many__ RelacionInternaDoc
+    public function relacionInternaDocs()
+    {
+        return $this->morphMany('Guia\Models\RelInternaDoc', 'docable');
+    }
+
     public function getFechaInfoAttribute()
     {
         return Carbon::parse($this->fecha)->format('d/m/Y');

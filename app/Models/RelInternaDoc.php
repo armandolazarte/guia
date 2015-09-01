@@ -16,7 +16,7 @@ class RelInternaDoc extends Model {
         return $this->belongsTo('Guia\Models\RelInterna');
     }
 
-    //RelInternaDoc __morph_to__ Egreso
+    //RelInternaDoc __morph_to__ Egreso|Solicitud
     public function docable()
     {
         return $this->morphTo();
