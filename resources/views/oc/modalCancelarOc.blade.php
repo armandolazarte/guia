@@ -12,11 +12,19 @@
                 </div>
             </div>
             <div class="modal-footer">
-                {!! Form::open(['action' => ['OcsController@destroy', $oc->id], 'method' => 'delete']) !!}
-                    <button type="submit" class="btn btn-danger">Cancelar Orden de Compra</button>
-                {!! Form::close() !!}
 
-                <button type="button" class="btn btn-primary" data-dismiss="modal">Regresar</button>
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            {!! Form::open(['action' => ['OcsController@destroy', $oc->id], 'method' => 'delete']) !!}
+                            <button type="submit" class="btn btn-danger">Cancelar Orden de Compra</button>
+                            {!! Form::close() !!}
+                        </div>
+                        <div class="col-sm-3 col-sm-offset-6">
+                            <button type="button" class="btn btn-primary" data-dismiss="modal">Regresar</button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
