@@ -7,16 +7,23 @@
             </div>
 
             <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            {!! Form::open(array('action' => 'RelacionInternaController@store'), array('class' => 'form-horizontal')) !!}
+                            {!! Form::hidden('tipo_documentos', 'Egresos') !!}
+                            {!! Form::submit('Cheques/Egresos', ['class' => 'btn btn-primary']) !!}
+                            {!! Form::close() !!}
+                        </div>
 
-                {!! Form::open(array('action' => 'RelacionInternaController@store'), array('class' => 'form-horizontal')) !!}
-                {!! Form::hidden('tipo_documentos', 'Egresos') !!}
-                {!! Form::submit('Cheques/Egresos', ['class' => 'btn btn-primary']) !!}
-                {!! Form::close() !!}
-
-                {{--{!! Form::open(array('action' => 'RelacionInternaController@store'), array('class' => 'form-horizontal')) !!}--}}
-                {{--{!! Form::hidden('tipo_documentos', 'Solicitudes') !!}--}}
-                {{--{!! Form::submit('Solicitudes', ['class' => 'btn btn-primary']) !!}--}}
-                {{--{!! Form::close() !!}--}}
+                        <div class="col-sm-3">
+                            {!! Form::open(array('action' => 'RelacionInternaController@store'), array('class' => 'form-horizontal')) !!}
+                            {!! Form::hidden('tipo_documentos', 'Solicitudes') !!}
+                            {!! Form::submit('Solicitudes', ['class' => 'btn btn-primary']) !!}
+                            {!! Form::close() !!}
+                        </div>
+                    </div>
+                </div>
 
                 {{--{!! Form::open(array('action' => 'RelacionInternaController@store'), array('class' => 'form-horizontal')) !!}--}}
                 {{--{!! Form::hidden('tipo_documentos', 'OCs') !!}--}}

@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Guia\Models\Egreso;
 use Guia\Models\RelInterna;
 use Guia\Models\RelInternaDoc;
+use Guia\Models\Solicitud;
 use Illuminate\Http\Request;
 
 use Guia\Http\Requests;
@@ -42,14 +43,20 @@ class RelacionInternaDocController extends Controller
             }
         }
 
+        switch($rel_interna->tipo_documentos) {
+            case 'Egresos':
+                $modelo = 'Guia\Models\Egreso'; break;
+            case 'Solicitudes':
+                $modelo = 'Guia\Models\Solicitud'; break;
+        }
         $documentos_en_transito = [];
-        if ($rel_interna->tipo_documentos == 'Egresos') {
-            $documentos_en_transito = RelInternaDoc::distinct()->select('docable_id')
-                ->whereDocableType('Guia\Models\Egreso')
-                ->where('validacion','=','')
-                ->groupBy('docable_id')
-                ->lists('docable_id')->all();
+        $documentos_en_transito = RelInternaDoc::distinct()->select('docable_id')
+            ->whereDocableType($modelo)
+            ->where('validacion','=','')
+            ->groupBy('docable_id')
+            ->lists('docable_id')->all();
 
+        if($rel_interna->tipo_documentos == 'Egresos') {
             $documentos = Egreso::where('fecha', '>=', $presupuesto.'-01-01')
                 ->whereNested(function($query) use ($arr_usuarios_grupo) {
                     $query->whereIn('user_id', $arr_usuarios_grupo);
@@ -61,6 +68,18 @@ class RelacionInternaDocController extends Controller
 
             $documentos->load('benef');
             $documentos->load('cuentaBancaria');
+        }
+
+        if($rel_interna->tipo_documentos == 'Solicitudes') {
+            $documentos = Solicitud::whereNested( function($query) use ($arr_usuarios_grupo) {
+                    $query->whereIn('user_id', $arr_usuarios_grupo);
+                    $query->orWhere('user_id', '=', \Auth::user()->id);
+                })
+                ->whereNotIn('id', $documentos_en_transito)
+                ->orderBy('id')
+                ->get();
+            $documentos->load('benef');
+            $documentos->load('proyecto');
         }
 
         $accion = 'agregar-docs';
@@ -82,6 +101,12 @@ class RelacionInternaDocController extends Controller
             $doc = Egreso::find($request->input('doc_id'));
             $ocultar_id = 'egreso-'.$request->input('doc_id');
             $message = "Egreso ".$request->input('doc_id').' agregado';
+        }
+
+        if ($request->input('doc_type') == 'Solicitud') {
+            $doc = Solicitud::find($request->input('doc_id'));
+            $ocultar_id = 'solicitud-'.$request->input('doc_id');
+            $message = "Solicitud ".$request->input('doc_id').' agregada';
         }
 
         $doc->relacionInternaDocs()->save($rel_interna_docs);
@@ -128,13 +153,20 @@ class RelacionInternaDocController extends Controller
         $rel_interna->save();
 
         foreach ($request->input('docs') as $doc_id) {
-            $egreso = Egreso::find($doc_id);
-            $egreso->user_id = \Auth::user()->id;
-            $egreso->save();
+            if($rel_interna->tipo_documentos == 'Egresos') {
+                $documento = Egreso::find($doc_id);
+            }
 
-            $egreso_rel_interna = $egreso->relacionInternaDocs()->where('rel_interna_id', $id)->first();
-            $egreso_rel_interna->validacion = 'Aceptada';
-            $egreso_rel_interna->save();
+            if($rel_interna->tipo_documentos == 'Solicitudes') {
+                $documento = Solicitud::find($doc_id);
+            }
+
+            $documento->user_id = \Auth::user()->id;
+            $documento->save();
+
+            $documento_rel_interna = $documento->relacionInternaDocs()->where('rel_interna_id', $id)->first();
+            $documento_rel_interna->validacion = 'Aceptada';
+            $documento_rel_interna->save();
         }
 
         $rel_interna->load('relInternaDocs');

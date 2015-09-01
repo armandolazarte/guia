@@ -19,6 +19,10 @@
                 @if($rel_interna->tipo_documentos == 'Egresos')
                     @include('relint.partialFormEgresos')
                 @endif
+
+                @if($rel_interna->tipo_documentos == 'Solicitudes')
+                    @include('relint.partialFormSolicitudes')
+                @endif
             @else
                 <div class="alert alert-warning" role="alert">No hay documentos relacionados</div>
             @endif

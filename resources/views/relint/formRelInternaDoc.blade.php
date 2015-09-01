@@ -16,6 +16,10 @@
                 @if($rel_interna->tipo_documentos == 'Egresos')
                     @include('relint.partialFormEgresos')
                 @endif
+
+                @if($rel_interna->tipo_documentos == 'Solicitudes')
+                    @include('relint.partialFormSolicitudes')
+                @endif
             @else
                 @if($accion == 'recibir-docs')
                     <div class="alert alert-warning" role="alert">No hay documentos por recibir</div>
