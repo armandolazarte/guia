@@ -44,7 +44,7 @@
                             {!! Form::text('impuesto_'.$articulo->id, $iva) !!}
                         </td>
                         <td class="text-center">
-                            {!! Form::checkbox('no_cotizado_'.$articulo->id, 1, $articulo->inventariable) !!}
+                            {!! Form::checkbox('no_cotizado_'.$articulo->id, 1) !!}
                         </td>
                     </tr>
                 @endforeach
