@@ -75,7 +75,7 @@ class TerminarCuadro {
     public function estatusReq($estatus)
     {
         $req = Req::find($this->req->id);
-        $req->estatus = "Cotizada";
+        $req->estatus = $estatus;
         $req->save();
 
         //Creación de registro
