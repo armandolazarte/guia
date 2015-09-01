@@ -38,6 +38,7 @@ class FiltroEstatusResponsable
     public function filtroSolicitudes()
     {
         $this->setEstatusSolicitudes();
+        $this->setResponsable();
     }
 
     private function setEstatusReqs()
@@ -60,7 +61,7 @@ class FiltroEstatusResponsable
         $arr_estatus = Array();
 
         if(array_search('Presupuesto', $this->arr_roles) !== false || array_search('Comprobacion', $this->arr_roles) !== false) {
-            $arr_estatus = ['Enviada', 'Autorizada', 'Recibida'];
+            $arr_estatus = ['Autorizada', 'Recibida'];
         }
 
         $this->arr_estatus = $arr_estatus;
@@ -71,6 +72,11 @@ class FiltroEstatusResponsable
         $arr_responsable = Array();
         if(array_search('Cotizador', $this->arr_roles) !== false || array_search('Adquisiciones', $this->arr_roles) !== false) {
             $arr_responsable = [$this->user->id];
+        }
+
+        if(array_search('Presupuesto', $this->arr_roles) !== false || array_search('Comprobacion', $this->arr_roles) !== false || array_search('Contabilidad', $this->arr_roles) !== false) {
+            $gruposHelper = new GruposHelper();
+            $arr_responsable = $gruposHelper->getGruposColectivos($this->user->id);
         }
 
         $this->arr_responsable = $arr_responsable;
