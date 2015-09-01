@@ -3,6 +3,7 @@
 namespace Guia\Http\Controllers;
 
 use Carbon\Carbon;
+use Guia\Classes\GruposHelper;
 use Guia\Models\Egreso;
 use Guia\Models\RelInterna;
 use Guia\Models\RelInternaDoc;
@@ -25,23 +26,8 @@ class RelacionInternaDocController extends Controller
 
         $rel_interna = RelInterna::findOrFail($rel_interna_id);
 
-        //Consulta los usuarios de los grupos "Colectivos" a los que se pertenece
-        $grupos_usuarios = \Auth::user()->grupos()
-            ->where('tipo', 'LIKE', '%Colectivo%')
-            ->with(['users' => function($query){
-                $query->wherePivot('supervisa', '!=', 1);
-                $query->addSelect(['user_id']);
-            }])->get();
-        $grupos_usuarios = $grupos_usuarios->map(function ($grupo){
-            return $grupo->users->pluck('user_id');
-        });
-        $arr_usuarios_grupo = [];
-        foreach ($grupos_usuarios as $grupo) {
-            foreach ($grupo as $user_id) {
-                //Genera $arr_usuarios_grupo para filtrar documentos por user_id
-                $arr_usuarios_grupo[] = $user_id;
-            }
-        }
+        $gruposHelper = new GruposHelper();
+        $arr_usuarios_grupo = $gruposHelper->getGruposColectivos(\Auth::user()->id);
 
         switch($rel_interna->tipo_documentos) {
             case 'Egresos':
