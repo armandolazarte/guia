@@ -41,6 +41,11 @@ class FiltroEstatusResponsable
         $this->setResponsable();
     }
 
+    public function filtroEgresos()
+    {
+        $this->setResponsable();
+    }
+
     private function setEstatusReqs()
     {
         $arr_estatus = Array();
@@ -77,6 +82,9 @@ class FiltroEstatusResponsable
         if(array_search('Presupuesto', $this->arr_roles) !== false || array_search('Comprobacion', $this->arr_roles) !== false || array_search('Contabilidad', $this->arr_roles) !== false) {
             $gruposHelper = new GruposHelper();
             $arr_responsable = $gruposHelper->getGruposColectivos($this->user->id);
+            if (count($arr_responsable) == 0) {
+                $arr_responsable[] = \Auth::user()->id;
+            }
         }
 
         $this->arr_responsable = $arr_responsable;
