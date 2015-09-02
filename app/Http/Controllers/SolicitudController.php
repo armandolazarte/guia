@@ -115,8 +115,9 @@ class SolicitudController extends Controller {
         if(count($archivos) == 0) {
             $archivos = array();
         }
+        $archivos_relacionados = [];
 
-        return view('solicitudes.infoSolicitud', compact('solicitud', 'acciones_presu', 'archivos', 'arr_roles'));
+        return view('solicitudes.infoSolicitud', compact('solicitud', 'acciones_presu', 'archivos','archivos_relacionados', 'arr_roles'));
 	}
 
 	/**

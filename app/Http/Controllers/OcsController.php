@@ -69,8 +69,9 @@ class OcsController extends Controller {
         if(count($archivos) == 0) {
             $archivos = array();
         }
+        $archivos_relacionados = [];
 
-        return view('oc.infoOc', compact('oc','archivos','acciones_suministros'));
+        return view('oc.infoOc', compact('oc','archivos','archivos_relacionados','acciones_suministros'));
 	}
 
 	/**

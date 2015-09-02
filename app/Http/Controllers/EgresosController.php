@@ -81,11 +81,23 @@ class EgresosController extends Controller
     public function show($id)
     {
         $egreso = Egreso::findOrFail($id);
+        $egreso->load('ocs.archivos');
+        $egreso->load('solicitudes.archivos');
 
         $archivos = [];
         $archivos = $egreso->archivos()->get();
 
-        return view('egresos.infoEgreso', compact('egreso','archivos'));
+        $archivos_ocs = $egreso->ocs->pluck('archivos', 'id');
+        $archivos_solicitudes = $egreso->solicitudes->pluck('archivos', 'id');
+        $archivos_relacionados = [];
+        if(count($archivos_ocs) > 0) {
+            $archivos_relacionados = $archivos_ocs;
+        }
+        if(count($archivos_solicitudes) > 0) {
+            $archivos_relacionados = $archivos_solicitudes;
+        }
+
+        return view('egresos.infoEgreso', compact('egreso','archivos','archivos_relacionados'));
     }
 
     /**
