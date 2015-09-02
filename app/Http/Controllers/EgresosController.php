@@ -3,6 +3,7 @@
 namespace Guia\Http\Controllers;
 
 use Carbon\Carbon;
+use Guia\Classes\FiltroEstatusResponsable;
 use Guia\Models\Benef;
 use Guia\Models\Cuenta;
 use Guia\Models\CuentaBancaria;
@@ -20,19 +21,39 @@ class EgresosController extends Controller
      *
      * @return Response
      */
-    public function index()
+    public function index($scope = null)
     {
         $presupuesto = \Session::get('sel_presupuesto');
 
-        $egresos = Egreso::where('fecha', '>=', $presupuesto.'-01-01')
-            ->orderBy('cheque', 'desc')
-            ->paginate(50);
+        //Determina Acciones Unidad de Presupuesto
+        $user = \Auth::user();
+        $arr_roles = $user->roles()->lists('role_name')->all();
+        if(array_search('Ejecutora', $arr_roles) !== false || array_search('Presupuesto', $arr_roles) !== false){
+            $acciones_presupuesto = true;
+        } else {
+            $acciones_presupuesto = false;
+        }
+
+        if ($scope == 'asignados') {
+            $filtro = new FiltroEstatusResponsable();
+            $filtro->filtroEgresos();
+            $egresos = Egreso::estatusResponsable($filtro->arr_estatus, $filtro->arr_responsable)
+                ->orderBy('cheque', 'DESC')
+                ->paginate(100);
+        } else {
+            $egresos = Egreso::where('fecha', '>=', $presupuesto.'-01-01')
+                ->orderBy('cheque', 'DESC')
+                ->paginate(50);
+        }
+
         $egresos->load('benef');
         $egresos->load('rms');
         $egresos->load('cuentaBancaria');
         $egresos->load('user');
+        $egresos->load('ocs');
+        $egresos->load('solicitudes');
 
-        return view('egresos.indexEgresos', compact('egresos'));
+        return view('egresos.indexEgresos', compact('egresos','acciones_presupuesto'));
     }
 
     /**

@@ -253,6 +253,7 @@ Route::group(array('prefix' => 'egresos', 'middleware' => ['auth']), function()
     Route::get('/generar', 'GenerarEgresoController@create');
     Route::post('/generar', 'GenerarEgresoController@store');
 
+    Route::get('/reporte/{scope?}/{estatus?}', 'EgresosController@index');
     Route::get('/listado', 'EgresosController@index');
     Route::get('/nuevo', 'EgresosController@create');
     Route::post('/nuevo', 'EgresosController@store');
