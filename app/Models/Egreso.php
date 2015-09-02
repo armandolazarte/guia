@@ -105,4 +105,30 @@ class Egreso extends Model {
         return Carbon::parse($this->fecha)->format('d/m/Y');
     }
 
+    public function scopeEstatusResponsable($query, $arr_estatus, $arr_responsable)
+    {
+        /**
+         * @todo Filtro por proyectos asignados en scopeEstatusResponsable
+         */
+//        $ids_proyectos = \FiltroAcceso::getIdsProyectos();
+//        $query->whereIn('proyecto_id', $ids_proyectos);
+
+        $presupuesto = \Session::get('sel_presupuesto');
+        $query->whereBetween('fecha', [$presupuesto.'-01-01', $presupuesto.'-12-31']);
+
+        if(count($arr_estatus) > 0){
+            $query->whereIn('estatus', $arr_estatus);
+        }
+
+        if(count($arr_responsable) > 0){
+            $query->whereIn('user_id', $arr_responsable);
+        }
+
+        if(count($arr_estatus) == 0 && count($arr_responsable) == 0){
+            $query->whereId(0);
+        }
+
+        return $query;
+    }
+
 }
