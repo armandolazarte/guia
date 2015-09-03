@@ -7,6 +7,13 @@ use Guia\Models\CuentaBancaria;
 use Guia\Models\Ingreso;
 use Guia\Models\Rm;
 
+/**
+ * Class ImportarIngresos
+ * @package Guia\Classes\LegacyRegsImport
+ *
+ * Importa ingresos diferentes a Presupuesto, No Identificados, Saldo * y PolizaDiario
+ *
+ */
 class ImportarIngresos
 {
     public $db_origen;
@@ -38,15 +45,6 @@ class ImportarIngresos
             'concepto' => '('.$i_legacy->concepto.') '.$i_legacy->cmt,
             'monto' => round($i_legacy->monto,2)
         ]);
-
-        //Presupuesto: Importar RMs
-        if ($cuenta_id == 1 && $this->db_origen == 'legacy') {
-            $ingreso_rms_legacy = $this->getIngresoRmLegacy($ingreso->ingreso_id);
-            foreach ($ingreso_rms_legacy as $in_rm) {
-                $rm_id = Rm::whereRm($in_rm->rm)->pluck('id');
-                $ingreso->rms()->attach($rm_id, ['monto' => $in_rm->monto]);
-            }
-        }
     }
 
     public function importarIngresosLegacy()
@@ -54,23 +52,15 @@ class ImportarIngresos
         \DB::connection($this->db_origen)->table('tbl_ingresos')
             ->where('cta_b', $this->cuenta_bancaria->cuenta_bancaria)
             ->where('concepto', 'NOT LIKE', 'Saldo%')
-            ->where('concepto', 'NOT LIKE', 'No Identificado')
+            ->where('concepto', '!=', 'No Identificado')
+            ->where('concepto', '!=', 'Presupuesto')
+            ->where('cmt', 'NOT LIKE', '%PolizaDiario%')
             ->orderBy('fecha','ingreso_id')
             ->chunk(100, function($ingresos_legacy) {
                 foreach ($ingresos_legacy as $i_legacy) {
                     $this->crearIngreso($i_legacy);
                 }
             });
-    }
-
-    private function getIngresoRmLegacy($ingreso_id)
-    {
-        $ingreso_rms = \DB::connection($this->db_origen)->table('tbl_ingresos_rm')
-            ->where('cta_b', $this->cuenta_bancaria->cuenta_bancaria)
-            ->where('ingreso_id', $ingreso_id)
-            ->get();
-
-        return $ingreso_rms;
     }
 
     private function getCuentaId($legacy_concepto)
