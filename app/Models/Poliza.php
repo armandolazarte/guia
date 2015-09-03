@@ -18,8 +18,4 @@ class Poliza extends Model
         return $this->hasMany('Guia\Models\PolizaAbono');
     }
 
-    public function polizaOrigenes()
-    {
-        return $this->hasMany('Guia\Models\PolizaOrigen');
-    }
 }

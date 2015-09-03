@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class PolizaAbono extends Model
 {
     public $timestamps = false;
-    protected $fillable = ['poliza_id','cuenta_id','monto'];
+    protected $fillable = ['poliza_id','cuenta_id','monto','origen_id','origen_type'];
 
     public function poliza()
     {
@@ -17,5 +17,10 @@ class PolizaAbono extends Model
     public function rms()
     {
         return $this->belongsToMany('Guia\Models\Rm')->withPivot('monto');
+    }
+
+    public function origen()
+    {
+        return $this->morphTo();
     }
 }

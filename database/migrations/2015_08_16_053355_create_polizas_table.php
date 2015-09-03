@@ -26,6 +26,8 @@ class CreatePolizasTable extends Migration
             $table->integer('cuenta_id')->unsigned();
             $table->foreign('cuenta_id')->references('id')->on('cuentas');
             $table->decimal('monto', 15, 3);
+            $table->integer('origen_id')->unsigned();
+            $table->string('origen_type');
         });
 
         Schema::create('poliza_abonos', function (Blueprint $table) {
@@ -35,6 +37,8 @@ class CreatePolizasTable extends Migration
             $table->integer('cuenta_id')->unsigned();
             $table->foreign('cuenta_id')->references('id')->on('cuentas');
             $table->decimal('monto', 15, 3);
+            $table->integer('origen_id')->unsigned();
+            $table->string('origen_type');
         });
 
         Schema::create('poliza_cargo_rm', function (Blueprint $table) {
@@ -54,14 +58,6 @@ class CreatePolizasTable extends Migration
             $table->foreign('rm_id')->references('id')->on('rms');
             $table->decimal('monto', 15, 3);
         });
-
-        Schema::create('poliza_origenes', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('poliza_id')->unsigned();
-            $table->foreign('poliza_id')->references('id')->on('polizas')->onDelete('cascade');
-            $table->integer('origen_id')->unsigned();
-            $table->integer('origen_type');
-        });
     }
 
     /**
@@ -71,7 +67,6 @@ class CreatePolizasTable extends Migration
      */
     public function down()
     {
-        Schema::drop('poliza_origenes');
         Schema::drop('poliza_abono_rm');
         Schema::drop('poliza_cargo_rm');
         Schema::drop('poliza_abonos');
