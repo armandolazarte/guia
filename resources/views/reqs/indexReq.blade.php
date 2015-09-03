@@ -14,7 +14,7 @@
                     <th class="text-center">Unidad Responsable</th>
                     <th class="text-center">Etiqueta</th>
                     <th class="text-center">Estatus</th>
-                    <th class="text-center">Monto</th>
+                    <th class="text-center">Monto Aut.</th>
                     <th class="text-center">Orden de Compra</th>
                     <th class="text-center">Fecha OC</th>
                     <th class="text-center">Estatus OC</th>
@@ -33,8 +33,8 @@
                     @else
                         <tr>
                     @endif
-                        <td><a href="{{ action('RequisicionController@show', array($req->id)) }}">{{ $req->req }}</a></td>
-                        <td>{{ $req->fecha_req }}</td>
+                        <td class="text-center"><a href="{{ action('RequisicionController@show', array($req->id)) }}">{{ $req->req }}</a></td>
+                        <td>{{ $req->fecha_info }}</td>
                         <td class="text-center">
                             <span data-toggle="tooltip" data-placement="top" title="{{ $req->proyecto->d_proyecto }}">
                             {{ $req->proyecto->proyecto }}
@@ -53,8 +53,13 @@
                         <td>{{ $req->etiqueta }}</td>
                         <td>{{ $req->estatus }}</td>
                         {{-- Si cotizada --}}
-                        <td></td>
-
+                        @if($req->estatus == 'Autorizada')
+                            <td class="text-right">
+                                {{ number_format($req->articulos->sum(function ($articulo){ return $articulo->rms()->sum('articulo_rm.monto'); }), 2) }}
+                            </td>
+                        @else
+                            <td></td>
+                        @endif
                         {{-- Si Oc --}}
                         @if(count($req->ocs) > 0)
                             <td class="text-center">
@@ -64,7 +69,7 @@
                             </td>
                             <td class="text-center">
                                 @foreach($req->ocs as $oc)
-                                    {{ $oc->fecha_oc }} <br>
+                                    {{ $oc->fecha_oc_info }} <br>
                                 @endforeach
                             </td>
                             <td class="text-center">
