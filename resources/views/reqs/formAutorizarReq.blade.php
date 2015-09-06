@@ -21,6 +21,17 @@
 
                         <table class="table table-bordered table-hover table-condensed">
                             <thead>
+                            @if(!empty($req->moneda))
+                                <tr>
+                                    <td colspan="4"></td>
+                                    <td colspan="5" class="text-center bg-info">
+                                        <b>
+                                            Moneda: {{ $req->moneda }}
+                                            Tipo de Cambio: {{ round($req->tipo_cambio, 3) }}
+                                        </b>
+                                    </td>
+                                </tr>
+                            @endif
                             <tr>
                                 <th>Aplicar<br>COG/RM</th>
                                 <th>Cuenta de Gasto / Rec. Material</th>
@@ -29,7 +40,7 @@
                                 <th>Costo Unitario</th>
                                 <th>Alta</th>
                                 <th>Sub-Total</th>
-                                <th>Total (Incluye IVA)</th>
+                                <th>Total<br>(Incluye IVA)</th>
                                 <th>TOTAL MXP</th>
                             </tr>
                             </thead>
