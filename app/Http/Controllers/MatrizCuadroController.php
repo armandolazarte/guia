@@ -225,8 +225,8 @@ class MatrizCuadroController extends Controller {
         //Actualizar Tipo de Cambio en @reqs
         $tipo_cambio = $request->input('tipo_cambio');
         $moneda = $request->input('moneda');
-        if (!empty($tipo_cambio) && !empty($moneda)) {
-            $req = Req::find($cuadro->req_id);
+        $req = Req::find($cuadro->req_id);
+        if($req->tipo_cambio != $tipo_cambio || $req->moneda != $moneda) {
             $req->tipo_cambio = $tipo_cambio;
             $req->moneda = $moneda;
             $req->save();
