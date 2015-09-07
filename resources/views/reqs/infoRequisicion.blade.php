@@ -18,86 +18,107 @@
 
     <div class="row">
         <div class="col-sm-12">
-        <table class="table table-bordered table-hover table-condensed">
-            <thead>
-                <tr>
-                    <th rowspan="2" class="text-center">Artículo</th>
-                    <th rowspan="2" class="text-center">Cantidad</th>
-                    <th rowspan="2" class="text-center">Unidad</th>
-                    <th rowspan="2" class="text-center">Cuenta de Gasto / Rec. Material <br>/ Monto Autorizado</th>
-                    <th colspan="3" class="text-center">Cotizado (Unidad de Suministros)</th>
-                    <th rowspan="2" class="text-center">Alta</th>
-                    <th rowspan="2" class="text-center">No Cotizado</th>
-                </tr>
-            <tr>
-                <th>Costo Unitario</th>
-                <th>Sub-Total</th>
-                <th>Total (Incluye IVA)</th>
-            </tr>
-            </thead>
-            @foreach($articulos as $articulo)
-                @if($articulo->rms->count() > 0)
-                    <tr class="bg-success">
-                @elseif($articulo->no_cotizado == 1)
-                    <tr class="bg-danger">
-                @elseif(count($articulo->cotizaciones) > 0)
-                    <tr class="bg-info">
-                @else
-                    <tr class="bg-warning">
-                @endif
-
-                <td>
-                    @if($req->estatus == "")
-                        <a href="{{ action('ArticulosController@edit', array($req->id, $articulo->id)) }}">{{ $articulo->articulo }}</a>
-                    @else
-                        {!! $articulo->articulo !!}
-                    @endif
-                </td>
-                <td>{!! $articulo->cantidad !!}</td>
-                <td>{!! $articulo->unidad !!}</td>
-                <td class="text-center">
-                    @if($articulo->rms->count() > 0)
-                        @foreach($articulo->rms as $rm)
-                            {{ $rm->cog->cog }} / {{ $rm->rm }} / $ {{ number_format($rm->pivot->monto, 2) }}
-                            @if($articulo->rms->count() > 1)
-                                <br>
+            <div class="panel panel-default">
+                <div class="panel-heading">Desglose de Artículos</div>
+                <div class="panel-body">
+                    <table class="table table-bordered table-hover table-condensed">
+                        <thead>
+                        @if(!empty($req->moneda))
+                            <tr>
+                                <td colspan="4"></td>
+                                <td colspan="5" class="text-center bg-info">
+                                    <b>
+                                        Moneda: {{ $req->moneda }}
+                                        Tipo de Cambio: {{ round($req->tipo_cambio, 3) }}
+                                    </b>
+                                </td>
+                            </tr>
+                        @endif
+                            <tr>
+                                <th rowspan="2" class="text-center">Artículo</th>
+                                <th rowspan="2" class="text-center">Cantidad</th>
+                                <th rowspan="2" class="text-center">Unidad</th>
+                                <th rowspan="2" class="text-center">Cuenta de Gasto / Rec. Material <br>/ Monto Autorizado</th>
+                                <th colspan="3" class="text-center">Cotizado (Unidad de Suministros)</th>
+                                <th rowspan="2" class="text-center">Alta</th>
+                                <th rowspan="2" class="text-center">No Cotizado</th>
+                            </tr>
+                        <tr>
+                            <th class="text-center">Costo Unitario</th>
+                            <th class="text-center">Sub-Total</th>
+                            <th class="text-center">Total<br>(Incluye IVA)</th>
+                        </tr>
+                        </thead>
+                        @foreach($articulos as $articulo)
+                            @if($articulo->rms->count() > 0)
+                                <tr class="bg-success">
+                            @elseif($articulo->no_cotizado == 1)
+                                <tr class="bg-danger">
+                            @elseif(count($articulo->cotizaciones) > 0)
+                                <tr class="bg-info">
+                            @else
+                                <tr class="bg-warning">
                             @endif
-                        @endforeach
-                    @else
-                        <i>No asignado</i>
-                    @endif
-                </td>
-                @if(count($articulo->cotizaciones) > 0)
-                    <td class="text-right">
-                        {{ number_format($articulo->monto_cotizado, 2) }}
-                    </td>
-                    <td class="text-right">
-                        {{ number_format($articulo->sub_total, 2) }}
-                    </td>
-                    <td class="text-right">
-                        {{ number_format($articulo->monto_total, 2) }}
-                    </td>
-                @else
-                    <td class="text-center" colspan="3">Por Cotizar</td>
-                @endif
-                <td class="text-center">
-                    @if($articulo->inventariable == 1)
-                        <span class="glyphicon glyphicon-ok"></span>
-                    @endif
-                </td>
-                <td class="text-center">
-                    @if($articulo->no_cotizado == 1)
-                        <span class="glyphicon glyphicon-remove"></span>
-                    @endif
-                </td>
-            </tr>
-            @endforeach
-        </table>
 
-            @include('reqs.partialAsignacionRms')
+                            <td>
+                                @if($req->estatus == "")
+                                    <a href="{{ action('ArticulosController@edit', array($req->id, $articulo->id)) }}">{{ $articulo->articulo }}</a>
+                                @else
+                                    {!! $articulo->articulo !!}
+                                @endif
+                            </td>
+                            <td>{!! $articulo->cantidad !!}</td>
+                            <td>{!! $articulo->unidad !!}</td>
+                            <td class="text-center">
+                                @if($articulo->rms->count() > 0)
+                                    @foreach($articulo->rms as $rm)
+                                        {{ $rm->cog->cog }} / {{ $rm->rm }} / $ {{ number_format($rm->pivot->monto, 2) }}
+                                        @if($articulo->rms->count() > 1)
+                                            <br>
+                                        @endif
+                                    @endforeach
+                                @else
+                                    <i>No asignado</i>
+                                @endif
+                            </td>
+                            @if(count($articulo->cotizaciones) > 0)
+                                <td class="text-right">
+                                    {{ number_format($articulo->monto_cotizado, 2) }}
+                                </td>
+                                <td class="text-right">
+                                    {{ number_format($articulo->sub_total, 2) }}
+                                </td>
+                                <td class="text-right">
+                                    {{ number_format($articulo->monto_total, 2) }}
+                                </td>
+                            @else
+                                <td class="text-center" colspan="3">Por Cotizar</td>
+                            @endif
+                            <td class="text-center">
+                                @if($articulo->inventariable == 1)
+                                    <span class="glyphicon glyphicon-ok"></span>
+                                @endif
+                            </td>
+                            <td class="text-center">
+                                @if($articulo->no_cotizado == 1)
+                                    <span class="glyphicon glyphicon-remove"></span>
+                                @endif
+                            </td>
+                        </tr>
+                        @endforeach
+                    </table>
+                </div>
+            </div>
 
         </div>
     </div>
+
+    <div class="row">
+        <div class="col-sm-5">
+            @include('reqs.partialAsignacionRms')
+        </div>
+    </div>
+
     @endif
 
     <div class="row">
