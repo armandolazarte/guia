@@ -5,6 +5,7 @@ namespace Guia\Http\Controllers;
 use Guia\Classes\LegacyRegsImport\ImportarCheques;
 use Guia\Classes\LegacyRegsImport\ImportarEgresos;
 use Guia\Classes\LegacyRegsImport\ImportarIngresos;
+use Guia\Classes\LegacyRegsImport\ImportarRelacionPagos;
 use Guia\Models\CuentaBancaria;
 use Illuminate\Http\Request;
 
@@ -20,7 +21,7 @@ class ImportarEjercicioController extends Controller
         return view('admin.su.formImportarEjercicio', compact('cuentas_bancarias'));
     }
 
-    public function importar(Request $request)
+        public function importar(Request $request)
     {
         $db_origen = $request->input('db_origen');
         $col_rango = $request->input('col_rango');
@@ -40,6 +41,12 @@ class ImportarEjercicioController extends Controller
         if($request->input('registro') == 'Cheques') {
             $importar_cheques = new ImportarCheques($db_origen, $col_rango, $arr_rango, $cuenta_bancaria_id);
             $importar_cheques->importarChequesLegacy();
+        }
+
+        if($request->input('registro') == 'RelacionPagos') {
+            $importar_relacion_pagos = new ImportarRelacionPagos($db_origen, $col_rango, $arr_rango);
+            //$importar_relacion_pagos->importarPagoOcs();
+            $importar_relacion_pagos->importarPagoSolicitudes();
         }
 
         return redirect()->action('ImportarEjercicioController@index')

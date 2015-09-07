@@ -20,7 +20,8 @@
     {!! Form::select('registro', array(
         'Egresos' => 'Egresos',
         'Ingresos' => 'Ingresos',
-        'Cheques' => 'Cheques'
+        'Cheques' => 'Cheques',
+        'RelacionPagos' => 'Relación Pagos (Sol/Oc -> Cheque/Egreso)'
         )
     ) !!}
 
