@@ -5,6 +5,7 @@ namespace Guia\Http\Controllers;
 use Guia\Classes\LegacyRegsImport\ImportarCheques;
 use Guia\Classes\LegacyRegsImport\ImportarEgresos;
 use Guia\Classes\LegacyRegsImport\ImportarIngresos;
+use Guia\Classes\LegacyRegsImport\ImportarProyectoVales;
 use Guia\Classes\LegacyRegsImport\ImportarRelacionPagos;
 use Guia\Models\CuentaBancaria;
 use Illuminate\Http\Request;
@@ -45,8 +46,13 @@ class ImportarEjercicioController extends Controller
 
         if($request->input('registro') == 'RelacionPagos') {
             $importar_relacion_pagos = new ImportarRelacionPagos($db_origen, $col_rango, $arr_rango);
-            //$importar_relacion_pagos->importarPagoOcs();
+            $importar_relacion_pagos->importarPagoOcs();
             $importar_relacion_pagos->importarPagoSolicitudes();
+        }
+
+        if($request->input('registro') == 'ProyectoVales') {
+            $importar_proyecto_vales = new ImportarProyectoVales($db_origen, $col_rango, $arr_rango);
+            $importar_proyecto_vales->importarProyectoEgreso();
         }
 
         return redirect()->action('ImportarEjercicioController@index')
