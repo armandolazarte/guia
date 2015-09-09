@@ -30,7 +30,7 @@ class CrearTablasFacturas extends Migration {
 		{
 			$table->increments('id');
 			$table->integer('factura_id')->unsigned();
-			$table->foreign('factura_id')->references('id')->on('facturas');
+			$table->foreign('factura_id')->references('id')->on('facturas')->onDelete('cascade');
 			$table->mediumInteger('cantidad')->unsigned();
 			$table->string('concepto');
 			$table->integer('rm_id')->unsigned();
@@ -49,7 +49,7 @@ class CrearTablasFacturas extends Migration {
 		{
 			$table->increments('id');
 			$table->integer('factura_id')->unsigned();
-			$table->foreign('factura_id')->references('id')->on('facturas');
+			$table->foreign('factura_id')->references('id')->on('facturas')->onDelete('cascade');
 			$table->decimal('tc', 9, 6);
 			$table->string('moneda', 5);
 		});
