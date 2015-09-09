@@ -4,6 +4,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Factura extends Model {
 
+    protected $fillable = ['rfc','serie','factura','fecha','subtotal','iva','total','cfd'];
+
     //Factura __has_many__ FacturaConcepto
     public function facturaConceptos()
     {

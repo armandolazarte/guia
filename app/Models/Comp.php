@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Comp extends Model {
 
     use SoftDeletes;
+    protected $fillable = ['oficio_c','estatus','comp_siiau','user_id','elabora'];
 
     //Comp __belongs_to__ User
     public function user()
@@ -35,6 +36,12 @@ class Comp extends Model {
     public function facturas()
     {
         return $this->belongsToMany('Guia\Models\Factura');
+    }
+
+    //Comp __belongs_to_many__ Rm
+    public function rms()
+    {
+        return $this->belongsToMany('Guia\Models\Rm')->withPivot('monto');
     }
 
 }

@@ -106,6 +106,12 @@ class Rm extends Model {
         return $this->belongsToMany('Guia\Models\PolizaAbono')->withPivot('monto');
     }
 
+    //Rm __belongs_to_many__ Comp
+    public function comps()
+    {
+        return $this->belongsToMany('Guia\Models\Comp')->withPivot('monto');
+    }
+
     public function getRmCogAttribute()
     {
         return $this->rm.' '.$this->cog->cog.' '.$this->cog->d_cog;

@@ -5,6 +5,7 @@ use Illuminate\Database\Eloquent\Model;
 class FacturaConcepto extends Model {
 
     public $timestamps = false;
+    protected $fillable = ['cantidad','concepto','rm_id','cog_id','inventariable','monto'];
 
     //FacturaConcepto __belongs_to__ Factura
     public function factura()
