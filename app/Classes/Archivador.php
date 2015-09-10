@@ -11,7 +11,7 @@ class Archivador
 {
     public $documento_id;
     public $documento_type;
-    public $carpeta;
+    public $carpeta_id;
 
     public function __construct($doc_data = array())
     {
