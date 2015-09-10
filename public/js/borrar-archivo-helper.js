@@ -10,8 +10,9 @@
         var archivo_nombre = $(this).parent('td').prev().text();
 
         $('#borrar-archivo-form').attr('action', function (i, value) {
+            var pos_eliminar = value.search('eliminar');
             var x = value.lastIndexOf('/');
-            if(x > 24){
+            if(x > pos_eliminar){
                 value = value.slice(0,x);
             }
             return value + '/' + archivo_id;
