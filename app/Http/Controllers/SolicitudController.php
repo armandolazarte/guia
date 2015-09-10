@@ -110,7 +110,7 @@ class SolicitudController extends Controller {
         }
 
         $solicitud = Solicitud::find($id);
-        $solicitud->estatus == '' ? $borrar_archivo = true : $borrar_archivo = false;
+        $solicitud->estatus == '' || $acciones_presu ? $borrar_archivo = true : $borrar_archivo = false;
 
         $archivos = $solicitud->archivos()->get();
         if(count($archivos) == 0) {
