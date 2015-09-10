@@ -3,6 +3,13 @@
         @foreach($archivos as $archivo)
             <tr>
                 <td><a href="{{ action('ArchivosController@descargar', $archivo->id) }}">{{ $archivo->name }}</a></td>
+                <td>
+                    @if($borrar_archivo)
+                        <button type="button" class="btn btn-danger btn-sm borrar-archivo" data-toggle="modal" data-target="#modalBorrarArchivo" value="{{ $archivo->id }}">Borrar Archivo</button>
+                    @else
+                        <button class="btn btn-danger btn-sm" disabled="disabled">Borrar Archivo</button>
+                    @endif
+                </td>
             </tr>
         @endforeach
 
@@ -13,6 +20,13 @@
                 @foreach($documentos as $archivo)
                     <tr>
                         <td><a href="{{ action('ArchivosController@descargar', $archivo->id) }}">{{ $archivo->name }}</a></td>
+                        <td>
+                            @if($borrar_archivo)
+                                <button type="button" class="btn btn-danger btn-sm borrar-archivo" data-toggle="modal" data-target="#modalBorrarArchivo" value="{{ $archivo->id }}">Borrar Archivo</button>
+                            @else
+                                <button class="btn btn-danger btn-sm" disabled="disabled">Borrar Archivo</button>
+                            @endif
+                        </td>
                     </tr>
                 @endforeach
             @endforeach

@@ -51,16 +51,21 @@
     </div>
 
     <br>
+    @include('partials.archivos.modalBorrarArchivo')
     <div class="panel panel-info">
         <div class="panel-heading">Archivos</div>
         <div class="panel-body">
-            <div class="col-sm-4">
+            <div class="col-sm-8">
                 @include('partials.archivos.showFiles', array('documento_id' => $solicitud->id, 'documento_type' => 'Guia\Models\Solicitud'))
             </div>
-            <div class="col-sm-8">
+            <div class="col-sm-4">
                 @include('partials.archivos.formUpload', array('documento_id' => $solicitud->id, 'documento_type' => 'Guia\Models\Solicitud'))
+                <br><div class="alert-warning">La opción para eliminar archivos solo está habilitada si la solicitud no ha sido enviada</div>
             </div>
-
         </div>
     </div>
+@stop
+@section('js')
+    @parent
+    <script src="{{ asset('js/borrar-archivo-helper.js') }}"></script>
 @stop

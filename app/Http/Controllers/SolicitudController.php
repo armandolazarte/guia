@@ -110,6 +110,7 @@ class SolicitudController extends Controller {
         }
 
         $solicitud = Solicitud::find($id);
+        $solicitud->estatus == '' ? $borrar_archivo = true : $borrar_archivo = false;
 
         $archivos = $solicitud->archivos()->get();
         if(count($archivos) == 0) {
@@ -117,7 +118,7 @@ class SolicitudController extends Controller {
         }
         $archivos_relacionados = [];
 
-        return view('solicitudes.infoSolicitud', compact('solicitud', 'acciones_presu', 'archivos','archivos_relacionados', 'arr_roles'));
+        return view('solicitudes.infoSolicitud', compact('solicitud', 'acciones_presu', 'archivos','archivos_relacionados', 'arr_roles','borrar_archivo'));
 	}
 
 	/**

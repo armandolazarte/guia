@@ -71,7 +71,11 @@ class OcsController extends Controller {
         }
         $archivos_relacionados = [];
 
-        return view('oc.infoOc', compact('oc','archivos','archivos_relacionados','acciones_suministros'));
+        /*
+         * @todo Determinar cuando ya no se permitirá borrar archivos
+         */
+        $borrar_archivo = true;
+        return view('oc.infoOc', compact('oc','archivos','archivos_relacionados','acciones_suministros','borrar_archivo'));
 	}
 
 	/**

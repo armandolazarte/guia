@@ -25,20 +25,24 @@
                     <td>{{ $oc->estatus }}</td>
                 </tr>
             </table>
-
-            <div class="panel panel-info">
-                <div class="panel-heading">Archivos</div>
-                <div class="panel-body">
-                    <div class="col-sm-4">
-                        @include('partials.archivos.showFiles', array('documento_id' => $oc->id, 'documento_type' => 'Guia\Models\Oc'))
-                    </div>
-                    <div class="col-sm-8">
-                        @include('partials.archivos.formUpload', array('documento_id' => $oc->id, 'documento_type' => 'Guia\Models\Oc'))
-                    </div>
-
-                </div>
-            </div>
-
         </div>
     </div>
+
+    <br>
+    @include('partials.archivos.modalBorrarArchivo')
+    <div class="panel panel-info">
+        <div class="panel-heading">Archivos</div>
+        <div class="panel-body">
+            <div class="col-sm-8">
+                @include('partials.archivos.showFiles', array('documento_id' => $oc->id, 'documento_type' => 'Guia\Models\Oc'))
+            </div>
+            <div class="col-sm-4">
+                @include('partials.archivos.formUpload', array('documento_id' => $oc->id, 'documento_type' => 'Guia\Models\Oc'))
+            </div>
+        </div>
+    </div>
+@stop
+@section('js')
+    @parent
+    <script src="{{ asset('js/borrar-archivo-helper.js') }}"></script>
 @stop

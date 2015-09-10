@@ -101,6 +101,15 @@ class EgresosController extends Controller
      */
     public function show($id)
     {
+        //Determina si se pueden borrar archivos
+        $user = \Auth::user();
+        $arr_roles = $user->roles()->lists('role_name')->all();
+        if(array_search('Ejecutora', $arr_roles) !== false || array_search('Presupuesto', $arr_roles) !== false || array_search('Comprobacion', $arr_roles) !== false || array_search('Contabilidad', $arr_roles) !== false){
+            $borrar_archivo = true;
+        } else {
+            $borrar_archivo = false;
+        }
+
         $egreso = Egreso::findOrFail($id);
         $egreso->load('ocs.archivos');
         $egreso->load('solicitudes.archivos');
@@ -118,7 +127,7 @@ class EgresosController extends Controller
             $archivos_relacionados = $archivos_solicitudes;
         }
 
-        return view('egresos.infoEgreso', compact('egreso','archivos','archivos_relacionados'));
+        return view('egresos.infoEgreso', compact('egreso','archivos','archivos_relacionados','borrar_archivo'));
     }
 
     /**

@@ -37,13 +37,14 @@
         {{-- @todo Solo mostrar "Captura Cheque" en ciertos roles --}}
         {{--<a href="{{ action('EgresosController@create') }}">Capturar Cheque</a>--}}
 
+        @include('partials.archivos.modalBorrarArchivo')
         <div class="panel panel-info">
             <div class="panel-heading">Archivos</div>
             <div class="panel-body">
-                <div class="col-sm-4">
+                <div class="col-sm-8">
                     @include('partials.archivos.showFiles', array('documento_id' => $egreso->id, 'documento_type' => 'Guia\Models\Egreso'))
                 </div>
-                {{--<div class="col-sm-8">--}}
+                {{--<div class="col-sm-4">--}}
                     {{--@include('partials.archivos.formUpload', array('documento_id' => $egreso->id, 'documento_type' => 'Guia\Models\Egreso'))--}}
                 {{--</div>--}}
 
@@ -52,4 +53,8 @@
 
     </div>
 </div>
+@stop
+@section('js')
+    @parent
+    <script src="{{ asset('js/borrar-archivo-helper.js') }}"></script>
 @stop
