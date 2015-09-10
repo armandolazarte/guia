@@ -44,6 +44,7 @@ Route::post('/login', 'Auth\GuiaAuthController@authenticate');
 
 Route::post('/archivos/cargar', 'ArchivosController@store');
 Route::get('/archivos/descargar/{id}', 'ArchivosController@descargar');
+Route::delete('/archivos/eliminar/{id?}', 'ArchivosController@destroy');
 
 Route::group(array('prefix' => 'admin/su', 'middleware' => ['auth']), function()
 {

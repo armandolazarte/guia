@@ -49,7 +49,7 @@ class ArchivosController extends Controller {
 
         foreach($files as $file){
 
-            //Leer Informaci�n
+            //Leer Información
             $filename = $file->getClientOriginalName();
             $extension = $file->getClientOriginalExtension();
             $file_data['filename'] = $filename;
@@ -100,7 +100,15 @@ class ArchivosController extends Controller {
      */
     public function destroy($id)
     {
-        //
+        $archivo = Archivo::findOrFail($id);
+
+        if (\Storage::exists($archivo->carpeta_id.'/'.$archivo->name)) {
+            \Storage::delete($archivo->carpeta_id.'/'.$archivo->name);
+            $archivo->delete();
+            return redirect()->back()->with(['message' => 'Archivo '.$archivo->name.' eliminado con éxito', 'alert-class' => 'alert-success']);
+        } else {
+            return redirect()->back()->with(['message' => 'No se pudo eliminar el archivo '.$archivo->name.'. Favor de comunicarse con el administrador del sisetma.', 'alert-class' => 'alert-danger']);
+        }
     }
 
     public function descargar($id)
