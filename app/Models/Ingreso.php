@@ -9,6 +9,12 @@ class Ingreso extends Model {
     use SoftDeletes;
     protected $fillable = ['cuenta_bancaria_id','poliza','fecha','cuenta_id','concepto','monto'];
 
+    //Ingreso __has_one__ SolDeposito
+    public function solDeposito()
+    {
+        return $this->hasOne('Guia\Models\SolDeposito');
+    }
+
     //Ingreso __belongs_to__ CuentaBancaria
     public function cuenta()
     {
