@@ -168,5 +168,11 @@ class AccionesTableSeeder extends Seeder {
         Accion::create(['ruta' => 'RelacionInternaDocController@store', 'nombre' => '', 'icono' => '', 'orden' => '', 'activo' => '0']);
         Accion::create(['ruta' => 'RelacionInternaDocController@edit', 'nombre' => '', 'icono' => '', 'orden' => '', 'activo' => '0']);
         Accion::create(['ruta' => 'RelacionInternaDocController@update', 'nombre' => '', 'icono' => '', 'orden' => '', 'activo' => '0']);
+
+        //-- Administración de Usuarios --//
+        Accion::create(['ruta' => 'UsuarioController@index', 'nombre' => 'Usuarios', 'icono' => '', 'orden' => '', 'activo' => '0']);
+        Accion::create(['ruta' => 'CargosController@store', 'nombre' => 'Asignar Cargo', 'icono' => '', 'orden' => '', 'activo' => '0']);
+        Accion::create(['ruta' => 'AccesosController@store', 'nombre' => 'Acceso Presupuestal', 'icono' => '', 'orden' => '', 'activo' => '0']);
+        Accion::create(['ruta' => 'AsignarUsuariosController@store', 'nombre' => 'Asignar Usuarios', 'icono' => '', 'orden' => '', 'activo' => '0']);
     }
 }
