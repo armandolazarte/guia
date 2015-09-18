@@ -50,7 +50,7 @@ class ImportarEgresos
 
         //Presupuesto: Importar RMs
         if ($cuenta_id == 1 && $this->db_origen == 'legacy') {
-            $egreso_rms_legacy = $this->getEgresoRmLegacy($egreso->egreso_id);
+            $egreso_rms_legacy = $this->getEgresoRmLegacy($e_legacy->egreso_id);
             foreach ($egreso_rms_legacy as $eg_rm) {
                 $rm_id = Rm::whereRm($eg_rm->rm)->pluck('id');
                 $egreso->rms()->attach($rm_id, ['monto' => $eg_rm->monto]);
