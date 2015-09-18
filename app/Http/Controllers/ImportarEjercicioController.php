@@ -6,6 +6,7 @@ use Guia\Classes\LegacyRegsImport\ImportarCheques;
 use Guia\Classes\LegacyRegsImport\ImportarEgresos;
 use Guia\Classes\LegacyRegsImport\ImportarIngresos;
 use Guia\Classes\LegacyRegsImport\ImportarProyectoVales;
+use Guia\Classes\LegacyRegsImport\ImportarReembolsos;
 use Guia\Classes\LegacyRegsImport\ImportarRelacionPagos;
 use Guia\Models\CuentaBancaria;
 use Illuminate\Http\Request;
@@ -53,6 +54,12 @@ class ImportarEjercicioController extends Controller
         if($request->input('registro') == 'ProyectoVales') {
             $importar_proyecto_vales = new ImportarProyectoVales($db_origen, $col_rango, $arr_rango);
             $importar_proyecto_vales->importarProyectoEgreso();
+        }
+
+        if($request->input('registro') == 'Reembolsos') {
+            $importar_reembolsos = new ImportarReembolsos($db_origen, $col_rango, $arr_rango, $cuenta_bancaria_id);
+            $importar_reembolsos->importarNoIdentificadosLegacy();
+            $importar_reembolsos->importarReembolsosFaltantes();
         }
 
         return redirect()->action('ImportarEjercicioController@index')
