@@ -22,7 +22,7 @@
         'Ingresos' => 'Ingresos',
         'Cheques' => 'Cheques',
         'RelacionPagos' => 'Relación Pagos (Sol/Oc -> Cheque/Egreso)',
-        'ProyectoVales' => 'Proyecto Vales',
+        'ProyectoVales' => 'Proyecto Vales (&forall; Cuentas Bancarias)',
         'Reembolsos' => 'Reembolsos'
         )
     ) !!}
