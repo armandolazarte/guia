@@ -55,6 +55,7 @@ class CrearTablasAdquisiciones extends Migration
         Schema::create('articulo_rm', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('articulo_id')->unsigned();
+            $table->foreign('articulo_id')->references('id')->on('articulos')->onDelete('cascade');
             $table->integer('rm_id')->unsigned();
             $table->decimal('monto', 15, 3);
         });
