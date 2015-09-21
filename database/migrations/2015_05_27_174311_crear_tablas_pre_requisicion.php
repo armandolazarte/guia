@@ -35,7 +35,7 @@ class CrearTablasPreRequisicion extends Migration {
         {
             $table->increments('id');
             $table->integer('pre_req_id')->unsigned();
-            $table->foreign('pre_req_id')->references('id')->on('pre_reqs');
+            $table->foreign('pre_req_id')->references('id')->on('pre_reqs')->onDelete('cascade');
             $table->text('articulo');
             $table->double('cantidad', 12, 5);
             $table->string('unidad', 20);
