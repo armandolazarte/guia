@@ -35,25 +35,22 @@ class ImportarProyectoVales
         //Enconrar egreso_id
         $cuenta_bancaria_id = $this->getCuentaBancariaId($gxc->cta_b);
         if(!empty($cuenta_bancaria_id)) {
-
-
-
-            $egreso = Egreso::where('cuenta_bancaria_id', '=', $cuenta_bancaria_id);
+            $query_egreso = Egreso::where('cuenta_bancaria_id', '=', $cuenta_bancaria_id);
             if($gxc->tipo == 'ch') {
-                $egreso->where('cheque', '=', $gxc->poliza);
+                $query_egreso->where('cheque', '=', $gxc->poliza);
                 $legacy_fecha = \DB::connection($this->db_origen)->table('tbl_cheques')
                     ->where('cta_b', $gxc->cta_b)
                     ->where('cheque', $gxc->poliza)
                     ->pluck('fecha');
             } else {
-                $egreso->where('poliza', '=', $gxc->poliza);
+                $query_egreso->where('poliza', '=', $gxc->poliza);
                 $legacy_fecha = \DB::connection($this->db_origen)->table('tbl_egresos')
                     ->where('cta_b', $gxc->cta_b)
                     ->where('egreso_id', $gxc->poliza)
                     ->pluck('fecha');
             }
-            $egreso->where('fecha', $legacy_fecha);
-            $egreso = $egreso->first();
+            $query_egreso->where('fecha', $legacy_fecha);
+            $egreso = $query_egreso->first();
 
             if(empty($egreso->id)) {
                 dd('Egreso no encontrado '.$gxc->poliza);
