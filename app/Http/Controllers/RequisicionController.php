@@ -190,6 +190,16 @@ class RequisicionController extends Controller {
                 }
                 $estatus = 'Asignada';//Solo para efectos del registro
                 $req->user_id = $user_id_responsable;
+            } elseif ($accion == 'Desautorizar') {
+                $articulos = Articulo::whereReqId($id)->get();
+                foreach($articulos as $articulo){
+                    if($articulo->rms->count() > 0){
+                        foreach ($articulo->rms as $articulo_rm) {
+                            $articulo->rms()->updateExistingPivot($articulo_rm->id, ['rm_id' => 0, 'monto' => 0]);
+                        }
+                    }
+                }
+                $req->estatus = $estatus;
             } else {
                 $req->estatus = $estatus;
             }
