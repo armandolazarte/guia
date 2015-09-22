@@ -10,28 +10,6 @@ use Illuminate\Http\Request;
 
 class PresupuestoController extends Controller {
 
-	/**
-	 * Display a listing of the resource.
-	 *
-	 * @return Response
-	 */
-	public function saldoRms($proyecto_id, $modo_tabla = 'condensada')
-	{
-        if(empty($modo_tabla)){
-            $modo_tabla = 'condensada';
-        }
-
-        $proyecto = Proyecto::find($proyecto_id);
-
-		$rms = Rm::whereProyectoId($proyecto_id)
-            ->with('objetivo')
-            ->with('actividad')
-            ->with('cog')
-            ->get();
-
-        return view('sxp.tablaSaldoRms', compact('proyecto', 'rms', 'modo_tabla'));
-	}
-
     public function reporteEgresosProyecto($proyecto_id = null)
     {
         $proyectos = \FiltroAcceso::getArrProyectos();

@@ -192,7 +192,8 @@ Route::group(array('prefix' => 'oc', 'middleware' => ['auth']), function()
 //** Presupuesto **//
 Route::group(array('prefix' => 'presupuesto', 'middleware' => ['auth']), function()
 {
-    Route::get('/saldo-proyecto/{id}/{modo_tabla?}', 'PresupuestoController@saldoRms');
+    Route::get('/ejercicio-proyecto', 'EjercicioController@ejercicioProyectoRms');
+    Route::get('/get-ejercicio-proyecto', 'EjercicioController@getEjercicioProyectoRms');
     Route::get('/egresos-proyecto/{proyecto_id?}', 'PresupuestoController@reporteEgresosProyecto');
 });
 
