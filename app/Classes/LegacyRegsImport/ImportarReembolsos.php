@@ -130,6 +130,11 @@ class ImportarReembolsos
                         }
                     }
                 }
+                if (!empty($legacy_ingreso)) {
+                    $poliza->fecha = $legacy_ingreso->fecha;
+                    $poliza->concepto = $legacy_ingreso->cmt;
+                    $poliza->save();
+                }
             }
         }
     }
@@ -159,7 +164,12 @@ class ImportarReembolsos
                     'no_deposito' => '',
                     'identificado' => 0
                 ]);
-                $poliza = Poliza::create(['fecha' => $legacy_ingreso->fecha, 'tipo' => 'Ingreso', 'user_id' => \Auth::user()->id]);
+                $poliza = Poliza::create([
+                    'fecha' => $legacy_ingreso->fecha,
+                    'tipo' => 'Ingreso',
+                    'concepto' => $legacy_ingreso->cmt,
+                    'user_id' => \Auth::user()->id
+                ]);
 
                 $poliza->polizaCargos()->create([
                     'cuenta_id' => 10,
