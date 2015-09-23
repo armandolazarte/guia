@@ -16,6 +16,8 @@ class CreatePolizasTable extends Migration
             $table->increments('id');
             $table->date('fecha');
             $table->string('tipo', 45);
+            $table->integer('user_id')->unsigned();
+            $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
         });
 

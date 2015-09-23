@@ -6,7 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Poliza extends Model
 {
-    protected $fillable = ['fecha','tipo'];
+    protected $fillable = ['fecha','tipo','user_id'];
+
+    public function user()
+    {
+        return $this->belongsTo('Guia\User');
+    }
 
     public function polizaCargos()
     {

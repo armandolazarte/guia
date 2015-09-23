@@ -61,7 +61,7 @@ class ImportarReembolsos
                 ->get();
 
             if (count($legacy_poliza) > 0) {
-                $poliza = Poliza::create(['fecha' => '0000-00-00','tipo' => 'Ingreso']);
+                $poliza = Poliza::create(['fecha' => '0000-00-00','tipo' => 'Ingreso', 'user_id' => \Auth::user()->id]);
 
                 foreach ($legacy_poliza as $legacy_pd) {
                     if ($legacy_pd->tipo == 'eg') {
@@ -159,7 +159,7 @@ class ImportarReembolsos
                     'no_deposito' => '',
                     'identificado' => 0
                 ]);
-                $poliza = Poliza::create(['fecha' => $legacy_ingreso->fecha, 'tipo' => 'Ingreso']);
+                $poliza = Poliza::create(['fecha' => $legacy_ingreso->fecha, 'tipo' => 'Ingreso', 'user_id' => \Auth::user()->id]);
 
                 $poliza->polizaCargos()->create([
                     'cuenta_id' => 10,
