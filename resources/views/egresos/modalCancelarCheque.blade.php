@@ -24,17 +24,29 @@
                         </ul>
                     @endif
                 </div>
+
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            {!! Form::open(array('action' => ['EgresosController@cancelar', $egreso->id], 'method' => 'delete', 'class' => 'form-horizontal')) !!}
+                            <div class="form-group">
+                                <div class="col-sm-9">
+                                    {!! Form::label('motivo', 'Motivo', ['class' => 'sr-only']) !!}
+                                    {!! Form::text('motivo', null, ['class' => 'form-control', 'placeholder' => 'Motivo de Cancelación']) !!}
+                                </div>
+                                {!! Form::submit('Cancelar Cheque', array('class' => 'col-sm-3 btn btn-danger')) !!}
+                            </div>
+                            {!! Form::close() !!}
+                        </div>
+                    </div>
+                </div>
+
             </div>
             <div class="modal-footer">
                 <div class="container-fluid">
                     <div class="row">
-                        <div class="col-sm-3">
-                            {!! Form::open(array('action' => ['EgresosController@cancelar', $egreso->id], 'method' => 'delete', 'class' => 'form')) !!}
-                            {!! Form::submit('Cancelar Cheque', array('class' => 'btn btn-danger')) !!}
-                            {!! Form::close() !!}
-                        </div>
-                        <div class="col-sm-3 col-sm-offset-6">
-                            <button type="button" class="btn btn-primary" data-dismiss="modal">Volver</button>
+                        <div class="col-sm-3 col-sm-offset-9">
+                            <button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
                         </div>
                     </div>
                 </div>

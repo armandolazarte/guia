@@ -1,7 +1,7 @@
 @extends('layouts.theme')
 
 @section('content')
-@if($cancelar_cheque)
+@if($egreso->estatus != 'Cancelado' && !empty($egreso->cheque) && $cancelar_cheque)
     @include('egresos.modalCancelarCheque')
 @endif
 <div class="row">

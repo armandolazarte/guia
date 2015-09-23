@@ -189,11 +189,16 @@ class EgresosController extends Controller
         //
     }
 
-    public function cancelar($id)
+    public function cancelar($id, Request $request)
     {
+        $motivo = $request->input('motivo');
+        if (empty($motivo)) {
+            return redirect()->back()->with(['message' => 'Por favor especifique motivo de cancelación', 'alert-class' => 'alert-warning']);
+        }
+
         $egreso = Egreso::findOrFail($id);
         if (empty($egreso->cheque)) {
-            return redirect()->back()->with(['message' => 'Error: El egreso '.$egreso->poliza.' no es un cheque']);
+            return redirect()->back()->with(['message' => 'Error: El egreso '.$egreso->poliza.' no es un cheque', 'alert-class' => 'alert-danger']);
         }
         /**
          * @todo Analizar caso cuando exista comprobación
@@ -207,6 +212,7 @@ class EgresosController extends Controller
         $poliza = Poliza::create([
             'fecha' => Carbon::today()->toDateString(),
             'tipo' => 'Cancelación',
+            'concepto' => 'Cancelación Cheque '.$egreso->cheque.' '.$motivo,
             'user_id' => \Auth::user()->id
         ]);
         $poliza_abono = $poliza->polizaAbonos()->create([
@@ -233,6 +239,7 @@ class EgresosController extends Controller
 
         $cheque = $egreso->cheque;
         $egreso->estatus = 'Cancelado';
+        $egreso->fecha_cobro = Carbon::today()->toDateString();
         $egreso->save();
         $egreso->delete();
 
