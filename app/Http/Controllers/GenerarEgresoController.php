@@ -3,6 +3,7 @@
 namespace Guia\Http\Controllers;
 
 use Carbon\Carbon;
+use Guia\Classes\PagoDocumento;
 use Guia\Models\CuentaBancaria;
 use Guia\Models\Egreso;
 use Guia\Models\Oc;
@@ -123,9 +124,8 @@ class GenerarEgresoController extends Controller
             $egreso->save();
         }
 
-        $doc->egresos()->save($egreso);
-        $doc->estatus = 'Pagada';
-        $doc->save();
+        $pago = new PagoDocumento($doc, $request->input('doc_type'));
+        $pago->pagarDocumento($egreso);
 
         //Inserta suma por proyecto en tabla egreso_proyecto
         $egreso_rms = $egreso->rms()->get();
