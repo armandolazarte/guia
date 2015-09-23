@@ -4,10 +4,12 @@ namespace Guia\Http\Controllers;
 
 use Carbon\Carbon;
 use Guia\Classes\FiltroEstatusResponsable;
+use Guia\Classes\PagoDocumento;
 use Guia\Models\Benef;
 use Guia\Models\Cuenta;
 use Guia\Models\CuentaBancaria;
 use Guia\Models\Egreso;
+use Guia\Models\Poliza;
 use Illuminate\Http\Request;
 
 use Guia\Http\Requests;
@@ -110,7 +112,13 @@ class EgresosController extends Controller
             $borrar_archivo = false;
         }
 
-        $egreso = Egreso::findOrFail($id);
+        if(array_search('Ejecutora', $arr_roles) !== false || array_search('Presupuesto', $arr_roles) !== false ){
+            $cancelar_cheque = true;
+        } else {
+            $cancelar_cheque = false;
+        }
+
+        $egreso = Egreso::withTrashed()->findOrFail($id);
         $egreso->load('ocs.archivos');
         $egreso->load('solicitudes.archivos');
 
@@ -127,7 +135,7 @@ class EgresosController extends Controller
             $archivos_relacionados = $archivos_solicitudes;
         }
 
-        return view('egresos.infoEgreso', compact('egreso','archivos','archivos_relacionados','borrar_archivo'));
+        return view('egresos.infoEgreso', compact('egreso','archivos','archivos_relacionados','borrar_archivo','cancelar_cheque'));
     }
 
     /**
@@ -179,6 +187,56 @@ class EgresosController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function cancelar($id)
+    {
+        $egreso = Egreso::findOrFail($id);
+        if (empty($egreso->cheque)) {
+            return redirect()->back()->with(['message' => 'Error: El egreso '.$egreso->poliza.' no es un cheque']);
+        }
+        /**
+         * @todo Analizar caso cuando exista comprobación
+         */
+
+        //Actualiza Estatus de Solicitud || Oc&Req => Autorizada
+        $pago = new PagoDocumento();
+        $pago->cancelarPago($egreso);
+
+        //Generar Póliza de Cancelación
+        $poliza = Poliza::create([
+            'fecha' => Carbon::today()->toDateString(),
+            'tipo' => 'Cancelación',
+            'user_id' => \Auth::user()->id
+        ]);
+        $poliza_abono = $poliza->polizaAbonos()->create([
+            'cuenta_id' => $egreso->cuenta_id,
+            'monto' => $egreso->monto,
+            'origen_id' => $egreso->id,
+            'origen_type' => 'Guia\Models\Egreso'
+        ]);
+
+        //Insertar RMs si existen en Egreso
+        if (count($egreso->rms) > 0) {
+            foreach ($egreso->rms as $rm) {
+                $monto_rm = $rm->pivot->monto;
+                $poliza_abono->rms()->attach($rm->id, ['monto' => $monto_rm]);
+            }
+        }
+
+        $poliza->polizaCargos()->create([
+            'cuenta_id' => 27,
+            'monto' => $egreso->monto,
+            'origen_id' => $egreso->id,
+            'origen_type' => 'Guia\Models\Egreso'
+        ]);
+
+        $cheque = $egreso->cheque;
+        $egreso->estatus = 'Cancelado';
+        $egreso->save();
+        $egreso->delete();
+
+        return redirect()->back()->with(['message' => 'Cheque '.$cheque.' cancelado con éxito']);
     }
 
     public function chequeRtf($id)

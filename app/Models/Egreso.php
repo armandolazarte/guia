@@ -9,6 +9,7 @@ class Egreso extends Model {
     use SoftDeletes;
     protected $fillable = ['cuenta_bancaria_id','poliza','cheque','fecha','benef_id','cuenta_id','concepto','monto','estatus','user_id','fecha_cobro'];
     protected $appends = ['fecha_info'];
+    protected $dates = ['deleted_at'];
 
     //Egreso __belongs_to__ CuentaBancaria
     public function cuentaBancaria()

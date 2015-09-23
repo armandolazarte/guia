@@ -12,13 +12,14 @@ namespace Guia\Classes;
 use Guia\Models\Egreso;
 use Guia\Models\Oc;
 use Guia\Models\Req;
+use Guia\Models\Solicitud;
 
 class PagoDocumento
 {
     public $documento;
     public $tipo; // [Solicitud || Oc]
 
-    public function __construct($documento, $tipo)
+    public function __construct($documento = null, $tipo = null)
     {
         $this->documento = $documento;
         $this->tipo = $tipo;
@@ -26,14 +27,26 @@ class PagoDocumento
 
     public function pagarDocumento(Egreso $egreso)
     {
-        /**
-         * @todo Determinar si el pago es total o parcial
-         */
-        $this->actualizarEstatusDoc('Pagada');
-        $this->relacionarPagoEgreso($egreso);
+        if (!is_null($this->documento) && !is_null($this->tipo)) {
+            /**
+             * @todo Determinar si el pago es total o parcial
+             */
+            $this->actualizarEstatusDoc('Pagada');
+            $this->relacionarPagoEgreso($egreso);
 
-        if ($this->tipo == 'Oc') {
-            $this->actualizarEstatusReq($this->documento->req_id);
+            if ($this->tipo == 'Oc') {
+                $this->actualizarEstatusReq($this->documento->req_id);
+            }
+        }
+    }
+
+    public function cancelarPago(Egreso $egreso)
+    {
+        if (count($egreso->solicitudes) > 0) {
+            $egreso->solicitudes()->update(['estatus' => 'Autorizada']);
+        } elseif (count($egreso->ocs) > 0) {
+            $egreso->ocs()->update(['estatus' => '']);
+            $this->actualizarEstatusReq($egreso->ocs[0]->req_id);
         }
     }
 

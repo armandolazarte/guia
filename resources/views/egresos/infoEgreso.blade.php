@@ -1,9 +1,13 @@
 @extends('layouts.theme')
 
 @section('content')
+@if($cancelar_cheque)
+    @include('egresos.modalCancelarCheque')
+@endif
 <div class="row">
     <div class="col-sm-12">
         <table class="table table-bordered table-condensed">
+            <thead>
             <tr>
                 <th>Cuenta Bancaria</th>
                 <th>Poliza/Cheque</th>
@@ -16,7 +20,12 @@
                 <th>Respnosable</th>
                 <th>Imprimir</th>
             </tr>
-            <tr>
+            </thead>
+            @if($egreso->estatus == 'Cancelado')
+                <tr class="bg-danger">
+            @else
+                <tr class="bg-info">
+            @endif
                 <td>{{ $egreso->cuentaBancaria->cuenta_bancaria }}</td>
                 @if(!empty($egreso->cheque))
                     <td>Ch. {{ $egreso->cheque }}</td>
@@ -33,6 +42,10 @@
                 <td><a href="{{ action('EgresosController@chequeRtf', $egreso->id) }}" target="_blank">Imprimir</a></td>
             </tr>
         </table>
+
+        @if($egreso->estatus != 'Cancelado' && !empty($egreso->cheque) && $cancelar_cheque)
+            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modalCancelarCheque">Cancelar Cheque</button>
+        @endif
 
         {{-- @todo Solo mostrar "Captura Cheque" en ciertos roles --}}
         {{--<a href="{{ action('EgresosController@create') }}">Capturar Cheque</a>--}}

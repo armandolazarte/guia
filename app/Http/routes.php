@@ -262,6 +262,7 @@ Route::group(array('prefix' => 'egresos', 'middleware' => ['auth']), function()
     Route::get('/{id}/info', 'EgresosController@show');
     Route::get('/{id}/editar', 'EgresosController@edit');
     Route::patch('/{id}/editar', 'EgresosController@update');
+    Route::delete('/{id}/cancelar', 'EgresosController@cancelar');
     Route::get('/{id}/imprimir', 'EgresosController@chequeRtf');
 });
 
