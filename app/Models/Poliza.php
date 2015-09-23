@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Poliza extends Model
 {
-    protected $fillable = ['fecha','tipo','user_id'];
+    protected $fillable = ['fecha','tipo','concepto','user_id'];
 
     public function user()
     {
