@@ -32,6 +32,7 @@ class EjercicioRms
            't_presu' => $ejercicio_rms->get('rms')->sum('presupuestado'),
            't_compensa' => $ejercicio_rms->get('rms')->sum('compensado'),
            't_ejercido' => $ejercicio_rms->get('rms')->sum('ejercido'),
+           't_reintegros_df' => $ejercicio_rms->get('rms')->sum('reintegros_df'),
            't_reservado' => $ejercicio_rms->get('rms')->sum('reservado'),
            't_comp_vales' => $ejercicio_rms->get('rms')->sum('comprobado_vales'),
            't_saldo' => $ejercicio_rms->get('rms')->sum('saldo'),
@@ -56,12 +57,11 @@ class EjercicioRms
 
         $rm_objeto = Rm::find($rm->id);
 
-        //-- Ejercido --//
-        $egresos = round($rm_objeto->egresos()->sum('egreso_rm.monto'),2);
-        $abonos = round($rm_objeto->polizaAbonos()->sum('poliza_abono_rm.monto'),2);
-        $cargos = round($rm_objeto->polizaCargos()->sum('poliza_cargo_rm.monto'),2);
-        $ejercido = $egresos + $abonos - $cargos;
+        $ejercido = $this->getMontoEjercido($rm_objeto);
         $ejercicio_rm->put('ejercido', $ejercido);
+
+        $reintegros_df = $this->getMontoReintegrosDF($rm_objeto);
+        $ejercicio_rm->put('reintegros_df', $reintegros_df);
 
         //-- Reservado --//
         $reqs_id = Req::where('proyecto_id', $rm->proyecto_id)->where('estatus', 'Autorizada')->lists('id')->all();
@@ -83,5 +83,22 @@ class EjercicioRms
         $ejercicio_rm->put('saldo', round($saldo,2));
 
         return $ejercicio_rm;
+    }
+
+    private function getMontoEjercido(Rm $rm)
+    {
+        $egresos = round($rm->egresos()->where('cuenta_id', 1)->sum('egreso_rm.monto'),2);
+        $abonos = round($rm->polizaAbonos()->sum('poliza_abono_rm.monto'),2);
+        $cargos = round($rm->polizaCargos()->sum('poliza_cargo_rm.monto'),2);
+        $ejercido = $egresos + $abonos - $cargos;
+
+        return round($ejercido, 2);
+    }
+
+    private function getMontoReintegrosDF(Rm $rm)
+    {
+        $monto_reintegros_df = $rm->egresos()->where('cuenta_id', 2)->sum('egreso_rm.monto');
+
+        return round($monto_reintegros_df, 2);
     }
 }

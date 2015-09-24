@@ -30,7 +30,7 @@
                     <th><span data-toggle="tooltip" data-placement="top" title="Cheques + Egresos - Pol. Ingreso y Cancelación">Ejercido*</span></th>{{-- Cheques + Egresos + Retenciones --}}
                     {{--@elseif($modo_tabla == 'extendida')--}}
                     {{--<th>Ejercido</th>--}}
-                    {{--<th>Reintegro DF</th>--}}{{-- Cheques + Devoluciones directas --}}
+                    <th>Reintegro DF</th>{{-- Cheques + Devoluciones directas --}}
                     {{--@endif--}}
                     <th><span data-toggle="tooltip" data-placement="top" title="Requisiciones y Solicitudes Autorizadas">Reservado*</span></th>{{-- Sol. + Req. --}}
                     <th>Comprobado Vales</th>
@@ -73,6 +73,7 @@
                             '<td class="text-right">'+ accounting.formatNumber(ejercicioObj.presupuestado, 2) +'</td>' +
                             '<td class="text-right">'+ accounting.formatNumber(ejercicioObj.compensado, 2) +'</td>' +
                             '<td class="text-right">'+ accounting.formatNumber(ejercicioObj.ejercido, 2) +'</td>' +
+                            '<td class="text-right">'+ accounting.formatNumber(ejercicioObj.reintegros_df, 2) +'</td>' +
                             '<td class="text-right">'+ accounting.formatNumber(ejercicioObj.reservado, 2) +'</td>' +
                             '<td class="text-right">'+ accounting.formatNumber(ejercicioObj.comprobado_vales, 2) +'</td>' +
                             '<td class="text-right">'+ accounting.formatNumber(ejercicioObj.saldo, 2) +'</td>' +
@@ -83,6 +84,7 @@
                         '<td class="text-right">'+ accounting.formatNumber(data.total.t_presu, 2) +'</td>' +
                         '<td class="text-right">'+ accounting.formatNumber(data.total.t_compensa, 2) +'</td>' +
                         '<td class="text-right">'+ accounting.formatNumber(data.total.t_ejercido, 2) +'</td>' +
+                        '<td class="text-right">'+ accounting.formatNumber(data.total.t_reintegros_df, 2) +'</td>' +
                         '<td class="text-right">'+ accounting.formatNumber(data.total.t_reservado, 2) +'</td>' +
                         '<td class="text-right">'+ accounting.formatNumber(data.total.t_comp_vales, 2) +'</td>' +
                         '<td class="text-right">'+ accounting.formatNumber(data.total.t_saldo, 2) +'</td>' +
