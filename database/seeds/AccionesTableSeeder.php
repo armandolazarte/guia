@@ -174,5 +174,14 @@ class AccionesTableSeeder extends Seeder {
         Accion::create(['ruta' => 'CargosController@store', 'nombre' => 'Asignar Cargo', 'icono' => '', 'orden' => '', 'activo' => '0']);
         Accion::create(['ruta' => 'AccesosController@store', 'nombre' => 'Acceso Presupuestal', 'icono' => '', 'orden' => '', 'activo' => '0']);
         Accion::create(['ruta' => 'AsignarUsuariosController@store', 'nombre' => 'Asignar Usuarios', 'icono' => '', 'orden' => '', 'activo' => '0']);
+
+        //-- No Identificados --//
+        Accion::create(['ruta' => 'NoIdentificadoController@index', 'nombre' => 'Listado No Ident.', 'icono' => '', 'orden' => '', 'activo' => '0']);
+        Accion::create(['ruta' => 'NoIdentificadoController@create', 'nombre' => 'Nuevo Depósito No Ident.', 'icono' => '', 'orden' => '', 'activo' => '0']);
+        Accion::create(['ruta' => 'NoIdentificadoController@store', 'nombre' => '', 'icono' => '', 'orden' => '', 'activo' => '0']);
+        Accion::create(['ruta' => 'NoIdentificadoController@show', 'nombre' => '', 'icono' => '', 'orden' => '', 'activo' => '0']);
+        Accion::create(['ruta' => 'NoIdentificadoController@edit', 'nombre' => '', 'icono' => '', 'orden' => '', 'activo' => '0']);
+        Accion::create(['ruta' => 'NoIdentificadoController@update', 'nombre' => '', 'icono' => '', 'orden' => '', 'activo' => '0']);
+        Accion::create(['ruta' => 'NoIdentificadoController@destroy', 'nombre' => '', 'icono' => '', 'orden' => '', 'activo' => '0']);
     }
 }

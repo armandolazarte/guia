@@ -288,6 +288,17 @@ Route::group(array('prefix' => 'bancos', 'middleware' => ['auth']), function() {
     Route::get('/egresos-benef', 'BancoController@reporteEgresosBenef');
 });
 
+/** No Identificados */
+Route::group(array('prefix' => 'bancos/no-identificados', 'middleware' => ['auth']), function() {
+    Route::match(['get','post'], '/', 'NoIdentificadoController@index');
+    Route::get('/{id}/info', 'NoIdentificadoController@show');
+    Route::get('/nuevo', 'NoIdentificadoController@create');
+    Route::post('/nuevo', 'NoIdentificadoController@store');
+    Route::get('/{id}/editar', 'NoIdentificadoController@edit');
+    Route::patch('/{id}/editar', 'NoIdentificadoController@update');
+    Route::delete('/{id}/borrar', 'NoIdentificadoController@destroy');
+});
+
 Route::group(array('prefix' => 'api', 'middleware' => ['auth']), function()
 {
     Route::get('/rm-dropdown/', function()
