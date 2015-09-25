@@ -190,6 +190,8 @@ class RequisicionController extends Controller {
                 }
                 $estatus = 'Asignada';//Solo para efectos del registro
                 $req->user_id = $user_id_responsable;
+                $nombre = User::whereId($user_id_responsable)->pluck('nombre');
+                $mensaje_exito = 'La requisición '.$req->req.' ha sido asignada a '.$nombre;
             } elseif ($accion == 'Desautorizar') {
                 $articulos = Articulo::whereReqId($id)->get();
                 foreach($articulos as $articulo){
@@ -230,6 +232,7 @@ class RequisicionController extends Controller {
                         Oc::find($oc_id)->delete();
                     }
                 }
+                $mensaje_exito = 'La requisición ha sido regresada con éxito';
             }
 
             //Creación de registro
@@ -249,9 +252,9 @@ class RequisicionController extends Controller {
             $req->save();
         }
 
-        if($accion == 'Regresar') {
+        if($accion == 'Regresar' || $accion == 'Asignar') {
             return redirect()->action('RequisicionController@index', 'suministros')
-                ->with(['message' => 'La requisición ha sido regresada con éxito', 'alert-class' => 'alert-success']);
+                ->with(['message' => $mensaje_exito, 'alert-class' => 'alert-success']);
         }
         return redirect()->action('RequisicionController@show', array($req->id));
 	}
