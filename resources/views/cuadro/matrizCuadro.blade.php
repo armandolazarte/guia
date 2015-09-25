@@ -8,6 +8,10 @@
             <a href="{{ action('RequisicionController@show', $req_id) }}" class="btn btn-primary btn-sm">Regresar a Requisición</a>
         </div>
 
+        <div class="col-md-2">
+            <a href="{{ action('MatrizCuadroController@edit', $cuadro_id) }}" class="btn btn-primary btn-sm">Volver a Editar Cuadro</a>
+        </div>
+
         <div class="col-md-1">
             <a class="btn btn-primary btn-sm" href="{{ action('CuadroController@cuadroPdf', $cuadro_id) }}" role="button" target="_blank">Imprimir</a>
         </div>
