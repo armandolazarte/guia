@@ -15,6 +15,23 @@
             </div>
             {!! Form::close() !!}
 
+            <table class="table table-bordered table-condensed">
+                <thead>
+                <tr>
+                    <th>Presupuestado</th>
+                    <th>Recibido</th>
+                    <th>Ejercido</th>
+                    <th>Reembolsado</th>
+                    <th>Reintegro DF</th>
+                    <th>Saldo</th>
+                    <th>Reservado</th>
+                </tr>
+                </thead>
+                <tbody id="ejercicio-proyecto">
+
+                </tbody>
+            </table>
+
             <table class="table table-bordered table-condensed table-hover">
                 <thead>
                 <tr>
@@ -27,13 +44,12 @@
                     {{--@endif--}}
                     <th><span data-toggle="tooltip" data-placement="top" title="Compensaciones Internas y Externas">Compensado*</span></th>
                     {{--@if($modo_tabla == 'condensada')--}}
-                    <th><span data-toggle="tooltip" data-placement="top" title="Cheques + Egresos - Pol. Ingreso y Cancelación">Ejercido*</span></th>{{-- Cheques + Egresos + Retenciones --}}
+                    <th><span data-toggle="tooltip" data-placement="top" title="Cheques - Cancelaciones + Cargos + Vales">Ejercido*</span></th>{{-- @todo Retenciones --}}
                     {{--@elseif($modo_tabla == 'extendida')--}}
                     {{--<th>Ejercido</th>--}}
                     <th>Reintegro DF</th>{{-- Cheques + Devoluciones directas --}}
                     {{--@endif--}}
                     <th><span data-toggle="tooltip" data-placement="top" title="Requisiciones y Solicitudes Autorizadas">Reservado*</span></th>{{-- Sol. + Req. --}}
-                    <th>Comprobado Vales</th>
                     <th>Saldo</th>
                     {{--@if($modo_tabla == 'extendida')--}}
                     {{--<th>Saldo por Depositar</th>--}}
@@ -65,9 +81,9 @@
 
             var proyecto_id = e.target.value;
 
-            $.get('/presupuesto/get-ejercicio-proyecto?proyecto_id=' + proyecto_id, function(data){
+            $.get('/presupuesto/get-ejercicio-proyecto?proyecto_id=' + proyecto_id, function(ejercicio){
                 $('#ejercicio-rm').empty();
-                $.each(data.rms, function(index, ejercicioObj) {
+                $.each(ejercicio.desgloseRMs.rms, function(index, ejercicioObj) {
                     $('#ejercicio-rm').append('<tr><td>'+ ejercicioObj.objetivo +'</td> <td class="text-center">'+ ejercicioObj.rm +'</td>' +
                             '<td class="text-center"><span data-toggle="tooltip" title="'+ ejercicioObj.d_cog +'">'+ ejercicioObj.cog +'</span></td>' +
                             '<td class="text-right">'+ accounting.formatNumber(ejercicioObj.presupuestado, 2) +'</td>' +
@@ -75,19 +91,29 @@
                             '<td class="text-right">'+ accounting.formatNumber(ejercicioObj.ejercido, 2) +'</td>' +
                             '<td class="text-right">'+ accounting.formatNumber(ejercicioObj.reintegros_df, 2) +'</td>' +
                             '<td class="text-right">'+ accounting.formatNumber(ejercicioObj.reservado, 2) +'</td>' +
-                            '<td class="text-right">'+ accounting.formatNumber(ejercicioObj.comprobado_vales, 2) +'</td>' +
                             '<td class="text-right">'+ accounting.formatNumber(ejercicioObj.saldo, 2) +'</td>' +
                             '</tr>');
 
                 });
                 $('#ejercicio-rm').append('<tr><td></td><td></td><td></td>' +
-                        '<td class="text-right">'+ accounting.formatNumber(data.total.t_presu, 2) +'</td>' +
-                        '<td class="text-right">'+ accounting.formatNumber(data.total.t_compensa, 2) +'</td>' +
-                        '<td class="text-right">'+ accounting.formatNumber(data.total.t_ejercido, 2) +'</td>' +
-                        '<td class="text-right">'+ accounting.formatNumber(data.total.t_reintegros_df, 2) +'</td>' +
-                        '<td class="text-right">'+ accounting.formatNumber(data.total.t_reservado, 2) +'</td>' +
-                        '<td class="text-right">'+ accounting.formatNumber(data.total.t_comp_vales, 2) +'</td>' +
-                        '<td class="text-right">'+ accounting.formatNumber(data.total.t_saldo, 2) +'</td>' +
+                        '<td class="text-right">'+ accounting.formatNumber(ejercicio.desgloseRMs.total.t_presu, 2) +'</td>' +
+                        '<td class="text-right">'+ accounting.formatNumber(ejercicio.desgloseRMs.total.t_compensa, 2) +'</td>' +
+                        '<td class="text-right">'+ accounting.formatNumber(ejercicio.desgloseRMs.total.t_ejercido, 2) +'</td>' +
+                        '<td class="text-right">'+ accounting.formatNumber(ejercicio.desgloseRMs.total.t_reintegros_df, 2) +'</td>' +
+                        '<td class="text-right">'+ accounting.formatNumber(ejercicio.desgloseRMs.total.t_reservado, 2) +'</td>' +
+                        '<td class="text-right">'+ accounting.formatNumber(ejercicio.desgloseRMs.total.t_comp_vales, 2) +'</td>' +
+                        '<td class="text-right">'+ accounting.formatNumber(ejercicio.desgloseRMs.total.t_saldo, 2) +'</td>' +
+                        '</tr>');
+
+                $('#ejercicio-proyecto').empty();
+                $('#ejercicio-proyecto').append('<tr>' +
+                        '<td class="text-right">'+ accounting.formatNumber(ejercicio.ejercicioGlobal.presupuestado, 2) +'</td>' +
+                        '<td class="text-right"></td>' +
+                        '<td class="text-right"></td>' +
+                        '<td class="text-right"></td>' +
+                        '<td class="text-right">'+ accounting.formatNumber(ejercicio.ejercicioGlobal.reintegro_df, 2) +'</td>' +
+                        '<td class="text-right"></td>' +
+                        '<td class="text-right"></td>' +
                         '</tr>');
             });
         });

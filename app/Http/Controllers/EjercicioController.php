@@ -22,8 +22,12 @@ class EjercicioController extends Controller
         $proyecto_id = \Input::get('proyecto_id');
 
         $ejercicio_proyecto = new EjercicioProyecto($proyecto_id);
+        $ejercicio_global = $ejercicio_proyecto->ejercicioGlobal();
         $ejercicio_rms = $ejercicio_proyecto->ejercicioRms();
 
-        return response()->json($ejercicio_rms);
+        $ejercicio = collect(['ejercicioGlobal' => $ejercicio_global]);
+        $ejercicio->put('desgloseRMs', $ejercicio_rms);
+
+        return response()->json($ejercicio);
     }
 }

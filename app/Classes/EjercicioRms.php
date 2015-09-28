@@ -9,6 +9,7 @@
 namespace Guia\Classes;
 
 
+use Guia\Models\Comp;
 use Guia\Models\CompensaDestino;
 use Guia\Models\CompensaOrigen;
 use Guia\Models\Req;
@@ -18,7 +19,7 @@ use Guia\Models\Solicitud;
 class EjercicioRms
 {
 
-    public function getEjericioProyecto($proyecto_id)
+    public function getEjericioRmsProyecto($proyecto_id)
     {
         $rms = Rm::whereProyectoId($proyecto_id)->with('objetivo','cog')->get();
 
@@ -72,9 +73,6 @@ class EjercicioRms
 
         $ejercicio_rm->put('reservado', $reservado);
 
-        $ejercicio_rm->put('comprobado_vales', 0);
-
-
         $saldo = $ejercicio_rm->get('presupuestado')
             + $ejercicio_rm->get('compensado')
             - $ejercicio_rm->get('ejercido')
@@ -87,10 +85,21 @@ class EjercicioRms
 
     private function getMontoEjercido(Rm $rm)
     {
-        $egresos = round($rm->egresos()->where('cuenta_id', 1)->sum('egreso_rm.monto'),2);
-        $abonos = round($rm->polizaAbonos()->sum('poliza_abono_rm.monto'),2);
+        $egresos_query = $rm->egresos()->where('cuenta_id', 1);
+        /**
+         * @todo Excluir egresos de vales con comprobación (desglose x RM) ($egresos_id_comprobados)
+         */
+//        if (count($egresos_id_comprobados) > 0) {
+//            $egresos_query->whereNotIn($egresos_id_comprobados);
+//        }
+        $egresos = round($egresos_query->sum('egreso_rm.monto'), 2);
+
+        $cancelados = round($rm->polizaAbonos()->with(['poliza' => function ($query){
+            $query->where('tipo', 'Cancelación');
+        }])->sum('poliza_abono_rm.monto'),2);
         $cargos = round($rm->polizaCargos()->sum('poliza_cargo_rm.monto'),2);
-        $ejercido = $egresos + $abonos - $cargos;
+        $vales_comprobados = $this->getMontoValesComprobados($rm);
+        $ejercido = $egresos - $cancelados + $cargos + $vales_comprobados;
 
         return round($ejercido, 2);
     }
@@ -101,4 +110,17 @@ class EjercicioRms
 
         return round($monto_reintegros_df, 2);
     }
+
+    private function getMontoValesComprobados(Rm $rm)
+    {
+        $monto_comprobado = $rm->comps()->sum('comp_rm.monto');
+
+        return round($monto_comprobado, 2);
+    }
+
+//    private function getEgresosComprobados(Rm $rm)
+//    {
+//
+//        return $egresos_id_comprobados;
+//    }
 }
