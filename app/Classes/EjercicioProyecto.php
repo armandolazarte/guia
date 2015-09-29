@@ -9,8 +9,11 @@
 namespace Guia\Classes;
 
 
+use Guia\Models\Articulo;
 use Guia\Models\Egreso;
 use Guia\Models\Proyecto;
+use Guia\Models\Req;
+use Guia\Models\Solicitud;
 
 class EjercicioProyecto
 {
@@ -36,11 +39,20 @@ class EjercicioProyecto
 
         $ejercicio_global = collect(['presupuestado' => $proyecto->monto]);
 
+        $montoEjercido = $this->getMontoEjercido($proyecto);
+        $ejercicio_global->put('ejercido', $montoEjercido);
+
         $montoReintegroDF = $this->getMontoReintegrosDF($proyecto);
         $ejercicio_global->put('reintegro_df', $montoReintegroDF);
 
         $montoValesSinRms = $this->getMontoValesSinRMs($proyecto);
         $ejercicio_global->put('valesNoComprobados', $montoValesSinRms);
+
+        $montoReservado = $this->getMontoReservado($proyecto);
+        $ejercicio_global->put('reservado', $montoValesSinRms);
+
+        $saldo = $proyecto->monto - $montoEjercido + $montoReintegroDF - $montoValesSinRms - $montoReservado;
+        $ejercicio_global->put('saldo', $saldo);
 
         return $ejercicio_global;
     }
@@ -50,6 +62,16 @@ class EjercicioProyecto
         $montoReintegroDF = $proyecto->egresos()->where('cuenta_id', 2)->sum('egreso_proyecto.monto');
 
         return round($montoReintegroDF, 2);
+    }
+
+    private function getMontoEjercido(Proyecto $proyecto)
+    {
+        $montoEjercido = $proyecto->egresos()->where('cuenta_id', 1)->sum('egreso_proyecto.monto');
+        /**
+         * @todo Descontar "Cargos" existentes en Pólizas
+         */
+
+        return round($montoEjercido, 2);
     }
 
     private function getMontoValesSinRMs(Proyecto $proyecto)
@@ -82,5 +104,18 @@ class EjercicioProyecto
         $egresos_id_comprobados = $egresos->toArray();
 
         return $egresos_id_comprobados;
+    }
+
+    private function getMontoReservado(Proyecto $proyecto)
+    {
+        $reqs_id = Req::where('proyecto_id', $proyecto->id)->where('estatus', 'Autorizada')->lists('id')->all();
+        $articulos = Articulo::whereIn('req_id', $reqs_id)->with('rms')->get();
+        $reservado_reqs = $articulos->sum('articulo_rm.monto');
+
+        //$reservado_reqs = round($rm_objeto->articulos()->whereIn('req_id', $reqs_id)->sum('articulo_rm.monto'),2);
+        $reservado_solicitudes = round(Solicitud::where('proyecto_id', $proyecto->id)->where('estatus', 'Autorizada')->sum('monto'), 2);
+        $montoReservado = $reservado_reqs + $reservado_solicitudes;
+
+        return round($montoReservado, 2);
     }
 }

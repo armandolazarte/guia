@@ -19,13 +19,12 @@
                 <thead>
                 <tr>
                     <th>Presupuestado</th>
-                    <th>Recibido</th>
                     <th>Ejercido</th>
-                    <th><span data-toggle="tooltip" data-placement="top" title="(Sin asignación de RM)">Vales No Comprobados*</span></th>
-                    <th>Reembolsado</th>
+                    <th><span data-toggle="tooltip" data-placement="top" title="Vales No Comprobados (sin asignación de RM)">GxC*</span></th>
+                    {{--<th>Reembolsado</th>--}}
                     <th>Reintegro DF</th>
-                    <th>Saldo</th>
                     <th>Reservado</th>
+                    <th>Saldo</th>
                 </tr>
                 </thead>
                 <tbody id="ejercicio-proyecto">
@@ -108,13 +107,11 @@
                 $('#ejercicio-proyecto').empty();
                 $('#ejercicio-proyecto').append('<tr>' +
                         '<td class="text-right">'+ accounting.formatNumber(ejercicio.ejercicioGlobal.presupuestado, 2) +'</td>' +
-                        '<td class="text-right"></td>' +
-                        '<td class="text-right"></td>' +
+                        '<td class="text-right">'+ accounting.formatNumber(ejercicio.ejercicioGlobal.ejercido, 2) +'</td>' +
                         '<td class="text-right">'+ accounting.formatNumber(ejercicio.ejercicioGlobal.valesNoComprobados, 2) +'</td>' +
-                        '<td class="text-right"></td>' +
                         '<td class="text-right">'+ accounting.formatNumber(ejercicio.ejercicioGlobal.reintegro_df, 2) +'</td>' +
-                        '<td class="text-right"></td>' +
-                        '<td class="text-right"></td>' +
+                        '<td class="text-right">'+ accounting.formatNumber(ejercicio.ejercicioGlobal.reservado, 2) +'</td>' +
+                        '<td class="text-right">'+ accounting.formatNumber(ejercicio.ejercicioGlobal.saldo, 2) +'</td>' +
                         '</tr>');
             });
         });
