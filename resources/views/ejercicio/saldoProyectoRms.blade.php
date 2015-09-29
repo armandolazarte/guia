@@ -21,6 +21,7 @@
                     <th>Presupuestado</th>
                     <th>Recibido</th>
                     <th>Ejercido</th>
+                    <th><span data-toggle="tooltip" data-placement="top" title="(Sin asignación de RM)">Vales No Comprobados*</span></th>
                     <th>Reembolsado</th>
                     <th>Reintegro DF</th>
                     <th>Saldo</th>
@@ -44,7 +45,7 @@
                     {{--@endif--}}
                     <th><span data-toggle="tooltip" data-placement="top" title="Compensaciones Internas y Externas">Compensado*</span></th>
                     {{--@if($modo_tabla == 'condensada')--}}
-                    <th><span data-toggle="tooltip" data-placement="top" title="Cheques - Cancelaciones + Cargos + Vales">Ejercido*</span></th>{{-- @todo Retenciones --}}
+                    <th><span data-toggle="tooltip" data-placement="top" title="Cheques - Cancelaciones + Cargos + Vales (c/RM)">Ejercido*</span></th>{{-- @todo Retenciones --}}
                     {{--@elseif($modo_tabla == 'extendida')--}}
                     {{--<th>Ejercido</th>--}}
                     <th>Reintegro DF</th>{{-- Cheques + Devoluciones directas --}}
@@ -109,6 +110,7 @@
                         '<td class="text-right">'+ accounting.formatNumber(ejercicio.ejercicioGlobal.presupuestado, 2) +'</td>' +
                         '<td class="text-right"></td>' +
                         '<td class="text-right"></td>' +
+                        '<td class="text-right">'+ accounting.formatNumber(ejercicio.ejercicioGlobal.valesNoComprobados, 2) +'</td>' +
                         '<td class="text-right"></td>' +
                         '<td class="text-right">'+ accounting.formatNumber(ejercicio.ejercicioGlobal.reintegro_df, 2) +'</td>' +
                         '<td class="text-right"></td>' +
