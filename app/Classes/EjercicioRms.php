@@ -12,6 +12,7 @@ namespace Guia\Classes;
 use Guia\Models\Comp;
 use Guia\Models\CompensaDestino;
 use Guia\Models\CompensaOrigen;
+use Guia\Models\Egreso;
 use Guia\Models\Req;
 use Guia\Models\Rm;
 use Guia\Models\Solicitud;
@@ -85,13 +86,13 @@ class EjercicioRms
 
     private function getMontoEjercido(Rm $rm)
     {
+        //Exlusión de egresos de vales comprobados
+        $egresos_id_comprobados = $this->getEgresosComprobados($rm);
+
         $egresos_query = $rm->egresos()->where('cuenta_id', 1);
-        /**
-         * @todo Excluir egresos de vales con comprobación (desglose x RM) ($egresos_id_comprobados)
-         */
-//        if (count($egresos_id_comprobados) > 0) {
-//            $egresos_query->whereNotIn($egresos_id_comprobados);
-//        }
+        if (count($egresos_id_comprobados) > 0) {
+            $egresos_query->whereNotIn($egresos_id_comprobados);
+        }
         $egresos = round($egresos_query->sum('egreso_rm.monto'), 2);
 
         $cancelados = round($rm->polizaAbonos()->with(['poliza' => function ($query){
@@ -118,9 +119,15 @@ class EjercicioRms
         return round($monto_comprobado, 2);
     }
 
-//    private function getEgresosComprobados(Rm $rm)
-//    {
-//
-//        return $egresos_id_comprobados;
-//    }
+    private function getEgresosComprobados(Rm $rm)
+    {
+        $egresos_id_comprobados = [];
+        $comps = $rm->comps()->with('egresos')->get();
+        if (count($comps) > 0) {
+            $egresos = $comps->pluck('egreso_id');
+            $egresos_id_comprobados = $egresos->toArray();
+        }
+
+        return $egresos_id_comprobados;
+    }
 }

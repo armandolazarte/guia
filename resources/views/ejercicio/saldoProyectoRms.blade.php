@@ -101,7 +101,6 @@
                         '<td class="text-right">'+ accounting.formatNumber(ejercicio.desgloseRMs.total.t_ejercido, 2) +'</td>' +
                         '<td class="text-right">'+ accounting.formatNumber(ejercicio.desgloseRMs.total.t_reintegros_df, 2) +'</td>' +
                         '<td class="text-right">'+ accounting.formatNumber(ejercicio.desgloseRMs.total.t_reservado, 2) +'</td>' +
-                        '<td class="text-right">'+ accounting.formatNumber(ejercicio.desgloseRMs.total.t_comp_vales, 2) +'</td>' +
                         '<td class="text-right">'+ accounting.formatNumber(ejercicio.desgloseRMs.total.t_saldo, 2) +'</td>' +
                         '</tr>');
 
