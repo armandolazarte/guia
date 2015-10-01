@@ -34,5 +34,6 @@ class Kernel extends HttpKernel
         'autorizaEditarReq' => 'Guia\Http\Middleware\AutorizaEditarReq',
         'autorizaEditarSol' => 'Guia\Http\Middleware\AutorizaEditarSol',
         'autorizaEditarPreReq' => 'Guia\Http\Middleware\AutorizaEditarPreReq',
+        'controlOperacion' => \Guia\Http\Middleware\ControlOperacion::class,
     ];
 }
