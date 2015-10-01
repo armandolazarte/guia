@@ -22,6 +22,11 @@ use Illuminate\Support\Facades\Auth;
 
 class RequisicionController extends Controller {
 
+    public function __construct()
+    {
+        $this->middleware('controlOperacion:Req', ['only' => ['store','update']]);
+    }
+
 	/**
 	 * Display a listing of the resource.
 	 *
