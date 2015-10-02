@@ -5,6 +5,8 @@
     {{-- Acciones Unidad de Presupuesto --}}
     @if($acciones_presu)
         @include('solicitudes.accionesPresuSol', array('solicitud' => $solicitud))
+        @include('partials.modalRegistros')
+        <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modalRegistros">Registro Histórico</button>
     @endif
 
     <div class="row">

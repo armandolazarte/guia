@@ -7,6 +7,7 @@ class Registro extends Model {
     public $timestamps = false;
 
     protected $fillable = ['user_id', 'estatus', 'fecha_hora'];
+    protected $dates = ['fecha_hora'];
 
     //Registro __belongs_to__ User
     public function user()

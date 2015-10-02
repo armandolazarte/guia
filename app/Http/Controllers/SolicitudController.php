@@ -118,7 +118,13 @@ class SolicitudController extends Controller {
         }
         $archivos_relacionados = [];
 
-        return view('solicitudes.infoSolicitud', compact('solicitud', 'acciones_presu', 'archivos','archivos_relacionados', 'arr_roles','borrar_archivo'));
+        if ($acciones_presu) {
+            $registros = $solicitud->registros()->get();
+            if (count($registros) > 0) {
+                $registros = $solicitud->registros()->get();
+            }
+        }
+        return view('solicitudes.infoSolicitud', compact('solicitud', 'acciones_presu', 'archivos','archivos_relacionados', 'arr_roles','borrar_archivo','registros'));
 	}
 
 	/**
