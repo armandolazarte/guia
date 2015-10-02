@@ -123,7 +123,7 @@ class SolicitudController extends Controller {
             if (count($registros) == 0) {
                 $registros = [];
             }
-            $rel_internas = $solicitud->relacionInternaDocs()->with('relInterna')->get();
+            $rel_internas = $solicitud->relacionInternaDocs()->with('relInterna.destino')->get();
             if (count($rel_internas) == 0) {
                 $rel_internas = [];
             }
