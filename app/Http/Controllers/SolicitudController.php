@@ -120,11 +120,15 @@ class SolicitudController extends Controller {
 
         if ($acciones_presu) {
             $registros = $solicitud->registros()->get();
-            if (count($registros) > 0) {
-                $registros = $solicitud->registros()->get();
+            if (count($registros) == 0) {
+                $registros = [];
+            }
+            $rel_internas = $solicitud->relacionInternaDocs()->with('relInterna')->get();
+            if (count($rel_internas) == 0) {
+                $rel_internas = [];
             }
         }
-        return view('solicitudes.infoSolicitud', compact('solicitud', 'acciones_presu', 'archivos','archivos_relacionados', 'arr_roles','borrar_archivo','registros'));
+        return view('solicitudes.infoSolicitud', compact('solicitud', 'acciones_presu', 'archivos','archivos_relacionados', 'arr_roles','borrar_archivo','registros','rel_internas'));
 	}
 
 	/**

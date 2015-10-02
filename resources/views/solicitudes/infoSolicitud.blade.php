@@ -6,7 +6,9 @@
     @if($acciones_presu)
         @include('solicitudes.accionesPresuSol', array('solicitud' => $solicitud))
         @include('partials.modalRegistros')
+        @include('partials.modalRelInternas')
         <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modalRegistros">Registro Histórico</button>
+        <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modalRelInternas">Relaciones Internas</button>
     @endif
 
     <div class="row">
