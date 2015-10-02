@@ -17,6 +17,14 @@ class ControlOperacion
      */
     public function handle($request, Closure $next, $modelo)
     {
+        //Permite la operación si no se está enviando la Req||Sol
+        $accion = $request->input('accion');
+        if (!empty($accion)) {
+            if ($accion != 'Enviar') {
+                return $next($request);
+            }
+        }
+
         $proyecto_id = $request->input('proyecto_id');
         $documento_id = null;
         if (empty($proyecto_id)) {
