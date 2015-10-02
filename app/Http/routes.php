@@ -46,6 +46,8 @@ Route::post('/archivos/cargar', 'ArchivosController@store');
 Route::get('/archivos/descargar/{id}', 'ArchivosController@descargar');
 Route::delete('/archivos/eliminar/{id?}', 'ArchivosController@destroy');
 
+Route::post('/buscar-documento', 'SearchController@buscarDocumento');
+
 Route::group(array('prefix' => 'admin/su', 'middleware' => ['auth']), function()
 {
 	Route::get('/modulos', 'ModuloController@index');

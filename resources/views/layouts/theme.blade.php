@@ -40,6 +40,7 @@
                 <li><a href="/">Home</a></li>
             </ul>
 
+            @include('partials.searchBox')
             @include('partials.menu')
 
             <ul class="nav navbar-nav navbar-right">
