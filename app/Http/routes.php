@@ -292,6 +292,7 @@ Route::group(array('prefix' => 'bancos', 'middleware' => ['auth']), function() {
     /** Conciliación Bancaria */
     Route::get('/conciliacion/auxiliar-libros/{cuenta_bancaria_id}/{aaaa}/{mes}', 'ConciliacionBancariaController@auxiliarLibros');
     Route::get('/conciliacion/no-identificados/{cuenta_bancaria_id}/{aaaa}/{mes}', 'ConciliacionBancariaController@noIdentificados');
+    Route::get('/conciliacion/cheques-circulacion/{cuenta_bancaria_id}/{aaaa}/{mes}', 'ConciliacionBancariaController@chequesCirculacion');
 });
 
 /** No Identificados */

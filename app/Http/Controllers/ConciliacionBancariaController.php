@@ -78,6 +78,28 @@ class ConciliacionBancariaController extends Controller
         return view('conciliacion.noIdentificados', compact('no_identificados'));
     }
 
+    public function chequesCirculacion($cuenta_bancaria_id, $aaaa, $mm)
+    {
+        $fecha = FechasUtility::fechasConciliacion($aaaa, $mm);
+        $this->fecha_inicio = $fecha['inicial'];
+        $this->fecha_fin = $fecha['final'];
+
+        $circulacion = Egreso::withTrashed()
+            ->where('cuenta_bancaria_id', $cuenta_bancaria_id)
+            ->where('cheque', '!=', 0)
+            ->where('fecha', '<=', $this->fecha_fin)
+            ->whereNested(function ($query) {
+                $query->where('fecha_cobro', '>', $this->fecha_fin);
+                $query->orWhere('fecha_cobro', '=', '');
+                $query->orWhere('fecha_cobro', '=', '0000-00-00');
+                $query->orWhere('deleted_at', '>', $this->fecha_fin);
+            })
+            ->with('benef','cuenta')
+            ->get();
+
+        return view('conciliacion.chequesCirculacion', compact('circulacion'));
+    }
+
     private function getIngresos()
     {
         $ingresos = Ingreso::where('cuenta_bancaria_id', $this->cuenta_bancaria_id)
