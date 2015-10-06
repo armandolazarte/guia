@@ -5,6 +5,7 @@ namespace Guia\Http\Controllers;
 use Guia\Classes\FechasUtility;
 use Guia\Models\Egreso;
 use Guia\Models\Ingreso;
+use Guia\Models\NoIdentificado;
 use Guia\Models\Poliza;
 use Illuminate\Http\Request;
 
@@ -56,6 +57,25 @@ class ConciliacionBancariaController extends Controller
         });
 
         return view('conciliacion.auxiliarLibros', compact('auxiliar_registros'));
+    }
+
+    public function noIdentificados($cuenta_bancaria_id, $aaaa, $mm)
+    {
+        $fecha = FechasUtility::fechasConciliacion($aaaa, $mm);
+        $this->fecha_inicio = $fecha['inicial'];
+        $this->fecha_fin = $fecha['final'];
+
+        /**
+         * @todo Agregar campo fecha_identificado a tabla no_identificados
+         * @todo Incluir identificados c/fecha_identificado(año/mes) mayor al consultado
+         */
+        $no_identificados = NoIdentificado::where('cuenta_bancaria_id', $cuenta_bancaria_id)
+            ->whereBetween('fecha', [$this->fecha_inicio, $this->fecha_fin])
+            ->where('identificado', 0)
+            ->orderBy('fecha')
+            ->get();
+
+        return view('conciliacion.noIdentificados', compact('no_identificados'));
     }
 
     private function getIngresos()
