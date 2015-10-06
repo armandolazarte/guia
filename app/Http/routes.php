@@ -288,6 +288,9 @@ Route::group(array('prefix' => 'relaciones-internas', 'middleware' => ['auth']),
 /** Bancos */
 Route::group(array('prefix' => 'bancos', 'middleware' => ['auth']), function() {
     Route::get('/egresos-benef', 'BancoController@reporteEgresosBenef');
+
+    /** Conciliación Bancaria */
+    Route::get('/conciliacion/auxiliar-libros/{cuenta_bancaria_id}/{aaaa}/{mes}', 'ConciliacionBancariaController@auxiliarLibros');
 });
 
 /** No Identificados */
