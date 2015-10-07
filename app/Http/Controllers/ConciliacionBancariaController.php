@@ -19,6 +19,11 @@ class ConciliacionBancariaController extends Controller
     public $fecha_fin;
     public $cuenta_bancaria_id;
 
+    public function index()
+    {
+        return view('conciliacion.indexConciliacion');
+    }
+
     public function auxiliarLibros($cuenta_bancaria_id, $aaaa, $mm)
     {
         $fecha = FechasUtility::fechasConciliacion($aaaa, $mm);

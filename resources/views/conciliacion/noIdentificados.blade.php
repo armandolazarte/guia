@@ -3,6 +3,12 @@
 @section('content')
     <div class="row">
         <div class="col-md-12">
+
+            <h2>Depósitos no identificados</h2>
+
+            @include('partials.selCuentaBancaria')
+            @include('conciliacion.partialEnlacesConciliacion')
+
             <table class="table table-bordered table-striped table-condensed table-hover">
                 <thead>
                 <tr>
@@ -29,4 +35,9 @@
             </table>
         </div>
     </div>
+@stop
+
+@section('js')
+    @parent
+    <script src="{{ asset('js/sel-cuenta-bancaria.js') }}"></script>
 @stop
