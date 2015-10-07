@@ -111,6 +111,10 @@ class AccionesTableSeeder extends Seeder {
         //-- Reportes Presupuesto --//
         Accion::create(['ruta' => 'PresupuestoController@saldoRms', 'nombre' => '', 'icono' => '', 'orden' => '', 'activo' => '0']);
         Accion::create(['ruta' => 'PresupuestoController@reporteEgresosProyecto', 'nombre' => '', 'icono' => '', 'orden' => '', 'activo' => '0']);
+        Accion::create(['ruta' => 'EjercicioController@ejercicioProyectoRms', 'nombre' => '', 'icono' => '', 'orden' => '', 'activo' => '0']);
+        Accion::create(['ruta' => 'EjercicioController@getEjercicioProyectoRms', 'nombre' => '', 'icono' => '', 'orden' => '', 'activo' => '0']);
+        Accion::create(['ruta' => 'EjercicioController@reporteEjercido', 'nombre' => '', 'icono' => '', 'orden' => '', 'activo' => '0']);
+        Accion::create(['ruta' => 'EjercicioController@reporteEjercidoRms', 'nombre' => '', 'icono' => '', 'orden' => '', 'activo' => '0']);
 
         //-- Compensaciones --//
         Accion::create(['ruta' => 'ompensaInternaController@index', 'nombre' => 'Listado', 'icono' => '', 'orden' => '', 'activo' => '0']);
@@ -183,5 +187,11 @@ class AccionesTableSeeder extends Seeder {
         Accion::create(['ruta' => 'NoIdentificadoController@edit', 'nombre' => '', 'icono' => '', 'orden' => '', 'activo' => '0']);
         Accion::create(['ruta' => 'NoIdentificadoController@update', 'nombre' => '', 'icono' => '', 'orden' => '', 'activo' => '0']);
         Accion::create(['ruta' => 'NoIdentificadoController@destroy', 'nombre' => '', 'icono' => '', 'orden' => '', 'activo' => '0']);
+
+        //-- Conciliaciones --//
+        Accion::create(['ruta' => 'ConciliacionBancariaController@index', 'nombre' => '', 'icono' => '', 'orden' => '', 'activo' => '0']);
+        Accion::create(['ruta' => 'ConciliacionBancariaController@auxiliarLibros', 'nombre' => '', 'icono' => '', 'orden' => '', 'activo' => '0']);
+        Accion::create(['ruta' => 'ConciliacionBancariaController@noIdentificados', 'nombre' => '', 'icono' => '', 'orden' => '', 'activo' => '0']);
+        Accion::create(['ruta' => 'ConciliacionBancariaController@chequesCirculacion', 'nombre' => '', 'icono' => '', 'orden' => '', 'activo' => '0']);
     }
 }
