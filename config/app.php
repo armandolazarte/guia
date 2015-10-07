@@ -152,6 +152,7 @@ return [
         'Guia\Providers\FiltroAccesoServiceProvider',
         'Guia\Providers\ConsecutivoServiceProvider',
         'Guia\Providers\InfoDirectivosServiceProvider',
+        Guia\Providers\ComposerServiceProvider::class,
 
     ],
 
