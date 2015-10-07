@@ -30,4 +30,13 @@ class EjercicioController extends Controller
 
         return response()->json($ejercicio);
     }
+
+    public function reporteEjercido($proyecto_id)
+    {
+        $ejercido_proyecto = new EjercicioProyecto($proyecto_id);
+        $ejercido = $ejercido_proyecto->reporteEjercido();
+
+        return view('ejercicio.reporteEjercido', compact('ejercido'));
+    }
+
 }

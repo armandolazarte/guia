@@ -74,6 +74,19 @@ class EjercicioProyecto
         return round($montoEjercido, 2);
     }
 
+    public function reporteEjercido()
+    {
+        $proyecto = Proyecto::findOrFail($this->proyecto_id);
+        $ejercido = $proyecto->egresos()->where('cuenta_id', 1)
+            ->with('benef','cuenta','user')
+            ->get();
+        /**
+         * @todo Descontar "Cargos" existentes en Pólizas
+         */
+
+        return $ejercido;
+    }
+
     private function getMontoValesSinRMs(Proyecto $proyecto)
     {
         $egresos_comprobados = $this->getEgresosComprobados($proyecto);

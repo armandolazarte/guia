@@ -107,7 +107,7 @@
                 $('#ejercicio-proyecto').empty();
                 $('#ejercicio-proyecto').append('<tr>' +
                         '<td class="text-right">'+ accounting.formatNumber(ejercicio.ejercicioGlobal.presupuestado, 2) +'</td>' +
-                        '<td class="text-right">'+ accounting.formatNumber(ejercicio.ejercicioGlobal.ejercido, 2) +'</td>' +
+                        '<td class="text-right"><a href="/presupuesto/ejercido-proyecto/reporte-ejercido/'+proyecto_id+'">'+ accounting.formatNumber(ejercicio.ejercicioGlobal.ejercido, 2) +'</a></td>' +
                         '<td class="text-right">'+ accounting.formatNumber(ejercicio.ejercicioGlobal.valesNoComprobados, 2) +'</td>' +
                         '<td class="text-right">'+ accounting.formatNumber(ejercicio.ejercicioGlobal.reintegro_df, 2) +'</td>' +
                         '<td class="text-right">'+ accounting.formatNumber(ejercicio.ejercicioGlobal.reservado, 2) +'</td>' +
