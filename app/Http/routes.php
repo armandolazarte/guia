@@ -197,6 +197,7 @@ Route::group(array('prefix' => 'presupuesto', 'middleware' => ['auth']), functio
     Route::get('/ejercicio-proyecto', 'EjercicioController@ejercicioProyectoRms');
     Route::get('/get-ejercicio-proyecto', 'EjercicioController@getEjercicioProyectoRms');
     Route::get('/ejercido-proyecto/reporte-ejercido/{proyecto_id}', 'EjercicioController@reporteEjercido');
+    Route::get('/ejercido-proyecto/reporte-ejercido-rms/{proyecto_id}', 'EjercicioController@reporteEjercidoRms');
     Route::get('/egresos-proyecto/{proyecto_id?}', 'PresupuestoController@reporteEgresosProyecto');
 });
 

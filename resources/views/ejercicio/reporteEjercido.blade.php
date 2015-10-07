@@ -4,7 +4,7 @@
     <div class="row">
         <div class="col-md-12">
 
-            <table class="table table-bordered table-compact tabl-striped table-hover">
+            <table class="table table-bordered table-compact table-striped table-hover">
                 <tr>
                     {{--<th>ID</th>--}}
                     <th>Cuenta Bancaria</th>

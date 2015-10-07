@@ -3,6 +3,7 @@
 namespace Guia\Http\Controllers;
 
 use Guia\Classes\EjercicioProyecto;
+use Guia\Classes\EjercicioRms;
 use Illuminate\Http\Request;
 
 use Guia\Http\Requests;
@@ -35,6 +36,14 @@ class EjercicioController extends Controller
     {
         $ejercido_proyecto = new EjercicioProyecto($proyecto_id);
         $ejercido = $ejercido_proyecto->reporteEjercido();
+
+        return view('ejercicio.reporteEjercido', compact('ejercido'));
+    }
+
+    public function reporteEjercidoRms($proyecto_id)
+    {
+        $ejercicio_rms = new EjercicioRms();
+        $ejercido = $ejercicio_rms->reporteEjercidoRms($proyecto_id);
 
         return view('ejercicio.reporteEjercido', compact('ejercido'));
     }

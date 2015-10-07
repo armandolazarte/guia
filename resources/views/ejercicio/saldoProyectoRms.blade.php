@@ -98,7 +98,7 @@
                 $('#ejercicio-rm').append('<tr><td></td><td></td><td></td>' +
                         '<td class="text-right">'+ accounting.formatNumber(ejercicio.desgloseRMs.total.t_presu, 2) +'</td>' +
                         '<td class="text-right">'+ accounting.formatNumber(ejercicio.desgloseRMs.total.t_compensa, 2) +'</td>' +
-                        '<td class="text-right">'+ accounting.formatNumber(ejercicio.desgloseRMs.total.t_ejercido, 2) +'</td>' +
+                        '<td class="text-right"><a href="/presupuesto/ejercido-proyecto/reporte-ejercido-rms/'+proyecto_id+'">'+ accounting.formatNumber(ejercicio.desgloseRMs.total.t_ejercido, 2) +'</a></td>' +
                         '<td class="text-right">'+ accounting.formatNumber(ejercicio.desgloseRMs.total.t_reintegros_df, 2) +'</td>' +
                         '<td class="text-right">'+ accounting.formatNumber(ejercicio.desgloseRMs.total.t_reservado, 2) +'</td>' +
                         '<td class="text-right">'+ accounting.formatNumber(ejercicio.desgloseRMs.total.t_saldo, 2) +'</td>' +

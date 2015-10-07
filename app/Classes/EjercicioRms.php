@@ -105,6 +105,31 @@ class EjercicioRms
         return round($ejercido, 2);
     }
 
+    public function reporteEjercidoRms($proyecto_id)
+    {
+        $rms = Rm::whereProyectoId($proyecto_id)->get(['id']);
+        $egresos_id = [];
+
+        foreach ($rms as $rm) {
+            $rm_obj = RM::find($rm->id);
+            //Exlusión de egresos de vales comprobados
+            $egresos_id_comprobados = $this->getEgresosComprobados($rm_obj);
+
+            $egresos_query = $rm->egresos()->where('cuenta_id', 1);
+            if (count($egresos_id_comprobados) > 0) {
+                $egresos_query->whereNotIn('egresos.id', $egresos_id_comprobados);
+            }
+            $nvo = $egresos_query->get(['egresos.id'])->lists('id')->all();
+            $egresos_id = array_merge($egresos_id, $nvo);
+        }
+
+        $ejercido_rm = Egreso::whereIn('id', $egresos_id)
+            ->with('benef','cuenta','user')
+            ->get();
+
+        return $ejercido_rm;
+    }
+
     private function getMontoReintegrosDF(Rm $rm)
     {
         $monto_reintegros_df = $rm->egresos()->where('cuenta_id', 2)->sum('egreso_rm.monto');
