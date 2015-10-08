@@ -20,6 +20,7 @@ class CreateNoIdentificadosTable extends Migration
             $table->decimal('monto', 12, 3);
             $table->string('no_deposito');
             $table->boolean('identificado');
+            $table->date('fecha_identificado');
             $table->timestamps();
         });
     }

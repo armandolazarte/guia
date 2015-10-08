@@ -15,15 +15,17 @@
                     <th class="text-center">Monto</th>
                     <th class="text-center">No. Depósito</th>
                     <th class="text-center">Identificado</th>
+                    <th class="text-center">Fecha Identificado</th>
                 </tr>
                 </thead>
                 <tr class="{{ $no_identificado->identificado == 1 ? 'active' : 'warning' }}">
                     <td class="text-center">{{ $no_identificado->cuentaBancaria->cuenta_bancaria }}</td>
                     <td class="text-center">{{ $no_identificado->id }}</td>
-                    <td class="text-center">{{ $no_identificado->fecha }}</td>
+                    <td class="text-center">{{ $no_identificado->fecha->format('d/m/Y') }}</td>
                     <td class="text-right">{{ number_format($no_identificado->monto, 2) }}</td>
                     <td class="text-left">{{ $no_identificado->no_deposito }}</td>
                     <td>{{ $no_identificado->identificado }}</td>
+                    <td class="text-center">{{ $no_identificado->fecha_identificado->year == '-0001' ? '---' : $no_identificado->fecha_identificado->format('d/m/Y') }}</td>
                 </tr>
             </table>
 
