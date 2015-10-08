@@ -8,6 +8,11 @@ class Poliza extends Model
 {
     protected $fillable = ['fecha','tipo','concepto','user_id'];
 
+    public function cuentaBancaria()
+    {
+        return $this->belongsTo('Guia\Models\CuentaBancaria');
+    }
+
     public function user()
     {
         return $this->belongsTo('Guia\User');

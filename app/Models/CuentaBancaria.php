@@ -24,6 +24,12 @@ class CuentaBancaria extends Model {
         return $this->hasMany('Guia\Models\NoIdentificado');
     }
 
+    //CuentaBancaria __has_many__ Poliza
+    public function polizas()
+    {
+        return $this->hasMany('Guia\Models\Poliza');
+    }
+
     //CuentaBancaria __belongs_to_many__ Proyectos
     public function proyectos()
     {

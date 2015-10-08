@@ -14,6 +14,8 @@ class CreatePolizasTable extends Migration
     {
         Schema::create('polizas', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('cuenta_bancaria_id')->unsigned();
+            $table->foreign('cuenta_bancaria_id')->references('id')->on('cuentas_bancarias');
             $table->date('fecha');
             $table->string('tipo', 45);
             $table->string('concepto');
