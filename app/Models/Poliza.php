@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Poliza extends Model
 {
-    protected $fillable = ['fecha','tipo','concepto','user_id'];
+    protected $fillable = ['cuenta_bancaria_id','fecha','tipo','concepto','user_id'];
 
     public function cuentaBancaria()
     {
