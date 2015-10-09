@@ -76,7 +76,7 @@ class PolizaController extends Controller
             $arr_monto_rms = [];
             foreach ($egreso->rms as $rm) {
                 $monto_rm_id = $request->input('monto_rm_id_'.$rm->id);
-                if (isset($monto_rm_id)) {
+                if (!empty($monto_rm_id)) {
                     $arr_monto_rms[$rm->id] = $monto_rm_id;
                 }
             }
