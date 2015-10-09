@@ -14,4 +14,9 @@ class NoIdentificado extends Model
     {
         return $this->belongsTo('Guia\Models\CuentaBancaria');
     }
+
+    public function getFechaMontoAttribute()
+    {
+        return $this->fecha->format('d/m/Y').' :: $'.number_format($this->monto, 2);
+    }
 }
