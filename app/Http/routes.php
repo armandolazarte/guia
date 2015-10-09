@@ -309,6 +309,12 @@ Route::group(array('prefix' => 'bancos/no-identificados', 'middleware' => ['auth
     Route::delete('/{id}/borrar', 'NoIdentificadoController@destroy');
 });
 
+/** Polizas */
+Route::group(array('prefix' => 'poliza', 'middleware' => ['auth']), function() {
+    Route::get('/nueva/{tipo}/{egreso_id?}/{opciones?}', 'PolizaController@create');
+    Route::post('/nueva', 'PolizaController@store');
+});
+
 Route::group(array('prefix' => 'api', 'middleware' => ['auth']), function()
 {
     Route::get('/rm-dropdown/', function()

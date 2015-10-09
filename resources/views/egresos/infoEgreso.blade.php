@@ -43,6 +43,10 @@
             </tr>
         </table>
 
+        @if($agregar_reembolsos)
+            <a href="{{ action('PolizaController@create', ['ingreso',$egreso->id]) }}" class="btn btn-primary btn-sm">Reembolso a Cuenta Ejecutora</a>
+        @endif
+
         @if($egreso->estatus != 'Cancelado' && !empty($egreso->cheque) && $cancelar_cheque)
             <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modalCancelarCheque">Cancelar Cheque</button>
         @endif

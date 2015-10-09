@@ -108,8 +108,10 @@ class EgresosController extends Controller
         $arr_roles = $user->roles()->lists('role_name')->all();
         if(array_search('Ejecutora', $arr_roles) !== false || array_search('Presupuesto', $arr_roles) !== false || array_search('Comprobacion', $arr_roles) !== false || array_search('Contabilidad', $arr_roles) !== false){
             $borrar_archivo = true;
+            $agregar_reembolsos = true;
         } else {
             $borrar_archivo = false;
+            $agregar_reembolsos = false;
         }
 
         if(array_search('Ejecutora', $arr_roles) !== false || array_search('Presupuesto', $arr_roles) !== false ){
@@ -135,7 +137,7 @@ class EgresosController extends Controller
             $archivos_relacionados = $archivos_solicitudes;
         }
 
-        return view('egresos.infoEgreso', compact('egreso','archivos','archivos_relacionados','borrar_archivo','cancelar_cheque'));
+        return view('egresos.infoEgreso', compact('egreso','archivos','archivos_relacionados','borrar_archivo','cancelar_cheque','agregar_reembolsos'));
     }
 
     /**
