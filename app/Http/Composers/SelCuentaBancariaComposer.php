@@ -29,9 +29,9 @@ class SelCuentaBancariaComposer
             '12' => 'Diciembre'
         ];
 
-        $this->data['presupuesto_inicial'] = env('PRESUPUESTO_INICIAL', '2010');
-        $this->data['presupuesto_actual'] = \Carbon\Carbon::now()->year;
-        $this->data['sel_presupuesto'] = \Session::get('sel_presupuesto');
+        for ($i = env('PRESUPUESTO_INICIAL', '2010'); $i <= \Carbon\Carbon::now()->year; $i++) {
+            $this->data['aaaa'][$i] = $i;
+        }
     }
 
     /**
