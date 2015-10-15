@@ -54,7 +54,7 @@ class NoIdentificadoController extends Controller
     {
         $no_identificado = NoIdentificado::create($request->all());
 
-        return redirect()->action('NoIdentificadoController@show', $no_identificado->cuenta_bancaria_id)->with([
+        return redirect()->action('NoIdentificadoController@show', $no_identificado->id)->with([
             'message' => 'Depósito No Identificado creado con éxito',
             'alert-class' => 'alert-success'
         ]);
