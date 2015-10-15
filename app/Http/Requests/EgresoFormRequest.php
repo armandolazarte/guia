@@ -23,17 +23,14 @@ class EgresoFormRequest extends Request
      */
     public function rules()
     {
-        /**
-         * @todo Quitar '1' de regla not_in del campo cuenta_id
-         */
         return [
             'fecha' => 'required|date',
-            'cuenta_id' => 'sometimes|required|integer|not_in:0,1',
+            'cuenta_id' => 'sometimes|required|integer|not_in:0,27',
             'cuenta_bancaria_id' => 'required|integer|not_in:0',
             'benef_id' => 'required|integer|not_in:0',
             'cheque' => 'required|integer|min:1',
             'concepto' => 'required',
-            'monto' => 'sometimes|required|numeric'
+            'monto' => 'required|numeric|not_in:0'
         ];
     }
 }

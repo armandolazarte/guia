@@ -3,6 +3,7 @@
 namespace Guia\Http\Controllers;
 
 use Carbon\Carbon;
+use Guia\Classes\EgresoHelper;
 use Guia\Classes\FiltroEstatusResponsable;
 use Guia\Classes\PagoDocumento;
 use Guia\Models\Benef;
@@ -66,15 +67,13 @@ class EgresosController extends Controller
     public function create()
     {
         $fecha = Carbon::today()->toDateString();
-        $cuentas = Cuenta::whereIn('tipo', ['Ejecutora'])->lists('cuenta', 'id')->all();
+        $cuentas = Cuenta::whereIn('tipo', ['Ejecutora', 'Banco', 'BancoCargo'])->lists('cuenta', 'id')->all();
         $cuentas_bancarias = CuentaBancaria::all()->lists('cuenta_tipo_urg','id');
         $benefs = Benef::all()->sortBy('benef')->lists('benef','id');
         $cheque = \Consecutivo::nextCheque();
 
         /**
-         * @todo Monto por RM
-         * @todo Clonar selección de RM
-         * @todo Calcular monto total utilizando montos parciales por RM
+         * @todo Filtrar proyecto en función de la cuenta bancaria
          */
 
         return view('egresos.formEgreso', compact('fecha','cuentas','cuentas_bancarias','benefs','cheque'));
@@ -87,11 +86,39 @@ class EgresosController extends Controller
      */
     public function store(Requests\EgresoFormRequest $request)
     {
-        $request->merge(array(
-            'user_id' => \Auth::user()->id,
-        ));
+        $egreso = new Egreso();
+        $egreso->cuenta_bancaria_id = $request->input('cuenta_bancaria_id');
+        //$egreso->poliza = $poliza;
+        $egreso->cheque = $request->input('cheque');
+        $egreso->fecha = $request->input('fecha');
+        $egreso->benef_id = $request->input('benef_id');
+        $egreso->cuenta_id= $request->input('cuenta_id');
+        $egreso->concepto = $request->input('concepto');
+        $egreso->monto = $request->input('monto');
+        $egreso->user_id = \Auth::user()->id;
+        $egreso->save();
 
-        $egreso = Egreso::create($request->all());
+        if (count($request->input('rm')) > 0) {
+            $i = 0;
+            $monto_total = 0;
+            foreach ($request->input('rm') as $rm) {
+                $monto_rm = $request->input('monto_rm')[$i];
+                if ($monto_rm > 0) {
+                    $monto_total += $monto_rm;
+                    //Insertar en egreso_rm
+                    $egreso->rms()->attach($rm, ['monto' => $monto_rm]);
+                }
+                $i++;
+            }
+            if ($monto_total > 0) {
+                $egreso->monto = $monto_total;
+                $egreso->save();
+            }
+
+            $egreso_helper = new EgresoHelper($egreso);
+            $egreso_helper->creaSumaPorProyecto();
+        }
+
         return redirect()->action('EgresosController@show', [$egreso->id]);
     }
 
