@@ -207,6 +207,9 @@ Route::group(array('prefix' => 'rm', 'middleware' => ['auth']), function()
     Route::get('/compensacion-interna/', 'CompensaInternaController@index');
     Route::get('/compensacion-interna/nueva', 'CompensaInternaController@create');
     Route::post('/compensacion-interna/nueva', 'CompensaInternaController@store');
+    Route::get('/compensacion-externa/', 'CompensaExternaController@index');
+    Route::get('/compensacion-externa/nueva', 'CompensaExternaController@create');
+    Route::post('/compensacion-externa/nueva', 'CompensaExternaController@store');
 });
 
 //** Pre Requisiciones **//

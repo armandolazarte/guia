@@ -13,4 +13,13 @@ class UrgExterna extends Model {
         return $this->hasMany('Guia\Models\CompensaExterna');
     }
 
+    /**
+     * Concatena los atributos urg_externa y d_urg_externa
+     *
+     * @return string
+     */
+    public function getUrgExternaDescAttribute()
+    {
+        return $this->urg_externa.' - '.$this->d_urg_externa;
+    }
 }

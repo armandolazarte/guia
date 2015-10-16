@@ -120,6 +120,9 @@ class AccionesTableSeeder extends Seeder {
         Accion::create(['ruta' => 'ompensaInternaController@index', 'nombre' => 'Listado', 'icono' => '', 'orden' => '', 'activo' => '0']);
         Accion::create(['ruta' => 'ompensaInternaController@create', 'nombre' => 'Nueva Compensación', 'icono' => '', 'orden' => '', 'activo' => '0']);
         Accion::create(['ruta' => 'ompensaInternaController@store', 'nombre' => '', 'icono' => '', 'orden' => '', 'activo' => '0']);
+        Accion::create(['ruta' => 'ompensaExternaController@index', 'nombre' => 'Listado (Ext.)', 'icono' => '', 'orden' => '', 'activo' => '0']);
+        Accion::create(['ruta' => 'ompensaExternaController@create', 'nombre' => 'Nueva Comp. Ext.', 'icono' => '', 'orden' => '', 'activo' => '0']);
+        Accion::create(['ruta' => 'ompensaExternaController@store', 'nombre' => '', 'icono' => '', 'orden' => '', 'activo' => '0']);
 
         //-- Pre-Requisición (Solicitud) --//
         Accion::create(['ruta' => 'PreReqController@index', 'nombre' => '', 'icono' => '', 'orden' => '', 'activo' => '0']);
