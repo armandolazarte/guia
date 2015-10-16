@@ -6,6 +6,7 @@ use Guia\Models\Cog;
 use Guia\Models\CompensaDestino;
 use Guia\Models\CompensaOrigen;
 use Guia\Models\CompensaRm;
+use Guia\Models\Proyecto;
 use Guia\Models\Rm;
 use Guia\Models\UrgExterna;
 use Illuminate\Http\Request;
@@ -51,6 +52,9 @@ class CompensaExternaController extends Controller
         $urg_externa_id = $request->input('urg_externa_id');
         $concepto = $request->input('concepto');
         $tipo_compensa_externa = $request->input('tipo_compensa_externa');
+        $proyecto_id = $request->input('proyecto_id');
+        $proyecto = Proyecto::find($proyecto_id);
+        $proyecto->load('fondos');
         $documento_afin = $request->input('documento_afin');
         if(empty($documento_afin)){
             $documento_afin = 0;
@@ -59,19 +63,21 @@ class CompensaExternaController extends Controller
         $compensa_rm = CompensaRm::create(['documento_afin' => $documento_afin, 'fecha' => $fecha, 'tipo' => 'Externa']);
         $monto_total = 0;
 
-        $j = 0;
-        foreach ($request->input('rm_aplicacion') as $rm_aplicacion) {
-            $monto_aplicacion = $request->input('monto_aplicacion')[$j];
-            if($monto_aplicacion > 0) {
-                if ($tipo_compensa_externa == 'Abono') {
-                    CompensaDestino::create(['compensa_rm_id' => $compensa_rm->id, 'rm_id' => $rm_aplicacion, 'monto' => $monto_aplicacion]);
+        if ($request->input('rm_aplicacion') > 0) {
+            $j = 0;
+            foreach ($request->input('rm_aplicacion') as $rm_aplicacion) {
+                $monto_aplicacion = $request->input('monto_aplicacion')[$j];
+                if ($monto_aplicacion > 0) {
+                    if ($tipo_compensa_externa == 'Abono') {
+                        CompensaDestino::create(['compensa_rm_id' => $compensa_rm->id, 'rm_id' => $rm_aplicacion, 'monto' => $monto_aplicacion]);
+                    }
+                    if ($tipo_compensa_externa == 'Cargo') {
+                        CompensaOrigen::create(['compensa_rm_id' => $compensa_rm->id, 'rm_id' => $rm_aplicacion, 'monto' => $monto_aplicacion]);
+                    }
+                    $monto_total += $monto_aplicacion;
                 }
-                if ($tipo_compensa_externa == 'Cargo') {
-                    CompensaOrigen::create(['compensa_rm_id' => $compensa_rm->id, 'rm_id' => $rm_aplicacion, 'monto' => $monto_aplicacion]);
-                }
-                $monto_total += $monto_aplicacion;
+                $j++;
             }
-            $j++;
         }
 
         if($request->input('monto_nuevo_rm')[0] > 0) {
@@ -82,11 +88,11 @@ class CompensaExternaController extends Controller
 
                 $rm = new Rm();
                 $rm->rm = $rm_nuevo;
-                $rm->proyecto_id = $rmOrigen->proyecto_id;
-                $rm->objetivo_id = $rmOrigen->objetivo_id;
-                $rm->actividad_id = $rmOrigen->actividad_id;
+                $rm->proyecto_id = $proyecto_id;
+                $rm->objetivo_id = 1;
+                $rm->actividad_id = 1;
                 $rm->cog_id = $request->input('cog_nuevo')[$k];
-                $rm->fondo_id = $rmOrigen->fondo_id;
+                $rm->fondo_id = $proyecto->fondos[0]->id;
                 $rm->monto = 0;
                 $rm->d_rm = 'Compensación #' . $compensa_rm->id;
                 $rm->save();
