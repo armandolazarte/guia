@@ -10,7 +10,9 @@ use Guia\Models\Benef;
 use Guia\Models\Cuenta;
 use Guia\Models\CuentaBancaria;
 use Guia\Models\Egreso;
+use Guia\Models\Oc;
 use Guia\Models\Poliza;
+use Guia\Models\Solicitud;
 use Illuminate\Http\Request;
 
 use Guia\Http\Requests;
@@ -98,15 +100,15 @@ class EgresosController extends Controller
         $egreso->user_id = \Auth::user()->id;
         $egreso->save();
 
-        if (count($request->input('rm')) > 0) {
+        if (count($request->input('rm_id')) > 0) {
             $i = 0;
             $monto_total = 0;
-            foreach ($request->input('rm') as $rm) {
+            foreach ($request->input('rm_id') as $rm_id) {
                 $monto_rm = $request->input('monto_rm')[$i];
                 if ($monto_rm > 0) {
                     $monto_total += $monto_rm;
                     //Insertar en egreso_rm
-                    $egreso->rms()->attach($rm, ['monto' => $monto_rm]);
+                    $egreso->rms()->attach($rm_id, ['monto' => $monto_rm]);
                 }
                 $i++;
             }

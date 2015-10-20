@@ -135,9 +135,9 @@
                 var proyecto_id = $('#seleccion-proyecto').val();
 
                 $('.div-seleccion-rm').empty();
-                $('.div-seleccion-rm').append('<label for="rm[]" class="col-sm-2 control-label">Recurso Material</label>' +
+                $('.div-seleccion-rm').append('<label for="rm_id[]" class="col-sm-2 control-label">Recurso Material</label>' +
                         '<div class="col-sm-5">' +
-                        '<select name="rm[]" class="form-control seleccion-rm"></select>' +
+                        '<select name="rm_id[]" class="form-control seleccion-rm"></select>' +
                         '</div>' +
                         '<div class="col-sm-3"><input name="monto_rm[]" class="form-control monto-parcial"></div>');
 
