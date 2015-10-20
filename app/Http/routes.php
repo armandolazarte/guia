@@ -259,7 +259,8 @@ Route::group(array('prefix' => 'sol-dep-concentradora', 'middleware' => ['auth']
 //** Egresos */
 Route::group(array('prefix' => 'egresos', 'middleware' => ['auth']), function()
 {
-    Route::get('/generar', 'GenerarEgresoController@create');
+    Route::get('/generar', 'GenerarEgresoController@index');
+    Route::get('/generar/modificacion/{destino}/{porcentaje}/{doc_id}/{doc_type}', 'GenerarEgresoController@create');
     Route::post('/generar', 'GenerarEgresoController@store');
 
     Route::get('/reporte/{scope?}/{estatus?}', 'EgresosController@index');

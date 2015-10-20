@@ -121,6 +121,19 @@ class EgresosController extends Controller
             $egreso_helper->creaSumaPorProyecto();
         }
 
+        $doc_type = $request->input('doc_type');
+        $doc_id = $request->input('doc_id');
+        if (!empty($doc_type) && !empty($doc_id)) {
+            $documento = '';
+            if ($doc_type == 'Solicitud') {
+                $documento = Solicitud::find($doc_id);
+            } elseif ($doc_type == 'Oc') {
+                $documento = Oc::find($doc_id)->load('req');
+            }
+            $pago = new PagoDocumento($documento, $doc_type);
+            $pago->pagarDocumento($egreso);
+        }
+
         return redirect()->action('EgresosController@show', [$egreso->id]);
     }
 

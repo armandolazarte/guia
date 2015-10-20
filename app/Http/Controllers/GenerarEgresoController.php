@@ -4,6 +4,7 @@ namespace Guia\Http\Controllers;
 
 use Carbon\Carbon;
 use Guia\Classes\PagoDocumento;
+use Guia\Models\Benef;
 use Guia\Models\CuentaBancaria;
 use Guia\Models\Egreso;
 use Guia\Models\Oc;
@@ -23,16 +24,6 @@ class GenerarEgresoController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return Response
-     */
-    public function create()
-    {
         $cuentas_bancarias = CuentaBancaria::all();
         $fecha = Carbon::today()->toDateString();
 
@@ -46,7 +37,47 @@ class GenerarEgresoController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Show the form for creating a new resource.
+     *
+     * @return Response
+     */
+    public function create($destino, $porcentaje, $doc_type, $doc_id)
+    {
+        /**
+         * @todo Seleccionar cuenta bancaria en función del proyecto
+         */
+        $data['porcentaje'] = $porcentaje;
+        $data['doc_type'] = $doc_type;
+        $data['doc_id'] = $doc_id;
+        $data['cuentas_bancarias'] = CuentaBancaria::all()->lists('cuenta_tipo_urg','id');
+        $data['cheque'] = \Consecutivo::nextCheque();
+
+        if ($destino != 'reintegro') {
+            $data['benefs'] = Benef::all()->sortBy('benef')->lists('benef', 'id');
+            $data['cuenta_id'] = 1;
+        } else {
+            $data['benefs'] = Benef::whereId(1)->lists('benef', 'id');
+            $data['cuenta_id'] = 2;
+        }
+
+        $doc = '';
+        if($doc_type == 'Solicitud') {
+            $doc = Solicitud::findOrFail($doc_id);
+            $doc->load('rms','proyecto');
+            $data['concepto'] = $doc->concepto;
+        }
+        if($doc_type == 'Oc') {
+            $doc = Oc::findOrFail($doc_id);
+            $doc->load('articulos.rms','req.proyecto');
+            $data['concepto'] = '';
+        }
+        $data['doc'] = $doc;
+
+        return view('egresos.formGeneraEgreso')->with($data);
+    }
+
+    /**
+     * Genera de forma directa un egreso a partir de una solicitud u orden de compra.
      *
      * @return Response
      */
@@ -134,7 +165,7 @@ class GenerarEgresoController extends Controller
             $egreso->proyectos()->attach($key, ['monto' => $egreso->rms()->where('proyecto_id', '=', $key)->sum('egreso_rm.monto')]);
         });
 
-        return redirect(action('GenerarEgresoController@create'))->with(['message' => 'Cheque '.$cheque.' Generado']);
+        return redirect(action('GenerarEgresoController@index'))->with(['message' => 'Cheque '.$cheque.' Generado']);
 
 //        if($request->ajax()) {
 //            return response()->json([
