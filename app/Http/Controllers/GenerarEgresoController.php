@@ -61,17 +61,41 @@ class GenerarEgresoController extends Controller
         }
 
         $doc = '';
+        $arr_rms = [];
         if($doc_type == 'Solicitud') {
             $doc = Solicitud::findOrFail($doc_id);
-            $doc->load('rms','proyecto');
+            $doc->load('rms.cog','proyecto');
             $data['concepto'] = $doc->concepto;
+
+            //Creación de Arreglo
+            foreach ($doc->rms as $rm) {
+                $arr_rms[$rm->id] = ['rm' => $rm->rm , 'cog' => $rm->cog->cog, 'monto' => 0];
+            }
+            //Suma por Rm
+            foreach ($doc->rms as $rm) {
+                $arr_rms[$rm->id]['monto'] += round($rm->pivot->monto,2);
+            }
         }
         if($doc_type == 'Oc') {
             $doc = Oc::findOrFail($doc_id);
-            $doc->load('articulos.rms','req.proyecto');
+            $doc->load('articulos.rms.cog','req.proyecto');
             $data['concepto'] = '';
+
+            //Creación de Arreglo
+            foreach ($doc->articulos as $articulo) {
+                foreach ($articulo->rms as $rm) {
+                    $arr_rms[$rm->id] = ['rm' => $rm->rm , 'cog' => $rm->cog->cog, 'monto' => 0];
+                }
+            }
+            //Suma por Rm
+            foreach ($doc->articulos as $articulo) {
+                foreach ($articulo->rms as $rm) {
+                    $arr_rms[$rm->id]['monto'] += round($rm->pivot->monto,2);
+                }
+            }
         }
         $data['doc'] = $doc;
+        $data['arr_rms'] = $arr_rms;
 
         return view('egresos.formGeneraEgreso')->with($data);
     }
@@ -144,12 +168,22 @@ class GenerarEgresoController extends Controller
             }
         } else {
             $sum_monto = 0;
-            foreach ($doc->articulos as $art) {
-                foreach ($art->rms as $rm) {
-                    $monto_rm = $rm->pivot->monto;
-                    $sum_monto += $monto_rm;
-                    $egreso->rms()->attach($rm->id, ['monto' => $monto_rm]);
+            //Creación de Arreglo
+            foreach ($doc->articulos as $articulo) {
+                foreach ($articulo->rms as $rm) {
+                    $arr_rms[$rm->id] = 0;
                 }
+            }
+            //Suma por Rm
+            foreach ($doc->articulos as $articulo) {
+                foreach ($articulo->rms as $rm) {
+                    $arr_rms[$rm->id] += round($rm->pivot->monto,2);
+                }
+            }
+            //Crea Registro
+            foreach ($arr_rms as $rm_id => $monto_rm) {
+                $sum_monto += $monto_rm;
+                $egreso->rms()->attach($rm_id, ['monto' => $monto_rm]);
             }
             $egreso->monto = $sum_monto;
             $egreso->save();

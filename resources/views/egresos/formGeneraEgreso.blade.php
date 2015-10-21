@@ -64,42 +64,21 @@
                 </div>
             </div>
 
-            @if($doc_type == 'Solicitud')
-                @foreach($doc->rms as $rm)
-                    <div class="form-group">
-                        <label for="recurso_material" class="col-sm-2 control-label">Recurso Material</label>
-                        <div class="col-sm-5">
-                            {!! Form::text('recurso_material', $rm->rm, ['class' => 'form-control', 'disabled']) !!}
-                            {!! Form::hidden('rm_id[]', $rm->id) !!}
-                        </div>
-                        <div class="col-sm-3">
-                            <input name="monto_rm[]" value="{{ round($rm->pivot->monto * $porcentaje / 100, 2) }}" class="form-control monto-parcial">
-                        </div>
-                        <div class="col-sm-2">
-                            {{ $porcentaje }}% de ${{ number_format($rm->pivot->monto, 2) }}
-                        </div>
+            @foreach($arr_rms as $rm_id => $rm_info)
+                <div class="form-group">
+                    <label for="recurso_material" class="col-sm-2 control-label">Recurso Material</label>
+                    <div class="col-sm-5">
+                        {!! Form::text('recurso_material', $rm_info['rm'].' / '.$rm_info['cog'], ['class' => 'form-control', 'disabled']) !!}
+                        {!! Form::hidden('rm_id[]', $rm_id) !!}
                     </div>
-                @endforeach
-
-            @elseif($doc_type == 'Oc')
-                @foreach($doc->articulos as $articulo)
-                    @foreach($articulo->rms as $rm)
-                        <div class="form-group">
-                            <label for="recurso_material" class="col-sm-2 control-label">Recurso Material</label>
-                            <div class="col-sm-5">
-                                {!! Form::text('recurso_material', $rm->rm, ['class' => 'form-control', 'disabled']) !!}
-                                {!! Form::hidden('rm_id[]', $rm->id) !!}
-                            </div>
-                            <div class="col-sm-3">
-                                <input name="monto_rm[]" value="{{ round($rm->pivot->monto * $porcentaje / 100, 2) }}" class="form-control monto-parcial">
-                            </div>
-                            <div class="col-sm-2">
-                                {{ $porcentaje }}% de ${{ number_format($rm->pivot->monto, 2) }}
-                            </div>
-                        </div>
-                    @endforeach
-                @endforeach
-            @endif
+                    <div class="col-sm-3">
+                        <input name="monto_rm[]" value="{{ round($rm_info['monto'] * $porcentaje / 100, 2) }}" class="form-control monto-parcial">
+                    </div>
+                    <div class="col-sm-2">
+                        {{ $porcentaje }}% de ${{ number_format($rm_info['monto'], 2) }}
+                    </div>
+                </div>
+            @endforeach
 
             <div class="form-group">
                 {!! Form::label('tipo_pago', 'Tipo de Pago', array('class' => 'col-sm-2 control-label')) !!}
