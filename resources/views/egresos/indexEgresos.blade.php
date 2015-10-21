@@ -8,7 +8,7 @@
                 <tr>
                     {{--<th>ID</th>--}}
                     <th>Cuenta Bancaria</th>
-                    <th>Poliza/Cheque</th>
+                    <th>Cheque/Póliza</th>
                     <th>Fecha</th>
                     <th>Beneficiario</th>
                     <th>Cuenta Clasificadora</th>
@@ -25,12 +25,16 @@
                 @foreach($egresos as $egreso)
                     <tr>
                         {{--<td>{{ $egreso->id }}</td>--}}
-                        <td><a href="{{ action('EgresosController@show', $egreso->id) }}">{{ $egreso->cuentaBancaria->cuenta_bancaria }}</a></td>
-                        @if(!empty($egreso->cheque))
-                            <td>Ch. {{ $egreso->cheque }}</td>
-                        @else
-                            <td>Pol. {{ $egreso->poliza }}</td>
-                        @endif
+                        <td>{{ $egreso->cuentaBancaria->cuenta_bancaria }}</td>
+                        <td>
+                            <a href="{{ action('EgresosController@show', $egreso->id) }}">
+                                @if(!empty($egreso->cheque))
+                                    Ch. {{ $egreso->cheque }}
+                                @else
+                                    Pol. {{ $egreso->poliza }}
+                                @endif
+                            </a>
+                        </td>
                         <td>{{ $egreso->fecha_info }}</td>
                         <td>{{ $egreso->benef->benef }}</td>
                         <td>{{ $egreso->cuenta->cuenta }}</td>
