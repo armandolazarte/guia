@@ -6,6 +6,8 @@
     @endif
     <div class="row">
         <div class="col-md-12">
+            <a href="{{ action('NoIdentificadoController@create') }}" class="btn btn-sm btn-primary">Nuevo Depósito No Identificado</a>
+
             <table class="table table-bordered table-condensed table-hover">
                 <thead>
                 <tr class="active">
