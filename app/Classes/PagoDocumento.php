@@ -38,7 +38,7 @@ class PagoDocumento
                     $estatus = 'Pago Parcial';
                     break;
                 case 'Reintegro Total':
-                    $estatus = 'Autorizada';
+                    $this->tipo == 'Solicitud' ? $estatus = 'Autorizada' : $estatus = '';
                     break;
                 case 'Reintegro Parcial':
                     $estatus = $egreso->estatus;//Sin cambio
