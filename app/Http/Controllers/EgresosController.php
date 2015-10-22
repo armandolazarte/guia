@@ -130,8 +130,13 @@ class EgresosController extends Controller
             } elseif ($doc_type == 'Oc') {
                 $documento = Oc::find($doc_id)->load('req');
             }
+
+            $tipo_pago = $request->input('tipo_pago');
+            if (empty($tipo_pago)) {
+                $tipo_pago = 'Total';
+            }
             $pago = new PagoDocumento($documento, $doc_type);
-            $pago->pagarDocumento($egreso);
+            $pago->pagarDocumento($egreso, $tipo_pago);
         }
 
         return redirect()->action('EgresosController@show', [$egreso->id]);

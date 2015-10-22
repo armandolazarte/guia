@@ -25,13 +25,27 @@ class PagoDocumento
         $this->tipo = $tipo;
     }
 
-    public function pagarDocumento(Egreso $egreso)
+    public function pagarDocumento(Egreso $egreso, $tipo_pago)
     {
         if (!is_null($this->documento) && !is_null($this->tipo)) {
-            /**
-             * @todo Determinar si el pago es total o parcial
-             */
-            $this->actualizarEstatusDoc('Pagada');
+
+            switch ($tipo_pago) {
+                case 'Total':
+                case 'Finiquito':
+                    $estatus = 'Pagada';
+                    break;
+                case 'Parcial':
+                    $estatus = 'Pago Parcial';
+                    break;
+                case 'Reintegro Total':
+                    $estatus = 'Autorizada';
+                    break;
+                case 'Reintegro Parcial':
+                    $estatus = $egreso->estatus;//Sin cambio
+                    break;
+            }
+
+            $this->actualizarEstatusDoc($estatus);
             $this->relacionarPagoEgreso($egreso);
 
             if ($this->tipo == 'Oc') {
@@ -43,9 +57,33 @@ class PagoDocumento
     public function cancelarPago(Egreso $egreso)
     {
         if (count($egreso->solicitudes) > 0) {
-            $egreso->solicitudes()->update(['estatus' => 'Autorizada']);
+
+            $estatus = 'Autorizada';
+            //Verifica si existen más de un egreso de  la solicitud, para en su caso el estatus sea "Pago Parcial"
+            foreach ($egreso->solicitudes as $solicitud) {
+                $sol_verifica = Solicitud::find($solicitud->id)->load('egresos');
+                if (count($sol_verifica->egresos) > 1) {
+                    $estatus = 'Pago Parcial';
+                } else {
+                    $estatus = 'Autorizada';
+                }
+            }
+
+            $egreso->solicitudes()->update(['estatus' => $estatus]);
         } elseif (count($egreso->ocs) > 0) {
-            $egreso->ocs()->update(['estatus' => '']);
+
+            $estatus = '';
+            //Verifica si existe más de un egreso de la Oc, para en su caso el estatus sea "Pago Parcial;
+            foreach ($egreso->ocs as $oc) {
+                $oc_verifica = Oc::find($oc->id)->load('egresos');
+                if (coun($oc_verifica->egresos) > 1) {
+                    $estatus = 'Pago Parcial';
+                } else {
+                    $estatus = '';
+                }
+            }
+
+            $egreso->ocs()->update(['estatus' => $estatus]);
             $this->actualizarEstatusReq($egreso->ocs[0]->req_id);
         }
     }

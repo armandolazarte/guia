@@ -82,11 +82,11 @@
 
             <div class="form-group">
                 {!! Form::label('tipo_pago', 'Tipo de Pago', array('class' => 'col-sm-2 control-label')) !!}
-                <div class="col-sm-2">
-                    {!! Form::select('tipo_pago', ['Total' => 'Total', 'Anticipo' => 'Anticipo', 'Parcial' => 'Parcial', 'Finiquito' => 'Finiquito'], null, array('class' => 'form-control')) !!}
+                <div class="col-sm-3">
+                    {!! Form::select('tipo_pago', $tipo_pago, $tipo_pago_sel, array('class' => 'form-control')) !!}
                 </div>
 
-                <div class="col-sm-3">
+                <div class="col-sm-2 text-right">
                     {!! Form::label('monto', 'Monto Total', array('class' => 'control-label')) !!}
                 </div>
                 <div class="col-sm-3">

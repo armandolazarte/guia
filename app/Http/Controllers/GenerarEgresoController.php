@@ -28,7 +28,7 @@ class GenerarEgresoController extends Controller
         $fecha = Carbon::today()->toDateString();
 
         $solicitudes = array();
-        $solicitudes = Solicitud::whereEstatus('Autorizada')->with('proyecto', 'benef')->get();
+        $solicitudes = Solicitud::whereIn('estatus',['Autorizada','Pago Parcial'])->with('proyecto', 'benef')->get();
 
         $reqs = array();
         $reqs = Req::whereEstatus('Autorizada')->with('ocs.benef', 'proyecto')->get();
@@ -52,12 +52,37 @@ class GenerarEgresoController extends Controller
         $data['cuentas_bancarias'] = CuentaBancaria::all()->lists('cuenta_tipo_urg','id');
         $data['cheque'] = \Consecutivo::nextCheque();
 
+        $data['tipo_pago_sel'] = '';
         if ($destino != 'reintegro') {
+            //Pago con cargo al presupuesto
             $data['benefs'] = Benef::all()->sortBy('benef')->lists('benef', 'id');
             $data['cuenta_id'] = 1;
+
+            if ($porcentaje < 100) {
+                $data['tipo_pago_sel'] = 'Parcial';
+            }
+            /**
+             * @todo Implementar lógica para determinar selección del tipo de pago
+             * Si existen otros pagos:
+             *     Si Sum(monto_a_pagar_x_rm) + sum(otros_pagos) == totalAutorizado:
+             *         tipo_pago_sel = 'Finiquito';
+             *     else:
+             *         tipo_pago_sel = 'Parcial';
+             * else:
+             *     tipo_pago_sel = '';
+             */
+            /**
+             * @todo Si $doc->estatus == 'Pago Parcial' -> No listar 'Total' en tipo_pago
+             */
+            $data['tipo_pago'] = ['Total' => 'Total', 'Parcial' => 'Parcial', 'Finiquito' => 'Finiquito'];
         } else {
+            //Reintegros
             $data['benefs'] = Benef::whereId(1)->lists('benef', 'id');
             $data['cuenta_id'] = 2;
+            /**
+             * @todo Si existen pagos, tipo_pago_sel = 'Reintegro Parcial'
+             */
+            $data['tipo_pago'] = ['Reintegro Total' => 'Reintegro Total', 'Reintegro Parcial' => 'Reintegro Parcial'];
         }
 
         $doc = '';
@@ -101,7 +126,7 @@ class GenerarEgresoController extends Controller
     }
 
     /**
-     * Genera de forma directa un egreso a partir de una solicitud u orden de compra.
+     * Genera egreso para pago total de una solicitud u orden de compra.
      *
      * @return Response
      */
@@ -190,7 +215,7 @@ class GenerarEgresoController extends Controller
         }
 
         $pago = new PagoDocumento($doc, $request->input('doc_type'));
-        $pago->pagarDocumento($egreso);
+        $pago->pagarDocumento($egreso, 'Total');
 
         //Inserta suma por proyecto en tabla egreso_proyecto
         $egreso_rms = $egreso->rms()->get();
