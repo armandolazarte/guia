@@ -80,7 +80,11 @@
                             @endif
                         </td>
                         <td>
-                            ID AFIN
+                            @if(count($egreso->solicitudes) > 0)
+                                @foreach($egreso->solicitudes as $solicitud)
+                                    {{ ' '.$solicitud->no_afin }}
+                                @endforeach
+                            @endif
                         </td>
                         <td>{{ $egreso->estatus }}</td>
                         <td>{{ $egreso->user->nombre }}</td>
@@ -91,6 +95,8 @@
                 @endforeach
 
             </table>
+
+            {!! $egresos->render() !!}
 
         </div>
     </div>
