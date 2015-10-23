@@ -43,24 +43,72 @@ class EgresosController extends Controller
             $filtro = new FiltroEstatusResponsable();
             $filtro->filtroEgresos();
             $egresos = Egreso::estatusResponsable($filtro->arr_estatus, $filtro->arr_responsable)
-                ->orderBy('cheque', 'DESC')
+                ->withTrashed()
+                ->with('benef','proyectos.fondos','cuentaBancaria','user','ocs','solicitudes')
+                ->orderBy('fecha', 'DESC')
                 ->paginate(100);
         } else {
             $egresos = Egreso::where('fecha', '>=', $presupuesto.'-01-01')
                 ->withTrashed()
                 ->with('benef','proyectos.fondos','cuentaBancaria','user','ocs','solicitudes')
-                ->orderBy('cheque', 'DESC')
-                ->paginate(50);
+                ->orderBy('fecha', 'DESC')
+                ->paginate(100);
         }
 
-//        $egresos->load('benef');
-//        $egresos->load('rms');
-//        $egresos->load('cuentaBancaria');
-//        $egresos->load('user');
-//        $egresos->load('ocs');
-//        $egresos->load('solicitudes');
-
         return view('egresos.indexEgresos', compact('egresos','acciones_presupuesto'));
+    }
+
+    public function indexToExcel($fecha_inicio, $fecha_fin)
+    {
+        $egresos = Egreso::whereBetween('fecha', [$fecha_inicio, $fecha_fin])
+            ->whereCuentaBancariaId(1)
+            ->withTrashed()
+            ->with('benef','proyectos.fondos','cuentaBancaria','user','ocs','solicitudes')
+            ->orderBy('fecha', 'DESC')
+            ->get();
+
+        foreach ($egresos as $egreso) {
+            !empty($egreso->cheque) ? $cheque_poliza = $egreso->cheque :  $cheque_poliza = $egreso->poliza;
+
+            $proyectos = '';
+            $fondos = '';
+            if ($egreso->cuenta_id == 1 || $egreso->cuenta_id == 2) {
+                foreach ($egreso->proyectos as $proyecto) {
+                    $proyectos .= $proyecto->proyecto;
+                    $fondos .= $proyecto->fondos[0]->fondo;
+                }
+            } else {
+                $proyectos = '---';
+                $fondos = '---';
+            }
+
+            $id_afin = '';
+            if (count($egreso->solicitudes) > 0) {
+                foreach ($egreso->solicitudes as $solicitud) {
+                    $id_afin = $solicitud->no_afin;
+                }
+            }
+
+            $arr_egresos[] = [
+                'Cta. Bancaria' => $egreso->cuentaBancaria->cuenta_bancaria,
+                'Cheque/Póliza' => $cheque_poliza,
+                'Fecha' => $egreso->fecha_info,
+                'Beneficiario' => $egreso->benef->benef,
+                'Concepto' => $egreso->concepto,
+                'Monto' => $egreso->monto,
+                'Cuenta Clasificadora' => $egreso->cuenta->cuenta,
+                'Proyecto' => $proyectos,
+                'Fondo' => $fondos,
+                'ID AFIN' => $id_afin
+            ];
+        }
+
+
+        \Excel::create('Egresos', function($excel) use ($arr_egresos) {
+            $excel->sheet('Jul-Sep', function($sheet) use ($arr_egresos) {
+                $sheet->fromArray($arr_egresos);
+            });
+        })->download('xls');
     }
 
     /**

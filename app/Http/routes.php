@@ -268,6 +268,7 @@ Route::group(array('prefix' => 'egresos', 'middleware' => ['auth']), function()
 
     Route::get('/reporte/{scope?}/{estatus?}', 'EgresosController@index');
     Route::get('/listado', 'EgresosController@index');
+    Route::get('/listado-excel/{fecha_inicio}/{fecha_fin}', 'EgresosController@indexToExcel');
     Route::get('/nuevo', 'EgresosController@create');
     Route::post('/nuevo', 'EgresosController@store');
     Route::get('/{id}/info', 'EgresosController@show');
