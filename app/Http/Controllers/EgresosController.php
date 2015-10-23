@@ -47,16 +47,18 @@ class EgresosController extends Controller
                 ->paginate(100);
         } else {
             $egresos = Egreso::where('fecha', '>=', $presupuesto.'-01-01')
+                ->withTrashed()
+                ->with('benef','proyectos.fondos','cuentaBancaria','user','ocs','solicitudes')
                 ->orderBy('cheque', 'DESC')
                 ->paginate(50);
         }
 
-        $egresos->load('benef');
-        $egresos->load('rms');
-        $egresos->load('cuentaBancaria');
-        $egresos->load('user');
-        $egresos->load('ocs');
-        $egresos->load('solicitudes');
+//        $egresos->load('benef');
+//        $egresos->load('rms');
+//        $egresos->load('cuentaBancaria');
+//        $egresos->load('user');
+//        $egresos->load('ocs');
+//        $egresos->load('solicitudes');
 
         return view('egresos.indexEgresos', compact('egresos','acciones_presupuesto'));
     }
