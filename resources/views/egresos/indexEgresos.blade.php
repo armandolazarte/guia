@@ -4,6 +4,8 @@
     <div class="row">
         <div class="col-md-12">
 
+            {!! $egresos->render() !!}
+
             <table class="table table-bordered table-compact table-hover">
                 <tr>
                     {{--<th>ID</th>--}}
@@ -89,8 +91,6 @@
                 @endforeach
 
             </table>
-
-            {!! $egresos->render() !!}
 
         </div>
     </div>
