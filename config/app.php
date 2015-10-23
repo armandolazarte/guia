@@ -152,6 +152,7 @@ return [
         'Guia\Providers\FiltroAccesoServiceProvider',
         'Guia\Providers\ConsecutivoServiceProvider',
         'Guia\Providers\InfoDirectivosServiceProvider',
+        'Maatwebsite\Excel\ExcelServiceProvider',
         Guia\Providers\ComposerServiceProvider::class,
 
     ],
@@ -208,6 +209,7 @@ return [
         'FiltroAcceso'	=> 'Guia\Facades\FiltroAccesoFacade',
         'Consecutivo'	=> 'Guia\Facades\ConsecutivoFacade',
         'InfoDirectivos'=> 'Guia\Facades\InfoDirectivosFacade',
+        'Excel'         => 'Maatwebsite\Excel\Facades\Excel',
 
     ],
 
