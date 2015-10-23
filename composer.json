@@ -16,6 +16,7 @@
       "illuminate/html": "~5.0",
       "doctrine/dbal": "~2.5",
       "itbz/fpdf": "dev-LongCell",
+      "maatwebsite/excel": "~2.0",
       "samuelmg/nat": "dev-master"
   },
   "require-dev": {
