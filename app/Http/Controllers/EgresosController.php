@@ -159,6 +159,26 @@ class EgresosController extends Controller
         $egreso->user_id = \Auth::user()->id;
         $egreso->save();
 
+        //Registro del pago del documento generador (Solicitud||Oc)
+        $doc_type = $request->input('doc_type');
+        $doc_id = $request->input('doc_id');
+        if (!empty($doc_type) && !empty($doc_id)) {
+            $documento = '';
+            if ($doc_type == 'Solicitud') {
+                $documento = Solicitud::find($doc_id);
+            } elseif ($doc_type == 'Oc') {
+                $documento = Oc::find($doc_id)->load('req');
+            }
+
+            $tipo_pago = $request->input('tipo_pago');
+            if (empty($tipo_pago)) {
+                $tipo_pago = 'Total';
+            }
+            $pago = new PagoDocumento($documento, $doc_type);
+            $pago->pagarDocumento($egreso, $tipo_pago);
+        }
+
+        //Registro de monto por RM(s)
         if (count($request->input('rm_id')) > 0) {
             $i = 0;
             $monto_total = 0;
@@ -178,24 +198,11 @@ class EgresosController extends Controller
 
             $egreso_helper = new EgresoHelper($egreso);
             $egreso_helper->creaSumaPorProyecto();
-        }
-
-        $doc_type = $request->input('doc_type');
-        $doc_id = $request->input('doc_id');
-        if (!empty($doc_type) && !empty($doc_id)) {
-            $documento = '';
-            if ($doc_type == 'Solicitud') {
-                $documento = Solicitud::find($doc_id);
-            } elseif ($doc_type == 'Oc') {
-                $documento = Oc::find($doc_id)->load('req');
+        } else {
+            //Fallback para solicitudes sin asignación de RM(s)
+            if ($doc_type == 'Solicitud' && isset($documento)) {
+                $egreso->proyectos()->attach($documento->proyecto_id, ['monto' => $request->input('monto')]);
             }
-
-            $tipo_pago = $request->input('tipo_pago');
-            if (empty($tipo_pago)) {
-                $tipo_pago = 'Total';
-            }
-            $pago = new PagoDocumento($documento, $doc_type);
-            $pago->pagarDocumento($egreso, $tipo_pago);
         }
 
         return redirect()->action('EgresosController@show', [$egreso->id]);
