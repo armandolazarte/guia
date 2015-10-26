@@ -129,5 +129,19 @@
             $('#monto-total').val(monto_total);
         }
     </script>
+    <script>
+        $(function()
+        {
+            $('#transferencia').click(inhabilitar_cheque);
+        });
+
+        function inhabilitar_cheque() {
+            if (this.checked) {
+                $('#cheque').attr('disabled', true);
+            } else {
+                $('#cheque').removeAttr('disabled');
+            }
+        }
+    </script>
 @stop
 
