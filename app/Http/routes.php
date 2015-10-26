@@ -153,6 +153,13 @@ Route::group(array('prefix' => 'solicitud', 'middleware' => ['auth','selPresu'])
     Route::delete('/{solicitud}/recurso/{recurso}', 'SolicitudRecursosController@destroy');
 });
 
+//** Retenciones **//
+Route::group(array('prefix' => 'retencion', 'middleware' => ['auth']), function()
+{
+   Route::get('/nueva/{doc_id}/{doc_type}', 'RetencionController@create');
+   Route::post('/nueva', 'RetencionController@store');
+});
+
 //** Invitaciones  **//
 Route::group(array('prefix' => 'invitacion', 'middleware' => ['auth']), function()
 {

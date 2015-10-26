@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Retencion extends Model
 {
     public $table = 'retenciones';
+    public $timestamps = false;
     protected $fillable = ['doc_id','doc_type','rm_id','tipo_retencion','monto'];
 
     //Retencion __belongs_to__ Rm

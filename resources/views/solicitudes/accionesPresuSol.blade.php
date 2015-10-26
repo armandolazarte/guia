@@ -8,6 +8,7 @@
                     <div class="btn-group btn-group-sm" role="group">
                     <a class="btn btn-primary" href="{{ action('SolicitudRecursosController@create', array($solicitud->id)) }}">Agregar Recursos</a>
                     <a class="btn btn-primary" href="{{ action('SolicitudController@edit', array($solicitud->id)) }}">Editar Información</a>
+                    <a class="btn btn-primary" href="{{ action('RetencionController@create', array($solicitud->id, 'Solicitud')) }}">Capturar Retención</a>
                     </div>
 
                     {!! Form::open(array('action' => ['SolicitudController@update', $solicitud->id], 'method' => 'patch', 'class' => 'form')) !!}

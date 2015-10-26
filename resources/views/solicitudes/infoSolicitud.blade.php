@@ -26,6 +26,7 @@
                 @if($solicitud->estatus == "")
                     <a class="btn btn-primary" href="{{ action('SolicitudRecursosController@create', array($solicitud->id)) }}">Agregar Recursos</a>
                     <a class="btn btn-primary" href="{{ action('SolicitudController@edit', array($solicitud->id)) }}">Editar Información</a>
+                    <a class="btn btn-primary" href="{{ action('RetencionController@create', array($solicitud->id, 'Solicitud')) }}">Capturar Retención</a>
                 @endif
                 <a class="btn btn-primary" href="{{ action('SolicitudController@formatoPdf', array($solicitud->id)) }}" target="_blank">Formato (PDF)</a>
             </div>
