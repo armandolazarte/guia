@@ -28,8 +28,13 @@
 
                 <div class="form-group">
                     {!! Form::label('cheque', 'No. de Cheque', array('class' => 'col-sm-2 control-label')) !!}
-                    <div class="col-sm-10">
-                        {!! Form::text('cheque', $cheque, array('class'=>'form-control')) !!}
+                    <div class="col-sm-5">
+                        {!! Form::text('cheque', $cheque, array('class'=>'form-control', 'id' => 'cheque')) !!}
+                    </div>
+
+                    {!! Form::label('transferencia', 'Transferencia Bancaria', array('class' => 'col-sm-3 control-label')) !!}
+                    <div class="col-sm-2 text-left">
+                        {!! Form::checkbox('transferencia', 1, false, ['id' => 'transferencia']) !!}
                     </div>
                 </div>
 

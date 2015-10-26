@@ -51,9 +51,9 @@ class Consecutivo {
         }
     }
 
-    public function nextPolizaEgreso()
+    public function nextPolizaEgreso($cuenta_bancaria_id)
     {
-        $egreso = Egreso::orderBy('poliza', 'DESC')->first(array('poliza'));
+        $egreso = Egreso::where('cuenta_bancaria_id', $cuenta_bancaria_id)->orderBy('poliza', 'DESC')->first(array('poliza'));
         if(isset($egreso)){
             $egreso->poliza ++;
             return $egreso->poliza;

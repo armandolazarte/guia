@@ -138,10 +138,19 @@ class EgresosController extends Controller
      */
     public function store(Requests\EgresoFormRequest $request)
     {
+        $transferencia_bancaria = $request->input('transferencia');
+        if (!isset($transferencia_bancaria)) {
+            $cheque = $request->input('cheque');
+            $poliza = 0;
+        } else {
+            $poliza = \Consecutivo::nextPolizaEgreso($request->input('cuenta_bancaria_id'));
+            $cheque = 0;
+        }
+
         $egreso = new Egreso();
         $egreso->cuenta_bancaria_id = $request->input('cuenta_bancaria_id');
-        //$egreso->poliza = $poliza;
-        $egreso->cheque = $request->input('cheque');
+        $egreso->poliza = $poliza;
+        $egreso->cheque = $cheque;
         $egreso->fecha = $request->input('fecha');
         $egreso->benef_id = $request->input('benef_id');
         $egreso->cuenta_id= $request->input('cuenta_id');

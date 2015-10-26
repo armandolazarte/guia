@@ -166,10 +166,7 @@ class GenerarEgresoController extends Controller
             }
             $poliza = 0;
         } else {
-            $egreos = $request->input('poliza');
-            if (empty($poliza)) {
-                $poliza = \Consecutivo::nextPolizaEgreso();
-            }
+            $poliza = \Consecutivo::nextPolizaEgreso($request->input('cuenta_bancaria_id'));
             $cheque = 0;
         }
 
