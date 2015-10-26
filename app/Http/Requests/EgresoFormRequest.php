@@ -28,7 +28,7 @@ class EgresoFormRequest extends Request
             'cuenta_id' => 'sometimes|required|integer|not_in:0,27',
             'cuenta_bancaria_id' => 'required|integer|not_in:0',
             'benef_id' => 'required|integer|not_in:0',
-            'cheque' => 'required|integer|min:1',
+            'cheque' => 'required_without:transferencia|integer|min:1',
             'concepto' => 'required',
             'monto' => 'required|numeric|not_in:0'
         ];
