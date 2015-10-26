@@ -91,6 +91,12 @@ class Solicitud extends Model {
         return $this->morphMany('Guia\Models\RelInternaDoc', 'docable');
     }
 
+    //Solicitud __morph_many__ Retencion
+    public function retenciones()
+    {
+        return $this->morphMany('Guia\Models\Retencion', 'docable');
+    }
+
     public function getFechaInfoAttribute()
     {
         return Carbon::parse($this->fecha)->format('d/m/Y');
