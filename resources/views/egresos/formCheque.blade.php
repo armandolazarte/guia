@@ -18,20 +18,22 @@
             {!! Form::text('monto_letra', $monto_letra, ['readonly', 'class' => 'form-control']) !!}
             <br>
 
-            @foreach($arr_rms as $rm => $value)
-                {!! Form::text('rm[]', $rm, ['readonly']) !!}
-                {!! Form::text('cog[]', $value['cog'], ['readonly']) !!}
-                {!! Form::text('monto_rm[]', round($value['monto'], 2), ['readonly']) !!}
-                <br>
-            @endforeach
-            <br>
-            {!! Form::text('proyecto', $egreso->rms[0]->proyecto->proyecto, ['readonly']) !!}
-            {!! Form::text('d_proyecto', $egreso->rms[0]->proyecto->d_proyecto, ['readonly']) !!}
-            <br>
-            {!! Form::text('fondo', $egreso->rms[0]->fondo->fondo, ['readonly']) !!}
-            <br>
-            {!! Form::text('urg', $egreso->rms[0]->proyecto->urg->urg, ['readonly']) !!}
+            @if(count($arr_rms) > 0)
+                @foreach($arr_rms as $rm => $value)
+                    {!! Form::text('rm[]', $rm, ['readonly']) !!}
+                    {!! Form::text('cog[]', $value['cog'], ['readonly']) !!}
+                    {!! Form::text('monto_rm[]', round($value['monto'], 2), ['readonly']) !!}
+                    <br>
+                @endforeach
 
+                <br>
+                {!! Form::text('proyecto', $egreso->rms[0]->proyecto->proyecto, ['readonly']) !!}
+                {!! Form::text('d_proyecto', $egreso->rms[0]->proyecto->d_proyecto, ['readonly']) !!}
+                <br>
+                {!! Form::text('fondo', $egreso->rms[0]->fondo->fondo, ['readonly']) !!}
+                <br>
+                {!! Form::text('urg', $egreso->rms[0]->proyecto->urg->urg, ['readonly']) !!}
+            @endif
             <br>
             {!! Form::text('presu', $presu, ['readonly']) !!}
             <br>

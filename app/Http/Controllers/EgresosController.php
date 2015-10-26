@@ -358,11 +358,13 @@ class EgresosController extends Controller
     {
         $egreso = Egreso::findOrFail($id);
         $arr_rms = [];
-        foreach ($egreso->rms as $rm) {
-            $arr_rms[$rm->rm] = ['cog' => $rm->cog->cog, 'monto' => 0];
-        }
-        foreach ($egreso->rms as $rm) {
-            $arr_rms[$rm->rm]['monto'] += $rm->pivot->monto;
+        if (count($egreso->rms) > 0) {
+            foreach ($egreso->rms as $rm) {
+                $arr_rms[$rm->rm] = ['cog' => $rm->cog->cog, 'monto' => 0];
+            }
+            foreach ($egreso->rms as $rm) {
+                $arr_rms[$rm->rm]['monto'] += $rm->pivot->monto;
+            }
         }
         $fecha_texto = \Utility::fecha_texto($egreso->fecha);
         $nat = new Nat(round($egreso->monto, 2), '');
