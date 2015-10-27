@@ -50,7 +50,7 @@ class GenerarEgresoController extends Controller
         $data['doc_type'] = $doc_type;
         $data['doc_id'] = $doc_id;
         $data['cuentas_bancarias'] = CuentaBancaria::all()->lists('cuenta_tipo_urg','id');
-        $data['cheque'] = \Consecutivo::nextCheque();
+        $data['cheque'] = \Consecutivo::nextCheque($data['cuentas_bancarias']->keys()[0]);
 
         $data['tipo_pago_sel'] = '';
         if ($destino != 'reintegro') {
@@ -162,7 +162,7 @@ class GenerarEgresoController extends Controller
         if ($tipo_egreso == 'cheque') {
             $cheque = $request->input('cheque');
             if (empty($cheque)) {
-                $cheque = \Consecutivo::nextCheque();
+                $cheque = \Consecutivo::nextCheque($request->input('cuenta_bancaria_id'));
             }
             $poliza = 0;
         } else {

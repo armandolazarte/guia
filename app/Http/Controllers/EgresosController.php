@@ -122,8 +122,7 @@ class EgresosController extends Controller
         $cuentas = Cuenta::whereIn('tipo', ['Ejecutora', 'Banco', 'BancoCargo'])->lists('cuenta', 'id')->all();
         $cuentas_bancarias = CuentaBancaria::all()->lists('cuenta_tipo_urg','id');
         $benefs = Benef::all()->sortBy('benef')->lists('benef','id');
-        $cheque = \Consecutivo::nextCheque();
-
+        $cheque = \Consecutivo::nextCheque($cuentas_bancarias->keys()[0]);
         /**
          * @todo Filtrar proyecto en función de la cuenta bancaria
          */
