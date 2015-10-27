@@ -25,15 +25,14 @@
                     {!! Form::text('monto_rm[]', round($value['monto'], 2), ['readonly']) !!}
                     <br>
                 @endforeach
-
-                <br>
-                {!! Form::text('proyecto', $egreso->rms[0]->proyecto->proyecto, ['readonly']) !!}
-                {!! Form::text('d_proyecto', $egreso->rms[0]->proyecto->d_proyecto, ['readonly']) !!}
-                <br>
-                {!! Form::text('fondo', $egreso->rms[0]->fondo->fondo, ['readonly']) !!}
-                <br>
-                {!! Form::text('urg', $egreso->rms[0]->proyecto->urg->urg, ['readonly']) !!}
             @endif
+            <br>
+            {!! Form::text('proyecto', $egreso->proyectos[0]->proyecto, ['readonly']) !!}
+            {!! Form::text('d_proyecto', $egreso->proyectos[0]->d_proyecto, ['readonly']) !!}
+            <br>
+            {!! Form::text('fondo', $egreso->proyectos[0]->fondos[0]->fondo, ['readonly']) !!}
+            <br>
+            {!! Form::text('urg', $egreso->proyectos[0]->urg->urg, ['readonly']) !!}
             <br>
             {!! Form::text('presu', $presu, ['readonly']) !!}
             <br>

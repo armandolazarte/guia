@@ -364,6 +364,7 @@ class EgresosController extends Controller
     public function chequeRtf($id)
     {
         $egreso = Egreso::findOrFail($id);
+        $egreso->load('proyectos.fondos', 'proyectos.urg');
         $arr_rms = [];
         if (count($egreso->rms) > 0) {
             foreach ($egreso->rms as $rm) {
