@@ -89,7 +89,7 @@ class MatrizCuadroController extends Controller {
                 $sel_value == $cotizacion_id && empty($no_cotizado) ? $sel = 1 : $sel = 0;
 
                 //Guarda información en tabla pivote articulo_cotizacion
-                $articulo->cotizaciones()->attach([$cotizacion_id => ['costo' => $costo, 'sel' => $sel]]);
+                $articulo->cotizaciones()->attach([$cotizacion_id => ['costo' => round($costo,2), 'sel' => $sel]]);
             }
 
             //Actualizar impuesto y no_cotizado en articulos
@@ -198,11 +198,11 @@ class MatrizCuadroController extends Controller {
 
                         if ($costo_actual != $costo_nuevo || $sel_actual != $sel) {
                             $articulo->cotizaciones()
-                                ->updateExistingPivot($cotizacion_id, ['costo' => $costo_nuevo, 'sel' => $sel]);
+                                ->updateExistingPivot($cotizacion_id, ['costo' => round($costo_nuevo,2), 'sel' => $sel]);
                         }
                     } else { //Crea un nuevo registro en pivote articulo_cotizacion
 
-                        $articulo->cotizaciones()->attach([$cotizacion_id => ['costo' => $costo_nuevo, 'sel' => $sel]]);
+                        $articulo->cotizaciones()->attach([$cotizacion_id => ['costo' => round($costo_nuevo,2), 'sel' => $sel]]);
                     }
                 }
             }
