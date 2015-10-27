@@ -190,6 +190,13 @@ class SolicitudController extends Controller {
                 $estatus = '';
             } elseif($accion == 'Autorizar'){
                 $estatus = 'Autorizada';
+                if (count($solicitud->rms) == 0) {
+                    return redirect()->action('SolicitudController@show', array($solicitud->id))
+                        ->with([
+                            'message' => 'No se puede autorizar una solicitud sin recursos materiales',
+                            'alert-class' => 'alert-warning'
+                        ]);
+                }
             } elseif($accion == 'Desautorizar'){
                 $estatus = 'Recibida';
             }

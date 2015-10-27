@@ -13,7 +13,7 @@
 
                     {!! Form::open(array('action' => ['SolicitudController@update', $solicitud->id], 'method' => 'patch', 'class' => 'form')) !!}
                     <input type="hidden" name="accion" value="Autorizar">
-                    <button type="submit" class="btn btn-success" role="button">Autorizar</button>
+                    <button type="submit" class="btn btn-success" role="button"{{ count($solicitud->rms) > 0 ? '' : ' disabled' }}>Autorizar</button>
                     {!! Form::close() !!}
                 @endif
 
