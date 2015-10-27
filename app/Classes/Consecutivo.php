@@ -40,9 +40,12 @@ class Consecutivo {
         }
     }
 
-    public function nextCheque()
+    public function nextCheque($cuenta_bancaria_id)
     {
-        $egreso = Egreso::orderBy('cheque', 'DESC')->first(array('cheque'));
+        $egreso = Egreso::withTrashed()
+            ->where('cuenta_bancaria_id', $cuenta_bancaria_id)
+            ->orderBy('cheque', 'DESC')
+            ->first(array('cheque'));
         if(isset($egreso)){
             $egreso->cheque ++;
             return $egreso->cheque;
@@ -53,7 +56,10 @@ class Consecutivo {
 
     public function nextPolizaEgreso($cuenta_bancaria_id)
     {
-        $egreso = Egreso::where('cuenta_bancaria_id', $cuenta_bancaria_id)->orderBy('poliza', 'DESC')->first(array('poliza'));
+        $egreso = Egreso::withTrashed()
+            ->where('cuenta_bancaria_id', $cuenta_bancaria_id)
+            ->orderBy('poliza', 'DESC')
+            ->first(array('poliza'));
         if(isset($egreso)){
             $egreso->poliza ++;
             return $egreso->poliza;
