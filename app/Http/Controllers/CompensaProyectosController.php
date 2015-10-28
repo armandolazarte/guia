@@ -87,7 +87,7 @@ class CompensaProyectosController extends Controller
                 $rm = new Rm();
                 $rm->rm = $rm_nuevo;
                 $rm->proyecto_id = $proyecto_id_destino;
-                $rm->objetivo_id = 1;
+                $rm->objetivo_id = $request->input('objetivo_destino');
                 $rm->actividad_id = 1;
                 $rm->cog_id = $request->input('cog_nuevo')[$k];
                 $rm->fondo_id = $proyecto_destino->fondos[0]->id;

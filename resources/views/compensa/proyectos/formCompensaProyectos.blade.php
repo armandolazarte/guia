@@ -109,6 +109,16 @@
                             <div class="alert-success">
                                 <h5><span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>Nuevo Recurso Material</h5>
                             </div>
+
+                            <div class="form-group">
+                                {!! Form::label('objetivo_destino', 'Objetivo', array('class' => 'col-sm-4 control-label')) !!}
+                                <div class="col-sm-8">
+                                    <select name="objetivo_destino", id="objetivo_destino" class="form-control seleccion-objetivo-destino">
+                                        <option value=""></option>
+                                    </select>
+                                </div>
+                            </div>
+
                             {{-- Captura Nuevo RM --}}
                             <div class="form-group">
                                 {!! Form::label('rm_nuevo', 'Nuevo Recurso Material', array('class' => 'col-sm-4 control-label')) !!}
@@ -155,7 +165,7 @@
          */
         $('#proyecto_id_origen').on('change', function(e) {
             var proyecto_id = e.target.value;
-            $.get('/api/rm-dropdown?proyecto_id=' + proyecto_id, function(data){
+            $.get('/dropdown-api/rms/' + proyecto_id, function(data){
                 $('.seleccion-rm-origen').empty();
                 $.each(data, function(index, rm_origenObj){
                     $('.seleccion-rm-origen').append('<option value="'+rm_origenObj.id+'">'+rm_origenObj.rm+'</option>');
@@ -165,10 +175,17 @@
 
         $('#proyecto_id_destino').on('change', function(e) {
             var proyecto_id = e.target.value;
-            $.get('/api/rm-dropdown?proyecto_id=' + proyecto_id, function(data){
+            $.get('/dropdown-api/rms/' + proyecto_id, function(data){
                 $('.seleccion-rm-destino').empty();
                 $.each(data, function(index, rm_origenObj){
                     $('.seleccion-rm-destino').append('<option value="'+rm_origenObj.id+'">'+rm_origenObj.rm+'</option>');
+                });
+            });
+
+            $.get('/dropdown-api/objetivos/' + proyecto_id, function(data) {
+                $('.seleccion-objetivo-destino').empty();
+                $.each(data, function(index, objetivo){
+                    $('.seleccion-objetivo-destino').append('<option value="'+objetivo.id+'">'+objetivo.objetivo_desc+'</option>');
                 });
             });
         });
