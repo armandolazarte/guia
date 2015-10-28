@@ -16,6 +16,11 @@ class Proyecto extends Model {
         return $this->belongsTo('Guia\Models\TipoProyecto');
     }
 
+    //Proyecto __has_many__ Objetivo
+    public function objetivos() {
+        return $this->hasMany('Guia\Models\Objetivo');
+    }
+
     //Proyecto __has_many__ Rm
     public function rms()
     {
