@@ -330,6 +330,12 @@ Route::group(array('prefix' => 'poliza', 'middleware' => ['auth']), function() {
     Route::post('/nueva', 'PolizaController@store');
 });
 
+Route::group(['prefix' => 'dropdown-api', 'middleware' => ['auth']], function()
+{
+    Route::get('/objetivos/{proyecto_id}', 'DropdownApiController@objetivos');
+    Route::get('/rms/{proyecto_id}', 'DropdownApiController@rms');
+});
+
 Route::group(array('prefix' => 'api', 'middleware' => ['auth']), function()
 {
     Route::get('/rm-dropdown/', function()
