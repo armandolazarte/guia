@@ -65,9 +65,9 @@ class AutorizarReqController extends Controller {
         foreach($articulos as $articulo){
             if(array_search($articulo->id, $arr_articulo_id) !== false){
                 if($articulo->rms->count() > 0){
-                    $articulo->rms()->updateExistingPivot($articulo->rms[0]->id, ['rm_id' => $rm_id, 'monto' => $articulo->monto]);
+                    $articulo->rms()->updateExistingPivot($articulo->rms[0]->id, ['rm_id' => $rm_id, 'monto' => round($articulo->monto,2)]);
                 } else {
-                    $articulo->rms()->attach($rm_id, ['monto' => $articulo->monto]);
+                    $articulo->rms()->attach($rm_id, ['monto' => round($articulo->monto,2)]);
                 }
                 //$articulo->rms()->sync([$rm_id => ['monto' => $articulo->monto_total]]);
             }
