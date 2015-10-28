@@ -51,9 +51,9 @@ class TerminarCuadro {
             $articulo_x_modificar = Articulo::find($articulo->id);
 
             if(empty($this->req->tipo_cambio) || $this->req->tipo_cambio == 0){
-                $articulo_x_modificar->monto = (($articulo->impuesto * 0.01) + 1) * $articulo->cantidad * $articulo->cotizaciones[0]->pivot->costo;
+                $articulo_x_modificar->monto = round( (($articulo->impuesto * 0.01) + 1) * $articulo->cantidad * $articulo->cotizaciones[0]->pivot->costo, 2);
             } else {
-                $articulo_x_modificar->monto = (($articulo->impuesto * 0.01) + 1) * $articulo->cantidad * $articulo->cotizaciones[0]->pivot->costo * $this->req->tipo_cambio;
+                $articulo_x_modificar->monto = round( (($articulo->impuesto * 0.01) + 1) * $articulo->cantidad * $articulo->cotizaciones[0]->pivot->costo * $this->req->tipo_cambio, 2);
             }
             $articulo_x_modificar->save();
         }
