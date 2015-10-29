@@ -68,10 +68,10 @@ class CompensaExternaController extends Controller
             foreach ($request->input('rm_aplicacion') as $rm_aplicacion) {
                 $monto_aplicacion = $request->input('monto_aplicacion')[$j];
                 if ($monto_aplicacion > 0) {
-                    if ($tipo_compensa_externa == 'Abono') {
+                    if ($tipo_compensa_externa == 'Ingreso') {
                         CompensaDestino::create(['compensa_rm_id' => $compensa_rm->id, 'rm_id' => $rm_aplicacion, 'monto' => $monto_aplicacion]);
                     }
-                    if ($tipo_compensa_externa == 'Cargo') {
+                    if ($tipo_compensa_externa == 'Egreso') {
                         CompensaOrigen::create(['compensa_rm_id' => $compensa_rm->id, 'rm_id' => $rm_aplicacion, 'monto' => $monto_aplicacion]);
                     }
                     $monto_total += $monto_aplicacion;
@@ -80,7 +80,7 @@ class CompensaExternaController extends Controller
             }
         }
 
-        if($request->input('monto_nuevo_rm')[0] > 0) {
+        if($tipo_compensa_externa == 'Ingreso' && $request->input('monto_nuevo_rm')[0] > 0) {
             $rm_origen_id = $request->input('rm_origen')[0];
             $rmOrigen = Rm::find($rm_origen_id);
             $k = 0;
@@ -89,7 +89,7 @@ class CompensaExternaController extends Controller
                 $rm = new Rm();
                 $rm->rm = $rm_nuevo;
                 $rm->proyecto_id = $proyecto_id;
-                $rm->objetivo_id = 1;
+                $rm->objetivo_id = $request->input('objetivo_destino');
                 $rm->actividad_id = 1;
                 $rm->cog_id = $request->input('cog_nuevo')[$k];
                 $rm->fondo_id = $proyecto->fondos[0]->id;

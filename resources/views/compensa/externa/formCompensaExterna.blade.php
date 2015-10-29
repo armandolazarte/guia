@@ -22,7 +22,7 @@
                     {!! Form::text('concepto', null, ['class' => 'form-control']) !!}
                 </div>
                 <div class="col-sm-3">
-                    {!! Form::select('tipo_compensa_externa', ['' => 'Seleccionar Tipo', 'Abono' => 'Abono', 'Cargo' => 'Cargo'], null, ['class' => 'form-control']) !!}
+                    {!! Form::select('tipo_compensa_externa', ['' => 'Seleccionar Tipo', 'Ingreso' => 'Ingreso', 'Egreso' => 'Egreso'], null, ['class' => 'form-control', 'id' => 'tipo-compensa-externa']) !!}
                 </div>
             </div>
 
@@ -79,6 +79,16 @@
                             <div class="alert-success">
                                 <h5><span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>Nuevo Recurso Material</h5>
                             </div>
+
+                            <div class="form-group">
+                                {!! Form::label('objetivo_destino', 'Objetivo', array('class' => 'col-sm-4 control-label')) !!}
+                                <div class="col-sm-8">
+                                    <select name="objetivo_destino", id="objetivo_destino" class="form-control seleccion-objetivo-destino">
+                                        <option value=""></option>
+                                    </select>
+                                </div>
+                            </div>
+
                             {{-- Captura Nuevo RM --}}
                             <div class="form-group">
                                 {!! Form::label('rm_nuevo', 'Nuevo Recurso Material', array('class' => 'col-sm-4 control-label')) !!}
@@ -124,16 +134,19 @@
          * Consulta ajax a api/rm-dropdown para obtener RMs del proyecto
          */
         $('#proyecto_id').on('change', function(e) {
-//            console.log(e);
             var proyecto_id = e.target.value;
-            //ajax
-            $.get('/api/rm-dropdown?proyecto_id=' + proyecto_id, function(data){
-//                console.log(data);
+            $.get('/dropdown-api/rms/' + proyecto_id, function(data){
                 $('#rm_aplicacion').empty();
                 $.each(data, function(index, rm_aplicacionObj){
                     $('#rm_aplicacion').append('<option value="'+rm_aplicacionObj.id+'">'+rm_aplicacionObj.rm+'</option>');
                 });
+            });
 
+            $.get('/dropdown-api/objetivos/' + proyecto_id, function(data) {
+                $('.seleccion-objetivo-destino').empty();
+                $.each(data, function(index, objetivo){
+                    $('.seleccion-objetivo-destino').append('<option value="'+objetivo.id+'">'+objetivo.objetivo_desc+'</option>');
+                });
             });
         });
 
